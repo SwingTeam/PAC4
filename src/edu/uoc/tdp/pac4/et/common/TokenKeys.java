@@ -25,6 +25,7 @@ public class TokenKeys {
 	public final static String ERROR_SERVER_RUNNING = "ERROR_SERVER_RUNNING";
 	public final static String ERROR_SERVER_STOPPED = "ERROR_SERVER_STOPPED";
 	public final static String ERROR_UNEXPECTED = "ERROR_UNEXPECTED";
+	public final static String LANGUAGE_DATA = "LANGUAGE_DATA";
 	public final static String MENU_ANGLES = "MENU_ANGLES";
 	public final static String MENU_CASTELLA = "MENU_CASTELLA";
 	public final static String MENU_CATALA = "MENU_CATALA";

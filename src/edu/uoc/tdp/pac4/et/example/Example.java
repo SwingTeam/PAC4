@@ -19,18 +19,19 @@ public class Example {
 			try{
 				language = (String) settings.getSetting(Constants.SETTING_LANGUAGE);
 			} catch (IOException | NullPointerException e) {
-				System.out.printf(i18n.getTranslation(TokenKeys.ERROR_CONFIGURATION_FILE));
+				System.out.println(i18n.getTranslation(TokenKeys.ERROR_CONFIGURATION_FILE));
 			} catch (Exception e){
-				System.out.printf(i18n.getTranslation(TokenKeys.ERROR_UNEXPECTED));
+				System.out.println(i18n.getTranslation(TokenKeys.ERROR_UNEXPECTED));
 			}
 			settings = null;
 			//Assigna l'idioma configurat
 			i18n.setLanguage(language);
-			System.out.printf(i18n.getTranslation(TokenKeys.ABOUT_US));
+			System.out.println(i18n.getTranslation(TokenKeys.LANGUAGE_DATA) + " '" + language + "'");
+			System.out.println(i18n.getTranslation(TokenKeys.ABOUT_US));
 			i18n = null;
 
 		} catch (Exception e){
-			System.out.printf(e.getMessage());
+			System.out.println(e.getMessage());
 		}
 	}
 }
