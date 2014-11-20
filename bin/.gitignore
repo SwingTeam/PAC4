@@ -1,4 +1,5 @@
-/edu
+/configuration.properties
+/edu/
 /settings.properties
-/tokens
-/uoc
+/tokens/
+/uoc/
