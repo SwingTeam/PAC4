@@ -24,6 +24,8 @@ public class Example {
 				System.out.println(i18n.getTranslation(TokenKeys.ERROR_UNEXPECTED));
 			}
 			settings = null;
+			
+			
 			//Assigna l'idioma configurat
 			i18n.setLanguage(language);
 			System.out.println(i18n.getTranslation(TokenKeys.LANGUAGE_DATA) + " '" + language + "'");
