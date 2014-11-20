@@ -5,10 +5,10 @@ import java.util.Date;
 /**
   * @author Grup Swing Dream
   * @version "1.00, 18/11/14" 
-  * Classe que representa a un usuari de l'apliació
+  * Classe que representa a un usuari de l'apliaciï¿½
   *
-  * @param titulo El nuevo título de la descripción.
-  * @throws IllegalArgumentException Si titulo es null, está vacío o contiene sólo espacios.
+  * @param titulo El nuevo tï¿½tulo de la descripciï¿½n.
+  * @throws IllegalArgumentException Si titulo es null, estï¿½ vacï¿½o o contiene sï¿½lo espacios.
   * @return
   */
  public class Usuari implements Serializable { 
@@ -23,7 +23,7 @@ import java.util.Date;
     private String nom = "";
     private String cognoms ="";
     private int idIdioma = 0;
-    private String adreça = "";
+    private String adresa = "";
     private String poblacio = "";
     private String cp = "";
     private String idLocal = "";
@@ -50,20 +50,20 @@ import java.util.Date;
      * @param pnom
      * @param pcognoms
      * @param pidIdioma
-     * @param padreça
+     * @param padreï¿½a
      * @param ppoblacio
      * @param pidLocal
      * @param ppais
      *
      */
-	public Usuari(int pidUsuari, String pPassword, String pnom, String pcognoms, int pidIdioma, String padreça, String ppoblacio, String pidLocal, String ppais)
+	public Usuari(int pidUsuari, String pPassword, String pnom, String pcognoms, int pidIdioma, String padresa, String ppoblacio, String pidLocal, String ppais)
 	{
 	  idUsuari = pidUsuari;
 	  password = pPassword;
 	  nom = pnom;
 	  cognoms = pcognoms;
 	  idIdioma = pidIdioma;
-	  adreça = padreça;
+	  adresa = padresa;
 	  poblacio = ppoblacio;
 	  idLocal = pidLocal;
 	  pais = ppais;
@@ -78,10 +78,10 @@ import java.util.Date;
 		this.idUsuari = usuari;
 	}
 	  /**
-	  * Mètode getidUsuari, serveix per aconseguir el idUsuari que serveix per identificar un usuari
+	  * Mï¿½tode getidUsuari, serveix per aconseguir el idUsuari que serveix per identificar un usuari
 	 * @param i 
 	  * 
-	  * @return int    el identificador de l'usuari en l'aplicació
+	  * @return int    el identificador de l'usuari en l'aplicaciï¿½
 	  */
 
 	public int getidUsuari ()
@@ -151,17 +151,17 @@ import java.util.Date;
 	}
 
 	/**
-	 * @return the adreça
+	 * @return the adreï¿½a
 	 */
-	public String getAdreça() {
-		return adreça;
+	public String getAdresa() {
+		return adresa;
 	}
 
 	/**
-	 * @param adreça the adreça to set
+	 * @param adreï¿½a the adreï¿½a to set
 	 */
-	public void setAdreça(String adreça) {
-		this.adreça = adreça;
+	public void setAdresa(String adresa) {
+		this.adresa = adresa;
 	}
 
 	/**
@@ -333,11 +333,11 @@ import java.util.Date;
             + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
  
     /**
-     * checkCorreuE valida el correu electrònic donat per l'usauri
+     * checkCorreuE valida el correu electrï¿½nic donat per l'usauri
      *
-     * @param email que cal validar si és correcte
+     * @param email que cal validar si ï¿½s correcte
      *            
-     * @return cert si el correu electrònic és correcte, fals en altre cas
+     * @return cert si el correu electrï¿½nic ï¿½s correcte, fals en altre cas
      */
     public boolean checkCorreuE(String email) {
  
@@ -364,10 +364,10 @@ import java.util.Date;
 		this.telefon = telefon;
 	}
 	/**
-	 * checkCP - Mètode per valida el Telèfon d'un usuari
+	 * checkCP - Mï¿½tode per valida el Telï¿½fon d'un usuari
 	 * 
-	 * @param telèfon - El telèfon que cal validar
-	 * @return boolean - Torna cert si el telèfon és valid, en altre cas fals
+	 * @param telï¿½fon - El telï¿½fon que cal validar
+	 * @return boolean - Torna cert si el telï¿½fon ï¿½s valid, en altre cas fals
 	 */
 	public boolean checkTelefon (String telefon)
 	{
@@ -397,10 +397,10 @@ import java.util.Date;
 	}
 	
 	/**
-	 * checkCP - Mètode per valida el Mòbil d'un usuari
+	 * checkCP - Mï¿½tode per valida el Mï¿½bil d'un usuari
 	 * 
-	 * @param telefon - El mòbil que cal validar
-	 * @return boolean - Torna cert si el mòbil és valid, en altre cas fals
+	 * @param telefon - El mï¿½bil que cal validar
+	 * @return boolean - Torna cert si el mï¿½bil ï¿½s valid, en altre cas fals
 	 */
 	public boolean checkMobil (String telefon)
 	{
