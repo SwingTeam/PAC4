@@ -15,11 +15,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
 import uoc.tdp.pac4.st.*;
-import uoc.tdp.pac4.st.client.*;
-import uoc.tdp.pac4.st.client.cf.*;
 import uoc.tdp.pac4.st.client.cx.*;
-import uoc.tdp.pac4.st.client.e.*;
-import uoc.tdp.pac4.st.client.m.*;
 import uoc.tdp.pac4.st.common.*;
 import uoc.tdp.pac4.st.common.managers.*;
 import uoc.tdp.pac4.st.rmi.*;
@@ -52,7 +48,7 @@ public class ServerWindow extends JFrame implements WindowListener {
 		setType(Type.UTILITY);
 		this.setName(null);
 		setResizable(false);
-		setTitle("PANTALLA_SERVER");
+		setTitle("TITLE_WINDOW_SERVER");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 240);
 		
@@ -66,21 +62,21 @@ public class ServerWindow extends JFrame implements WindowListener {
 		pnlServerStatus.setBounds(12, 168, 424, 35);
 		contentPane.add(pnlServerStatus);
 		
-		final JLabel lblServerStatus = new JLabel("SERVIDOR_ATURAT");
+		final JLabel lblServerStatus = new JLabel("STATUS_STOPPED");
 		lblServerStatus.setHorizontalAlignment(SwingConstants.CENTER);
 		lblServerStatus.setFont(new Font("Dialog", Font.BOLD, 16));
 		pnlServerStatus.add(lblServerStatus);
 		
-		final JButton btnStart = new JButton("BOTO_START_SERVER");
+		final JButton btnStart = new JButton("BUTTON_START_SERVER");
 		btnStart.setBounds(25, 54, 177, 35);
 		contentPane.add(btnStart);
 		
-		final JButton btnStop = new JButton("BOTO_STOP_SERVER");
+		final JButton btnStop = new JButton("BUTTON_STOP_SERVER");
 		btnStop.setBounds(239, 54, 177, 35);
 		btnStop.setEnabled(false);
 		contentPane.add(btnStop);
 		
-		final JButton btnClose = new JButton("BOTO_TANCAR");
+		final JButton btnClose = new JButton("BUTTON_CLOSE");
 		btnClose.setBounds(161, 120, 120, 35);
 		contentPane.add(btnClose);
 		
@@ -107,7 +103,7 @@ public class ServerWindow extends JFrame implements WindowListener {
 						if (_serverManagement.getRMIConnectionStatus() == Enums.ServerStatus.Running){
 							btnStart.setEnabled(false);
 							btnStop.setEnabled(true);
-							lblServerStatus.setText(Managers.i18n.getTranslation(TokenKeys.SERVIDOR_ACTIU));
+							lblServerStatus.setText(Managers.i18n.getTranslation(TokenKeys.STATUS_RUNNING));
 						}
 					}
 				}catch(Exception ex){
@@ -123,7 +119,7 @@ public class ServerWindow extends JFrame implements WindowListener {
 					stopConnection();
 					btnStart.setEnabled(true);
 					btnStop.setEnabled(false);
-					lblServerStatus.setText(Managers.i18n.getTranslation(TokenKeys.SERVIDOR_ATURAT));
+					lblServerStatus.setText(Managers.i18n.getTranslation(TokenKeys.STATUS_STOPPED));
 				}catch(Exception ex){
 					Managers.exception.showException(new STException(ex, TokenKeys.ERROR_RMI_CLOSING));
 				}
@@ -134,7 +130,7 @@ public class ServerWindow extends JFrame implements WindowListener {
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{
-					lblServerStatus.setText(Managers.i18n.getTranslation(TokenKeys.SERVIDOR_ATURAT));
+					lblServerStatus.setText(Managers.i18n.getTranslation(TokenKeys.STATUS_STOPPED));
 					frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 				}catch(Exception ex){
 					Managers.exception.showException(new STException(ex));

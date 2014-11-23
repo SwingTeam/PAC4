@@ -16,11 +16,7 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import uoc.tdp.pac4.st.*;
-import uoc.tdp.pac4.st.client.*;
-import uoc.tdp.pac4.st.client.cf.*;
 import uoc.tdp.pac4.st.client.cx.*;
-import uoc.tdp.pac4.st.client.e.*;
-import uoc.tdp.pac4.st.client.m.*;
 import uoc.tdp.pac4.st.common.*;
 import uoc.tdp.pac4.st.common.managers.*;
 import uoc.tdp.pac4.st.rmi.*;
@@ -72,7 +68,7 @@ public class MessageWindow extends JDialog {
 	 * @param messageType Tipus de missatge que mostrará
 	 */
 	public MessageWindow(String message, Enums.MessageType messageType) {
-		this(message, null, messageType);
+		this(message, TokenKeys.TITLE_WINDOW_MESSAGE, messageType);
 	}
 	
 	/***
@@ -95,7 +91,7 @@ public class MessageWindow extends JDialog {
 			contentPanel.add(buttonPane);
 			buttonPane.setLayout(null);
 			{
-				JButton cancelButton = new JButton("BOTO_ACCEPTAR");
+				JButton cancelButton = new JButton("BUTTON_ACCEPT");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();

@@ -9,11 +9,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import uoc.tdp.pac4.st.*;
-import uoc.tdp.pac4.st.client.*;
-import uoc.tdp.pac4.st.client.cf.*;
 import uoc.tdp.pac4.st.client.cx.*;
-import uoc.tdp.pac4.st.client.e.*;
-import uoc.tdp.pac4.st.client.m.*;
 import uoc.tdp.pac4.st.common.*;
 import uoc.tdp.pac4.st.common.managers.*;
 import uoc.tdp.pac4.st.rmi.*;

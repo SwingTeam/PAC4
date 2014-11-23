@@ -40,7 +40,9 @@ public class TokenKeys {
 	public final static String MENU_SORTIR = "MENU_SORTIR";
 	public final static String MENU_TEST_DB_CONNECTION = "MENU_TEST_DB_CONNECTION";
 	public final static String MENU_TEST_CONNEXIO = "MENU_TEST_CONNEXIO";
-	public final static String SERVIDOR_ACTIU = "SERVIDOR_ACTIU";
-	public final static String SERVIDOR_ATURAT = "SERVIDOR_ATURAT";
+	public final static String STATUS_RUNNING = "STATUS_RUNNING";
+	public final static String STATUS_STOPPED = "STATUS_STOPPED";
 	public final static String TEST_CONNECTION="TEST_CONNECTION";
+	public final static String TITLE_WINDOW_MESSAGE = "TITLE_WINDOW_MESSAGE";
+
 }
