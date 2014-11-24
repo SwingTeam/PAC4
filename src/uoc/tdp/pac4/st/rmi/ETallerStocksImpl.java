@@ -93,12 +93,12 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 	 * @throws STException
 	 */
 	@Override
-	public List<Taller> getShopList(int shop) throws STException {
-		List<Taller> result = null;
+	public List<Local> getEstablishmentList(String taxId) throws STException {
+		List<Local> result = null;
 		
 		try {
 			this._databaseManagement.openConnection();
-			result = this._databaseManagement.getShopList(shop);
+			result = this._databaseManagement.getEstablishmentList(taxId);
 			this._databaseManagement.closeConnection();
 
 		} catch (STException e){

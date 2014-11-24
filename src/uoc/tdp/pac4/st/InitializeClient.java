@@ -45,7 +45,7 @@ public class InitializeClient {
 			Managers.i18n.setLanguage(language);
 			//Inicialitza el formulari principal de 
 			//la part client de l'aplicació
-			ClientWindow clientFrame = new ClientWindow();
+			ExampleWindow clientFrame = new ExampleWindow();
 			clientFrame.setVisible(true);
 
 		} catch (Exception e){

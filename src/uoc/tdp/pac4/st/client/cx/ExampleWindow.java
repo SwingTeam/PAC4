@@ -3,6 +3,8 @@ package uoc.tdp.pac4.st.client.cx;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.rmi.RemoteException;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -17,8 +19,10 @@ import uoc.tdp.pac4.st.common.managers.*;
 import uoc.tdp.pac4.st.rmi.*;
 import uoc.tdp.pac4.st.server.*;
 
+import javax.swing.JComboBox;
+
 @SuppressWarnings("unused")
-public class ClientWindow extends JFrame {
+public class ExampleWindow extends JFrame {
 
 	private static final long serialVersionUID = -4301396368624900151L;
 	private JPanel contentPane;
@@ -26,7 +30,7 @@ public class ClientWindow extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ClientWindow() {
+	public ExampleWindow() {
 		this.setName(null);
 		setTitle("TITLE_CLIENT_WINDOW");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,6 +47,18 @@ public class ClientWindow extends JFrame {
 		JButton btnExample1 = new JButton("BUTTON_EXECUTE");
 		btnExample1.setBounds(676, 21, 142, 25);
 		contentPane.add(btnExample1);
+		
+		JLabel lblLabelexamplerecoverdata = new JLabel("LABEL_EXAMPLE_RECOVER_DATA");
+		lblLabelexamplerecoverdata.setBounds(33, 62, 614, 15);
+		contentPane.add(lblLabelexamplerecoverdata);
+		
+		JButton btnExample2 = new JButton("BUTTON_EXECUTE");
+		btnExample2.setBounds(676, 57, 142, 25);
+		contentPane.add(btnExample2);
+		
+		final JComboBox<ComboBoxItem> comboBoxExample2 = new JComboBox<ComboBoxItem>();
+		comboBoxExample2.setBounds(190, 94, 381, 24);
+		contentPane.add(comboBoxExample2);
 		
 		//Traducció dels tokens de la pantalla
 		try {
@@ -63,8 +79,44 @@ public class ClientWindow extends JFrame {
 				stopConnection();
 			}
 		});
+
+		//BOTÓ INICIAR SERVIDOR
+		btnExample2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fillinComboBox(comboBoxExample2);
+			}
+		});
+		
 		/* EVENTS - END *************************************************************************************/
 	}
+	/***
+	 * Omple un ComboBox amb la llista de locals.
+	 * 
+	 * @param comboBox Objecte que serà omplert.
+	 */
+	private void fillinComboBox(JComboBox<ComboBoxItem> comboBox){
+		try {
+			startConnection();
+
+			List<Local> locals = this._clientManager.getRMIInterface().getEstablishmentList(null);
+			
+			for (Local item : locals){
+				comboBox.addItem(new ComboBoxItem(item.getTaxId(), item.getName()));
+			}
+		
+		} catch (STException e) {
+			Managers.exception.showException(e);
+			
+		} catch (RemoteException e) {
+			Managers.exception.showException(new STException(e));
+
+		}finally{
+			stopConnection();
+		}
+		
+	}
+	
+	
 	/***
 	 * Métode que encarregat de fer la connexió
 	 * RMI amb el servidor remot
@@ -134,5 +186,4 @@ public class ClientWindow extends JFrame {
 			Managers.exception.showException(new STException(e));
 		}
 	}
-	
 }

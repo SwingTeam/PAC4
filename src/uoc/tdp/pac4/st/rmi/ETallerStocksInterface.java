@@ -21,16 +21,17 @@ public interface ETallerStocksInterface extends Remote {
 
 	/***
 	 * Mètode que retorna una llista d'un
-	 * taller específic o, si s'informa un 0,
-	 * de tots els tallers.
+	 * local específic o, si s'informa un null,
+	 * de tots els locals.
 	 * 
-	 * @param shop Taller específic o 0 si
-	 * es vol recuperar tots els tallers. 
-	 * @return Una instància de List<Taller> amb
+	 * @param taxId Local específic o null si
+	 * es vol recuperar tots els locals. 
+	 * @return Una instància de List<Local> amb
 	 * el resultat de la consulta.
 	 * @throws java.rmi.RemoteException
+	 * @throws STException
 	 */
-	 public List<Taller> getShopList(int shop) throws RemoteException, STException;
+	 public List<Local> getEstablishmentList(String taxId) throws RemoteException, STException;
 	 
 	 /***
 	  * Retorna un boolean que indica si
@@ -39,6 +40,7 @@ public interface ETallerStocksInterface extends Remote {
 	  * 
 	  * @return boolean amb el resultat del test
 	  * @throws java.rmi.RemoteException
+	  * @throws STException
 	  */
 	 public String testPostgreSQLConnection() throws RemoteException, STException;
 	
@@ -48,7 +50,7 @@ public interface ETallerStocksInterface extends Remote {
 	  * @return String Cadena que indica que la connexió
 	  * funciona correctament.
 	  * @throws RemoteException
-	  * 
+	  * @throws STException
 	  */ 
 	 public String testRMIConnection() throws RemoteException, STException;
 	

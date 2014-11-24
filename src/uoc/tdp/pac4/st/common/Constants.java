@@ -25,6 +25,14 @@ public class Constants {
 	//Clau de l'usuari de la base de dades
 	public final static String DB_USERNAME = "username";
 	
+	//Camps de la base de dades
+	public final static String FIELD_TAXID = "cif";
+	public final static String FIELD_NAME = "nombre";
+	public final static String FIELD_PROVINCE = "provincia";
+	public final static String FIELD_PHONE = "telefono";
+	public final static String FIELD_LONGITUDE = "longitud";
+	public final static String FIELD_LATITUDE = "latitud";
+	
 	//Clau per a l'idioma català
 	public final static String LANGUAGE_CATALAN = "ca-ES";
 	//Clau per a l'idioma anglès
@@ -48,4 +56,8 @@ public class Constants {
 	public final static String SETTINGS_FILE_CLIENT = "clientSettings.properties";
 	//Fitxer de configuració pel servidor
 	public final static String SETTINGS_FILE_SERVER = "serverSettings.properties";
+	
+	//Tabla local
+	public final static String TABLE_LOCAL = "\"Local\"";
+	
 }

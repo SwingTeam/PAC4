@@ -125,17 +125,18 @@ public class DatabaseManager {
 
 	 /***
 	  * Mètode que retorna una llista d'un
-	  * taller específic o, si s'informa un 0,
-	  * de tots els tallers.
+	  * local específic o, si s'informa un null,
+	  * de tots els locals.
 	  * 
-	  * @param shop Taller específic o 0 si
-	  * es vol recuperar tots els tallers. 
-	  * @return Una instància de List<Taller> amb
+	  * @param taxId Local específic o null si
+	  * es vol recuperar tots els locals. 
+	  * @return Una instància de List<Local> amb
 	  * el resultat de la consulta.
 	  * @throws SQLException
+	  * @throws STException
 	  */
-	 public List<Taller> getShopList(int shop) throws SQLException, STException{
-		 List<Taller> result = new ArrayList<Taller>();
+	 public List<Local> getEstablishmentList(String taxId) throws SQLException, STException{
+		 List<Local> result = new ArrayList<Local>();
 		 Statement statement = null;
 		 ResultSet resultSet = null;
 
@@ -143,18 +144,21 @@ public class DatabaseManager {
 			statement = this._dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
 															ResultSet.CONCUR_UPDATABLE);
 			String sqlSentence = "SELECT * " +
-							        "FROM taller ";
-			if (shop > 0){
-				sqlSentence += "WHERE id_taller = " + shop + " ";
+							        "FROM " + Constants.TABLE_LOCAL + " ";
+			if (taxId != null){
+				sqlSentence += "WHERE " + Constants.FIELD_TAXID +  " = '" + taxId + "' ";
 			}
-			sqlSentence += "ORDER BY nombre ASC;";
+			sqlSentence += "ORDER BY " + Constants.FIELD_NAME + " ASC;";
 			
 			resultSet = statement.executeQuery(sqlSentence);
 			while (resultSet.next()) {
-				Taller item = new Taller();
-				item.setId_taller(resultSet.getInt("id_taller"));
-				item.setnombre(resultSet.getString("nombre"));
-				item.setdireccion(resultSet.getString("direccion"));
+				Local item = new Local();
+				item.setTaxId(resultSet.getString(Constants.FIELD_TAXID));
+				item.setName(resultSet.getString(Constants.FIELD_NAME));
+				item.setProvince(resultSet.getString(Constants.FIELD_PROVINCE));
+				item.setPhone(resultSet.getString(Constants.FIELD_PHONE));
+				item.setLatitude(resultSet.getFloat(Constants.FIELD_LATITUDE));
+				item.setLongitude(resultSet.getFloat(Constants.FIELD_LONGITUDE));
 				result.add(item);
 			}
 		} else {
