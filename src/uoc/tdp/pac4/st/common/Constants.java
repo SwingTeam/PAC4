@@ -25,6 +25,13 @@ public class Constants {
 	//Clau de l'usuari de la base de dades
 	public final static String DB_USERNAME = "username";
 	
+	//Extensió dels fitxer d'excepcions
+	public final static String EXCEPTION_FILE_EXTENSION = ".log";
+	//Ruta del fitxers d'excepcions
+	public final static String EXCEPTION_FILE_PATH = "logs";
+	//Prefixe dels fitxer d'excepcions
+	public final static String EXCEPTION_FILE_PREFIX = "Exceptions_";
+	
 	//Camps de la base de dades
 	public final static String FIELD_TAXID = "cif";
 	public final static String FIELD_NAME = "nombre";
@@ -44,6 +51,9 @@ public class Constants {
 	//Clau per a l'idioma castellà
 	public final static String LANGUAGE_SPANISH = "es-ES";
 
+	//Propietat que indica el directory de l'usuari
+	public final static String PROPERTY_USER_DIR = "user.dir";
+	
 	//Claus del fitxer de configuració
 	public final static String SETTING_LANGUAGE = "Language";
 	//Clau de la URL el servidor RMI

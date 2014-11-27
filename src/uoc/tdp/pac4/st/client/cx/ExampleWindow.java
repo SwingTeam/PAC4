@@ -100,16 +100,17 @@ public class ExampleWindow extends JFrame {
 
 			List<Local> locals = this._clientManager.getRMIInterface().getEstablishmentList(null);
 			
-			for (Local item : locals){
-				comboBox.addItem(new ComboBoxItem(item.getTaxId(), item.getName()));
+			if (locals != null){
+				for (Local item : locals){
+					comboBox.addItem(new ComboBoxItem(item.getTaxId(), item.getName()));
+				}
 			}
-		
 		} catch (STException e) {
 			Managers.exception.showException(e);
 			
-		} catch (RemoteException e) {
+		} catch (RemoteException | NullPointerException e) {
 			Managers.exception.showException(new STException(e));
-
+		
 		}finally{
 			stopConnection();
 		}

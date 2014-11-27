@@ -1,5 +1,12 @@
 package uoc.tdp.pac4.st.common.managers;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import uoc.tdp.pac4.st.*;
 import uoc.tdp.pac4.st.client.cx.*;
 import uoc.tdp.pac4.st.common.*;
@@ -16,6 +23,32 @@ import uoc.tdp.pac4.st.server.*;
  */
 @SuppressWarnings("unused")
 public class ExceptionManager {
+
+	/***
+	 * Escriu l'excepció rebuda a un arxiu de text.
+	 * 
+	 * @param stException Instància de STException que
+	 * serà guardada al fitxer de text.
+	 */
+	public void saveException(STException stException) {
+		try {
+			String fileName = Methods.getExceptionFile();
+			FileWriter fileWriter = new FileWriter(fileName, true);
+			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+			PrintWriter printWriter = new PrintWriter(bufferedWriter, true);
+			printWriter.println();
+			printWriter.println(new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(Calendar.getInstance().getTime()));
+			stException.printStackTrace(printWriter);
+			printWriter.close();
+			bufferedWriter.close();
+			fileWriter.close();
+		}
+		catch(IOException e)
+		{
+			//Si es produeix una errada aquí,
+			//no farem res...
+		}
+	}
 	
 	/***
 	 * Mètode que processa una excepció.
@@ -35,7 +68,7 @@ public class ExceptionManager {
 		} catch (Exception e) {
 			//Si es produeix un error en aquest mètode
 			//només l'escriurem a la sortida estandard
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 }

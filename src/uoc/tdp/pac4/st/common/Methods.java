@@ -3,6 +3,12 @@ package uoc.tdp.pac4.st.common;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.swing.AbstractButton;
@@ -79,6 +85,36 @@ public class Methods {
 		calendar.set(Calendar.DATE, day);
 		result = calendar.getTime();
 		return result;
+	}
+
+	/***
+	 * Retorna la ruta i nom d'un fitxer per
+	 * a guardar una excepció que s'hagi produit.
+	 * 
+	 * @return String amb la ruta i nom del fitxer
+	 * que s'utilitzarà per a guardar la informació
+	 * d'una excepció.
+	 * 
+	 * @throws SecurityException
+	 * @throws IOException 
+	 */
+	public static String getExceptionFile() throws SecurityException, IOException {
+		//String currentFolder = System.getProperty(Constants.PROPERTY_USER_DIR);
+		String currentFolder = new File(".").getCanonicalPath();
+		String fileName = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
+		
+		//Ens assegurem de que la ruta existeix
+		File path = new File(currentFolder + File.separator + Constants.EXCEPTION_FILE_PATH);
+		if (!path.exists())
+			path.mkdir();
+		
+		return currentFolder + 
+				File.separator + 
+				Constants.EXCEPTION_FILE_PATH +
+				File.separator +
+				Constants.EXCEPTION_FILE_PREFIX + 
+				fileName + 
+				Constants.EXCEPTION_FILE_EXTENSION;
 	}
 	
 	/***

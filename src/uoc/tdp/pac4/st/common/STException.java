@@ -28,7 +28,7 @@ public class STException extends Exception{
 	 * es crearà la instància.
 	 */
 	public STException (Exception exception){
-		super(exception);
+		this(exception, null);
 	}
 
 	/***
@@ -39,8 +39,7 @@ public class STException extends Exception{
 	 * de l'excepció.
 	 */
 	public STException (String tokenKey){
-		super(tokenKey);
-		this._tokenKey = tokenKey;
+		this(new Exception(tokenKey), null);
 	}
 	
 	/***
@@ -55,6 +54,8 @@ public class STException extends Exception{
 	public STException (Exception exception, String tokenKey){
 		super(exception);
 		this._tokenKey = tokenKey;
+		//Guardem l'excepció
+		Managers.exception.saveException(this);
 	}
 	
 	/***
