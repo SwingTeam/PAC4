@@ -10,6 +10,7 @@ package uoc.tdp.pac4.st.common;
 public class TokenKeys {
 
 	public final static String ABOUT_US= "ABOUT_US";
+	public final static String AVAILABLE_ESTABLIMENTS = "AVAILABLE_ESTABLIMENTS";
 	public final static String DATABASE_TEST_KO = "DATABASE_TEST_KO";
 	public final static String DATABASE_TEST_OK = "DATABASE_TEST_OK";
 	public final static String ERROR_ACCESS_EXCEPTION = "ERROR_ACCESS_EXCEPTION";
@@ -17,7 +18,13 @@ public class TokenKeys {
 	public final static String ERROR_CLASS_NOT_FOUND = "ERROR_CLASS_NOT_FOUND";
 	public final static String ERROR_CLOSED_CONNECTION = "ERROR_CLOSED_CONNECTION";
 	public final static String ERROR_CONFIGURATION_FILE="ERROR_CONFIGURATION_FILE";
+	public final static String ERROR_DATABASE_CLOSING = "ERROR_DATABASE_CLOSING";
+	public final static String ERROR_DATABASE_CLOSING_STATEMENT = "ERROR_DATABASE_CLOSING_STATEMENT";
 	public final static String ERROR_DATABASE_CONNECTION = "ERROR_DATABASE_CONNECTION";
+	public final static String ERROR_DATABASE_OPENING = "ERROR_DATABASE_OPENING";
+	public final static String ERROR_DATABASE_ROLLBACK = "ERROR_DATABASE_ROLLBACK";
+	public final static String ERROR_DATABASE_STARTING_TRANSACTION = "ERROR_DATABASE_STARTING_TRANSACTION";
+	public final static String ERROR_GETTING_DATA = "ERROR_GETTING_DATA";
 	public final static String ERROR_IO_EXCEPTION = "ERROR_IO_EXCEPTION";
 	public final static String ERROR_NOT_BOUND_EXCEPTION = "ERROR_NOT_BOUND_EXCEPTION";
 	public final static String ERROR_NOT_BOUND_EXCEPTION_ON_SERVER = "ERROR_NOT_BOUND_EXCEPTION_ON_SERVER";

@@ -225,4 +225,22 @@ public class Methods {
 		dialog.setModal(true);
 		dialog.setVisible(true);
 	}
+	
+	/***
+	 * Retorna la cadena d'entrada sense
+	 * espais per davant i per darrere.
+	 * 
+	 * @param value cadena a la que es trauran
+	 * els espais.
+	 * 
+	 * @return La mateixa cadena d'entrada però
+	 * sense espais al començament i al final.
+	 */
+	public static String trim(String value){
+		String result = value;
+		if (value != null){
+			result = value.trim();
+		}
+		return result;
+	}
 }

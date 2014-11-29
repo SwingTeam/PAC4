@@ -25,8 +25,7 @@ import uoc.tdp.pac4.st.server.*;
 public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerStocksInterface, Serializable {
 
 	private static final long serialVersionUID = -2041907125638859914L;
-	private DatabaseManager _databaseManagement = null;
-	
+
 	/***
 	 * Constructor
 	 * @throws STException
@@ -34,26 +33,6 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 	 */
 	public ETallerStocksImpl() throws RemoteException, STException {
 		super();
-		try{
-			//Llegim els paràmetres d'accés
-			//Driver de java per a la connexió a postgreSQL
-			String driver = Managers.settings.getSetting(Constants.DB_DRIVER);
-			//Url d'accés a la base de dades
-			String url = Managers.settings.getSetting(Constants.DB_URL);
-			//Usuari
-			String userName = Managers.settings.getSetting(Constants.DB_USERNAME);
-			//Contrasenya
-			String password = Managers.settings.getSetting(Constants.DB_PASSWORD);
-			
-			//Creem una instància de DatabaseManagmeent
-			this._databaseManagement = new DatabaseManager(driver, url, userName, password);
-			
-		} catch (IOException e){
-			throw new STException(e, TokenKeys.ERROR_CONFIGURATION_FILE);
-			
-		} catch (Exception e){
-			throw new STException(e, TokenKeys.ERROR_UNEXPECTED);
-		}
 	}
 
 	/**
@@ -78,7 +57,11 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 	 */
 	@Override
 	public String testPostgreSQLConnection() throws STException {
-		return this._databaseManagement.testConnection();
+		String result = null;
+		DatabaseManager databaseManager = new DatabaseManager();
+		result = databaseManager.testConnection();
+		databaseManager = null;
+		return result;
 	}
 
 	/***
@@ -95,18 +78,9 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 	@Override
 	public List<Local> getEstablishmentList(String taxId) throws STException {
 		List<Local> result = null;
-		
-		try {
-			this._databaseManagement.openConnection();
-			result = this._databaseManagement.getEstablishmentList(taxId);
-			this._databaseManagement.closeConnection();
-
-		} catch (STException e){
-			throw e;
-			
-		} catch (SQLException | ClassNotFoundException e) {
-			throw new STException(e);
-		}
+		DatabaseManager databaseManager = new DatabaseManager();
+		result = databaseManager.getEstablishmentList(taxId);
+		databaseManager = null;
 		return result;
 	}
 }

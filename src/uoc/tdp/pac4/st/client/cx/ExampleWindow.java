@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -15,6 +17,7 @@ import javax.swing.JButton;
 import uoc.tdp.pac4.st.*;
 import uoc.tdp.pac4.st.client.cx.*;
 import uoc.tdp.pac4.st.common.*;
+import uoc.tdp.pac4.st.common.Enums.MessageType;
 import uoc.tdp.pac4.st.common.managers.*;
 import uoc.tdp.pac4.st.rmi.*;
 import uoc.tdp.pac4.st.server.*;
@@ -34,7 +37,7 @@ public class ExampleWindow extends JFrame {
 		this.setName(null);
 		setTitle("TITLE_CLIENT_WINDOW");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 849, 300);
+		setBounds(100, 100, 849, 403);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -59,6 +62,38 @@ public class ExampleWindow extends JFrame {
 		final JComboBox<ComboBoxItem> comboBoxExample2 = new JComboBox<ComboBoxItem>();
 		comboBoxExample2.setBounds(190, 94, 381, 24);
 		contentPane.add(comboBoxExample2);
+		
+		JButton btnExamble3 = new JButton("BUTTON_EXECUTE");
+		btnExamble3.setBounds(676, 158, 142, 25);
+		contentPane.add(btnExamble3);
+		
+		JLabel lblLabelexamplerecoverresultset = new JLabel("LABEL_EXAMPLE_RECOVER_RESULTSET");
+		lblLabelexamplerecoverresultset.setBounds(33, 168, 614, 15);
+		contentPane.add(lblLabelexamplerecoverresultset);
+		
+		JLabel lblLabelexampleupdatedata = new JLabel("LABEL_EXAMPLE_UPDATE_DATA");
+		lblLabelexampleupdatedata.setBounds(33, 205, 614, 15);
+		contentPane.add(lblLabelexampleupdatedata);
+		
+		JButton btnExample4 = new JButton("BUTTON_EXECUTE");
+		btnExample4.setBounds(676, 195, 142, 25);
+		contentPane.add(btnExample4);
+		
+		JLabel lblLabelexampleupdatedataintransaction = new JLabel("LABEL_EXAMPLE_UPDATE_DATA_IN_TRANSACTION");
+		lblLabelexampleupdatedataintransaction.setBounds(33, 242, 614, 15);
+		contentPane.add(lblLabelexampleupdatedataintransaction);
+		
+		JButton btnExample5 = new JButton("BUTTON_EXECUTE");
+		btnExample5.setBounds(676, 232, 142, 25);
+		contentPane.add(btnExample5);
+		
+		JLabel label = new JLabel("LABEL_EXAMPLE_UPDATE_DATA_IN_TRANSACTION");
+		label.setBounds(33, 279, 614, 15);
+		contentPane.add(label);
+		
+		JButton btnExample6 = new JButton("BUTTON_EXECUTE");
+		btnExample6.setBounds(676, 269, 142, 25);
+		contentPane.add(btnExample6);
 		
 		//Traducció dels tokens de la pantalla
 		try {
@@ -86,6 +121,35 @@ public class ExampleWindow extends JFrame {
 				fillinComboBox(comboBoxExample2);
 			}
 		});
+
+		//BOTÓ RECUPERAR DADES
+		btnExamble3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				testSelectData();
+			}
+		});
+		
+		//BOTÓ ACTUALITZAR DADES
+		btnExample4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				testUpdateData();
+			}
+		});
+
+		//BOTÓ ACTUALITZAR DADES EN TRANSACCIÓ
+		btnExample5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				testUpdateDataInTransaction();
+			}
+		});
+		
+		//BOTÓ D'INSERCIÓ DE DADES
+		btnExample6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				testInsertData();
+			}
+		});
+		
 		
 		/* EVENTS - END *************************************************************************************/
 	}
@@ -96,8 +160,8 @@ public class ExampleWindow extends JFrame {
 	 */
 	private void fillinComboBox(JComboBox<ComboBoxItem> comboBox){
 		try {
+			
 			startConnection();
-
 			List<Local> locals = this._clientManager.getRMIInterface().getEstablishmentList(null);
 			
 			if (locals != null){
@@ -114,9 +178,7 @@ public class ExampleWindow extends JFrame {
 		}finally{
 			stopConnection();
 		}
-		
 	}
-	
 	
 	/***
 	 * Métode que encarregat de fer la connexió
@@ -187,4 +249,271 @@ public class ExampleWindow extends JFrame {
 			Managers.exception.showException(new STException(e));
 		}
 	}
+	
+	/***
+	 * Executa una sentència SQL d'inserció
+	 * de dades a la base de dades. 
+	 * Fixeu-vos que no cal obrir la
+	 * connexió a la base de dades ni tancar-la.
+	 * També he afegit com s'utilitza el mètode
+	 * getScalar, que recupera el valor de la
+	 * primera columna de la primera fila
+	 * del resultat d'una sentència de selecció.
+	 *  
+	 * ATENCIÓ: 
+	 * ========
+	 * 
+	 * El que mostra aquest exemple no es
+	 * pot reproduir a mètodes del costat del client.
+	 * Només s'ha de reproduir a mètodes
+	 * que es trobin a LA BANDA DEL SERVIDOR
+	 */
+	private void testInsertData(){
+		DatabaseManager db = null;
+		try {
+			db = new DatabaseManager();
+			String newName = "New Name";
+			String newCif = "New Cif";
+			
+			//Canviem el seu nom
+			int result = db.updateData("INSERT INTO " + 
+										Constants.TABLE_LOCAL + 
+										" (" + 
+											Constants.FIELD_TAXID + ", " +
+											Constants.FIELD_NAME +
+										")" +
+										" VALUES " +
+										"("+
+											"'" + newCif + "', " +
+											"'" + newName + "'" +
+										");");
+			this.testSelectData();
+			
+		} catch (STException e){
+			Managers.exception.showException(e);
+		
+		} catch (Exception e){
+			Managers.exception.showException(new STException(e));
+		}
+	}
+	
+	/***
+	 * Executa una sentència SQL de selecció
+	 * de dades a la base de dades. 
+	 * Fixeu-vos que no cal obrir la
+	 * connexió a la base de dades ni tancar-la.
+	 * Només s'ha de crear un objecte DabatabeManager
+	 * i cridar al seu mètode selectData, passant-li
+	 * com a paràmetre la sentència a executar.
+	 * 
+	 * ATENCIÓ: 
+	 * ========
+	 * 
+	 * El que mostra aquest exemple no es
+	 * pot reproduir a mètodes del costat del client.
+	 * Només s'ha de reproduir a mètodes
+	 * que es trobin a LA BANDA DEL SERVIDOR
+	 */
+	private void testSelectData(){
+		DatabaseManager db = null;
+		try {
+			db = new DatabaseManager();
+			ResultSet resultSet = null;
+			resultSet = db.selectData("Select * from " + Constants.TABLE_LOCAL);
+		
+			resultSet.beforeFirst();
+			int i = 0;
+			while (resultSet.next()){
+				i++;
+				Methods.showMessage(resultSet.getString(Constants.FIELD_NAME),Enums.MessageType.Info);
+			}
+			resultSet.close();
+			resultSet = null;
+			Methods.showMessage(String.format(Managers.i18n.getTranslation(TokenKeys.AVAILABLE_ESTABLIMENTS), i), Enums.MessageType.Info);
+
+		} catch (STException e){
+			Managers.exception.showException(e);
+		} catch (Exception e){
+			Managers.exception.showException(new STException(e));
+		}
+	}
+
+	/***
+	 * Executa una sentència SQL d'actualització
+	 * de dades a la base de dades. 
+	 * Fixeu-vos que no cal obrir la
+	 * connexió a la base de dades ni tancar-la.
+	 * També he afegit com s'utilitza el mètode
+	 * getScalar, que recupera el valor de la
+	 * primera columna de la primera fila
+	 * del resultat d'una sentència de selecció.
+	 *  
+	 * ATENCIÓ: 
+	 * ========
+	 * 
+	 * El que mostra aquest exemple no es
+	 * pot reproduir a mètodes del costat del client.
+	 * Només s'ha de reproduir a mètodes
+	 * que es trobin a LA BANDA DEL SERVIDOR
+	 */
+	private void testUpdateData(){
+		DatabaseManager db = null;
+		try {
+			db = new DatabaseManager();
+			//Recuperem el nom actual d'un taller
+			Object oldValue = db.getScalar("SELECT " + 
+											Constants.FIELD_NAME + 
+											" FROM " + Constants.TABLE_LOCAL + 
+											" ORDER BY " + Constants.FIELD_TAXID + " ASC" +
+											" LIMIT 1");
+			//Recuperem el nom actual d'un taller
+			Object oldTaxId = db.getScalar("SELECT " + 
+											Constants.FIELD_TAXID + 
+											" FROM " + Constants.TABLE_LOCAL + 
+											" ORDER BY " + Constants.FIELD_TAXID + " ASC" +
+											" LIMIT 1");
+			//Canviem el seu nom
+			int result = db.updateData("UPDATE " + 
+										Constants.TABLE_LOCAL + 
+										" SET " + Constants.FIELD_NAME + " = 'New Value' " +
+											"WHERE " + Constants.FIELD_TAXID + " = '" + oldTaxId.toString() + "'");
+			
+			//Recuperem el nom un cop hem fet la modificació
+			Object currentValue = db.getScalar("SELECT " + 
+												Constants.FIELD_NAME + 
+												" FROM " + Constants.TABLE_LOCAL + 
+												" ORDER BY " + Constants.FIELD_TAXID  + " ASC" +
+												" LIMIT 1");
+			
+			//Mostrem un missatge amb el valor que hi havia abans i el d'ara
+			Methods.showMessage("Old value = '" + oldValue + "'\nCurrent value = '" + currentValue + "'", Enums.MessageType.Info);
+
+			//Retornem el registre al seu valor inicial
+			result = db.updateData("UPDATE " + 
+					Constants.TABLE_LOCAL + 
+					" SET " + Constants.FIELD_NAME + " = '" + oldValue + "' " +
+						"WHERE " + Constants.FIELD_NAME + " = '" + currentValue.toString() + "'");
+			
+		} catch (STException e){
+			Managers.exception.showException(e);
+		
+		} catch (Exception e){
+			Managers.exception.showException(new STException(e));
+		}
+	}
+
+	/***
+	 * Executa una sentència SQL d'actualització
+	 * de dades a la base de dades usant una
+	 * transacció. 
+	 * Fixeu-vos que no cal obrir la
+	 * connexió a la base de dades ni tancar-la,
+	 * però si que s'ha d'iniciar i tancar la
+	 * transacció.
+	 *  
+	 * ATENCIÓ: 
+	 * ========
+	 * 
+	 * El que mostra aquest exemple no es
+	 * pot reproduir a mètodes del costat del client.
+	 * Només s'ha de reproduir a mètodes
+	 * que es trobin a LA BANDA DEL SERVIDOR
+	 */
+	private void testUpdateDataInTransaction(){
+		DatabaseManager db = null;
+		try {
+			db = new DatabaseManager();
+			db.startTransaction();
+			
+			//Recuperem el nom actual d'un taller
+			Object oldValue = db.getScalar("SELECT " + 
+											Constants.FIELD_NAME + 
+											" FROM " + Constants.TABLE_LOCAL + 
+											" ORDER BY " + Constants.FIELD_TAXID + " ASC" +
+											" LIMIT 1");
+			//Canviem el seu nom
+			int result = db.updateData("UPDATE " + 
+										Constants.TABLE_LOCAL + 
+										" SET " + Constants.FIELD_NAME + " = 'New Value 1' " +
+											"WHERE " + Constants.FIELD_NAME + " = '" + oldValue.toString() + "'");
+			
+			//Recuperem el nom un cop hem fet la modificació
+			Object currentValue = db.getScalar("SELECT " + 
+												Constants.FIELD_NAME + 
+												" FROM " + Constants.TABLE_LOCAL + 
+												" ORDER BY " + Constants.FIELD_TAXID  + " ASC" +
+												" LIMIT 1");
+			
+			//Mostrem un missatge amb el valor que hi havia abans i el d'ara
+			Methods.showMessage("Old value = '" + oldValue + "'\nCurrent value = '" + currentValue + "'", Enums.MessageType.Info);
+
+			
+			//Recuperem el nom actual d'un taller
+			Object oldValue2 = db.getScalar("SELECT " + 
+											Constants.FIELD_NAME + 
+											" FROM " + Constants.TABLE_LOCAL + 
+											" ORDER BY " + Constants.FIELD_TAXID + " ASC" +
+											" LIMIT 1");
+			//Canviem el seu nom
+			int result2 = db.updateData("UPDATE " + 
+										Constants.TABLE_LOCAL + 
+										" SET " + Constants.FIELD_NAME + " = 'New Value 2' " +
+											"WHERE " + Constants.FIELD_NAME + " = '" + oldValue2.toString() + "'");
+			
+			//Recuperem el nom un cop hem fet la modificació
+			Object currentValue2 = db.getScalar("SELECT " + 
+												Constants.FIELD_NAME + 
+												" FROM " + Constants.TABLE_LOCAL + 
+												" ORDER BY " + Constants.FIELD_TAXID  + " ASC" +
+												" LIMIT 1");
+			
+			//Mostrem un missatge amb el valor que hi havia abans i el d'ara
+			Methods.showMessage("Old value = '" + oldValue2 + "'\nCurrent value = '" + currentValue2 + "'", Enums.MessageType.Info);
+			
+
+			//Recuperem el nom actual d'un taller
+			Object oldValue3 = db.getScalar("SELECT " + 
+											Constants.FIELD_NAME + 
+											" FROM " + Constants.TABLE_LOCAL + 
+											" ORDER BY " + Constants.FIELD_TAXID + " ASC" +
+											" LIMIT 1");
+			//Canviem el seu nom
+			int result3 = db.updateData("UPDATE " + 
+										Constants.TABLE_LOCAL + 
+										" SET " + Constants.FIELD_NAME + " = 'New Value 3' " +
+											"WHERE " + Constants.FIELD_NAME + " = '" + oldValue3.toString() + "'");
+			
+			//Recuperem el nom un cop hem fet la modificació
+			Object currentValue3 = db.getScalar("SELECT " + 
+												Constants.FIELD_NAME + 
+												" FROM " + Constants.TABLE_LOCAL + 
+												" ORDER BY " + Constants.FIELD_TAXID  + " ASC" +
+												" LIMIT 1");
+			
+			//Mostrem un missatge amb el valor que hi havia abans i el d'ara
+			Methods.showMessage("Old value = '" + oldValue3 + "'\nCurrent value = '" + currentValue3 + "'", Enums.MessageType.Info);
+			
+			
+			//Retornem el registre al seu valor inicial,
+			//indicant "FALSE" al paràmetre del mètode
+			//finishTransaction. Si s'hagués indicat
+			//true, s'haurien confirmat els canvis que
+			//hem fet.
+			db.finishTransaction(false);
+			
+		} catch (STException e){
+			//Fixeu-vos que no cal fer un rollback si
+			//hi ha una excepció, ja que el DatabaseManager
+			//ja ho farà per nosaltres...
+			Managers.exception.showException(e);
+		
+		} catch (Exception e){
+			//Fixeu-vos que no cal fer un rollback si
+			//hi ha una excepció, ja que el DatabaseManager
+			//ja ho farà per nosaltres...
+			Managers.exception.showException(new STException(e));
+		} 
+	}
+
+
 }
