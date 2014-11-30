@@ -9,6 +9,8 @@ import java.sql.Savepoint;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import uoc.tdp.pac4.st.*;
 import uoc.tdp.pac4.st.client.cx.*;
@@ -29,6 +31,21 @@ import uoc.tdp.pac4.st.server.*;
 @SuppressWarnings("unused")
 public class DatabaseManager {
 
+	//CONSTANTS
+	private static final String BEGIN_GROUP = " (";
+	private static final String COMMA = ", ";
+	private static final String END_GROUP = ") ";
+	private static final String FROM = "FROM ";
+	private static final String INSERT_INTO = "INSERT INTO ";
+	private static final String ORDER_ASCENDING = " ASC";
+	private static final String ORDER_BY = "ORDER BY ";
+	private static final String SELECT_ALL = "SELECT * ";
+	private static final String SELECT_COUNT = "SELECT COUNT(*) ";
+	private static final String SPACE = " ";
+	private static final String VALUES = ") VALUES (";
+	private static final String WHERE = "WHERE ";
+
+	//FIELDS
 	private Connection _dbConnection = null;
 	private String _dbDriver = null;
 	private String _dbPassword = null;
@@ -109,7 +126,7 @@ public class DatabaseManager {
 	  * 
 	  * @throws SQLException
 	  */
-	 private void commit() throws SQLException{
+	 private void commit() throws STException{
 		 this.commit(false);
 	 }
 	
@@ -127,12 +144,95 @@ public class DatabaseManager {
 	  * 
 	  * @throws SQLException
 	  */
-	 private void commit(boolean forceCommit) throws SQLException{
+	 private void commit(boolean forceCommit) throws STException{
+		 try{
 		 if ((!this._transactionInProgress || forceCommit)
 				 && this.isOpen())
 			 this._dbConnection.commit();
+		 } catch (SQLException e){
+			 throw new STException(e);
+			 
+		 } catch (STException e){
+			 throw e;
+		 }
 	 }
 
+	 /***
+	  * Converteix un objecte a una cadena vàlida
+	  * per a ser utilitzada en sentències amb postgreSQL
+	  * 
+	  * @param value Valor a convertir
+	  * @return Una cadena vàlida per ser utilitzada
+	  * a postgreSQL.
+	  */
+	 private String convertToPostfgreSQLString(Object value){
+		 String result = null;
+		 if ((value instanceof String)
+				 || (value instanceof Character))
+			 result = "'" + value.toString() + "'";
+		 
+		 else if (value instanceof java.util.Date)
+			 result = "'" + Methods.convertToPostgreSQLDateFormat((java.util.Date)value) + "'";
+
+		 else if (value instanceof java.sql.Date)
+			 result = "'" + Methods.convertToPostgreSQLDateFormat((java.sql.Date)value) + "'";
+		 
+		 else if (value instanceof Boolean)
+			 result = value.toString().toLowerCase();
+		 
+		 else 
+			 result = value.toString();
+		 
+		 return result;
+	 }
+	 
+	 /***
+	  * Mètode que retorna el nombre de
+	  * registres de una taula.
+	  *
+	  * @param table Nom de la tabla de la
+	  * que es vol conéixer el nombre de files.
+	  * @return Integer amb el nombre de registres
+	  * de la taula.
+	  * @throws STException
+	  */
+	 public long countTableRows(String table) throws STException{
+		 long result = 0;
+		 Statement statement = null;
+		 ResultSet resultSet = null;
+		 
+		 try{
+			this.openConnection();
+			statement = this._dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+															ResultSet.FETCH_FORWARD);
+			String sqlSentence =  SELECT_COUNT +
+							         FROM + Constants.TABLE_LOCAL;
+			
+			resultSet = statement.executeQuery(sqlSentence);
+			if (resultSet != null){
+				resultSet.next();
+				result = (long) resultSet.getObject(1);
+				resultSet.close();
+			}
+			this.closeStatement(statement);
+			this.closeConnection();
+		 
+		 } catch (SQLException e){
+			 throw new STException(e, TokenKeys.ERROR_GETTING_DATA);
+		 
+		 } catch (STException e){
+			 throw e;
+		 
+		 } catch (Exception e){
+			 throw new STException(e, TokenKeys.ERROR_UNEXPECTED);
+			 
+		 } finally{
+			 this.closeConnection();
+			 this.closeStatement(statement);
+		 }
+		return result;
+	 }
+	 
 	 /***
 	  * 
 	  * Executa una sentència SQL d'eliminació
@@ -167,8 +267,9 @@ public class DatabaseManager {
 					 this.rollback();
 			 }
 			 this.closeConnection(true);
-		 } catch (SQLException e){
-			 throw new STException(e, TokenKeys.ERROR_DATABASE_STARTING_TRANSACTION);
+			 
+		 } catch (STException e){
+			 throw new STException(e, TokenKeys.ERROR_DATABASE_ENDING_TRANSACTION);
 
 		 } finally {
 			 this._savepoint = null;
@@ -231,13 +332,13 @@ public class DatabaseManager {
 		 try{
 			if (this.openConnection()){
 				statement = this._dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-																ResultSet.CONCUR_UPDATABLE);
-				String sqlSentence = "SELECT * " +
-								        "FROM " + Constants.TABLE_LOCAL + " ";
+																ResultSet.CONCUR_READ_ONLY);
+				String sqlSentence = SELECT_ALL +
+								        FROM + Constants.TABLE_LOCAL + " ";
 				if (taxId != null){
-					sqlSentence += "WHERE " + Constants.FIELD_TAXID +  " = '" + taxId + "' ";
+					sqlSentence += WHERE + Constants.FIELD_TAXID +  " = '" + taxId + "' ";
 				}
-				sqlSentence += "ORDER BY " + Constants.FIELD_NAME + " ASC;";
+				sqlSentence +=  ORDER_BY + Constants.FIELD_NAME + ORDER_ASCENDING;
 				
 				resultSet = statement.executeQuery(sqlSentence);
 				this.closeConnection();
@@ -297,10 +398,56 @@ public class DatabaseManager {
 			
 		} catch (SQLException e){
 			throw new STException(e);
+		
+		} catch (STException e){
+			throw e;
 		}
+		
 		return result;
 	}
 
+	 /***
+	  * 
+	  * Executa una sentència SQL d'inserció
+	  * de dades, retornant un integer amb el nombre
+	  * de registres afectats per l'eliminació.
+	  * 
+	  * @param table Nom de la tabla a on es
+	  * farà la inserció.
+	  * @param hashMap Instància de HashMap<String, Object>
+	  * amb la col.lecció
+	  * de camps i valors que s'inseriran.
+	  * 
+	  * @return Integer amb el nombre de registres
+	  * afectats per la inserció.
+	  * @throws STException 
+	  */
+	 public int insertData(String table, Map<String, Object> hashMap) throws STException{
+		 StringBuilder sql = new StringBuilder();
+		 
+		 sql.append(INSERT_INTO);
+		 sql.append(table);
+		 sql.append(BEGIN_GROUP);
+		 
+		 Set<String> entries = hashMap.keySet();
+		 
+		 StringBuilder values = new StringBuilder();
+		 for(String entry : entries){
+			 if (values.length() > 0){
+				 sql.append(COMMA);
+				 values.append(COMMA);
+			 }
+			 sql.append(entry);
+			 Object value = hashMap.get(entry);
+			 values.append(this.convertToPostfgreSQLString(value));
+		 }
+		 sql.append(VALUES);
+		 sql.append(values.toString());
+		 sql.append(END_GROUP);
+		 
+		 return this.insertData(sql.toString());
+	 }
+	
 	 /***
 	  * 
 	  * Executa una sentència SQL d'inserció
@@ -324,12 +471,16 @@ public class DatabaseManager {
 	 * 
 	 * @return boolean indicant si está o no
 	 * oberta la connexió
-	 * @throws SQLException
+	 * @throws STException
 	 */
-	public boolean isOpen() throws SQLException{
+	public boolean isOpen() throws STException{
 		boolean result = false;
-		if (this._dbConnection != null){
-			result = !this._dbConnection.isClosed();
+		try{
+			if (this._dbConnection != null){
+				result = !this._dbConnection.isClosed();
+			}
+		} catch(SQLException e){
+			throw new STException(e);
 		}
 		return result;
 	}
@@ -393,7 +544,7 @@ public class DatabaseManager {
 			 throw new STException(e, TokenKeys.ERROR_DATABASE_ROLLBACK);
 		 }
 	 }
-		
+	 
 	 /***
 	  * Assigna la propietat autocommit segons el
 	  * valor indicat.
@@ -402,11 +553,17 @@ public class DatabaseManager {
 	  * que s'assignarà.
 	  * @throws SQLException
 	  */
-	 private void setAutoCommit(boolean autoCommit) throws SQLException{
+	 private void setAutoCommit(boolean autoCommit) throws STException{
+		 try{
 		 if (this.isOpen()
 				 && this._dbConnection.getAutoCommit() != autoCommit)
 			 this._dbConnection.setAutoCommit(autoCommit);
+		 } catch (SQLException e){
+			 throw new STException(e);
 			 
+		 } catch (STException e){
+			 throw e;
+		 }
 	 }
 	 
 	 /***
@@ -455,13 +612,13 @@ public class DatabaseManager {
 	  * la situació actual de la base de dades
 	  * per a poder fer un rollback si fos
 	  * necessari
-	 * @throws STException 
+	  * @throws STException 
 	  */
 	 public void startTransaction() throws STException{
 		 try{
 			 if (this._savepoint == null){
 				 this.openConnection();
-				 this._dbConnection.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
+				 this._dbConnection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 				 this.setAutoCommit(false);
 				 this._savepoint = this._dbConnection.setSavepoint();
 				 this._transactionInProgress = true;
@@ -482,7 +639,7 @@ public class DatabaseManager {
 	 * test.
 	 * @throws STException 
 	 */
-	public String testConnection() throws STException{
+	 public String testConnection() throws STException{
 		String result = TokenKeys.DATABASE_TEST_KO;
 		try{
 			this.openConnection();
@@ -492,7 +649,7 @@ public class DatabaseManager {
 			throw new STException(e, TokenKeys.ERROR_DATABASE_CONNECTION);
 		}
 		return result;
-	}
+	 }
 
 	 /***
 	  * 
@@ -514,7 +671,7 @@ public class DatabaseManager {
 			if (this.openConnection()){
 				this.setAutoCommit(false);
 				statement = this._dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-																ResultSet.CONCUR_READ_ONLY);
+																ResultSet.CONCUR_UPDATABLE);
 				result = statement.executeUpdate(sql);
 				this.commit();
 			} else {
@@ -539,5 +696,4 @@ public class DatabaseManager {
 		 }
 		return result;
 	 }
-
 }	 

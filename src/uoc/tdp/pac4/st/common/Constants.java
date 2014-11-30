@@ -51,6 +51,9 @@ public class Constants {
 	//Clau per a l'idioma castellà
 	public final static String LANGUAGE_SPANISH = "es-ES";
 
+	//Format de dates de postgreSQL
+	public static final String POSTGRESSQL_DATE_FORMAT = "yyyy-MM-dd";
+	
 	//Propietat que indica el directory de l'usuari
 	public final static String PROPERTY_USER_DIR = "user.dir";
 	

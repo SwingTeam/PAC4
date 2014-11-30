@@ -49,6 +49,28 @@ public class Methods {
 	}
 
 	/***
+	 * Converteix una data en una cadena amb el format
+	 * que utilitza postgreSQL
+	 * 
+	 * @param date Data a convertir
+	 * @return
+	 */
+	public static String convertToPostgreSQLDateFormat(java.util.Date date){
+		return new SimpleDateFormat(Constants.POSTGRESSQL_DATE_FORMAT).format(date);	
+	}
+
+	/***
+	 * Converteix una data en una cadena amb el format
+	 * que utilitza postgreSQL
+	 * 
+	 * @param date Data a convertir
+	 * @return
+	 */
+	public static String convertToPostgreSQLDateFormat(java.sql.Date date){
+		return new SimpleDateFormat(Constants.POSTGRESSQL_DATE_FORMAT).format(date);	
+	}
+	
+	/***
 	 * Crear una data a partir
 	 * del dia, mes i any indicats.
 	 * 

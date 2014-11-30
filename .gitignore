@@ -1,1 +1,9 @@
 /bin
+/branches
+/logs
+/trunk
+/.settings
+/.svn
+/.gitignore
+/miglayout15-swing.jar
+/miglayout-src.zip

@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -37,7 +39,7 @@ public class ExampleWindow extends JFrame {
 		this.setName(null);
 		setTitle("TITLE_CLIENT_WINDOW");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 849, 403);
+		setBounds(100, 100, 849, 423);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -87,13 +89,29 @@ public class ExampleWindow extends JFrame {
 		btnExample5.setBounds(676, 232, 142, 25);
 		contentPane.add(btnExample5);
 		
-		JLabel label = new JLabel("LABEL_EXAMPLE_UPDATE_DATA_IN_TRANSACTION");
-		label.setBounds(33, 279, 614, 15);
-		contentPane.add(label);
+		JLabel lblLabelexampleinsertdataintransaction = new JLabel("LABEL_EXAMPLE_INSERT_DATA_IN_TRANSACTION");
+		lblLabelexampleinsertdataintransaction.setBounds(33, 279, 614, 15);
+		contentPane.add(lblLabelexampleinsertdataintransaction);
 		
 		JButton btnExample6 = new JButton("BUTTON_EXECUTE");
 		btnExample6.setBounds(676, 269, 142, 25);
 		contentPane.add(btnExample6);
+		
+		JLabel label = new JLabel("LABEL_EXAMPLE_INSERT_DATA_IN_TRANSACTION");
+		label.setBounds(33, 314, 614, 15);
+		contentPane.add(label);
+		
+		JButton btnExample7 = new JButton("BUTTON_EXECUTE");
+		btnExample7.setBounds(676, 304, 142, 25);
+		contentPane.add(btnExample7);
+		
+		JLabel lblLabelexampledeletedataintransaction = new JLabel("LABEL_EXAMPLE_DELETE_DATA_IN_TRANSACTION");
+		lblLabelexampledeletedataintransaction.setBounds(33, 351, 614, 15);
+		contentPane.add(lblLabelexampledeletedataintransaction);
+		
+		JButton btnExample8 = new JButton("BUTTON_EXECUTE");
+		btnExample8.setBounds(676, 341, 142, 25);
+		contentPane.add(btnExample8);
 		
 		//Traducció dels tokens de la pantalla
 		try {
@@ -146,7 +164,21 @@ public class ExampleWindow extends JFrame {
 		//BOTÓ D'INSERCIÓ DE DADES
 		btnExample6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				testInsertDataWithHashMap();
+			}
+		});
+
+		//BOTÓ D'INSERCIÓ DE DADES AMB SENTÈNCIA SQL
+		btnExample7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				testInsertData();
+			}
+		});
+
+		//BOTÓ D'ELIMINACIÓ DE DADES
+		btnExample8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				testDeleteData();
 			}
 		});
 		
@@ -178,6 +210,28 @@ public class ExampleWindow extends JFrame {
 		}finally{
 			stopConnection();
 		}
+	}
+	
+	/***
+	 * Mostra el contingut de la tabla indicada
+	 * 
+	 * @param db Objecte DatabaseManager obert
+	 * @throws STException
+	 * @throws Exception
+	 */
+	private void showTableLocal(DatabaseManager db) throws STException, Exception{
+		ResultSet resultSet = null;
+		resultSet = db.selectData("Select * from " + Constants.TABLE_LOCAL);
+	
+		resultSet.beforeFirst();
+		int i = 0;
+		while (resultSet.next()){
+			i++;
+			Methods.showMessage(resultSet.getString(Constants.FIELD_NAME),Enums.MessageType.Info);
+		}
+		resultSet.close();
+		resultSet = null;
+		Methods.showMessage(String.format(Managers.i18n.getTranslation(TokenKeys.AVAILABLE_ESTABLIMENTS), i), Enums.MessageType.Info);
 	}
 	
 	/***
@@ -251,8 +305,56 @@ public class ExampleWindow extends JFrame {
 	}
 	
 	/***
-	 * Executa una sentència SQL d'inserció
+	 * Executa una sentència SQL d'eliminació
 	 * de dades a la base de dades. 
+	 * Fixeu-vos que no cal obrir la
+	 * connexió a la base de dades ni tancar-la.
+	 * També he afegit com s'utilitza el mètode
+	 * getScalar, que recupera el valor de la
+	 * primera columna de la primera fila
+	 * del resultat d'una sentència de selecció.
+	 *  
+	 * ATENCIÓ: 
+	 * ========
+	 * 
+	 * El que mostra aquest exemple no es
+	 * pot reproduir a mètodes del costat del client.
+	 * Només s'ha de reproduir a mètodes
+	 * que es trobin a LA BANDA DEL SERVIDOR
+	 */
+	private void testDeleteData(){
+		DatabaseManager db = null;
+		try {
+			db = new DatabaseManager();
+			db.startTransaction();
+			
+			//Recuperem el cif d'un taller
+			Object cif = db.getScalar("SELECT " + 
+										Constants.FIELD_TAXID + 
+										" FROM " + Constants.TABLE_LOCAL + 
+										" ORDER BY " + Constants.FIELD_TAXID + " ASC" +
+										" LIMIT 1");
+
+			//Eliminem el registre
+			int result = db.deleteData("DELETE FROM " + Constants.TABLE_LOCAL + " WHERE cif = '" + cif + "'");
+			
+			//Mostrem els registres actuals
+			this.showTableLocal(db);
+
+			//Desfem els canvis
+			db.finishTransaction(false);
+			
+		} catch (STException e){
+			Managers.exception.showException(e);
+		
+		} catch (Exception e){
+			Managers.exception.showException(new STException(e));
+		}
+	}
+	
+	/***
+	 * Executa una d'inserció d'un registre
+	 * a la base de dades. 
 	 * Fixeu-vos que no cal obrir la
 	 * connexió a la base de dades ni tancar-la.
 	 * També he afegit com s'utilitza el mètode
@@ -272,11 +374,33 @@ public class ExampleWindow extends JFrame {
 		DatabaseManager db = null;
 		try {
 			db = new DatabaseManager();
-			String newName = "New Name";
-			String newCif = "New Cif";
 			
+			//Ho farem amb una transacció per a no
+			//afectar a la informació actual de la
+			//base de dades
+			db.startTransaction();
+			
+			String currentCif = "New Cif";
+			String currentName = "New Name";
+
+			if (db.countTableRows(Constants.TABLE_LOCAL) > 0){
+				currentCif = db.getScalar("SELECT " + 
+												Constants.FIELD_TAXID + 
+												" FROM " + Constants.TABLE_LOCAL + 
+												" ORDER BY " + Constants.FIELD_TAXID + " ASC" +
+												" LIMIT 1").toString();
+			
+				currentName = db.getScalar("SELECT " + 
+											Constants.FIELD_NAME + 
+											" FROM " + Constants.TABLE_LOCAL +
+											" WHERE " + Constants.FIELD_TAXID + " = '" + currentCif + "' ").toString();
+			}
+			
+			String newCif = currentCif + "I";
+			String newName = currentName + "I";
+
 			//Canviem el seu nom
-			int result = db.updateData("INSERT INTO " + 
+			int result = db.insertData("INSERT INTO " + 
 										Constants.TABLE_LOCAL + 
 										" (" + 
 											Constants.FIELD_TAXID + ", " +
@@ -287,7 +411,80 @@ public class ExampleWindow extends JFrame {
 											"'" + newCif + "', " +
 											"'" + newName + "'" +
 										");");
-			this.testSelectData();
+			
+			//Mostrem el resultat per pantalla...
+			this.showTableLocal(db);
+			
+			//...i desfem els canvis
+			db.finishTransaction(false);
+			
+		} catch (STException e){
+			Managers.exception.showException(e);
+		
+		} catch (Exception e){
+			Managers.exception.showException(new STException(e));
+		}
+	}
+	
+	
+	/***
+	 * Executa una d'inserció d'un registre
+	 * a la base de dades. 
+	 * Fixeu-vos que no cal obrir la
+	 * connexió a la base de dades ni tancar-la.
+	 * També he afegit com s'utilitza el mètode
+	 * getScalar, que recupera el valor de la
+	 * primera columna de la primera fila
+	 * del resultat d'una sentència de selecció.
+	 *  
+	 * ATENCIÓ: 
+	 * ========
+	 * 
+	 * El que mostra aquest exemple no es
+	 * pot reproduir a mètodes del costat del client.
+	 * Només s'ha de reproduir a mètodes
+	 * que es trobin a LA BANDA DEL SERVIDOR
+	 */
+	private void testInsertDataWithHashMap(){
+		DatabaseManager db = null;
+		try {
+			db = new DatabaseManager();
+			
+			//Ho farem amb una transacció per a no
+			//afectar a la informació actual de la
+			//base de dades
+			db.startTransaction();
+			
+			String currentCif = "New Cif";
+			String currentName = "New Name";
+
+			if (db.countTableRows(Constants.TABLE_LOCAL) > 0){
+				currentCif = db.getScalar("SELECT " + 
+												Constants.FIELD_TAXID + 
+												" FROM " + Constants.TABLE_LOCAL + 
+												" ORDER BY " + Constants.FIELD_TAXID + " ASC" +
+												" LIMIT 1").toString();
+			
+				currentName = db.getScalar("SELECT " + 
+											Constants.FIELD_NAME + 
+											" FROM " + Constants.TABLE_LOCAL +
+											" WHERE " + Constants.FIELD_TAXID + " = '" + currentCif + "' ").toString();
+			}
+			
+			String newCif = currentCif + "I";
+			String newName = currentName + "I";
+			
+			Map<String, Object> hashMap = new HashMap<String, Object>();
+			hashMap.put(Constants.FIELD_TAXID, newCif);
+			hashMap.put(Constants.FIELD_NAME, newName);
+			
+			int result = db.insertData(Constants.TABLE_LOCAL, hashMap); 
+			
+			//Mostrem el resultat per pantalla...
+			this.showTableLocal(db);
+			
+			//...i desfem els canvis
+			db.finishTransaction(false);
 			
 		} catch (STException e){
 			Managers.exception.showException(e);
@@ -318,18 +515,7 @@ public class ExampleWindow extends JFrame {
 		DatabaseManager db = null;
 		try {
 			db = new DatabaseManager();
-			ResultSet resultSet = null;
-			resultSet = db.selectData("Select * from " + Constants.TABLE_LOCAL);
-		
-			resultSet.beforeFirst();
-			int i = 0;
-			while (resultSet.next()){
-				i++;
-				Methods.showMessage(resultSet.getString(Constants.FIELD_NAME),Enums.MessageType.Info);
-			}
-			resultSet.close();
-			resultSet = null;
-			Methods.showMessage(String.format(Managers.i18n.getTranslation(TokenKeys.AVAILABLE_ESTABLIMENTS), i), Enums.MessageType.Info);
+			this.showTableLocal(db);
 
 		} catch (STException e){
 			Managers.exception.showException(e);
@@ -359,6 +545,8 @@ public class ExampleWindow extends JFrame {
 	private void testUpdateData(){
 		DatabaseManager db = null;
 		try {
+			//ATENCIÓ: EN AQUEST EXEMPLE NO USEM TRANSACCIÓ
+			
 			db = new DatabaseManager();
 			//Recuperem el nom actual d'un taller
 			Object oldValue = db.getScalar("SELECT " + 
@@ -389,6 +577,8 @@ public class ExampleWindow extends JFrame {
 			Methods.showMessage("Old value = '" + oldValue + "'\nCurrent value = '" + currentValue + "'", Enums.MessageType.Info);
 
 			//Retornem el registre al seu valor inicial
+			//com que no utilitzem una transacció, ho hem
+			//de fer manualment...
 			result = db.updateData("UPDATE " + 
 					Constants.TABLE_LOCAL + 
 					" SET " + Constants.FIELD_NAME + " = '" + oldValue + "' " +
@@ -514,6 +704,4 @@ public class ExampleWindow extends JFrame {
 			Managers.exception.showException(new STException(e));
 		} 
 	}
-
-
 }
