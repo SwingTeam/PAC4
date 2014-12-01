@@ -20,6 +20,7 @@ import uoc.tdp.pac4.st.*;
 import uoc.tdp.pac4.st.client.cx.*;
 import uoc.tdp.pac4.st.common.*;
 import uoc.tdp.pac4.st.common.Enums.MessageType;
+import uoc.tdp.pac4.st.common.dto.Local;
 import uoc.tdp.pac4.st.common.managers.*;
 import uoc.tdp.pac4.st.rmi.*;
 import uoc.tdp.pac4.st.server.*;
