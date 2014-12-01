@@ -337,21 +337,21 @@ public class DatabaseManager {
 				String sqlSentence = SELECT_ALL +
 								        FROM + Constants.TABLE_LOCAL + " ";
 				if (taxId != null){
-					sqlSentence += WHERE + Constants.FIELD_TAXID +  " = '" + taxId + "' ";
+					sqlSentence += WHERE + Constants.FIELD_CIF +  " = '" + taxId + "' ";
 				}
-				sqlSentence +=  ORDER_BY + Constants.FIELD_NAME + ORDER_ASCENDING;
+				sqlSentence +=  ORDER_BY + Constants.FIELD_NOMLOCAL + ORDER_ASCENDING;
 				
 				resultSet = statement.executeQuery(sqlSentence);
 				this.closeConnection();
 
 				while (resultSet.next()) {
 					Local item = new Local();
-					item.setTaxId(resultSet.getString(Constants.FIELD_TAXID));
-					item.setName(resultSet.getString(Constants.FIELD_NAME));
-					item.setProvince(resultSet.getString(Constants.FIELD_PROVINCE));
-					item.setPhone(resultSet.getString(Constants.FIELD_PHONE));
-					item.setLatitude(resultSet.getFloat(Constants.FIELD_LATITUDE));
-					item.setLongitude(resultSet.getFloat(Constants.FIELD_LONGITUDE));
+					item.setTaxId(resultSet.getString(Constants.FIELD_CIF));
+					item.setName(resultSet.getString(Constants.FIELD_NOMLOCAL));
+					item.setProvince(resultSet.getString(Constants.FIELD_PROVINCIA_ID));
+					item.setPhone(resultSet.getString(Constants.FIELD_TELEFON));
+					item.setLatitude(resultSet.getFloat(Constants.FIELD_COORDX));
+					item.setLongitude(resultSet.getFloat(Constants.FIELD_COORDY));
 					result.add(item);
 				}
 			} else {

@@ -15,6 +15,7 @@ import uoc.tdp.pac4.st.server.*;
  * @author Swing Team - 2014
  *
  */
+@SuppressWarnings("unused")
 public class Managers {
 
 	public static ExceptionManager exception = null;

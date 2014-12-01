@@ -228,7 +228,7 @@ public class ExampleWindow extends JFrame {
 		int i = 0;
 		while (resultSet.next()){
 			i++;
-			Methods.showMessage(resultSet.getString(Constants.FIELD_NAME),Enums.MessageType.Info);
+			Methods.showMessage(resultSet.getString(Constants.FIELD_NOMLOCAL),Enums.MessageType.Info);
 		}
 		resultSet.close();
 		resultSet = null;
@@ -331,9 +331,9 @@ public class ExampleWindow extends JFrame {
 			
 			//Recuperem el cif d'un taller
 			Object cif = db.getScalar("SELECT " + 
-										Constants.FIELD_TAXID + 
+										Constants.FIELD_CIF + 
 										" FROM " + Constants.TABLE_LOCAL + 
-										" ORDER BY " + Constants.FIELD_TAXID + " ASC" +
+										" ORDER BY " + Constants.FIELD_CIF + " ASC" +
 										" LIMIT 1");
 
 			//Eliminem el registre
@@ -386,15 +386,15 @@ public class ExampleWindow extends JFrame {
 
 			if (db.countTableRows(Constants.TABLE_LOCAL) > 0){
 				currentCif = db.getScalar("SELECT " + 
-												Constants.FIELD_TAXID + 
+												Constants.FIELD_CIF + 
 												" FROM " + Constants.TABLE_LOCAL + 
-												" ORDER BY " + Constants.FIELD_TAXID + " ASC" +
+												" ORDER BY " + Constants.FIELD_CIF + " ASC" +
 												" LIMIT 1").toString();
 			
 				currentName = db.getScalar("SELECT " + 
-											Constants.FIELD_NAME + 
+											Constants.FIELD_NOMLOCAL + 
 											" FROM " + Constants.TABLE_LOCAL +
-											" WHERE " + Constants.FIELD_TAXID + " = '" + currentCif + "' ").toString();
+											" WHERE " + Constants.FIELD_CIF + " = '" + currentCif + "' ").toString();
 			}
 			
 			String newCif = currentCif + "I";
@@ -404,8 +404,8 @@ public class ExampleWindow extends JFrame {
 			int result = db.insertData("INSERT INTO " + 
 										Constants.TABLE_LOCAL + 
 										" (" + 
-											Constants.FIELD_TAXID + ", " +
-											Constants.FIELD_NAME +
+											Constants.FIELD_CIF + ", " +
+											Constants.FIELD_NOMLOCAL +
 										")" +
 										" VALUES " +
 										"("+
@@ -461,23 +461,23 @@ public class ExampleWindow extends JFrame {
 
 			if (db.countTableRows(Constants.TABLE_LOCAL) > 0){
 				currentCif = db.getScalar("SELECT " + 
-												Constants.FIELD_TAXID + 
+												Constants.FIELD_CIF + 
 												" FROM " + Constants.TABLE_LOCAL + 
-												" ORDER BY " + Constants.FIELD_TAXID + " ASC" +
+												" ORDER BY " + Constants.FIELD_CIF + " ASC" +
 												" LIMIT 1").toString();
 			
 				currentName = db.getScalar("SELECT " + 
-											Constants.FIELD_NAME + 
+											Constants.FIELD_NOMLOCAL + 
 											" FROM " + Constants.TABLE_LOCAL +
-											" WHERE " + Constants.FIELD_TAXID + " = '" + currentCif + "' ").toString();
+											" WHERE " + Constants.FIELD_CIF + " = '" + currentCif + "' ").toString();
 			}
 			
 			String newCif = currentCif + "I";
 			String newName = currentName + "I";
 			
 			Map<String, Object> hashMap = new HashMap<String, Object>();
-			hashMap.put(Constants.FIELD_TAXID, newCif);
-			hashMap.put(Constants.FIELD_NAME, newName);
+			hashMap.put(Constants.FIELD_CIF, newCif);
+			hashMap.put(Constants.FIELD_NOMLOCAL, newName);
 			
 			int result = db.insertData(Constants.TABLE_LOCAL, hashMap); 
 			
@@ -551,27 +551,27 @@ public class ExampleWindow extends JFrame {
 			db = new DatabaseManager();
 			//Recuperem el nom actual d'un taller
 			Object oldValue = db.getScalar("SELECT " + 
-											Constants.FIELD_NAME + 
+											Constants.FIELD_NOMLOCAL + 
 											" FROM " + Constants.TABLE_LOCAL + 
-											" ORDER BY " + Constants.FIELD_TAXID + " ASC" +
+											" ORDER BY " + Constants.FIELD_CIF + " ASC" +
 											" LIMIT 1");
 			//Recuperem el nom actual d'un taller
 			Object oldTaxId = db.getScalar("SELECT " + 
-											Constants.FIELD_TAXID + 
+											Constants.FIELD_CIF + 
 											" FROM " + Constants.TABLE_LOCAL + 
-											" ORDER BY " + Constants.FIELD_TAXID + " ASC" +
+											" ORDER BY " + Constants.FIELD_CIF + " ASC" +
 											" LIMIT 1");
 			//Canviem el seu nom
 			int result = db.updateData("UPDATE " + 
 										Constants.TABLE_LOCAL + 
-										" SET " + Constants.FIELD_NAME + " = 'New Value' " +
-											"WHERE " + Constants.FIELD_TAXID + " = '" + oldTaxId.toString() + "'");
+										" SET " + Constants.FIELD_NOMLOCAL + " = 'New Value' " +
+											"WHERE " + Constants.FIELD_CIF + " = '" + oldTaxId.toString() + "'");
 			
 			//Recuperem el nom un cop hem fet la modificació
 			Object currentValue = db.getScalar("SELECT " + 
-												Constants.FIELD_NAME + 
+												Constants.FIELD_NOMLOCAL + 
 												" FROM " + Constants.TABLE_LOCAL + 
-												" ORDER BY " + Constants.FIELD_TAXID  + " ASC" +
+												" ORDER BY " + Constants.FIELD_CIF  + " ASC" +
 												" LIMIT 1");
 			
 			//Mostrem un missatge amb el valor que hi havia abans i el d'ara
@@ -582,8 +582,8 @@ public class ExampleWindow extends JFrame {
 			//de fer manualment...
 			result = db.updateData("UPDATE " + 
 					Constants.TABLE_LOCAL + 
-					" SET " + Constants.FIELD_NAME + " = '" + oldValue + "' " +
-						"WHERE " + Constants.FIELD_NAME + " = '" + currentValue.toString() + "'");
+					" SET " + Constants.FIELD_NOMLOCAL + " = '" + oldValue + "' " +
+						"WHERE " + Constants.FIELD_NOMLOCAL + " = '" + currentValue.toString() + "'");
 			
 		} catch (STException e){
 			Managers.exception.showException(e);
@@ -618,21 +618,21 @@ public class ExampleWindow extends JFrame {
 			
 			//Recuperem el nom actual d'un taller
 			Object oldValue = db.getScalar("SELECT " + 
-											Constants.FIELD_NAME + 
+											Constants.FIELD_NOMLOCAL + 
 											" FROM " + Constants.TABLE_LOCAL + 
-											" ORDER BY " + Constants.FIELD_TAXID + " ASC" +
+											" ORDER BY " + Constants.FIELD_CIF + " ASC" +
 											" LIMIT 1");
 			//Canviem el seu nom
 			int result = db.updateData("UPDATE " + 
 										Constants.TABLE_LOCAL + 
-										" SET " + Constants.FIELD_NAME + " = 'New Value 1' " +
-											"WHERE " + Constants.FIELD_NAME + " = '" + oldValue.toString() + "'");
+										" SET " + Constants.FIELD_NOMLOCAL + " = 'New Value 1' " +
+											"WHERE " + Constants.FIELD_NOMLOCAL + " = '" + oldValue.toString() + "'");
 			
 			//Recuperem el nom un cop hem fet la modificació
 			Object currentValue = db.getScalar("SELECT " + 
-												Constants.FIELD_NAME + 
+												Constants.FIELD_NOMLOCAL + 
 												" FROM " + Constants.TABLE_LOCAL + 
-												" ORDER BY " + Constants.FIELD_TAXID  + " ASC" +
+												" ORDER BY " + Constants.FIELD_CIF  + " ASC" +
 												" LIMIT 1");
 			
 			//Mostrem un missatge amb el valor que hi havia abans i el d'ara
@@ -641,21 +641,21 @@ public class ExampleWindow extends JFrame {
 			
 			//Recuperem el nom actual d'un taller
 			Object oldValue2 = db.getScalar("SELECT " + 
-											Constants.FIELD_NAME + 
+											Constants.FIELD_NOMLOCAL + 
 											" FROM " + Constants.TABLE_LOCAL + 
-											" ORDER BY " + Constants.FIELD_TAXID + " ASC" +
+											" ORDER BY " + Constants.FIELD_CIF + " ASC" +
 											" LIMIT 1");
 			//Canviem el seu nom
 			int result2 = db.updateData("UPDATE " + 
 										Constants.TABLE_LOCAL + 
-										" SET " + Constants.FIELD_NAME + " = 'New Value 2' " +
-											"WHERE " + Constants.FIELD_NAME + " = '" + oldValue2.toString() + "'");
+										" SET " + Constants.FIELD_NOMLOCAL + " = 'New Value 2' " +
+											"WHERE " + Constants.FIELD_NOMLOCAL + " = '" + oldValue2.toString() + "'");
 			
 			//Recuperem el nom un cop hem fet la modificació
 			Object currentValue2 = db.getScalar("SELECT " + 
-												Constants.FIELD_NAME + 
+												Constants.FIELD_NOMLOCAL + 
 												" FROM " + Constants.TABLE_LOCAL + 
-												" ORDER BY " + Constants.FIELD_TAXID  + " ASC" +
+												" ORDER BY " + Constants.FIELD_CIF  + " ASC" +
 												" LIMIT 1");
 			
 			//Mostrem un missatge amb el valor que hi havia abans i el d'ara
@@ -664,21 +664,21 @@ public class ExampleWindow extends JFrame {
 
 			//Recuperem el nom actual d'un taller
 			Object oldValue3 = db.getScalar("SELECT " + 
-											Constants.FIELD_NAME + 
+											Constants.FIELD_NOMLOCAL + 
 											" FROM " + Constants.TABLE_LOCAL + 
-											" ORDER BY " + Constants.FIELD_TAXID + " ASC" +
+											" ORDER BY " + Constants.FIELD_CIF + " ASC" +
 											" LIMIT 1");
 			//Canviem el seu nom
 			int result3 = db.updateData("UPDATE " + 
 										Constants.TABLE_LOCAL + 
-										" SET " + Constants.FIELD_NAME + " = 'New Value 3' " +
-											"WHERE " + Constants.FIELD_NAME + " = '" + oldValue3.toString() + "'");
+										" SET " + Constants.FIELD_NOMLOCAL + " = 'New Value 3' " +
+											"WHERE " + Constants.FIELD_NOMLOCAL + " = '" + oldValue3.toString() + "'");
 			
 			//Recuperem el nom un cop hem fet la modificació
 			Object currentValue3 = db.getScalar("SELECT " + 
-												Constants.FIELD_NAME + 
+												Constants.FIELD_NOMLOCAL + 
 												" FROM " + Constants.TABLE_LOCAL + 
-												" ORDER BY " + Constants.FIELD_TAXID  + " ASC" +
+												" ORDER BY " + Constants.FIELD_CIF  + " ASC" +
 												" LIMIT 1");
 			
 			//Mostrem un missatge amb el valor que hi havia abans i el d'ara
