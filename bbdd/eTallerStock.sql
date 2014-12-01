@@ -1515,29 +1515,42 @@ CREATE INDEX fki_producte_grup ON producte USING btree (productegrup_id);
 CREATE INDEX fki_producte_subgrup ON producte USING btree (productesubgrup_id);
 
 
---
--- TOC entry 2120 (class 2620 OID 51391)
--- Name: setclientid; Type: TRIGGER; Schema: public; Owner: postgres
---
+-- Creació del triggers pel controls dels identificadors
+CREATE OR REPLACE FUNCTION setClientId() RETURNS TRIGGER AS $setClientId$
+  DECLARE
+  BEGIN
+	NEW.id_Client := 'C' || NEW.ids_Client;
+   RETURN NEW;
+  END;
+$setClientId$ LANGUAGE plpgsql;
 
-CREATE TRIGGER setclientid BEFORE INSERT OR UPDATE ON client FOR EACH ROW EXECUTE PROCEDURE setclientid();
+CREATE TRIGGER setClientId BEFORE INSERT OR UPDATE 
+    ON Client FOR EACH ROW 
+    EXECUTE PROCEDURE setClientId();
 
+CREATE OR REPLACE FUNCTION setLocalId() RETURNS TRIGGER AS $setLocalId$
+  DECLARE
+  BEGIN
+	NEW.id_Local := 'L' || NEW.ids_Local;
+   RETURN NEW;
+  END;
+$setLocalId$ LANGUAGE plpgsql;
 
---
--- TOC entry 2121 (class 2620 OID 51393)
--- Name: setlocalid; Type: TRIGGER; Schema: public; Owner: postgres
---
+CREATE TRIGGER setLocalId BEFORE INSERT OR UPDATE 
+    ON Local FOR EACH ROW 
+    EXECUTE PROCEDURE setLocalId();
 
-CREATE TRIGGER setlocalid BEFORE INSERT OR UPDATE ON local FOR EACH ROW EXECUTE PROCEDURE setlocalid();
+CREATE OR REPLACE FUNCTION setProviderId() RETURNS TRIGGER AS $setProviderId$
+  DECLARE
+  BEGIN
+	NEW.id_Proveidor := 'P' || NEW.ids_Proveidor;
+   RETURN NEW;
+  END;
+$setProviderId$ LANGUAGE plpgsql;
 
-
---
--- TOC entry 2122 (class 2620 OID 51395)
--- Name: setproviderid; Type: TRIGGER; Schema: public; Owner: postgres
---
-
-CREATE TRIGGER setproviderid BEFORE INSERT OR UPDATE ON proveidor FOR EACH ROW EXECUTE PROCEDURE setproviderid();
-
+CREATE TRIGGER setProviderId BEFORE INSERT OR UPDATE 
+    ON Proveidor FOR EACH ROW 
+    EXECUTE PROCEDURE setProviderId();
 
 --
 -- TOC entry 2097 (class 2606 OID 51200)
