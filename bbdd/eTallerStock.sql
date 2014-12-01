@@ -2,9 +2,9 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.1.9
--- Dumped by pg_dump version 9.3.1
--- Started on 2014-11-28 21:27:22
+-- Dumped from database version 9.3.5
+-- Dumped by pg_dump version 9.3.5
+-- Started on 2014-12-01 14:17:54
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -14,7 +14,7 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 --
--- TOC entry 207 (class 3079 OID 11639)
+-- TOC entry 219 (class 3079 OID 11750)
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -22,8 +22,8 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2133 (class 0 OID 0)
--- Dependencies: 207
+-- TOC entry 2237 (class 0 OID 0)
+-- Dependencies: 219
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
 
@@ -37,29 +37,29 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- TOC entry 176 (class 1259 OID 24870)
--- Name: Albara; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 170 (class 1259 OID 50970)
+-- Name: albara; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE Albara (
-    id_Albara integer NOT NULL,
-    dataAlbara date,
-    tipusMoviment_id character varying(20),
+CREATE TABLE albara (
+    id_albara integer NOT NULL,
+    dataalbara date,
+    tipusmoviment_id character varying(20),
     origen_id character varying(20),
     desti_id character varying(20),
-    comAlbara text,
-    codiAlbaraExtern character varying(20)
+    comalbara text,
+    codialbaraextern character varying(20)
 );
 
 
-ALTER TABLE public.Albara OWNER TO postgres;
+ALTER TABLE public.albara OWNER TO postgres;
 
 --
--- TOC entry 175 (class 1259 OID 24868)
--- Name: Albara_id_Albara_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 171 (class 1259 OID 50976)
+-- Name: albara_id_albara_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE Albara_id_Albara_seq
+CREATE SEQUENCE albara_id_albara_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -67,41 +67,41 @@ CREATE SEQUENCE Albara_id_Albara_seq
     CACHE 1;
 
 
-ALTER TABLE public.Albara_id_Albara_seq OWNER TO postgres;
+ALTER TABLE public.albara_id_albara_seq OWNER TO postgres;
 
 --
--- TOC entry 2134 (class 0 OID 0)
--- Dependencies: 175
--- Name: Albara_id_Albara_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- TOC entry 2238 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: albara_id_albara_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE Albara_id_Albara_seq OWNED BY Albara.id_Albara;
+ALTER SEQUENCE albara_id_albara_seq OWNED BY albara.id_albara;
 
 
 --
--- TOC entry 169 (class 1259 OID 24793)
--- Name: Alerta; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 172 (class 1259 OID 50978)
+-- Name: alerta; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE Alerta (
-    id_Alerta integer NOT NULL,
-    dataAlerta date,
-    tipusAlerta_id character varying(20),
-    producto_id character varying(20),
+CREATE TABLE alerta (
+    id_alerta integer NOT NULL,
+    dataalerta date,
+    tipusalerta_id character varying(20),
+    producte_id character varying(20),
     local_id character varying(20),
     estoc integer,
-    estocMinim integer
+    estocminim integer
 );
 
 
-ALTER TABLE public.Alerta OWNER TO postgres;
+ALTER TABLE public.alerta OWNER TO postgres;
 
 --
--- TOC entry 168 (class 1259 OID 24791)
--- Name: Alerta_id_Alerta_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 173 (class 1259 OID 50981)
+-- Name: alerta_id_alerta_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE Alerta_id_Alerta_seq
+CREATE SEQUENCE alerta_id_alerta_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -109,37 +109,37 @@ CREATE SEQUENCE Alerta_id_Alerta_seq
     CACHE 1;
 
 
-ALTER TABLE public.Alerta_id_Alerta_seq OWNER TO postgres;
+ALTER TABLE public.alerta_id_alerta_seq OWNER TO postgres;
 
 --
--- TOC entry 2135 (class 0 OID 0)
--- Dependencies: 168
--- Name: Alerta_id_Alerta_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- TOC entry 2239 (class 0 OID 0)
+-- Dependencies: 173
+-- Name: alerta_id_alerta_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE Alerta_id_Alerta_seq OWNED BY Alerta.id_Alerta;
+ALTER SEQUENCE alerta_id_alerta_seq OWNED BY alerta.id_alerta;
 
 
 --
--- TOC entry 204 (class 1259 OID 25575)
--- Name: Client; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 174 (class 1259 OID 50983)
+-- Name: client; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE Client (
-    ids_Client integer NOT NULL,
-    id_Client character varying(20),
-    nomClient character varying(40)
+CREATE TABLE client (
+    ids_client integer NOT NULL,
+    id_client character varying(20),
+    nomclient character varying(40)
 );
 
 
-ALTER TABLE public.Client OWNER TO postgres;
+ALTER TABLE public.client OWNER TO postgres;
 
 --
--- TOC entry 203 (class 1259 OID 25573)
--- Name: Client_ids_Client_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 175 (class 1259 OID 50986)
+-- Name: client_ids_client_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE Client_ids_Client_seq
+CREATE SEQUENCE client_ids_client_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -147,37 +147,37 @@ CREATE SEQUENCE Client_ids_Client_seq
     CACHE 1;
 
 
-ALTER TABLE public.Client_ids_Client_seq OWNER TO postgres;
+ALTER TABLE public.client_ids_client_seq OWNER TO postgres;
 
 --
--- TOC entry 2136 (class 0 OID 0)
--- Dependencies: 203
--- Name: Client_ids_Client_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- TOC entry 2240 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: client_ids_client_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE Client_ids_Client_seq OWNED BY Client.ids_Client;
+ALTER SEQUENCE client_ids_client_seq OWNED BY client.ids_client;
 
 
 --
--- TOC entry 189 (class 1259 OID 25079)
--- Name: Compra; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 176 (class 1259 OID 50988)
+-- Name: compra; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE Compra (
-    id_Compra integer NOT NULL,
-    dataCompra date,
+CREATE TABLE compra (
+    id_compra integer NOT NULL,
+    datacompra date,
     proveidor_id character varying(20)
 );
 
 
-ALTER TABLE public.Compra OWNER TO postgres;
+ALTER TABLE public.compra OWNER TO postgres;
 
 --
--- TOC entry 188 (class 1259 OID 25077)
--- Name: Compra_id_Compra_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 177 (class 1259 OID 50991)
+-- Name: compra_id_compra_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE Compra_id_Compra_seq
+CREATE SEQUENCE compra_id_compra_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -185,36 +185,36 @@ CREATE SEQUENCE Compra_id_Compra_seq
     CACHE 1;
 
 
-ALTER TABLE public.Compra_id_Compra_seq OWNER TO postgres;
+ALTER TABLE public.compra_id_compra_seq OWNER TO postgres;
 
 --
--- TOC entry 2137 (class 0 OID 0)
--- Dependencies: 188
--- Name: Compra_id_Compra_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- TOC entry 2241 (class 0 OID 0)
+-- Dependencies: 177
+-- Name: compra_id_compra_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE Compra_id_Compra_seq OWNED BY Compra.id_Compra;
+ALTER SEQUENCE compra_id_compra_seq OWNED BY compra.id_compra;
 
 
 --
--- TOC entry 193 (class 1259 OID 25135)
--- Name: EntradaDevolucio; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 178 (class 1259 OID 50993)
+-- Name: entradadevolucio; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE EntradaDevolucio (
-    id_EntradaDevolucio integer NOT NULL,
-    dataEntrDevolucio date
+CREATE TABLE entradadevolucio (
+    id_entradadevolucio integer NOT NULL,
+    dataentrdevolucio date
 );
 
 
-ALTER TABLE public.EntradaDevolucio OWNER TO postgres;
+ALTER TABLE public.entradadevolucio OWNER TO postgres;
 
 --
--- TOC entry 192 (class 1259 OID 25133)
--- Name: EntradaDevolucio_id_EntradaDevolucio_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 179 (class 1259 OID 50996)
+-- Name: entradadevolucio_id_entradadevolucio_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE EntradaDevolucio_id_EntradaDevolucio_seq
+CREATE SEQUENCE entradadevolucio_id_entradadevolucio_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -222,80 +222,51 @@ CREATE SEQUENCE EntradaDevolucio_id_EntradaDevolucio_seq
     CACHE 1;
 
 
-ALTER TABLE public.EntradaDevolucio_id_EntradaDevolucio_seq OWNER TO postgres;
+ALTER TABLE public.entradadevolucio_id_entradadevolucio_seq OWNER TO postgres;
 
 --
--- TOC entry 2138 (class 0 OID 0)
--- Dependencies: 192
--- Name: EntradaDevolucio_id_EntradaDevolucio_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- TOC entry 2242 (class 0 OID 0)
+-- Dependencies: 179
+-- Name: entradadevolucio_id_entradadevolucio_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE EntradaDevolucio_id_EntradaDevolucio_seq OWNED BY EntradaDevolucio.id_EntradaDevolucio;
+ALTER SEQUENCE entradadevolucio_id_entradadevolucio_seq OWNED BY entradadevolucio.id_entradadevolucio;
 
 
 --
--- TOC entry 167 (class 1259 OID 24776)
--- Name: Existencies; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 180 (class 1259 OID 50998)
+-- Name: existencies; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE Existencies (
+CREATE TABLE existencies (
     producte_id character varying(20) NOT NULL,
     local_id character varying(20) NOT NULL,
     estoc integer,
-    estocMinim integer
+    estocminim integer
 );
 
 
-ALTER TABLE public.Existencies OWNER TO postgres;
+ALTER TABLE public.existencies OWNER TO postgres;
 
 --
--- TOC entry 171 (class 1259 OID 24829)
--- Name: FamiliaProducte; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 215 (class 1259 OID 51397)
+-- Name: grup; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE FamiliaProducte (
-    id_FamProducte character varying(20) NOT NULL
+CREATE TABLE grup (
+    id_grup integer NOT NULL,
+    nom character varying(20)
 );
 
 
-ALTER TABLE public.FamiliaProducte OWNER TO postgres;
+ALTER TABLE public.grup OWNER TO postgres;
 
 --
--- TOC entry 162 (class 1259 OID 24670)
--- Name: Idioma; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 216 (class 1259 OID 51400)
+-- Name: grup_id_grup_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE Idioma (
-    id_Idioma character varying(20) NOT NULL
-);
-
-
-ALTER TABLE public.Idioma OWNER TO postgres;
-
---
--- TOC entry 191 (class 1259 OID 25092)
--- Name: LinCompra; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE LinCompra (
-    id_LinCompra integer NOT NULL,
-    moviment_id integer,
-    compra_id integer,
-    preuCompra money,
-    comLinCompra text,
-    destiLocal_id character varying(20),
-    numUnitRebudes integer
-);
-
-
-ALTER TABLE public.LinCompra OWNER TO postgres;
-
---
--- TOC entry 190 (class 1259 OID 25090)
--- Name: LinCompra_id_LinCompra_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE LinCompra_id_LinCompra_seq
+CREATE SEQUENCE grup_id_grup_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -303,228 +274,68 @@ CREATE SEQUENCE LinCompra_id_LinCompra_seq
     CACHE 1;
 
 
-ALTER TABLE public.LinCompra_id_LinCompra_seq OWNER TO postgres;
+ALTER TABLE public.grup_id_grup_seq OWNER TO postgres;
 
 --
--- TOC entry 2139 (class 0 OID 0)
--- Dependencies: 190
--- Name: LinCompra_id_LinCompra_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- TOC entry 2243 (class 0 OID 0)
+-- Dependencies: 216
+-- Name: grup_id_grup_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE LinCompra_id_LinCompra_seq OWNED BY LinCompra.id_LinCompra;
+ALTER SEQUENCE grup_id_grup_seq OWNED BY grup.id_grup;
 
 
 --
--- TOC entry 195 (class 1259 OID 25143)
--- Name: LinEntradaDevolucio; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 181 (class 1259 OID 51004)
+-- Name: idioma; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE LinEntradaDevolucio (
-    id_LinEntradaDevolucio integer NOT NULL,
-    moviment_id integer,
-    entradaDevolucio_id integer,
-    lineaAlbaraDev_id integer,
-    motiuEntrDevol_id character varying(20),
-    comEntrDevol text,
-    client_id character varying(20),
-    destiLocal_id character varying(20)
+CREATE TABLE idioma (
+    id_idioma character varying(20) NOT NULL
 );
 
 
-ALTER TABLE public.LinEntradaDevolucio OWNER TO postgres;
+ALTER TABLE public.idioma OWNER TO postgres;
 
 --
--- TOC entry 194 (class 1259 OID 25141)
--- Name: LinEntradaDevolucio_id_LinEntradaDevolucio_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 193 (class 1259 OID 51046)
+-- Name: linalbara; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE SEQUENCE LinEntradaDevolucio_id_LinEntradaDevolucio_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.LinEntradaDevolucio_id_LinEntradaDevolucio_seq OWNER TO postgres;
-
---
--- TOC entry 2140 (class 0 OID 0)
--- Dependencies: 194
--- Name: LinEntradaDevolucio_id_LinEntradaDevolucio_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE LinEntradaDevolucio_id_LinEntradaDevolucio_seq OWNED BY LinEntradaDevolucio.id_LinEntradaDevolucio;
-
-
---
--- TOC entry 200 (class 1259 OID 25224)
--- Name: LinSortidaDevolucio; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE LinSortidaDevolucio (
-    id_LinSortDevolucio integer NOT NULL,
-    moviment_id integer,
-    sortidaDevolucio_id integer,
-    motiuSortDevol_id character varying(20),
-    comSortDevol text,
-    origLocal_id character varying(20)
-);
-
-
-ALTER TABLE public.LinSortidaDevolucio OWNER TO postgres;
-
---
--- TOC entry 199 (class 1259 OID 25222)
--- Name: LinSortidaDevolucio_id_LinSortDevolucio_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE LinSortidaDevolucio_id_LinSortDevolucio_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.LinSortidaDevolucio_id_LinSortDevolucio_seq OWNER TO postgres;
-
---
--- TOC entry 2141 (class 0 OID 0)
--- Dependencies: 199
--- Name: LinSortidaDevolucio_id_LinSortDevolucio_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE LinSortidaDevolucio_id_LinSortDevolucio_seq OWNED BY LinSortidaDevolucio.id_LinSortDevolucio;
-
-
---
--- TOC entry 182 (class 1259 OID 24950)
--- Name: LinTransferencia; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE LinTransferencia (
-    id_LinTransferencia integer NOT NULL,
-    moviment_id integer,
-    transferencia_id integer NOT NULL,
-    origLocal_id character varying(20),
-    destiLocal_id character varying(20),
-    numUnitRebudes integer
-);
-
-
-ALTER TABLE public.LinTransferencia OWNER TO postgres;
-
---
--- TOC entry 181 (class 1259 OID 24948)
--- Name: LinTransferencia_id_LinTransferencia_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE LinTransferencia_id_LinTransferencia_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.LinTransferencia_id_LinTransferencia_seq OWNER TO postgres;
-
---
--- TOC entry 2142 (class 0 OID 0)
--- Dependencies: 181
--- Name: LinTransferencia_id_LinTransferencia_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE LinTransferencia_id_LinTransferencia_seq OWNED BY LinTransferencia.id_LinTransferencia;
-
-
---
--- TOC entry 183 (class 1259 OID 24963)
--- Name: LinTransferencia_transferencia_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE LinTransferencia_transferencia_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.LinTransferencia_transferencia_id_seq OWNER TO postgres;
-
---
--- TOC entry 2143 (class 0 OID 0)
--- Dependencies: 183
--- Name: LinTransferencia_transferencia_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE LinTransferencia_transferencia_id_seq OWNED BY LinTransferencia.transferencia_id;
-
-
---
--- TOC entry 187 (class 1259 OID 25027)
--- Name: LinVenda; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE LinVenda (
-    id_LinVenda integer NOT NULL,
-    moviment_id integer,
-    venda_id integer,
-    preuVenda money,
-    comLinVenda text,
-    origLocal_id character varying(20)
-);
-
-
-ALTER TABLE public.LinVenda OWNER TO postgres;
-
---
--- TOC entry 186 (class 1259 OID 25025)
--- Name: LinVenda_id_linVenda_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE LinVenda_id_linVenda_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.LinVenda_id_linVenda_seq OWNER TO postgres;
-
---
--- TOC entry 2144 (class 0 OID 0)
--- Dependencies: 186
--- Name: LinVenda_id_linVenda_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE LinVenda_id_linVenda_seq OWNED BY LinVenda.id_LinVenda;
-
-
---
--- TOC entry 178 (class 1259 OID 24891)
--- Name: LineaAlbara; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE LineaAlbara (
-    id_LiniaAlbara integer NOT NULL,
+CREATE TABLE linalbara (
+    id_liniaalbara integer NOT NULL,
     albara_id integer,
     moviment_id integer,
     unitats integer
 );
 
 
-ALTER TABLE public.LineaAlbara OWNER TO postgres;
+ALTER TABLE public.linalbara OWNER TO postgres;
 
 --
--- TOC entry 177 (class 1259 OID 24889)
--- Name: LineaAlbara_id_LiniaAlbara_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 182 (class 1259 OID 51007)
+-- Name: lincompra; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE SEQUENCE LineaAlbara_id_LiniaAlbara_seq
+CREATE TABLE lincompra (
+    id_lincompra integer NOT NULL,
+    moviment_id integer,
+    compra_id integer,
+    preucompra money,
+    comlincompra text,
+    destilocal_id character varying(20),
+    numunitrebudes integer
+);
+
+
+ALTER TABLE public.lincompra OWNER TO postgres;
+
+--
+-- TOC entry 183 (class 1259 OID 51013)
+-- Name: lincompra_id_lincompra_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE lincompra_id_lincompra_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -532,47 +343,261 @@ CREATE SEQUENCE LineaAlbara_id_LiniaAlbara_seq
     CACHE 1;
 
 
-ALTER TABLE public.LineaAlbara_id_LiniaAlbara_seq OWNER TO postgres;
+ALTER TABLE public.lincompra_id_lincompra_seq OWNER TO postgres;
 
 --
--- TOC entry 2145 (class 0 OID 0)
--- Dependencies: 177
--- Name: LineaAlbara_id_LiniaAlbara_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- TOC entry 2244 (class 0 OID 0)
+-- Dependencies: 183
+-- Name: lincompra_id_lincompra_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE LineaAlbara_id_LiniaAlbara_seq OWNED BY LineaAlbara.id_LiniaAlbara;
+ALTER SEQUENCE lincompra_id_lincompra_seq OWNED BY lincompra.id_lincompra;
 
 
 --
--- TOC entry 206 (class 1259 OID 25637)
--- Name: Local; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 194 (class 1259 OID 51049)
+-- Name: lineaalbara_id_liniaalbara_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE Local (
-    ids_Local integer NOT NULL,
+CREATE SEQUENCE lineaalbara_id_liniaalbara_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.lineaalbara_id_liniaalbara_seq OWNER TO postgres;
+
+--
+-- TOC entry 2245 (class 0 OID 0)
+-- Dependencies: 194
+-- Name: lineaalbara_id_liniaalbara_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE lineaalbara_id_liniaalbara_seq OWNED BY linalbara.id_liniaalbara;
+
+
+--
+-- TOC entry 184 (class 1259 OID 51015)
+-- Name: linentradadevolucio; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE linentradadevolucio (
+    id_linentradadevolucio integer NOT NULL,
+    moviment_id integer,
+    entradadevolucio_id integer,
+    lineaalbaradev_id integer,
+    motiuentrdevol_id character varying(20),
+    comentrdevol text,
+    client_id character varying(20),
+    destilocal_id character varying(20)
+);
+
+
+ALTER TABLE public.linentradadevolucio OWNER TO postgres;
+
+--
+-- TOC entry 185 (class 1259 OID 51021)
+-- Name: linentradadevolucio_id_linentradadevolucio_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE linentradadevolucio_id_linentradadevolucio_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.linentradadevolucio_id_linentradadevolucio_seq OWNER TO postgres;
+
+--
+-- TOC entry 2246 (class 0 OID 0)
+-- Dependencies: 185
+-- Name: linentradadevolucio_id_linentradadevolucio_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE linentradadevolucio_id_linentradadevolucio_seq OWNED BY linentradadevolucio.id_linentradadevolucio;
+
+
+--
+-- TOC entry 186 (class 1259 OID 51023)
+-- Name: linsortidadevolucio; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE linsortidadevolucio (
+    id_linsortdevolucio integer NOT NULL,
+    moviment_id integer,
+    sortidadevolucio_id integer,
+    motiusortdevol_id character varying(20),
+    comsortdevol text,
+    origlocal_id character varying(20)
+);
+
+
+ALTER TABLE public.linsortidadevolucio OWNER TO postgres;
+
+--
+-- TOC entry 187 (class 1259 OID 51029)
+-- Name: linsortidadevolucio_id_linsortdevolucio_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE linsortidadevolucio_id_linsortdevolucio_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.linsortidadevolucio_id_linsortdevolucio_seq OWNER TO postgres;
+
+--
+-- TOC entry 2247 (class 0 OID 0)
+-- Dependencies: 187
+-- Name: linsortidadevolucio_id_linsortdevolucio_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE linsortidadevolucio_id_linsortdevolucio_seq OWNED BY linsortidadevolucio.id_linsortdevolucio;
+
+
+--
+-- TOC entry 188 (class 1259 OID 51031)
+-- Name: lintransferencia; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE lintransferencia (
+    id_lintransferencia integer NOT NULL,
+    moviment_id integer,
+    transferencia_id integer NOT NULL,
+    origlocal_id character varying(20),
+    destilocal_id character varying(20),
+    numunitrebudes integer
+);
+
+
+ALTER TABLE public.lintransferencia OWNER TO postgres;
+
+--
+-- TOC entry 189 (class 1259 OID 51034)
+-- Name: lintransferencia_id_lintransferencia_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE lintransferencia_id_lintransferencia_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.lintransferencia_id_lintransferencia_seq OWNER TO postgres;
+
+--
+-- TOC entry 2248 (class 0 OID 0)
+-- Dependencies: 189
+-- Name: lintransferencia_id_lintransferencia_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE lintransferencia_id_lintransferencia_seq OWNED BY lintransferencia.id_lintransferencia;
+
+
+--
+-- TOC entry 190 (class 1259 OID 51036)
+-- Name: lintransferencia_transferencia_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE lintransferencia_transferencia_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.lintransferencia_transferencia_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2249 (class 0 OID 0)
+-- Dependencies: 190
+-- Name: lintransferencia_transferencia_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE lintransferencia_transferencia_id_seq OWNED BY lintransferencia.transferencia_id;
+
+
+--
+-- TOC entry 191 (class 1259 OID 51038)
+-- Name: linvenda; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE linvenda (
+    id_linvenda integer NOT NULL,
+    moviment_id integer,
+    venda_id integer,
+    preuvenda money,
+    comlinvenda text,
+    origlocal_id character varying(20)
+);
+
+
+ALTER TABLE public.linvenda OWNER TO postgres;
+
+--
+-- TOC entry 192 (class 1259 OID 51044)
+-- Name: linvenda_id_linvenda_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE linvenda_id_linvenda_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.linvenda_id_linvenda_seq OWNER TO postgres;
+
+--
+-- TOC entry 2250 (class 0 OID 0)
+-- Dependencies: 192
+-- Name: linvenda_id_linvenda_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE linvenda_id_linvenda_seq OWNED BY linvenda.id_linvenda;
+
+
+--
+-- TOC entry 195 (class 1259 OID 51051)
+-- Name: local; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE local (
+    ids_local integer NOT NULL,
     id_local character varying(20),
-    nomLocal character varying(40),
+    nomlocal character varying(40),
     cif character varying(9),
     telefon character varying(20),
-    adreça character varying(40),
-    codPost character varying(7),
+    "adreça" character varying(40),
+    codpost character varying(7),
     provincia_id character varying(20),
     pais character varying(20),
-    tipusLocal character varying(20),
-    dataAlta date,
-    coordX integer,
-    coordY integer
+    tipuslocal character varying(20),
+    dataalta date,
+    coordx integer,
+    coordy integer
 );
 
 
-ALTER TABLE public.Local OWNER TO postgres;
+ALTER TABLE public.local OWNER TO postgres;
 
 --
--- TOC entry 205 (class 1259 OID 25635)
--- Name: Local_ids_Local_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 196 (class 1259 OID 51054)
+-- Name: local_ids_local_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE Local_ids_Local_seq
+CREATE SEQUENCE local_ids_local_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -580,54 +605,54 @@ CREATE SEQUENCE Local_ids_Local_seq
     CACHE 1;
 
 
-ALTER TABLE public.Local_ids_Local_seq OWNER TO postgres;
+ALTER TABLE public.local_ids_local_seq OWNER TO postgres;
 
 --
--- TOC entry 2146 (class 0 OID 0)
--- Dependencies: 205
--- Name: Local_ids_Local_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- TOC entry 2251 (class 0 OID 0)
+-- Dependencies: 196
+-- Name: local_ids_local_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE Local_ids_Local_seq OWNED BY Local.ids_Local;
+ALTER SEQUENCE local_ids_local_seq OWNED BY local.ids_local;
 
 
 --
--- TOC entry 196 (class 1259 OID 25179)
--- Name: MotiuDevolucio; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 197 (class 1259 OID 51056)
+-- Name: motiudevolucio; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE MotiuDevolucio (
-    id_MotiuDevolucio character varying(20) NOT NULL
+CREATE TABLE motiudevolucio (
+    id_motiudevolucio character varying(20) NOT NULL
 );
 
 
-ALTER TABLE public.MotiuDevolucio OWNER TO postgres;
+ALTER TABLE public.motiudevolucio OWNER TO postgres;
 
 --
--- TOC entry 174 (class 1259 OID 24847)
--- Name: Moviment; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 198 (class 1259 OID 51059)
+-- Name: moviment; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE Moviment (
-    id_Moviment integer NOT NULL,
-    dataOrdre date,
+CREATE TABLE moviment (
+    id_moviment integer NOT NULL,
+    dataordre date,
     producte_id character varying(20),
-    numUnitatsOrdre integer,
-    numUnitSortides integer,
-    completatSN boolean,
-    tipusMoviment_id character varying(20),
-    dataPrevLliurament date
+    numunitatsordre integer,
+    numunitsortides integer,
+    completatsn boolean,
+    tipusmoviment_id character varying(20),
+    dataprevlliurament date
 );
 
 
-ALTER TABLE public.Moviment OWNER TO postgres;
+ALTER TABLE public.moviment OWNER TO postgres;
 
 --
--- TOC entry 173 (class 1259 OID 24845)
--- Name: Moviment_id_Moviment_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 199 (class 1259 OID 51062)
+-- Name: moviment_id_moviment_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE Moviment_id_Moviment_seq
+CREATE SEQUENCE moviment_id_moviment_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -635,51 +660,52 @@ CREATE SEQUENCE Moviment_id_Moviment_seq
     CACHE 1;
 
 
-ALTER TABLE public.Moviment_id_Moviment_seq OWNER TO postgres;
+ALTER TABLE public.moviment_id_moviment_seq OWNER TO postgres;
 
 --
--- TOC entry 2147 (class 0 OID 0)
--- Dependencies: 173
--- Name: Moviment_id_Moviment_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- TOC entry 2252 (class 0 OID 0)
+-- Dependencies: 199
+-- Name: moviment_id_moviment_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE Moviment_id_Moviment_seq OWNED BY Moviment.id_Moviment;
+ALTER SEQUENCE moviment_id_moviment_seq OWNED BY moviment.id_moviment;
 
 
 --
--- TOC entry 163 (class 1259 OID 24690)
--- Name: Producte; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 200 (class 1259 OID 51064)
+-- Name: producte; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE Producte (
-    id_Producte character varying(20) NOT NULL,
-    nomProducte character varying(20),
-    famProducte_id character varying(20)
+CREATE TABLE producte (
+    id_producte character varying(20) NOT NULL,
+    nomproducte character varying(20),
+    productegrup_id integer,
+    productesubgrup_id integer
 );
 
 
-ALTER TABLE public.Producte OWNER TO postgres;
+ALTER TABLE public.producte OWNER TO postgres;
 
 --
--- TOC entry 165 (class 1259 OID 24726)
--- Name: ProducteProveidor; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 201 (class 1259 OID 51067)
+-- Name: producteproveidor; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE ProducteProveidor (
-    id_ProducteProveidor integer NOT NULL,
+CREATE TABLE producteproveidor (
+    id_producteproveidor integer NOT NULL,
     producte_id character varying(20),
     proveidor_id character varying(20)
 );
 
 
-ALTER TABLE public.ProducteProveidor OWNER TO postgres;
+ALTER TABLE public.producteproveidor OWNER TO postgres;
 
 --
--- TOC entry 164 (class 1259 OID 24724)
--- Name: ProducteProveidor_id_ProducteProveidor_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 202 (class 1259 OID 51070)
+-- Name: producteproveidor_id_producteproveidor_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE ProducteProveidor_id_ProducteProveidor_seq
+CREATE SEQUENCE producteproveidor_id_producteproveidor_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -687,37 +713,37 @@ CREATE SEQUENCE ProducteProveidor_id_ProducteProveidor_seq
     CACHE 1;
 
 
-ALTER TABLE public.ProducteProveidor_id_ProducteProveidor_seq OWNER TO postgres;
+ALTER TABLE public.producteproveidor_id_producteproveidor_seq OWNER TO postgres;
 
 --
--- TOC entry 2148 (class 0 OID 0)
--- Dependencies: 164
--- Name: ProducteProveidor_id_ProducteProveidor_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- TOC entry 2253 (class 0 OID 0)
+-- Dependencies: 202
+-- Name: producteproveidor_id_producteproveidor_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE ProducteProveidor_id_ProducteProveidor_seq OWNED BY ProducteProveidor.id_ProducteProveidor;
+ALTER SEQUENCE producteproveidor_id_producteproveidor_seq OWNED BY producteproveidor.id_producteproveidor;
 
 
 --
--- TOC entry 202 (class 1259 OID 25543)
--- Name: Proveidor; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 203 (class 1259 OID 51072)
+-- Name: proveidor; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE Proveidor (
-    ids_Proveidor integer NOT NULL,
-    id_Proveidor character varying(20),
-    nomProveidor character varying(40)
+CREATE TABLE proveidor (
+    ids_proveidor integer NOT NULL,
+    id_proveidor character varying(20),
+    nomproveidor character varying(40)
 );
 
 
-ALTER TABLE public.Proveidor OWNER TO postgres;
+ALTER TABLE public.proveidor OWNER TO postgres;
 
 --
--- TOC entry 201 (class 1259 OID 25541)
--- Name: Proveidor_ids_Proveidor_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 204 (class 1259 OID 51075)
+-- Name: proveidor_ids_proveidor_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE Proveidor_ids_Proveidor_seq
+CREATE SEQUENCE proveidor_ids_proveidor_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -725,48 +751,48 @@ CREATE SEQUENCE Proveidor_ids_Proveidor_seq
     CACHE 1;
 
 
-ALTER TABLE public.Proveidor_ids_Proveidor_seq OWNER TO postgres;
+ALTER TABLE public.proveidor_ids_proveidor_seq OWNER TO postgres;
 
 --
--- TOC entry 2149 (class 0 OID 0)
--- Dependencies: 201
--- Name: Proveidor_ids_Proveidor_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- TOC entry 2254 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: proveidor_ids_proveidor_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE Proveidor_ids_Proveidor_seq OWNED BY Proveidor.ids_Proveidor;
+ALTER SEQUENCE proveidor_ids_proveidor_seq OWNED BY proveidor.ids_proveidor;
 
 
 --
--- TOC entry 166 (class 1259 OID 24752)
--- Name: Provincia; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 205 (class 1259 OID 51077)
+-- Name: provincia; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE Provincia (
-    id_Provincia character varying(20) NOT NULL
+CREATE TABLE provincia (
+    id_provincia character varying(20) NOT NULL
 );
 
 
-ALTER TABLE public.Provincia OWNER TO postgres;
+ALTER TABLE public.provincia OWNER TO postgres;
 
 --
--- TOC entry 198 (class 1259 OID 25216)
--- Name: SortidaDevolucio; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 206 (class 1259 OID 51080)
+-- Name: sortidadevolucio; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE SortidaDevolucio (
-    id_SortidaDevol integer NOT NULL,
-    dataSortDevolucio date
+CREATE TABLE sortidadevolucio (
+    id_sortidadevol integer NOT NULL,
+    datasortdevolucio date
 );
 
 
-ALTER TABLE public.SortidaDevolucio OWNER TO postgres;
+ALTER TABLE public.sortidadevolucio OWNER TO postgres;
 
 --
--- TOC entry 197 (class 1259 OID 25214)
--- Name: SortidaDevolucio_id_SortidaDevol_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 207 (class 1259 OID 51083)
+-- Name: sortidadevolucio_id_sortidadevol_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE SortidaDevolucio_id_SortidaDevol_seq
+CREATE SEQUENCE sortidadevolucio_id_sortidadevol_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -774,60 +800,37 @@ CREATE SEQUENCE SortidaDevolucio_id_SortidaDevol_seq
     CACHE 1;
 
 
-ALTER TABLE public.SortidaDevolucio_id_SortidaDevol_seq OWNER TO postgres;
+ALTER TABLE public.sortidadevolucio_id_sortidadevol_seq OWNER TO postgres;
 
 --
--- TOC entry 2150 (class 0 OID 0)
--- Dependencies: 197
--- Name: SortidaDevolucio_id_SortidaDevol_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- TOC entry 2255 (class 0 OID 0)
+-- Dependencies: 207
+-- Name: sortidadevolucio_id_sortidadevol_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE SortidaDevolucio_id_SortidaDevol_seq OWNED BY SortidaDevolucio.id_SortidaDevol;
+ALTER SEQUENCE sortidadevolucio_id_sortidadevol_seq OWNED BY sortidadevolucio.id_sortidadevol;
 
 
 --
--- TOC entry 170 (class 1259 OID 24799)
--- Name: TipusAlerta; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 217 (class 1259 OID 51402)
+-- Name: subgrup; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE TipusAlerta (
-    id_TipusAlerta character varying(20) NOT NULL
+CREATE TABLE subgrup (
+    id_subgrup integer NOT NULL,
+    id_grup integer NOT NULL,
+    nom character varying(20)
 );
 
 
-ALTER TABLE public.TipusAlerta OWNER TO postgres;
+ALTER TABLE public.subgrup OWNER TO postgres;
 
 --
--- TOC entry 172 (class 1259 OID 24840)
--- Name: TipusMoviment; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 218 (class 1259 OID 51405)
+-- Name: subgrup_id_subgrup_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE TipusMoviment (
-    id_TipusMoviment character varying(20) NOT NULL
-);
-
-
-ALTER TABLE public.TipusMoviment OWNER TO postgres;
-
---
--- TOC entry 180 (class 1259 OID 24914)
--- Name: Transferencia; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE Transferencia (
-    id_Transferencia integer NOT NULL,
-    dataTransferencia date
-);
-
-
-ALTER TABLE public.Transferencia OWNER TO postgres;
-
---
--- TOC entry 179 (class 1259 OID 24912)
--- Name: Transferencia_id_Transferencia_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE Transferencia_id_Transferencia_seq
+CREATE SEQUENCE subgrup_id_subgrup_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -835,69 +838,130 @@ CREATE SEQUENCE Transferencia_id_Transferencia_seq
     CACHE 1;
 
 
-ALTER TABLE public.Transferencia_id_Transferencia_seq OWNER TO postgres;
+ALTER TABLE public.subgrup_id_subgrup_seq OWNER TO postgres;
 
 --
--- TOC entry 2151 (class 0 OID 0)
--- Dependencies: 179
--- Name: Transferencia_id_Transferencia_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- TOC entry 2256 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: subgrup_id_subgrup_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE Transferencia_id_Transferencia_seq OWNED BY Transferencia.id_Transferencia;
+ALTER SEQUENCE subgrup_id_subgrup_seq OWNED BY subgrup.id_subgrup;
 
 
 --
--- TOC entry 161 (class 1259 OID 24636)
--- Name: Usuari; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 208 (class 1259 OID 51085)
+-- Name: tipusalerta; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE Usuari (
-    id_Usuari character varying(20) NOT NULL,
+CREATE TABLE tipusalerta (
+    id_tipusalerta character varying(20) NOT NULL
+);
+
+
+ALTER TABLE public.tipusalerta OWNER TO postgres;
+
+--
+-- TOC entry 209 (class 1259 OID 51088)
+-- Name: tipusmoviment; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE tipusmoviment (
+    id_tipusmoviment character varying(20) NOT NULL
+);
+
+
+ALTER TABLE public.tipusmoviment OWNER TO postgres;
+
+--
+-- TOC entry 210 (class 1259 OID 51091)
+-- Name: transferencia; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE transferencia (
+    id_transferencia integer NOT NULL,
+    datatransferencia date
+);
+
+
+ALTER TABLE public.transferencia OWNER TO postgres;
+
+--
+-- TOC entry 211 (class 1259 OID 51094)
+-- Name: transferencia_id_transferencia_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE transferencia_id_transferencia_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.transferencia_id_transferencia_seq OWNER TO postgres;
+
+--
+-- TOC entry 2257 (class 0 OID 0)
+-- Dependencies: 211
+-- Name: transferencia_id_transferencia_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE transferencia_id_transferencia_seq OWNED BY transferencia.id_transferencia;
+
+
+--
+-- TOC entry 212 (class 1259 OID 51096)
+-- Name: usuari; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE usuari (
+    id_usuari character varying(20) NOT NULL,
     password character varying(20),
     login character varying(20),
     nif character varying(9),
-    nomUsuari character varying(20),
-    cognomUsuari character varying(30),
+    nomusuari character varying(20),
+    cognomusuari character varying(30),
     idioma_id character varying(20),
-    adreça character varying(20),
-    Poblacio character varying(20),
-    codPost character varying(6),
+    "adreça" character varying(20),
+    poblacio character varying(20),
+    codpost character varying(6),
     local_id character varying(20),
-    dataAlta date,
-    vigentSN boolean,
-    dataBaixa date,
-    correuEM character varying(20),
-    telefonFix character varying(20),
-    telefonMobil character varying(20),
-    Provincia_id character varying(20),
-    Pais character varying(20),
+    dataalta date,
+    vigentsn boolean,
+    databaixa date,
+    correuem character varying(20),
+    telefonfix character varying(20),
+    telefonmobil character varying(20),
+    provincia_id character varying(20),
+    pais character varying(20),
     rol character varying(20),
-    constraint chk_user_rol check (rol in ('Administrador','Operador Taller','Operador Oficina'))
+    CONSTRAINT chk_user_rol CHECK (((rol)::text = ANY ((ARRAY['Administrador'::character varying, 'Operador Taller'::character varying, 'Operador Oficina'::character varying])::text[])))
 );
 
 
-ALTER TABLE public.Usuari OWNER TO postgres;
+ALTER TABLE public.usuari OWNER TO postgres;
 
 --
--- TOC entry 185 (class 1259 OID 25013)
--- Name: Venda; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 213 (class 1259 OID 51100)
+-- Name: venda; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE Venda (
-    id_Venda integer NOT NULL,
-    dataVenda date,
+CREATE TABLE venda (
+    id_venda integer NOT NULL,
+    datavenda date,
     client_id character varying(20)
 );
 
 
-ALTER TABLE public.Venda OWNER TO postgres;
+ALTER TABLE public.venda OWNER TO postgres;
 
 --
--- TOC entry 184 (class 1259 OID 25011)
--- Name: Venda_id_Venda_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 214 (class 1259 OID 51103)
+-- Name: venda_id_venda_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE Venda_id_Venda_seq
+CREATE SEQUENCE venda_id_venda_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -905,892 +969,930 @@ CREATE SEQUENCE Venda_id_Venda_seq
     CACHE 1;
 
 
-ALTER TABLE public.Venda_id_Venda_seq OWNER TO postgres;
+ALTER TABLE public.venda_id_venda_seq OWNER TO postgres;
 
 --
--- TOC entry 2152 (class 0 OID 0)
--- Dependencies: 184
--- Name: Venda_id_Venda_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- TOC entry 2258 (class 0 OID 0)
+-- Dependencies: 214
+-- Name: venda_id_venda_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE Venda_id_Venda_seq OWNED BY Venda.id_Venda;
-
-
---
--- TOC entry 1895 (class 2604 OID 24873)
--- Name: id_Albara; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY Albara ALTER COLUMN id_Albara SET DEFAULT nextval('Albara_id_Albara_seq'::regclass);
+ALTER SEQUENCE venda_id_venda_seq OWNED BY venda.id_venda;
 
 
 --
--- TOC entry 1893 (class 2604 OID 24796)
--- Name: id_Alerta; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 1979 (class 2604 OID 51105)
+-- Name: id_albara; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY Alerta ALTER COLUMN id_Alerta SET DEFAULT nextval('Alerta_id_Alerta_seq'::regclass);
-
-
---
--- TOC entry 1909 (class 2604 OID 25578)
--- Name: ids_Client; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY Client ALTER COLUMN ids_Client SET DEFAULT nextval('Client_ids_Client_seq'::regclass);
+ALTER TABLE ONLY albara ALTER COLUMN id_albara SET DEFAULT nextval('albara_id_albara_seq'::regclass);
 
 
 --
--- TOC entry 1902 (class 2604 OID 25082)
--- Name: id_Compra; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 1980 (class 2604 OID 51106)
+-- Name: id_alerta; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY Compra ALTER COLUMN id_Compra SET DEFAULT nextval('Compra_id_Compra_seq'::regclass);
-
-
---
--- TOC entry 1904 (class 2604 OID 25138)
--- Name: id_EntradaDevolucio; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY EntradaDevolucio ALTER COLUMN id_EntradaDevolucio SET DEFAULT nextval('EntradaDevolucio_id_EntradaDevolucio_seq'::regclass);
+ALTER TABLE ONLY alerta ALTER COLUMN id_alerta SET DEFAULT nextval('alerta_id_alerta_seq'::regclass);
 
 
 --
--- TOC entry 1903 (class 2604 OID 25095)
--- Name: id_LinCompra; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 1981 (class 2604 OID 51107)
+-- Name: ids_client; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY LinCompra ALTER COLUMN id_LinCompra SET DEFAULT nextval('LinCompra_id_LinCompra_seq'::regclass);
-
-
---
--- TOC entry 1905 (class 2604 OID 25146)
--- Name: id_LinEntradaDevolucio; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY LinEntradaDevolucio ALTER COLUMN id_LinEntradaDevolucio SET DEFAULT nextval('LinEntradaDevolucio_id_LinEntradaDevolucio_seq'::regclass);
+ALTER TABLE ONLY client ALTER COLUMN ids_client SET DEFAULT nextval('client_ids_client_seq'::regclass);
 
 
 --
--- TOC entry 1907 (class 2604 OID 25227)
--- Name: id_LinSortDevolucio; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 1982 (class 2604 OID 51108)
+-- Name: id_compra; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY LinSortidaDevolucio ALTER COLUMN id_LinSortDevolucio SET DEFAULT nextval('LinSortidaDevolucio_id_LinSortDevolucio_seq'::regclass);
-
-
---
--- TOC entry 1898 (class 2604 OID 24953)
--- Name: id_LinTransferencia; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY LinTransferencia ALTER COLUMN id_LinTransferencia SET DEFAULT nextval('LinTransferencia_id_LinTransferencia_seq'::regclass);
+ALTER TABLE ONLY compra ALTER COLUMN id_compra SET DEFAULT nextval('compra_id_compra_seq'::regclass);
 
 
 --
--- TOC entry 1899 (class 2604 OID 24965)
+-- TOC entry 1983 (class 2604 OID 51109)
+-- Name: id_entradadevolucio; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY entradadevolucio ALTER COLUMN id_entradadevolucio SET DEFAULT nextval('entradadevolucio_id_entradadevolucio_seq'::regclass);
+
+
+--
+-- TOC entry 1999 (class 2604 OID 51437)
+-- Name: id_grup; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY grup ALTER COLUMN id_grup SET DEFAULT nextval('grup_id_grup_seq'::regclass);
+
+
+--
+-- TOC entry 1990 (class 2604 OID 51116)
+-- Name: id_liniaalbara; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY linalbara ALTER COLUMN id_liniaalbara SET DEFAULT nextval('lineaalbara_id_liniaalbara_seq'::regclass);
+
+
+--
+-- TOC entry 1984 (class 2604 OID 51110)
+-- Name: id_lincompra; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lincompra ALTER COLUMN id_lincompra SET DEFAULT nextval('lincompra_id_lincompra_seq'::regclass);
+
+
+--
+-- TOC entry 1985 (class 2604 OID 51111)
+-- Name: id_linentradadevolucio; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY linentradadevolucio ALTER COLUMN id_linentradadevolucio SET DEFAULT nextval('linentradadevolucio_id_linentradadevolucio_seq'::regclass);
+
+
+--
+-- TOC entry 1986 (class 2604 OID 51112)
+-- Name: id_linsortdevolucio; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY linsortidadevolucio ALTER COLUMN id_linsortdevolucio SET DEFAULT nextval('linsortidadevolucio_id_linsortdevolucio_seq'::regclass);
+
+
+--
+-- TOC entry 1987 (class 2604 OID 51113)
+-- Name: id_lintransferencia; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lintransferencia ALTER COLUMN id_lintransferencia SET DEFAULT nextval('lintransferencia_id_lintransferencia_seq'::regclass);
+
+
+--
+-- TOC entry 1988 (class 2604 OID 51114)
 -- Name: transferencia_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY LinTransferencia ALTER COLUMN transferencia_id SET DEFAULT nextval('LinTransferencia_transferencia_id_seq'::regclass);
+ALTER TABLE ONLY lintransferencia ALTER COLUMN transferencia_id SET DEFAULT nextval('lintransferencia_transferencia_id_seq'::regclass);
 
 
 --
--- TOC entry 1901 (class 2604 OID 25030)
--- Name: id_LinVenda; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 1989 (class 2604 OID 51115)
+-- Name: id_linvenda; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY LinVenda ALTER COLUMN id_LinVenda SET DEFAULT nextval('LinVenda_id_linVenda_seq'::regclass);
+ALTER TABLE ONLY linvenda ALTER COLUMN id_linvenda SET DEFAULT nextval('linvenda_id_linvenda_seq'::regclass);
 
 
 --
--- TOC entry 1896 (class 2604 OID 24894)
--- Name: id_LiniaAlbara; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 1991 (class 2604 OID 51117)
+-- Name: ids_local; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY LineaAlbara ALTER COLUMN id_LiniaAlbara SET DEFAULT nextval('LineaAlbara_id_LiniaAlbara_seq'::regclass);
+ALTER TABLE ONLY local ALTER COLUMN ids_local SET DEFAULT nextval('local_ids_local_seq'::regclass);
 
 
 --
--- TOC entry 1910 (class 2604 OID 25640)
--- Name: ids_Local; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 1992 (class 2604 OID 51118)
+-- Name: id_moviment; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY Local ALTER COLUMN ids_Local SET DEFAULT nextval('Local_ids_Local_seq'::regclass);
+ALTER TABLE ONLY moviment ALTER COLUMN id_moviment SET DEFAULT nextval('moviment_id_moviment_seq'::regclass);
 
 
 --
--- TOC entry 1894 (class 2604 OID 24850)
--- Name: id_Moviment; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 1993 (class 2604 OID 51119)
+-- Name: id_producteproveidor; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY Moviment ALTER COLUMN id_Moviment SET DEFAULT nextval('Moviment_id_Moviment_seq'::regclass);
+ALTER TABLE ONLY producteproveidor ALTER COLUMN id_producteproveidor SET DEFAULT nextval('producteproveidor_id_producteproveidor_seq'::regclass);
 
 
 --
--- TOC entry 1892 (class 2604 OID 24729)
--- Name: id_ProducteProveidor; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 1994 (class 2604 OID 51120)
+-- Name: ids_proveidor; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY ProducteProveidor ALTER COLUMN id_ProducteProveidor SET DEFAULT nextval('ProducteProveidor_id_ProducteProveidor_seq'::regclass);
+ALTER TABLE ONLY proveidor ALTER COLUMN ids_proveidor SET DEFAULT nextval('proveidor_ids_proveidor_seq'::regclass);
 
 
 --
--- TOC entry 1908 (class 2604 OID 25546)
--- Name: ids_Proveidor; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 1995 (class 2604 OID 51121)
+-- Name: id_sortidadevol; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY Proveidor ALTER COLUMN ids_Proveidor SET DEFAULT nextval('Proveidor_ids_Proveidor_seq'::regclass);
+ALTER TABLE ONLY sortidadevolucio ALTER COLUMN id_sortidadevol SET DEFAULT nextval('sortidadevolucio_id_sortidadevol_seq'::regclass);
 
 
 --
--- TOC entry 1906 (class 2604 OID 25219)
--- Name: id_SortidaDevol; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 2000 (class 2604 OID 51438)
+-- Name: id_subgrup; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY SortidaDevolucio ALTER COLUMN id_SortidaDevol SET DEFAULT nextval('SortidaDevolucio_id_SortidaDevol_seq'::regclass);
+ALTER TABLE ONLY subgrup ALTER COLUMN id_subgrup SET DEFAULT nextval('subgrup_id_subgrup_seq'::regclass);
 
 
 --
--- TOC entry 1897 (class 2604 OID 24917)
--- Name: id_Transferencia; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 1996 (class 2604 OID 51122)
+-- Name: id_transferencia; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY Transferencia ALTER COLUMN id_Transferencia SET DEFAULT nextval('Transferencia_id_Transferencia_seq'::regclass);
+ALTER TABLE ONLY transferencia ALTER COLUMN id_transferencia SET DEFAULT nextval('transferencia_id_transferencia_seq'::regclass);
 
 
 --
--- TOC entry 1900 (class 2604 OID 25016)
--- Name: id_Venda; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 1998 (class 2604 OID 51123)
+-- Name: id_venda; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY Venda ALTER COLUMN id_Venda SET DEFAULT nextval('Venda_id_Venda_seq'::regclass);
+ALTER TABLE ONLY venda ALTER COLUMN id_venda SET DEFAULT nextval('venda_id_venda_seq'::regclass);
 
 
 --
--- TOC entry 1946 (class 2606 OID 25037)
--- Name: fk_LinVenda; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2036 (class 2606 OID 51125)
+-- Name: fk_linvenda; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY LinVenda
-    ADD CONSTRAINT fk_LinVenda PRIMARY KEY (id_LinVenda);
+ALTER TABLE ONLY linvenda
+    ADD CONSTRAINT fk_linvenda PRIMARY KEY (id_linvenda);
 
 
 --
--- TOC entry 1934 (class 2606 OID 24878)
--- Name: pk_Albara; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2002 (class 2606 OID 51127)
+-- Name: pk_albara; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY Albara
-    ADD CONSTRAINT pk_Albara PRIMARY KEY (id_Albara);
+ALTER TABLE ONLY albara
+    ADD CONSTRAINT pk_albara PRIMARY KEY (id_albara);
 
 
 --
--- TOC entry 1924 (class 2606 OID 24798)
--- Name: pk_Alerta; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2004 (class 2606 OID 51129)
+-- Name: pk_alerta; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY Alerta
-    ADD CONSTRAINT pk_Alerta PRIMARY KEY (id_Alerta);
+ALTER TABLE ONLY alerta
+    ADD CONSTRAINT pk_alerta PRIMARY KEY (id_alerta);
 
 
 --
--- TOC entry 1950 (class 2606 OID 25084)
--- Name: pk_Compra; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2012 (class 2606 OID 51131)
+-- Name: pk_compra; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY Compra
-    ADD CONSTRAINT pk_Compra PRIMARY KEY (id_Compra);
+ALTER TABLE ONLY compra
+    ADD CONSTRAINT pk_compra PRIMARY KEY (id_compra);
 
 
 --
--- TOC entry 1956 (class 2606 OID 25140)
--- Name: pk_EntradaDevolucio; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2014 (class 2606 OID 51133)
+-- Name: pk_entradadevolucio; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY EntradaDevolucio
-    ADD CONSTRAINT pk_EntradaDevolucio PRIMARY KEY (id_EntradaDevolucio);
+ALTER TABLE ONLY entradadevolucio
+    ADD CONSTRAINT pk_entradadevolucio PRIMARY KEY (id_entradadevolucio);
 
 
 --
--- TOC entry 1928 (class 2606 OID 24833)
--- Name: pk_FamProducte; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2078 (class 2606 OID 51408)
+-- Name: pk_grup; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY FamiliaProducte
-    ADD CONSTRAINT pk_FamProducte PRIMARY KEY (id_FamProducte);
+ALTER TABLE ONLY grup
+    ADD CONSTRAINT pk_grup PRIMARY KEY (id_grup);
 
 
 --
--- TOC entry 1914 (class 2606 OID 24674)
--- Name: pk_Idioma; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2018 (class 2606 OID 51137)
+-- Name: pk_idioma; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY Idioma
-    ADD CONSTRAINT pk_Idioma PRIMARY KEY (id_Idioma);
+ALTER TABLE ONLY idioma
+    ADD CONSTRAINT pk_idioma PRIMARY KEY (id_idioma);
 
 
 --
--- TOC entry 1952 (class 2606 OID 25100)
--- Name: pk_LinCompra; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2006 (class 2606 OID 51173)
+-- Name: pk_ids_client; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY LinCompra
-    ADD CONSTRAINT pk_LinCompra PRIMARY KEY (id_LinCompra);
+ALTER TABLE ONLY client
+    ADD CONSTRAINT pk_ids_client PRIMARY KEY (ids_client);
 
 
 --
--- TOC entry 1958 (class 2606 OID 25151)
--- Name: pk_LinEntradaDevolucio; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2042 (class 2606 OID 51175)
+-- Name: pk_ids_local; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY LinEntradaDevolucio
-    ADD CONSTRAINT pk_LinEntradaDevolucio PRIMARY KEY (id_LinEntradaDevolucio);
+ALTER TABLE ONLY local
+    ADD CONSTRAINT pk_ids_local PRIMARY KEY (ids_local);
 
 
 --
--- TOC entry 1966 (class 2606 OID 25232)
--- Name: pk_LinSortDevolucio; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2058 (class 2606 OID 51171)
+-- Name: pk_idsproveidor; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY LinSortidaDevolucio
-    ADD CONSTRAINT pk_LinSortDevolucio PRIMARY KEY (id_LinSortDevolucio);
+ALTER TABLE ONLY proveidor
+    ADD CONSTRAINT pk_idsproveidor PRIMARY KEY (ids_proveidor);
 
 
 --
--- TOC entry 1940 (class 2606 OID 24955)
--- Name: pk_LinTransferencia; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2020 (class 2606 OID 51139)
+-- Name: pk_lincompra; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY LinTransferencia
-    ADD CONSTRAINT pk_LinTransferencia PRIMARY KEY (id_LinTransferencia);
+ALTER TABLE ONLY lincompra
+    ADD CONSTRAINT pk_lincompra PRIMARY KEY (id_lincompra);
 
 
 --
--- TOC entry 1936 (class 2606 OID 24896)
--- Name: pk_LiniaAlbara; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2024 (class 2606 OID 51141)
+-- Name: pk_linentradadevolucio; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY LineaAlbara
-    ADD CONSTRAINT pk_LiniaAlbara PRIMARY KEY (id_LiniaAlbara);
+ALTER TABLE ONLY linentradadevolucio
+    ADD CONSTRAINT pk_linentradadevolucio PRIMARY KEY (id_linentradadevolucio);
 
 
 --
--- TOC entry 1962 (class 2606 OID 25183)
--- Name: pk_MotiuDevolucio; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2040 (class 2606 OID 51147)
+-- Name: pk_liniaalbara; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY MotiuDevolucio
-    ADD CONSTRAINT pk_MotiuDevolucio PRIMARY KEY (id_MotiuDevolucio);
+ALTER TABLE ONLY linalbara
+    ADD CONSTRAINT pk_liniaalbara PRIMARY KEY (id_liniaalbara);
 
 
 --
--- TOC entry 1932 (class 2606 OID 24852)
--- Name: pk_Moviment; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2028 (class 2606 OID 51143)
+-- Name: pk_linsortdevolucio; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY Moviment
-    ADD CONSTRAINT pk_Moviment PRIMARY KEY (id_Moviment);
+ALTER TABLE ONLY linsortidadevolucio
+    ADD CONSTRAINT pk_linsortdevolucio PRIMARY KEY (id_linsortdevolucio);
 
 
 --
--- TOC entry 1916 (class 2606 OID 24694)
--- Name: pk_Producte; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2032 (class 2606 OID 51145)
+-- Name: pk_lintransferencia; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY Producte
-    ADD CONSTRAINT pk_Producte PRIMARY KEY (id_Producte);
+ALTER TABLE ONLY lintransferencia
+    ADD CONSTRAINT pk_lintransferencia PRIMARY KEY (id_lintransferencia);
 
 
 --
--- TOC entry 1918 (class 2606 OID 24731)
--- Name: pk_ProducteProveidor; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2048 (class 2606 OID 51149)
+-- Name: pk_motiudevolucio; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY ProducteProveidor
-    ADD CONSTRAINT pk_ProducteProveidor PRIMARY KEY (id_ProducteProveidor);
+ALTER TABLE ONLY motiudevolucio
+    ADD CONSTRAINT pk_motiudevolucio PRIMARY KEY (id_motiudevolucio);
 
 
 --
--- TOC entry 1920 (class 2606 OID 24756)
--- Name: pk_Provincia; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2050 (class 2606 OID 51151)
+-- Name: pk_moviment; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY Provincia
-    ADD CONSTRAINT pk_Provincia PRIMARY KEY (id_Provincia);
+ALTER TABLE ONLY moviment
+    ADD CONSTRAINT pk_moviment PRIMARY KEY (id_moviment);
 
 
 --
--- TOC entry 1964 (class 2606 OID 25221)
--- Name: pk_SortidaDevolucio; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2054 (class 2606 OID 51153)
+-- Name: pk_producte; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY SortidaDevolucio
-    ADD CONSTRAINT pk_SortidaDevolucio PRIMARY KEY (id_SortidaDevol);
+ALTER TABLE ONLY producte
+    ADD CONSTRAINT pk_producte PRIMARY KEY (id_producte);
 
 
 --
--- TOC entry 1926 (class 2606 OID 24803)
--- Name: pk_TipusAlerta; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY TipusAlerta
-    ADD CONSTRAINT pk_TipusAlerta PRIMARY KEY (id_TipusAlerta);
-
-
---
--- TOC entry 1930 (class 2606 OID 24844)
--- Name: pk_TipusMoviment; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY TipusMoviment
-    ADD CONSTRAINT pk_TipusMoviment PRIMARY KEY (id_TipusMoviment);
-
-
---
--- TOC entry 1938 (class 2606 OID 24919)
--- Name: pk_Transferencia; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY Transferencia
-    ADD CONSTRAINT pk_Transferencia PRIMARY KEY (id_Transferencia);
-
-
---
--- TOC entry 1912 (class 2606 OID 24640)
--- Name: pk_Usuari; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY Usuari
-    ADD CONSTRAINT pk_Usuari PRIMARY KEY (id_Usuari);
-
-
---
--- TOC entry 1944 (class 2606 OID 25018)
--- Name: pk_Venda; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY Venda
-    ADD CONSTRAINT pk_Venda PRIMARY KEY (id_Venda);
-
-
---
--- TOC entry 1970 (class 2606 OID 25548)
--- Name: pk_idsProveidor; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY Proveidor
-    ADD CONSTRAINT pk_idsProveidor PRIMARY KEY (ids_Proveidor);
-
-
---
--- TOC entry 1976 (class 2606 OID 25580)
--- Name: pk_ids_Client; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY Client
-    ADD CONSTRAINT pk_ids_Client PRIMARY KEY (ids_Client);
-
-
---
--- TOC entry 1982 (class 2606 OID 25642)
--- Name: pk_ids_Local; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY Local
-    ADD CONSTRAINT pk_ids_Local PRIMARY KEY (ids_Local);
-
-
---
--- TOC entry 1922 (class 2606 OID 24780)
+-- TOC entry 2016 (class 2606 OID 51177)
 -- Name: pk_producte_local; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY Existencies
+ALTER TABLE ONLY existencies
     ADD CONSTRAINT pk_producte_local PRIMARY KEY (producte_id, local_id);
 
 
 --
--- TOC entry 1948 (class 2606 OID 25054)
--- Name: un_Mov_LinVenda; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2056 (class 2606 OID 51155)
+-- Name: pk_producteproveidor; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY LinVenda
-    ADD CONSTRAINT un_Mov_LinVenda UNIQUE (moviment_id);
+ALTER TABLE ONLY producteproveidor
+    ADD CONSTRAINT pk_producteproveidor PRIMARY KEY (id_producteproveidor);
 
 
 --
--- TOC entry 1960 (class 2606 OID 25153)
--- Name: un_Moviment_EntrDevol; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2064 (class 2606 OID 51157)
+-- Name: pk_provincia; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY LinEntradaDevolucio
-    ADD CONSTRAINT un_Moviment_EntrDevol UNIQUE (moviment_id);
+ALTER TABLE ONLY provincia
+    ADD CONSTRAINT pk_provincia PRIMARY KEY (id_provincia);
 
 
 --
--- TOC entry 1954 (class 2606 OID 25132)
--- Name: un_Moviment_LinCompra; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2066 (class 2606 OID 51159)
+-- Name: pk_sortidadevolucio; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY LinCompra
-    ADD CONSTRAINT un_Moviment_LinCompra UNIQUE (moviment_id);
+ALTER TABLE ONLY sortidadevolucio
+    ADD CONSTRAINT pk_sortidadevolucio PRIMARY KEY (id_sortidadevol);
 
 
 --
--- TOC entry 1968 (class 2606 OID 25234)
--- Name: un_Moviment_SortDevol; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2080 (class 2606 OID 51410)
+-- Name: pk_subgrup; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY LinSortidaDevolucio
-    ADD CONSTRAINT un_Moviment_SortDevol UNIQUE (moviment_id);
+ALTER TABLE ONLY subgrup
+    ADD CONSTRAINT pk_subgrup PRIMARY KEY (id_subgrup);
 
 
 --
--- TOC entry 1942 (class 2606 OID 25076)
--- Name: un_Moviment_Transferencia; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2068 (class 2606 OID 51161)
+-- Name: pk_tipusalerta; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY LinTransferencia
-    ADD CONSTRAINT un_Moviment_Transferencia UNIQUE (moviment_id);
+ALTER TABLE ONLY tipusalerta
+    ADD CONSTRAINT pk_tipusalerta PRIMARY KEY (id_tipusalerta);
 
 
 --
--- TOC entry 1978 (class 2606 OID 25582)
--- Name: un_NomClient; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2070 (class 2606 OID 51163)
+-- Name: pk_tipusmoviment; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY Client
-    ADD CONSTRAINT un_NomClient UNIQUE (nomClient);
+ALTER TABLE ONLY tipusmoviment
+    ADD CONSTRAINT pk_tipusmoviment PRIMARY KEY (id_tipusmoviment);
 
 
 --
--- TOC entry 1984 (class 2606 OID 25646)
--- Name: un_NomLocal; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2072 (class 2606 OID 51165)
+-- Name: pk_transferencia; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY Local
-    ADD CONSTRAINT un_NomLocal UNIQUE (nomLocal);
+ALTER TABLE ONLY transferencia
+    ADD CONSTRAINT pk_transferencia PRIMARY KEY (id_transferencia);
 
 
 --
--- TOC entry 1972 (class 2606 OID 25552)
--- Name: un_NomProveidor; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2074 (class 2606 OID 51167)
+-- Name: pk_usuari; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY Proveidor
-    ADD CONSTRAINT un_NomProveidor UNIQUE (nomProveidor);
+ALTER TABLE ONLY usuari
+    ADD CONSTRAINT pk_usuari PRIMARY KEY (id_usuari);
 
 
 --
--- TOC entry 1974 (class 2606 OID 25550)
--- Name: un_idProveidor; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2076 (class 2606 OID 51169)
+-- Name: pk_venda; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY Proveidor
-    ADD CONSTRAINT un_idProveidor UNIQUE (id_Proveidor);
+ALTER TABLE ONLY venda
+    ADD CONSTRAINT pk_venda PRIMARY KEY (id_venda);
 
 
 --
--- TOC entry 1980 (class 2606 OID 25584)
--- Name: un_id_Clinet; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2008 (class 2606 OID 51197)
+-- Name: un_id_clinet; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY Client
-    ADD CONSTRAINT un_id_Clinet UNIQUE (id_Client);
+ALTER TABLE ONLY client
+    ADD CONSTRAINT un_id_clinet UNIQUE (id_client);
 
 
 --
--- TOC entry 1986 (class 2606 OID 25644)
--- Name: un_id_Local; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2044 (class 2606 OID 51199)
+-- Name: un_id_local; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY Local
-    ADD CONSTRAINT un_id_Local UNIQUE (id_local);
+ALTER TABLE ONLY local
+    ADD CONSTRAINT un_id_local UNIQUE (id_local);
 
 
 --
--- TOC entry 2020 (class 2606 OID 25828)
--- Name: f_SortidaDevolucio; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2060 (class 2606 OID 51195)
+-- Name: un_idproveidor; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY LinSortidaDevolucio
-    ADD CONSTRAINT f_SortidaDevolucio FOREIGN KEY (sortidaDevolucio_id) REFERENCES SortidaDevolucio(id_SortidaDevol) ON UPDATE CASCADE;
+ALTER TABLE ONLY proveidor
+    ADD CONSTRAINT un_idproveidor UNIQUE (id_proveidor);
 
 
 --
--- TOC entry 2011 (class 2606 OID 25863)
--- Name: fk_Compra; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2038 (class 2606 OID 51179)
+-- Name: un_mov_linvenda; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY LinCompra
-    ADD CONSTRAINT fk_Compra FOREIGN KEY (compra_id) REFERENCES Compra(id_Compra) ON UPDATE CASCADE;
+ALTER TABLE ONLY linvenda
+    ADD CONSTRAINT un_mov_linvenda UNIQUE (moviment_id);
 
 
 --
--- TOC entry 2014 (class 2606 OID 25798)
--- Name: fk_EntradaDevolucio; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2026 (class 2606 OID 51181)
+-- Name: un_moviment_entrdevol; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY LinEntradaDevolucio
-    ADD CONSTRAINT fk_EntradaDevolucio FOREIGN KEY (entradaDevolucio_id) REFERENCES EntradaDevolucio(id_EntradaDevolucio) ON UPDATE CASCADE;
+ALTER TABLE ONLY linentradadevolucio
+    ADD CONSTRAINT un_moviment_entrdevol UNIQUE (moviment_id);
 
 
 --
--- TOC entry 1990 (class 2606 OID 24835)
--- Name: fk_FamProducte; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2022 (class 2606 OID 51183)
+-- Name: un_moviment_lincompra; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY Producte
-    ADD CONSTRAINT fk_FamProducte FOREIGN KEY (famProducte_id) REFERENCES FamiliaProducte(id_FamProducte) ON UPDATE CASCADE;
+ALTER TABLE ONLY lincompra
+    ADD CONSTRAINT un_moviment_lincompra UNIQUE (moviment_id);
 
 
 --
--- TOC entry 2015 (class 2606 OID 25803)
--- Name: fk_LineaAlbaraDev; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2030 (class 2606 OID 51185)
+-- Name: un_moviment_sortdevol; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY LinEntradaDevolucio
-    ADD CONSTRAINT fk_LineaAlbaraDev FOREIGN KEY (lineaAlbaraDev_id) REFERENCES LineaAlbara(id_LiniaAlbara) ON UPDATE CASCADE;
+ALTER TABLE ONLY linsortidadevolucio
+    ADD CONSTRAINT un_moviment_sortdevol UNIQUE (moviment_id);
 
 
 --
--- TOC entry 2016 (class 2606 OID 25808)
--- Name: fk_MotiuEntrDevol; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2034 (class 2606 OID 51187)
+-- Name: un_moviment_transferencia; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY LinEntradaDevolucio
-    ADD CONSTRAINT fk_MotiuEntrDevol FOREIGN KEY (motiuEntrDevol_id) REFERENCES MotiuDevolucio(id_MotiuDevolucio) ON UPDATE CASCADE;
+ALTER TABLE ONLY lintransferencia
+    ADD CONSTRAINT un_moviment_transferencia UNIQUE (moviment_id);
 
 
 --
--- TOC entry 2021 (class 2606 OID 25833)
--- Name: fk_MotiuSortDevol; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2010 (class 2606 OID 51189)
+-- Name: un_nomclient; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY LinSortidaDevolucio
-    ADD CONSTRAINT fk_MotiuSortDevol FOREIGN KEY (motiuSortDevol_id) REFERENCES MotiuDevolucio(id_MotiuDevolucio) ON UPDATE CASCADE;
+ALTER TABLE ONLY client
+    ADD CONSTRAINT un_nomclient UNIQUE (nomclient);
 
 
 --
--- TOC entry 2002 (class 2606 OID 24907)
--- Name: fk_Moviment; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2046 (class 2606 OID 51191)
+-- Name: un_nomlocal; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY LineaAlbara
-    ADD CONSTRAINT fk_Moviment FOREIGN KEY (moviment_id) REFERENCES Moviment(id_Moviment) ON UPDATE CASCADE;
+ALTER TABLE ONLY local
+    ADD CONSTRAINT un_nomlocal UNIQUE (nomlocal);
 
 
 --
--- TOC entry 2008 (class 2606 OID 25768)
--- Name: fk_Moviment; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2062 (class 2606 OID 51193)
+-- Name: un_nomproveidor; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY LinVenda
-    ADD CONSTRAINT fk_Moviment FOREIGN KEY (moviment_id) REFERENCES Moviment(id_Moviment) ON UPDATE CASCADE;
+ALTER TABLE ONLY proveidor
+    ADD CONSTRAINT un_nomproveidor UNIQUE (nomproveidor);
 
 
 --
--- TOC entry 2003 (class 2606 OID 25778)
--- Name: fk_Moviment; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2051 (class 1259 OID 51428)
+-- Name: fki_producte_grup; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY LinTransferencia
-    ADD CONSTRAINT fk_Moviment FOREIGN KEY (moviment_id) REFERENCES Moviment(id_Moviment) ON UPDATE CASCADE;
+CREATE INDEX fki_producte_grup ON producte USING btree (productegrup_id);
 
 
 --
--- TOC entry 2017 (class 2606 OID 25813)
--- Name: fk_Moviment; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2052 (class 1259 OID 51434)
+-- Name: fki_producte_subgrup; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY LinEntradaDevolucio
-    ADD CONSTRAINT fk_Moviment FOREIGN KEY (moviment_id) REFERENCES Moviment(id_Moviment) ON UPDATE CASCADE;
+CREATE INDEX fki_producte_subgrup ON producte USING btree (productesubgrup_id);
 
 
 --
--- TOC entry 2022 (class 2606 OID 25838)
--- Name: fk_Moviment; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2120 (class 2620 OID 51391)
+-- Name: setclientid; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY LinSortidaDevolucio
-    ADD CONSTRAINT fk_Moviment FOREIGN KEY (moviment_id) REFERENCES Moviment(id_Moviment) ON UPDATE CASCADE;
+CREATE TRIGGER setclientid BEFORE INSERT OR UPDATE ON client FOR EACH ROW EXECUTE PROCEDURE setclientid();
 
 
 --
--- TOC entry 2012 (class 2606 OID 25868)
--- Name: fk_Moviment; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2121 (class 2620 OID 51393)
+-- Name: setlocalid; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY LinCompra
-    ADD CONSTRAINT fk_Moviment FOREIGN KEY (moviment_id) REFERENCES Moviment(id_Moviment) ON UPDATE CASCADE;
+CREATE TRIGGER setlocalid BEFORE INSERT OR UPDATE ON local FOR EACH ROW EXECUTE PROCEDURE setlocalid();
 
 
 --
--- TOC entry 1992 (class 2606 OID 25658)
--- Name: fk_Producte; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2122 (class 2620 OID 51395)
+-- Name: setproviderid; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY ProducteProveidor
-    ADD CONSTRAINT fk_Producte FOREIGN KEY (producte_id) REFERENCES Producte(id_Producte) ON UPDATE CASCADE;
+CREATE TRIGGER setproviderid BEFORE INSERT OR UPDATE ON proveidor FOR EACH ROW EXECUTE PROCEDURE setproviderid();
 
 
 --
--- TOC entry 1991 (class 2606 OID 25653)
--- Name: fk_Proveidor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2097 (class 2606 OID 51200)
+-- Name: f_sortidadevolucio; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY ProducteProveidor
-    ADD CONSTRAINT fk_Proveidor FOREIGN KEY (proveidor_id) REFERENCES Proveidor(id_Proveidor) ON UPDATE CASCADE;
+ALTER TABLE ONLY linsortidadevolucio
+    ADD CONSTRAINT f_sortidadevolucio FOREIGN KEY (sortidadevolucio_id) REFERENCES sortidadevolucio(id_sortidadevol) ON UPDATE CASCADE;
 
 
 --
--- TOC entry 2010 (class 2606 OID 25663)
--- Name: fk_Proveidor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY Compra
-    ADD CONSTRAINT fk_Proveidor FOREIGN KEY (proveidor_id) REFERENCES Proveidor(id_Proveidor) ON UPDATE CASCADE;
-
-
---
--- TOC entry 2024 (class 2606 OID 25648)
--- Name: fk_Provincia; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY Local
-    ADD CONSTRAINT fk_Provincia FOREIGN KEY (provincia_id) REFERENCES Provincia(id_Provincia);
-
-
---
--- TOC entry 1987 (class 2606 OID 25738)
--- Name: fk_Provincia; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY Usuari
-    ADD CONSTRAINT fk_Provincia FOREIGN KEY (Provincia_id) REFERENCES Provincia(id_Provincia) ON UPDATE CASCADE;
-
-
---
--- TOC entry 1995 (class 2606 OID 25848)
--- Name: fk_TipusAlerta; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY Alerta
-    ADD CONSTRAINT fk_TipusAlerta FOREIGN KEY (tipusAlerta_id) REFERENCES TipusAlerta(id_TipusAlerta) ON UPDATE CASCADE;
-
-
---
--- TOC entry 1998 (class 2606 OID 25275)
--- Name: fk_TipusMoviment; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY Moviment
-    ADD CONSTRAINT fk_TipusMoviment FOREIGN KEY (tipusMoviment_id) REFERENCES TipusMoviment(id_TipusMoviment) ON UPDATE CASCADE;
-
-
---
--- TOC entry 2004 (class 2606 OID 25783)
--- Name: fk_Transferencia; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY LinTransferencia
-    ADD CONSTRAINT fk_Transferencia FOREIGN KEY (transferencia_id) REFERENCES Transferencia(id_Transferencia) ON UPDATE CASCADE;
-
-
---
--- TOC entry 2001 (class 2606 OID 24902)
+-- TOC entry 2108 (class 2606 OID 51305)
 -- Name: fk_albara; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY LineaAlbara
-    ADD CONSTRAINT fk_albara FOREIGN KEY (id_LiniaAlbara) REFERENCES Albara(id_Albara) ON UPDATE CASCADE;
+ALTER TABLE ONLY linalbara
+    ADD CONSTRAINT fk_albara FOREIGN KEY (id_liniaalbara) REFERENCES albara(id_albara) ON UPDATE CASCADE;
 
 
 --
--- TOC entry 2006 (class 2606 OID 25793)
--- Name: fk_idLocalDesti; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2088 (class 2606 OID 51205)
+-- Name: fk_compra; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY LinTransferencia
-    ADD CONSTRAINT fk_idLocalDesti FOREIGN KEY (destiLocal_id) REFERENCES Local(id_local) ON UPDATE CASCADE;
-
-
---
--- TOC entry 2007 (class 2606 OID 25693)
--- Name: fk_id_Client; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY Venda
-    ADD CONSTRAINT fk_id_Client FOREIGN KEY (client_id) REFERENCES Client(id_Client) ON UPDATE CASCADE;
+ALTER TABLE ONLY lincompra
+    ADD CONSTRAINT fk_compra FOREIGN KEY (compra_id) REFERENCES compra(id_compra) ON UPDATE CASCADE;
 
 
 --
--- TOC entry 2018 (class 2606 OID 25818)
--- Name: fk_id_Client; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2091 (class 2606 OID 51210)
+-- Name: fk_entradadevolucio; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY LinEntradaDevolucio
-    ADD CONSTRAINT fk_id_Client FOREIGN KEY (client_id) REFERENCES Client(id_Client) ON UPDATE CASCADE;
-
-
---
--- TOC entry 1994 (class 2606 OID 25703)
--- Name: fk_id_Local; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY Existencies
-    ADD CONSTRAINT fk_id_Local FOREIGN KEY (local_id) REFERENCES Local(id_local) ON UPDATE CASCADE;
+ALTER TABLE ONLY linentradadevolucio
+    ADD CONSTRAINT fk_entradadevolucio FOREIGN KEY (entradadevolucio_id) REFERENCES entradadevolucio(id_entradadevolucio) ON UPDATE CASCADE;
 
 
 --
--- TOC entry 1989 (class 2606 OID 25748)
--- Name: fk_id_Local; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2119 (class 2606 OID 51315)
+-- Name: fk_id_client; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY Usuari
-    ADD CONSTRAINT fk_id_Local FOREIGN KEY (local_id) REFERENCES Local(id_local) ON UPDATE CASCADE;
-
-
---
--- TOC entry 2009 (class 2606 OID 25773)
--- Name: fk_id_Local; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY LinVenda
-    ADD CONSTRAINT fk_id_Local FOREIGN KEY (origLocal_id) REFERENCES Local(id_local) ON UPDATE CASCADE;
+ALTER TABLE ONLY venda
+    ADD CONSTRAINT fk_id_client FOREIGN KEY (client_id) REFERENCES client(id_client) ON UPDATE CASCADE;
 
 
 --
--- TOC entry 2019 (class 2606 OID 25823)
--- Name: fk_id_Local; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2095 (class 2606 OID 51320)
+-- Name: fk_id_client; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY LinEntradaDevolucio
-    ADD CONSTRAINT fk_id_Local FOREIGN KEY (destiLocal_id) REFERENCES Local(id_local) ON UPDATE CASCADE;
-
-
---
--- TOC entry 1997 (class 2606 OID 25858)
--- Name: fk_id_Local; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY Alerta
-    ADD CONSTRAINT fk_id_Local FOREIGN KEY (local_id) REFERENCES Local(id_local) ON UPDATE CASCADE;
+ALTER TABLE ONLY linentradadevolucio
+    ADD CONSTRAINT fk_id_client FOREIGN KEY (client_id) REFERENCES client(id_client) ON UPDATE CASCADE;
 
 
 --
--- TOC entry 2013 (class 2606 OID 25873)
--- Name: fk_id_Local; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2086 (class 2606 OID 51325)
+-- Name: fk_id_local; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY LinCompra
-    ADD CONSTRAINT fk_id_Local FOREIGN KEY (destiLocal_id) REFERENCES Local(id_local) ON UPDATE CASCADE;
-
-
---
--- TOC entry 2005 (class 2606 OID 25788)
--- Name: fk_id_LocalOrigen; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY LinTransferencia
-    ADD CONSTRAINT fk_id_LocalOrigen FOREIGN KEY (origLocal_id) REFERENCES Local(id_local) ON UPDATE CASCADE;
+ALTER TABLE ONLY existencies
+    ADD CONSTRAINT fk_id_local FOREIGN KEY (local_id) REFERENCES local(id_local) ON UPDATE CASCADE;
 
 
 --
--- TOC entry 2023 (class 2606 OID 25843)
--- Name: fk_id_LocalOrigen; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2117 (class 2606 OID 51330)
+-- Name: fk_id_local; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY LinSortidaDevolucio
-    ADD CONSTRAINT fk_id_LocalOrigen FOREIGN KEY (origLocal_id) REFERENCES Local(id_local) ON UPDATE CASCADE;
+ALTER TABLE ONLY usuari
+    ADD CONSTRAINT fk_id_local FOREIGN KEY (local_id) REFERENCES local(id_local) ON UPDATE CASCADE;
 
 
 --
--- TOC entry 1999 (class 2606 OID 25280)
+-- TOC entry 2106 (class 2606 OID 51335)
+-- Name: fk_id_local; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY linvenda
+    ADD CONSTRAINT fk_id_local FOREIGN KEY (origlocal_id) REFERENCES local(id_local) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 2096 (class 2606 OID 51340)
+-- Name: fk_id_local; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY linentradadevolucio
+    ADD CONSTRAINT fk_id_local FOREIGN KEY (destilocal_id) REFERENCES local(id_local) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 2083 (class 2606 OID 51345)
+-- Name: fk_id_local; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY alerta
+    ADD CONSTRAINT fk_id_local FOREIGN KEY (local_id) REFERENCES local(id_local) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 2090 (class 2606 OID 51350)
+-- Name: fk_id_local; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lincompra
+    ADD CONSTRAINT fk_id_local FOREIGN KEY (destilocal_id) REFERENCES local(id_local) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 2104 (class 2606 OID 51355)
+-- Name: fk_id_localorigen; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lintransferencia
+    ADD CONSTRAINT fk_id_localorigen FOREIGN KEY (origlocal_id) REFERENCES local(id_local) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 2100 (class 2606 OID 51360)
+-- Name: fk_id_localorigen; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY linsortidadevolucio
+    ADD CONSTRAINT fk_id_localorigen FOREIGN KEY (origlocal_id) REFERENCES local(id_local) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 2103 (class 2606 OID 51310)
+-- Name: fk_idlocaldesti; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lintransferencia
+    ADD CONSTRAINT fk_idlocaldesti FOREIGN KEY (destilocal_id) REFERENCES local(id_local) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 2092 (class 2606 OID 51220)
+-- Name: fk_lineaalbaradev; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY linentradadevolucio
+    ADD CONSTRAINT fk_lineaalbaradev FOREIGN KEY (lineaalbaradev_id) REFERENCES linalbara(id_liniaalbara) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 2093 (class 2606 OID 51225)
+-- Name: fk_motiuentrdevol; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY linentradadevolucio
+    ADD CONSTRAINT fk_motiuentrdevol FOREIGN KEY (motiuentrdevol_id) REFERENCES motiudevolucio(id_motiudevolucio) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 2098 (class 2606 OID 51230)
+-- Name: fk_motiusortdevol; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY linsortidadevolucio
+    ADD CONSTRAINT fk_motiusortdevol FOREIGN KEY (motiusortdevol_id) REFERENCES motiudevolucio(id_motiudevolucio) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 2107 (class 2606 OID 51235)
+-- Name: fk_moviment; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY linalbara
+    ADD CONSTRAINT fk_moviment FOREIGN KEY (moviment_id) REFERENCES moviment(id_moviment) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 2105 (class 2606 OID 51240)
+-- Name: fk_moviment; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY linvenda
+    ADD CONSTRAINT fk_moviment FOREIGN KEY (moviment_id) REFERENCES moviment(id_moviment) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 2101 (class 2606 OID 51245)
+-- Name: fk_moviment; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lintransferencia
+    ADD CONSTRAINT fk_moviment FOREIGN KEY (moviment_id) REFERENCES moviment(id_moviment) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 2094 (class 2606 OID 51250)
+-- Name: fk_moviment; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY linentradadevolucio
+    ADD CONSTRAINT fk_moviment FOREIGN KEY (moviment_id) REFERENCES moviment(id_moviment) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 2099 (class 2606 OID 51255)
+-- Name: fk_moviment; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY linsortidadevolucio
+    ADD CONSTRAINT fk_moviment FOREIGN KEY (moviment_id) REFERENCES moviment(id_moviment) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 2089 (class 2606 OID 51260)
+-- Name: fk_moviment; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lincompra
+    ADD CONSTRAINT fk_moviment FOREIGN KEY (moviment_id) REFERENCES moviment(id_moviment) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 2114 (class 2606 OID 51265)
 -- Name: fk_producte; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY Moviment
-    ADD CONSTRAINT fk_producte FOREIGN KEY (producte_id) REFERENCES Producte(id_Producte) ON UPDATE CASCADE;
+ALTER TABLE ONLY producteproveidor
+    ADD CONSTRAINT fk_producte FOREIGN KEY (producte_id) REFERENCES producte(id_producte) ON UPDATE CASCADE;
 
 
 --
--- TOC entry 1996 (class 2606 OID 25853)
+-- TOC entry 2111 (class 2606 OID 51365)
 -- Name: fk_producte; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY Alerta
-    ADD CONSTRAINT fk_producte FOREIGN KEY (producto_id) REFERENCES Producte(id_Producte) ON UPDATE CASCADE;
+ALTER TABLE ONLY moviment
+    ADD CONSTRAINT fk_producte FOREIGN KEY (producte_id) REFERENCES producte(id_producte) ON UPDATE CASCADE;
 
 
 --
--- TOC entry 2000 (class 2606 OID 24884)
--- Name: fk_tipusMoviment; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2084 (class 2606 OID 51370)
+-- Name: fk_producte; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY Albara
-    ADD CONSTRAINT fk_tipusMoviment FOREIGN KEY (tipusMoviment_id) REFERENCES TipusMoviment(id_TipusMoviment) ON UPDATE RESTRICT;
+ALTER TABLE ONLY alerta
+    ADD CONSTRAINT fk_producte FOREIGN KEY (producte_id) REFERENCES producte(id_producte) ON UPDATE CASCADE;
 
 
 --
--- TOC entry 1988 (class 2606 OID 25743)
+-- TOC entry 2112 (class 2606 OID 51423)
+-- Name: fk_producte_grup; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY producte
+    ADD CONSTRAINT fk_producte_grup FOREIGN KEY (productegrup_id) REFERENCES grup(id_grup);
+
+
+--
+-- TOC entry 2113 (class 2606 OID 51429)
+-- Name: fk_producte_subgrup; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY producte
+    ADD CONSTRAINT fk_producte_subgrup FOREIGN KEY (productesubgrup_id) REFERENCES subgrup(id_subgrup);
+
+
+--
+-- TOC entry 2115 (class 2606 OID 51270)
+-- Name: fk_proveidor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY producteproveidor
+    ADD CONSTRAINT fk_proveidor FOREIGN KEY (proveidor_id) REFERENCES proveidor(id_proveidor) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 2085 (class 2606 OID 51275)
+-- Name: fk_proveidor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY compra
+    ADD CONSTRAINT fk_proveidor FOREIGN KEY (proveidor_id) REFERENCES proveidor(id_proveidor) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 2109 (class 2606 OID 51280)
+-- Name: fk_provincia; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY local
+    ADD CONSTRAINT fk_provincia FOREIGN KEY (provincia_id) REFERENCES provincia(id_provincia);
+
+
+--
+-- TOC entry 2116 (class 2606 OID 51285)
+-- Name: fk_provincia; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY usuari
+    ADD CONSTRAINT fk_provincia FOREIGN KEY (provincia_id) REFERENCES provincia(id_provincia) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 2082 (class 2606 OID 51290)
+-- Name: fk_tipusalerta; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY alerta
+    ADD CONSTRAINT fk_tipusalerta FOREIGN KEY (tipusalerta_id) REFERENCES tipusalerta(id_tipusalerta) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 2110 (class 2606 OID 51295)
+-- Name: fk_tipusmoviment; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY moviment
+    ADD CONSTRAINT fk_tipusmoviment FOREIGN KEY (tipusmoviment_id) REFERENCES tipusmoviment(id_tipusmoviment) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 2081 (class 2606 OID 51375)
+-- Name: fk_tipusmoviment; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY albara
+    ADD CONSTRAINT fk_tipusmoviment FOREIGN KEY (tipusmoviment_id) REFERENCES tipusmoviment(id_tipusmoviment) ON UPDATE RESTRICT;
+
+
+--
+-- TOC entry 2102 (class 2606 OID 51300)
+-- Name: fk_transferencia; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lintransferencia
+    ADD CONSTRAINT fk_transferencia FOREIGN KEY (transferencia_id) REFERENCES transferencia(id_transferencia) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 2118 (class 2606 OID 51380)
 -- Name: idioma_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY Usuari
-    ADD CONSTRAINT idioma_fk FOREIGN KEY (idioma_id) REFERENCES Idioma(id_Idioma) ON UPDATE CASCADE;
+ALTER TABLE ONLY usuari
+    ADD CONSTRAINT idioma_fk FOREIGN KEY (idioma_id) REFERENCES idioma(id_idioma) ON UPDATE CASCADE;
 
 
 --
--- TOC entry 1993 (class 2606 OID 25698)
+-- TOC entry 2087 (class 2606 OID 51385)
 -- Name: producte_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY Existencies
-    ADD CONSTRAINT producte_fk FOREIGN KEY (producte_id) REFERENCES Producte(id_Producte) ON UPDATE CASCADE;
+ALTER TABLE ONLY existencies
+    ADD CONSTRAINT producte_fk FOREIGN KEY (producte_id) REFERENCES producte(id_producte) ON UPDATE CASCADE;
 
--- Creació del triggers pel controls dels identificadors
-CREATE OR REPLACE FUNCTION setClientId() RETURNS TRIGGER AS $setClientId$
-  DECLARE
-  BEGIN
-	NEW.id_Client := 'C' || NEW.ids_Client;
-   RETURN NEW;
-  END;
-$setClientId$ LANGUAGE plpgsql;
-
-CREATE TRIGGER setClientId BEFORE INSERT OR UPDATE 
-    ON Client FOR EACH ROW 
-    EXECUTE PROCEDURE setClientId();
-
-CREATE OR REPLACE FUNCTION setLocalId() RETURNS TRIGGER AS $setLocalId$
-  DECLARE
-  BEGIN
-	NEW.id_Local := 'L' || NEW.ids_Local;
-   RETURN NEW;
-  END;
-$setLocalId$ LANGUAGE plpgsql;
-
-CREATE TRIGGER setLocalId BEFORE INSERT OR UPDATE 
-    ON Local FOR EACH ROW 
-    EXECUTE PROCEDURE setLocalId();
-
-CREATE OR REPLACE FUNCTION setProviderId() RETURNS TRIGGER AS $setProviderId$
-  DECLARE
-  BEGIN
-	NEW.id_Proveidor := 'P' || NEW.ids_Proveidor;
-   RETURN NEW;
-  END;
-$setProviderId$ LANGUAGE plpgsql;
-
-CREATE TRIGGER setProviderId BEFORE INSERT OR UPDATE 
-    ON Proveidor FOR EACH ROW 
-    EXECUTE PROCEDURE setProviderId();
 
 --
--- TOC entry 2132 (class 0 OID 0)
--- Dependencies: 5
+-- TOC entry 2236 (class 0 OID 0)
+-- Dependencies: 6
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
 
@@ -1800,7 +1902,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2014-11-28 21:27:23
+-- Completed on 2014-12-01 14:17:55
 
 --
 -- PostgreSQL database dump complete
