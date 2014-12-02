@@ -1,6 +1,7 @@
 package uoc.tdp.pac4.st.common.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -25,6 +26,9 @@ public class Albara implements Serializable {
     private String destiId;    
     private String comAlbara;
     private String codialbaraextern;
+    
+    ArrayList<LinAlbara> liniesAlbara= new ArrayList<LinAlbara>();
+    
     
     /*
      * Constructor
@@ -80,6 +84,14 @@ public class Albara implements Serializable {
 	}
 	public void setCodialbaraextern(String codialbaraextern) {
 		this.codialbaraextern = codialbaraextern;
+	}
+
+	public ArrayList<LinAlbara> getLiniesAlbara() {
+		return liniesAlbara;
+	}
+
+	public void setLiniesAlbara(ArrayList<LinAlbara> liniesAlbara) {
+		this.liniesAlbara = liniesAlbara;
 	}
 
     

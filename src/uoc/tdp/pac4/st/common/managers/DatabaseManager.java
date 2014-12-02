@@ -448,7 +448,81 @@ public class DatabaseManager {
 		 
 		 return this.insertData(sql.toString());
 	 }
-	
+
+	 /***
+	  * 
+	  * Executa una sentència SQL d'inserció
+	  * de dades, retornant el valor de la sequencia insertada  
+	  * 
+	  * @param sql Cadena amb la sentència SQL
+	  * que s'executarà.
+	  * 
+	  * @return Integer amb el nombre de registres
+	  * afectats per la inserció.
+	  * @throws STException 
+	  */
+	 public int insertDataAndReturnId(String table, Map<String, Object> hashMap) throws STException{
+		 StringBuilder sql = new StringBuilder();
+		 
+		 sql.append(INSERT_INTO);
+		 sql.append(table);
+		 sql.append(BEGIN_GROUP);
+		 
+		 Set<String> entries = hashMap.keySet();
+		 
+		 StringBuilder values = new StringBuilder();
+		 for(String entry : entries){
+			 if (values.length() > 0){
+				 sql.append(COMMA);
+				 values.append(COMMA);
+			 }
+			 sql.append(entry);
+			 Object value = hashMap.get(entry);
+			 values.append(this.convertToPostfgreSQLString(value));
+		 }
+		 sql.append(VALUES);
+		 sql.append(values.toString());
+		 sql.append(END_GROUP);
+		 
+		 int id= -1;
+		 Statement statement = null;
+		 try{
+			if (this.openConnection()){
+				this.setAutoCommit(false);
+				statement = this._dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+																ResultSet.CONCUR_UPDATABLE);
+				statement.execute(sql.toString(), Statement.RETURN_GENERATED_KEYS);
+				
+				ResultSet resultSet = statement.getGeneratedKeys();
+				
+				if (resultSet.next()) {
+					id= resultSet.getInt(1);
+				}
+				resultSet.close();
+				this.commit();
+			} else {
+				throw new STException(TokenKeys.ERROR_DATABASE_CONNECTION); 
+			}
+		 
+		 } catch (SQLException e){
+			 this.rollback();
+			 throw new STException(e, TokenKeys.ERROR_GETTING_DATA);
+		 
+		 } catch (STException e){
+			 this.rollback();
+			 throw e;
+		 
+		 } catch (Exception e){
+			 this.rollback();
+			 throw new STException(e, TokenKeys.ERROR_UNEXPECTED);
+			 
+		 } finally{
+			 this.closeConnection();
+			 this.closeStatement(statement);
+		 }
+		return id;
+	 }
+	 
 	 /***
 	  * 
 	  * Executa una sentència SQL d'inserció

@@ -10,6 +10,7 @@ import java.util.List;
 import uoc.tdp.pac4.st.*;
 import uoc.tdp.pac4.st.client.cx.*;
 import uoc.tdp.pac4.st.common.*;
+import uoc.tdp.pac4.st.common.dto.Albara;
 import uoc.tdp.pac4.st.common.dto.Local;
 import uoc.tdp.pac4.st.common.managers.*;
 import uoc.tdp.pac4.st.rmi.*;
@@ -84,4 +85,21 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 		databaseManager = null;
 		return result;
 	}
+	
+	 /***
+	  * Afegeix un albara i les seves linies a la base de dades
+	  * 
+	  * @return int id del nou albarà create
+	  * @throws RemoteException
+	  * @throws STException
+	  */ 
+	 public int AddAlbara(Albara albara) throws STException
+	 {
+		 //Creem el database manager per conectar amb la BD 
+		DatabaseManager databaseManager = new DatabaseManager();
+		
+		//Creem AlbaraManager i li passem el databaseManager
+		AlbaraManager albaraManager = new AlbaraManager(databaseManager); 
+		return albaraManager.Add(albara);
+	 }
 }

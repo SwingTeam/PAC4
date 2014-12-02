@@ -1567,7 +1567,7 @@ ALTER TABLE ONLY linsortidadevolucio
 --
 
 ALTER TABLE ONLY linalbara
-    ADD CONSTRAINT fk_albara FOREIGN KEY (id_liniaalbara) REFERENCES albara(id_albara) ON UPDATE CASCADE;
+    ADD CONSTRAINT fk_albara FOREIGN KEY (albara_id) REFERENCES albara(id_albara);
 
 
 --

@@ -4,13 +4,9 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import uoc.tdp.pac4.st.*;
-import uoc.tdp.pac4.st.client.cx.*;
-import uoc.tdp.pac4.st.common.*;
+import uoc.tdp.pac4.st.common.STException;
+import uoc.tdp.pac4.st.common.dto.Albara;
 import uoc.tdp.pac4.st.common.dto.Local;
-import uoc.tdp.pac4.st.common.managers.*;
-import uoc.tdp.pac4.st.rmi.*;
-import uoc.tdp.pac4.st.server.*;
 
 /***
  * Interface per a la connexió RMI
@@ -55,5 +51,14 @@ public interface ETallerStocksInterface extends Remote {
 	  * @throws STException
 	  */ 
 	 public String testRMIConnection() throws RemoteException, STException;
-	
+
+	 /***
+	  * Afegeix un albara i les seves linies a la base de dades
+	  * 
+	  * @return int id del nou albarà create
+	  * @throws RemoteException
+	  * @throws STException
+	  */ 
+	 public int AddAlbara(Albara albara) throws RemoteException, STException;
+
 }
