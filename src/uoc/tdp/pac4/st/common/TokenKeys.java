@@ -48,6 +48,9 @@ public class TokenKeys {
 	public final static String MENU_SORTIR = "MENU_SORTIR";
 	public final static String MENU_TEST_DB_CONNECTION = "MENU_TEST_DB_CONNECTION";
 	public final static String MENU_TEST_CONNEXIO = "MENU_TEST_CONNEXIO";
+	public final static String MONTH = "MONTH_";
+	public final static String ORDER_ASCENDANT = "ORDER_ASCENDANT";
+	public final static String ORDER_DESCENDANT = "ORDER_DESCENDANT";
 	public final static String STATUS_RUNNING = "STATUS_RUNNING";
 	public final static String STATUS_STOPPED = "STATUS_STOPPED";
 	public final static String TEST_CONNECTION="TEST_CONNECTION";

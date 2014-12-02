@@ -241,22 +241,22 @@ public class ExampleWindow extends JFrame {
 	 */
 	private void startConnection(){
 		try{
-		//Només carregarem les dades configurades la
-		//primera vegada que es posi faci la connexió
-		if (this._clientManager == null){
-			try{
-				String rmiUrl = Managers.settings.getSetting(Constants.SETTING_RMI_URL);
-				int rmiPort = Integer.parseInt(Managers.settings.getSetting(Constants.SETTING_RMI_PORT));
-				String rmiName = Managers.settings.getSetting(Constants.SETTING_RMI_NAME);
-				this._clientManager = new ClientManager<ETallerStocksInterface>(rmiUrl, rmiPort, rmiName);
-
-			} catch (IOException | NullPointerException e){
-				Managers.exception.showException(new STException(e, TokenKeys.ERROR_CONFIGURATION_FILE));
-				
+			//Només carregarem les dades configurades la
+			//primera vegada que es posi faci la connexió
+			if (this._clientManager == null){
+				try{
+					String rmiUrl = Managers.settings.getSetting(Constants.SETTING_RMI_URL);
+					int rmiPort = Integer.parseInt(Managers.settings.getSetting(Constants.SETTING_RMI_PORT));
+					String rmiName = Managers.settings.getSetting(Constants.SETTING_RMI_NAME);
+					this._clientManager = new ClientManager<ETallerStocksInterface>(rmiUrl, rmiPort, rmiName);
+	
+				} catch (IOException | NullPointerException e){
+					Managers.exception.showException(new STException(e, TokenKeys.ERROR_CONFIGURATION_FILE));
+					
+				}
 			}
-		}
-		if (this._clientManager != null)
-			this._clientManager.startConnection();
+			if (this._clientManager != null)
+				this._clientManager.startConnection();
 		
 		} catch (Exception e){
 			Managers.exception.showException(new STException(e, TokenKeys.ERROR_NOT_BOUND_EXCEPTION));

@@ -8,6 +8,7 @@ import uoc.tdp.pac4.st.common.*;
 import uoc.tdp.pac4.st.common.managers.*;
 import uoc.tdp.pac4.st.rmi.*;
 import uoc.tdp.pac4.st.server.*;
+import uoc.tdp.pac4.st.client.e.*;
 
 /***
  * Classe d'inici de l'aplicació per
@@ -46,6 +47,7 @@ public class InitializeClient {
 			//Inicialitza el formulari principal de 
 			//la part client de l'aplicació
 			ExampleWindow clientFrame = new ExampleWindow();
+			//StockOutReport clientFrame = new StockOutReport(null);
 			clientFrame.setVisible(true);
 
 		} catch (Exception e){

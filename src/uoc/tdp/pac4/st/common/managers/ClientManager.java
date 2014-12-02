@@ -1,5 +1,6 @@
 package uoc.tdp.pac4.st.common.managers;
 
+import java.io.IOException;
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -36,6 +37,15 @@ public class ClientManager<T> {
 	/***
 	 * Constructor
 	 * 
+	 * @throws STException 
+	 */
+	public ClientManager() throws STException{
+		this.getConnectionSettings();
+	}
+	
+	/***
+	 * Constructor
+	 * 
 	 * @param serverUrl Url del servidor RMI
 	 * @param connectionPort Port que s'utilitzarà a la connexió RMI
 	 * @param connectionName Nom de la connexió RMI
@@ -46,6 +56,20 @@ public class ClientManager<T> {
 		this._connectionUrl = serverUrl;
 		this._connectionPort = connectionPort;
 		this._connectionName = connectionName;
+	}
+	
+	/***
+	 * Métode que encarregat de fer la connexió
+	 * RMI amb el servidor remot
+	 */
+	private void getConnectionSettings() throws STException{
+		try{
+			this._connectionUrl = Managers.settings.getSetting(Constants.SETTING_RMI_URL);
+			this._connectionPort = Integer.parseInt(Managers.settings.getSetting(Constants.SETTING_RMI_PORT));
+			this._connectionName = Managers.settings.getSetting(Constants.SETTING_RMI_NAME);
+		} catch (IOException e){
+			throw new STException(e);
+		}
 	}
 	
 	/***
