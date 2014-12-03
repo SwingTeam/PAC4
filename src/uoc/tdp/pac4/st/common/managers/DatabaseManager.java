@@ -771,4 +771,63 @@ public class DatabaseManager {
 		 }
 		return result;
 	 }
+	 
+	 
+	 /***
+	  * Mètode que retorna una totes les files d'una taula donadales quals tenen una columna
+	  * amb el valor passat per paràmetre 
+	  * MOLT IMPORTANT: Aquest mètode no tanca ni la connexió ni el Statement que es fa servir.
+	  * Un cop s'ha llegit el ResultSet, s'ha de tancar cridant al métode d'aquesta mateixa classe 'closeResultSet'
+	  * 
+	  * @param table La taula de la qual volem recuperar
+	  * @param columnName El nom de la columna per la qual volem filtrar
+	  * @param columnValue El valor que ha de tindre la columna
+	  * @return Un resulSet.
+	  * 
+	  * @throws STException
+	  */
+	 public ResultSet getByColumnValue(String table, String columnName, int columnValue) throws STException{
+		 Statement statement = null;
+		 ResultSet resultSet = null;
+		 
+		 try{
+			if (this.openConnection()){
+				statement = this._dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+																ResultSet.CONCUR_READ_ONLY);
+				String sqlSentence = SELECT_ALL +
+								     FROM + table + " " +
+								     WHERE + columnName +  " = " + columnValue;
+				
+				resultSet = statement.executeQuery(sqlSentence);
+				
+				return resultSet;
+			} else {
+				throw new STException(TokenKeys.ERROR_DATABASE_CONNECTION); 
+			}
+		 
+		 } catch (SQLException e){
+			 throw new STException(e, TokenKeys.ERROR_GETTING_DATA);
+		 
+		 } catch (STException e){
+			 throw e;
+		 
+		 } catch (Exception e){
+			 throw new STException(e, TokenKeys.ERROR_UNEXPECTED);
+			 
+		 } 	
+	 }
+	 
+	 public void closeResultSet(ResultSet resultSet) throws STException 
+	 {		 
+		 try {
+			if (resultSet != null) 
+			{
+				resultSet.getStatement().getConnection().close();
+				resultSet.getStatement().close();
+				resultSet.close();
+			}
+		} catch (SQLException e) {		
+			 throw new STException(e, TokenKeys.ERROR_DATABASE_CLOSING_STATEMENT);
+		}		 	
+	 }
 }	 
