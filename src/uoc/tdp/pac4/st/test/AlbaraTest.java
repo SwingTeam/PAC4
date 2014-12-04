@@ -1,15 +1,14 @@
 package uoc.tdp.pac4.st.test;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import uoc.tdp.pac4.st.common.Managers;
 import uoc.tdp.pac4.st.common.STException;
-import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.Albara;
 import uoc.tdp.pac4.st.common.dto.LinAlbara;
 import uoc.tdp.pac4.st.common.managers.AlbaraManager;
 import uoc.tdp.pac4.st.common.managers.DatabaseManager;
+import uoc.tdp.pac4.st.common.managers.LinAlbaraManager;
 
 /***
  * Testejador per classe Albara
@@ -24,8 +23,12 @@ public class AlbaraTest {
 	 */
 	public static void main(String[] args) {
 		try{
-		
+			//Tests add albara
+			int albaraId;
+			DatabaseManager db = new DatabaseManager();
+			AlbaraManager am = new AlbaraManager(db);
 			Albara albara= new Albara();
+			
 			albara.setCodialbaraextern("Codialbaraextern");
 			albara.setComAlbara("ComAlbara");
 			albara.setDataAlbara(new Date());
@@ -39,13 +42,11 @@ public class AlbaraTest {
 		
 			albara.getLiniesAlbara().add(linAlbara);
 			
-			DatabaseManager db = new DatabaseManager();
 			db.startTransaction();			
 						
 			try 
-			{
-				AlbaraManager am = new AlbaraManager(db);
-				am.Add(albara);
+			{				
+				albaraId= am.Add(albara);
 				
 				db.finishTransaction(true);
 			}
@@ -54,6 +55,16 @@ public class AlbaraTest {
 				db.finishTransaction(false);
 				throw e;
 			}		
+			
+			//Test get albara by Id
+			albara = am.GetById(albaraId);
+			
+			//Test get linAlbara by albaraId
+			LinAlbaraManager linAlbaraManager = new LinAlbaraManager(db); 				
+			List<LinAlbara> listLinAlbara = linAlbaraManager.GetByAlbaraId(albaraId);
+			
+			//Test get linAlbara by ID
+			linAlbara = linAlbaraManager.GetById(listLinAlbara.get(0).getIdLiniaAlbara());
 
 		} catch (Exception e){
 			e.printStackTrace();
