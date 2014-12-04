@@ -431,7 +431,8 @@ public class UserWindow extends JFrame {
 				switch (operation)
 			    {
 			    case "C": // abans cal validar totes les dades
-			    //		  insertUser();
+			    		  insertUser();
+			    		  // cleanFields();
 			              break;
 			    case "U": // abans cal validar totes les dades
 			    	//    updateUser();
@@ -474,6 +475,9 @@ public class UserWindow extends JFrame {
 	   /**
      * Mètode per deixar tots els camps en blanc
      */
+    /**
+     * 
+     */
     public void   cleanFields(){
     	txNIF.setText("");
     	//txidUsuari.setText("");
@@ -496,6 +500,55 @@ public class UserWindow extends JFrame {
  		}
  }
     /**
+     * Mètode per poder inserir un usuari una vegada les dades han estat validades
+     * 
+     */
+    
+    public String insertUser()
+    {
+    	String value = null;
+    	int idUser = 0;
+    	Usuari user = new Usuari();
+    	user.setAdresa(txAddress.getText());
+    	user.setcognoms(txCognoms.getText());
+    	user.setCorreue(txe_mail.getText());
+    	user.setCp(txCP.getText());
+    	user.setData_alta(dataActual);
+    	user.setData_baixa(dataActual);
+    	user.setIdIdioma("1");
+    	user.setIdLocal(cmbTaller.getSelectedItem().toString());
+    	user.setidUsuari(txidUsuari.getText());
+    	user.setLogin(txLogin.getText());
+    	user.setMobil(txMobil.getText());
+    	user.setNIF(txNIF.getText());
+    	user.setnom(txName.getText());
+    	user.setPais(txCountry.getText());
+    	user.setPassword(txPassword.getText());
+    	user.setPoblacio(txCity.getText());
+    	user.setProvince(txProvince.getText());
+    	user.setRol(cmbRol.getSelectedItem().toString());
+    	user.setTelefon(txTel.getText());
+    	user.setVigentSN(true);
+    	
+    	try {
+    		startConnection();
+    		idUser = this._clientManager.getRMIInterface().addUser(user);
+    		System.out.println("Ja el tenim "+idUser);
+    		value = Integer.toString(idUser);	
+    	}
+    	catch (STException e) {
+			Managers.exception.showException(e);
+			
+		} catch (RemoteException | NullPointerException e) {
+			Managers.exception.showException(new STException(e));
+		}finally{
+			stopConnection();
+		}
+    	
+    	return value;
+    }
+    
+    /**
      * Mètode per aconseguir el següent id per l'usuari que es vol crear
      * 
      */
@@ -506,7 +559,7 @@ public class UserWindow extends JFrame {
     		startConnection();
     		
     		value = this._clientManager.getRMIInterface().lastIdUser();
-    		System.out.println("Ja el tenim "+value);
+    		//System.out.println("Ja el tenim "+value);
     		long l = Long.valueOf(value)+1;
         	value = Long.toString(l);	
     	}

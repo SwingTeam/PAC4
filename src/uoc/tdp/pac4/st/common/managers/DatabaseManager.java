@@ -463,7 +463,6 @@ public class DatabaseManager {
 	  */
 	 public int insertDataAndReturnId(String table, Map<String, Object> hashMap) throws STException{
 		 StringBuilder sql = new StringBuilder();
-		 
 		 sql.append(INSERT_INTO);
 		 sql.append(table);
 		 sql.append(BEGIN_GROUP);
@@ -483,6 +482,8 @@ public class DatabaseManager {
 		 sql.append(VALUES);
 		 sql.append(values.toString());
 		 sql.append(END_GROUP);
+		 System.out.println(sql.toString());
+		 
 		 
 		 int id= -1;
 		 Statement statement = null;

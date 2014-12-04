@@ -31,8 +31,7 @@ public class UserManager  {
 	  * @throws STException 
 	  */
 	public int Add(Usuari User) throws STException 
-	{						
-		
+	{				
 		int UserId=  AddToDb(db, User);
 		return UserId;
 	}		
@@ -91,7 +90,24 @@ public class UserManager  {
 		Map<String, Object> hashMap = new HashMap<String, Object>();
 		hashMap.put(Constants.FIELD_COGNOMUSUARI, User.getcognoms());
 		hashMap.put(Constants.FIELD_LOGIN,User.getLogin());
-		// falten camps
+		hashMap.put(Constants.FIELD_ADRECA,User.getAdresa());
+		hashMap.put(Constants.FIELD_CODPOST,User.getCp());
+		hashMap.put(Constants.FIELD_CORREUEM,User.getCorreue());
+		hashMap.put(Constants.FIELD_DATAALTA,User.getData_alta());
+		hashMap.put(Constants.FIELD_DATABAIXA,User.getData_baixa());
+		hashMap.put(Constants.FIELD_IDIOMA_ID,User.getIdIdioma());
+		hashMap.put(Constants.FIELD_LOCAL_ID,User.getIdLocal());
+		hashMap.put(Constants.FIELD_PROVINCIA_ID,User.getProvince());
+		hashMap.put(Constants.FIELD_ID_USUARI,User.getidUsuari());
+		hashMap.put(Constants.FIELD_NIF,User.getNIF());
+		hashMap.put(Constants.FIELD_NOMUSUARI,User.getnom());
+		hashMap.put(Constants.FIELD_PAIS,User.getPais());
+		hashMap.put(Constants.FIELD_PASSWORD,User.getPassword());
+		hashMap.put(Constants.FIELD_POBLACIO,User.getPoblacio());
+		hashMap.put(Constants.FIELD_ROL,User.getRol());
+		hashMap.put(Constants.FIELD_TELEFONFIX,User.getTelefon());
+		hashMap.put(Constants.FIELD_TELEFONMOBIL,User.getMobil());
+		hashMap.put(Constants.FIELD_VIGENTSN,User.getVigentSN());
 		return db.insertDataAndReturnId(Constants.TABLE_USUARI, hashMap); 						
 	}
 }

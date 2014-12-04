@@ -7,6 +7,7 @@ import java.util.List;
 import uoc.tdp.pac4.st.common.STException;
 import uoc.tdp.pac4.st.common.dto.Albara;
 import uoc.tdp.pac4.st.common.dto.Local;
+import uoc.tdp.pac4.st.common.dto.Usuari;
 
 /***
  * Interface per a la connexi√≥ RMI
@@ -69,4 +70,13 @@ public interface ETallerStocksInterface extends Remote {
 	  * @throws STException
 	  */
 	 public String lastIdUser() throws RemoteException, STException;
+	 /***
+	  * Afegeix un usuari
+	  * 
+	  * @return  id del nou usuari† create
+	  * @throws RemoteException
+	  * @throws STException
+	  */ 
+	 public int addUser(Usuari user) throws RemoteException, STException;
+
 }

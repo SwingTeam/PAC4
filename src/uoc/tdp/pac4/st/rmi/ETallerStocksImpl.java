@@ -12,6 +12,7 @@ import uoc.tdp.pac4.st.client.cx.*;
 import uoc.tdp.pac4.st.common.*;
 import uoc.tdp.pac4.st.common.dto.Albara;
 import uoc.tdp.pac4.st.common.dto.Local;
+import uoc.tdp.pac4.st.common.dto.Usuari;
 import uoc.tdp.pac4.st.common.managers.*;
 import uoc.tdp.pac4.st.rmi.*;
 import uoc.tdp.pac4.st.server.*;
@@ -120,4 +121,18 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 			databaseManager = null;
 			return idUser;
 	 }
+	 /***
+	  * Afegeix un usuari
+	  * 
+	  * @return  id del nou usuari  create
+	  * @throws RemoteException
+	  * @throws STException
+	  */ 
+	 public int addUser(Usuari user) throws RemoteException, STException
+	 {
+		    DatabaseManager databaseManager = new DatabaseManager();
+			UserManager um = new UserManager(databaseManager); 
+			return um.Add(user);
+	 }
+
 }
