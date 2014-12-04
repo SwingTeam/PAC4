@@ -432,7 +432,7 @@ public class UserWindow extends JFrame {
 			    {
 			    case "C": // abans cal validar totes les dades
 			    		  insertUser();
-			    		  // cleanFields();
+			    		  cleanFields();
 			              break;
 			    case "U": // abans cal validar totes les dades
 			    	//    updateUser();
@@ -500,6 +500,32 @@ public class UserWindow extends JFrame {
  		}
  }
     /**
+     * Mètode que a partir del nom del local retorna el seu id
+     * @param localName
+     * @return el id del local
+     */
+    
+    public String getId_LocalwithName (String localName)
+    {
+    	String id = null;
+    	try {
+    		startConnection();
+    		id = this._clientManager.getRMIInterface().getId_LocalwithName(localName);
+    			
+    	}
+    	catch (STException e) {
+			Managers.exception.showException(e);
+			
+		} catch (RemoteException | NullPointerException e) {
+			Managers.exception.showException(new STException(e));
+		}finally{
+			stopConnection();
+		}
+    	
+    	return id;
+    }
+    
+    /**
      * Mètode per poder inserir un usuari una vegada les dades han estat validades
      * 
      */
@@ -517,6 +543,7 @@ public class UserWindow extends JFrame {
     	user.setData_baixa(dataActual);
     	user.setIdIdioma("1");
     	user.setIdLocal(cmbTaller.getSelectedItem().toString());
+    	user.setIdLocal(getId_LocalwithName(user.getIdLocal()));
     	user.setidUsuari(txidUsuari.getText());
     	user.setLogin(txLogin.getText());
     	user.setMobil(txMobil.getText());
@@ -533,7 +560,6 @@ public class UserWindow extends JFrame {
     	try {
     		startConnection();
     		idUser = this._clientManager.getRMIInterface().addUser(user);
-    		System.out.println("Ja el tenim "+idUser);
     		value = Integer.toString(idUser);	
     	}
     	catch (STException e) {
@@ -559,7 +585,6 @@ public class UserWindow extends JFrame {
     		startConnection();
     		
     		value = this._clientManager.getRMIInterface().lastIdUser();
-    		//System.out.println("Ja el tenim "+value);
     		long l = Long.valueOf(value)+1;
         	value = Long.toString(l);	
     	}

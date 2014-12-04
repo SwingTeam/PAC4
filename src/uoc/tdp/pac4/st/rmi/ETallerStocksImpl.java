@@ -135,4 +135,11 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 			return um.Add(user);
 	 }
 
+	 public String getId_LocalwithName(String localName) throws RemoteException, STException
+	 {
+		 DatabaseManager db = new DatabaseManager();
+		 UserManager um = new UserManager(db);
+		 return um.getId_LocalwithName(localName);
+	 }
+	 
 }

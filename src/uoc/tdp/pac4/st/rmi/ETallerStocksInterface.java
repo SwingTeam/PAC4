@@ -79,4 +79,6 @@ public interface ETallerStocksInterface extends Remote {
 	  */ 
 	 public int addUser(Usuari user) throws RemoteException, STException;
 
+	 
+	 public String getId_LocalwithName(String localName) throws RemoteException, STException;
 }
