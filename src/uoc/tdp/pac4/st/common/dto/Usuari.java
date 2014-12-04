@@ -16,25 +16,26 @@ import java.util.Date;
 	 * Camps de la classe Usuari
 	 */
 	private static final long serialVersionUID = 4700317219324523776L;
-	private int idUsuari = 0;
-    private String NIF = "";
-    private String password = "";
+	private String idUsuari = "";
+	private String password = "";
     private String login = "";
+    private String NIF = "";
     private String nom = "";
     private String cognoms ="";
-    private int idIdioma = 0;
+    private String idIdioma = "";
     private String adresa = "";
     private String poblacio = "";
     private String cp = "";
     private String idLocal = "";
-    private String pais = "";
     private Date data_alta;
-    private String rol = "";
+    private Boolean vigentSN;
+    private Date data_baixa;
     private String correue ="";
     private String telefon = "";
     private String mobil = "";
-    
-    
+    private String province = "";
+    private String pais = "";
+    private String rol = "";
   /** 
     * Class constructor.
     */
@@ -56,7 +57,7 @@ import java.util.Date;
      * @param ppais
      *
      */
-	public Usuari(int pidUsuari, String pPassword, String pnom, String pcognoms, int pidIdioma, String padresa, String ppoblacio, String pidLocal, String ppais)
+	public Usuari(String pidUsuari, String pPassword, String pnom, String pcognoms, String pidIdioma, String padresa, String ppoblacio, String pidLocal, String ppais)
 	{
 	  idUsuari = pidUsuari;
 	  password = pPassword;
@@ -73,7 +74,7 @@ import java.util.Date;
 	 * @param usuari the user id to set
 	 */
 
-	public void setidUsuari (int usuari)
+	public void setidUsuari (String usuari)
 	{
 		this.idUsuari = usuari;
 	}
@@ -84,7 +85,7 @@ import java.util.Date;
 	  * @return int    el identificador de l'usuari en l'aplicaci�
 	  */
 
-	public int getidUsuari ()
+	public String getidUsuari ()
 	{
 		return idUsuari;
 	}
@@ -139,14 +140,14 @@ import java.util.Date;
 	/**
 	 * @return the idIdioma
 	 */
-	public int getIdIdioma() {
+	public String getIdIdioma() {
 		return idIdioma;
 	}
 
 	/**
 	 * @param idIdioma the idIdioma to set
 	 */
-	public void setIdIdioma(int idIdioma) {
+	public void setIdIdioma(String idIdioma) {
 		this.idIdioma = idIdioma;
 	}
 
@@ -407,5 +408,29 @@ import java.util.Date;
 		if (checkTelefon(telefon)==false || telefon.charAt(0)!='6')
 			return false;
 	    return true;
+	}
+
+	public Boolean getVigentSN() {
+		return vigentSN;
+	}
+
+	public void setVigentSN(Boolean vigentSN) {
+		this.vigentSN = vigentSN;
+	}
+
+	public Date getData_baixa() {
+		return data_baixa;
+	}
+
+	public void setData_baixa(Date data_baixa) {
+		this.data_baixa = data_baixa;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
 	}
  }
