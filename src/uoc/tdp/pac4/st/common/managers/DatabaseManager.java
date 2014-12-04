@@ -482,7 +482,7 @@ public class DatabaseManager {
 		 sql.append(VALUES);
 		 sql.append(values.toString());
 		 sql.append(END_GROUP);
-		 
+		 System.out.println(sql.toString());
 		 
 		 
 		 int id= -1;
