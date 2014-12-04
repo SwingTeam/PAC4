@@ -8,7 +8,6 @@ import java.util.Map;
 import uoc.tdp.pac4.st.common.Constants;
 import uoc.tdp.pac4.st.common.STException;
 import uoc.tdp.pac4.st.common.TokenKeys;
-import uoc.tdp.pac4.st.common.dto.Albara;
 import uoc.tdp.pac4.st.common.dto.Usuari;
 /***
  * 
@@ -111,24 +110,4 @@ public class UserManager  {
 		hashMap.put(Constants.FIELD_VIGENTSN,User.getVigentSN());
 		return db.insertDataAndReturnId(Constants.TABLE_USUARI, hashMap); 						
 	}
-	
-	public String getId_LocalwithName(String localName) throws STException
-	{
-		String idLocal = null;
-		String sql = "SELECT ID_LOCAL FROM LOCAL WHERE NOMLOCAL LIKE '";
-		sql +=localName;
-		sql +="';";
-		try 
-		{		
-			Object ob = db.getScalar(sql);
-			idLocal = ob.toString();			
-		}
-		catch(STException e)
-		{
-			throw new STException(e, TokenKeys.ERROR_GETTING_DATA);
-		}
-		
-		return idLocal;
-	}
-	
 }
