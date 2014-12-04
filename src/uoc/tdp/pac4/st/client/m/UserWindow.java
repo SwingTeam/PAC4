@@ -64,7 +64,7 @@ public class UserWindow extends JFrame {
 		private JTextField txAddress;
 		private JTextField txCity;
 		private JTextField txCP;
-		private JComboBox<ComboBoxItem> cmbTaller = null;
+		private JComboBox<String> cmbTaller = null;
 	    private JTextField txDataAlta;
 		private JTextField txe_mail;
 		private JTextField txTel;
@@ -193,11 +193,11 @@ public class UserWindow extends JFrame {
 		    getContentPane().add(lblRol);
 		    
 		    this.cmbRol = new JComboBox<String>();
-		    this.cmbRol.addItem("Administrador");
-		    this.cmbRol.addItem("Operador Taller");
-		    this.cmbRol.addItem("Operador Oficina");
+		    this.cmbRol.addItem("Administrador"); //0
+		    this.cmbRol.addItem("Operador Taller");// 1
+		    this.cmbRol.addItem("Operador Oficina"); //2
 		    this.cmbRol.setBounds(300,42, 115, 19);
-		    cmbRol.setSelectedIndex(2);
+		    cmbRol.setSelectedIndex(1);
 		    getContentPane().add(this.cmbRol);
 		}
 		
@@ -358,9 +358,8 @@ public class UserWindow extends JFrame {
 		    lblTaller.setBounds(180, 221, 60, 15);
 		    getContentPane().add(lblTaller);
 		    
-			this.cmbTaller = new JComboBox<ComboBoxItem>();
+			this.cmbTaller = new JComboBox<String>();
 		    this.cmbTaller.setBounds(240,217, 100, 19);
-		    getContentPane().add(this.cmbTaller);
 		}    
 		    if (operation =="C" || operation == "U")
 		    {
@@ -407,13 +406,13 @@ public class UserWindow extends JFrame {
 	    	 * Si l'operaciÛ es per fer una alta d'usuari
 	    	 * el id, s'ha de generar autom‡ticament, per aixÚ hi ha el mËtode idUserNew
 	    	 */
-	    		//txidUsuari.setText(Integer.toString(idUserNew()));
+	        txidUsuari.setText(idUserNew());
 	    	/**
 	    	 * TambÈ cal deixar a l'usuari triar un taller entre els que hi ha a la BD
 	    	 * en altre cas, el combo s'omplir‡ amb el taller que correspongui segons la cerca
 	    	 */
 	    	fillinComboBox(cmbTaller);
-		    
+		    getContentPane().add(this.cmbTaller);
 	    }else
 	    {
 	    	/**
@@ -496,7 +495,32 @@ public class UserWindow extends JFrame {
  			cmbRol.removeAllItems();
  		}
  }
- 
+    /**
+     * MËtode per aconseguir el seg¸ent id per l'usuari que es vol crear
+     * 
+     */
+    public String idUserNew()
+    {
+    	String value = null;
+    	try {
+    		startConnection();
+    		
+    		value = this._clientManager.getRMIInterface().lastIdUser();
+    		System.out.println("Ja el tenim "+value);
+    		long l = Long.valueOf(value)+1;
+        	value = Long.toString(l);	
+    	}
+    	catch (STException e) {
+			Managers.exception.showException(e);
+			
+		} catch (RemoteException | NullPointerException e) {
+			Managers.exception.showException(new STException(e));
+		}finally{
+			stopConnection();
+		}
+    	
+    	return value;
+    }
 	/***
 	 * Omple un ComboBox amb la llista de locals.
 	 * 
@@ -505,90 +529,29 @@ public class UserWindow extends JFrame {
 	/**
 	 * @param cmbTaller
 	 */
-	private void fillinComboBox(JComboBox<ComboBoxItem> cmbTaller){
+	private void fillinComboBox(JComboBox<String> cmbTaller){
 		try {
 			startConnection();
 			List<Local> locals = this._clientManager.getRMIInterface().getEstablishmentList(null);
-			
 			if (locals != null){
 				for (Local item : locals){
-					cmbTaller.addItem(new ComboBoxItem(item.getName()));
-					//this.cmbTaller.addItem(item.getName());
-				}
+					cmbTaller.addItem(item.getName());
+			}
+			cmbTaller.setSelectedIndex(1);
+				
 			}
 			
 		}
-		catch (Exception e)
-		{
-		 System.out.println(e.getMessage());	
-		
-		/*} catch (STException e) {
+		catch (STException e) {
 			Managers.exception.showException(e);
 			
 		} catch (RemoteException | NullPointerException e) {
 			Managers.exception.showException(new STException(e));
-		*/
 		}finally{
 			stopConnection();
 		}
 	}
 	
-	
-	/***
-	 * Executa una sent√®ncia SQL de selecci√≥
-	 * de dades a la base de dades. 
-	 * Fixeu-vos que no cal obrir la
-	 * connexi√≥ a la base de dades ni tancar-la.
-	 * Nom√©s s'ha de crear un objecte DabatabeManager
-	 * i cridar al seu m√®tode selectData, passant-li
-	 * com a par√†metre la sent√®ncia a executar.
-	 * 
-	 * ATENCI√ì: 
-	 * ========
-	 * 
-	 * El que mostra aquest exemple no es
-	 * pot reproduir a m√®todes del costat del client.
-	 * Nom√©s s'ha de reproduir a m√®todes
-	 * que es trobin a LA BANDA DEL SERVIDOR
-	 */
-	private void selectLocalsName(){
-		DatabaseManager db = null;
-		try {
-			db = new DatabaseManager();
-			this.getLocalsNames(db);
-
-		} catch (STException e){
-			Managers.exception.showException(e);
-		} catch (Exception e){
-			Managers.exception.showException(new STException(e));
-		}
-	}
-
-
-	/***
-	 * MËtode per aconseguir els noms del Tallers
-	 *        nomLocal character varying(40) per poder-los posar en el comboBox
- 
-	 * @param db Objecte DatabaseManager obert
-	 * @throws STException
-	 * @throws Exception
-	 */
-	private void getLocalsNames(DatabaseManager db) throws STException, Exception{
-		ResultSet resultSet = null;
-		resultSet = db.selectData("Select nomLocal from " + Constants.TABLE_LOCAL);
-	
-		resultSet.beforeFirst();
-		int i = 0;
-		while (resultSet.next()){
-			i++;
-			Methods.showMessage(resultSet.getString(Constants.FIELD_NOMLOCAL),Enums.MessageType.Info);
-		}
-		resultSet.close();
-		resultSet = null;
-		Methods.showMessage(String.format(Managers.i18n.getTranslation(TokenKeys.AVAILABLE_ESTABLIMENTS), i), Enums.MessageType.Info);
-	}
-	
-
 	
 	/***
 	 * M√©tode que encarregat de fer la connexi√≥

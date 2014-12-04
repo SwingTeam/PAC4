@@ -207,7 +207,7 @@ public class DatabaseManager {
 			statement = this._dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
 															ResultSet.FETCH_FORWARD);
 			String sqlSentence =  SELECT_COUNT +
-							         FROM + Constants.TABLE_LOCAL;
+							         FROM + table;
 			
 			resultSet = statement.executeQuery(sqlSentence);
 			if (resultSet != null){

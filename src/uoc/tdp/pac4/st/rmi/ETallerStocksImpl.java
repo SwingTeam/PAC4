@@ -102,4 +102,22 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 		AlbaraManager albaraManager = new AlbaraManager(databaseManager); 
 		return albaraManager.Add(albara);
 	 }
+
+	 /**
+	  * Retorna String amb l'idUsuari més gran que de moment hi ha a la BD
+	  * si no hi ha usuaris retorna String a null
+	  * @return String id_usuari més gran
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+
+	 public String lastIdUser() throws RemoteException, STException
+	 {
+		 String idUser=null;
+		 DatabaseManager databaseManager = new DatabaseManager();
+			long l = databaseManager.countTableRows("Usuari"); // prova però no és el definitiu , cal fer un mètode nou a DatabaseManager
+			idUser = Long.toString(l);
+			databaseManager = null;
+			return idUser;
+	 }
 }

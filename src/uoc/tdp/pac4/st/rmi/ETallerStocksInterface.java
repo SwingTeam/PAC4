@@ -61,4 +61,12 @@ public interface ETallerStocksInterface extends Remote {
 	  */ 
 	 public int AddAlbara(Albara albara) throws RemoteException, STException;
 
+	 /**
+	  * Retorna String amb l'idUsuari més gran que de moment hi ha a la BD
+	  * si no hi ha usuaris retorna String a null
+	  * @return String id_usuari més gran
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public String lastIdUser() throws RemoteException, STException;
 }
