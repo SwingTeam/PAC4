@@ -1,21 +1,26 @@
 package uoc.tdp.pac4.st.rmi;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.SQLException;
 import java.util.List;
 
-import uoc.tdp.pac4.st.*;
-import uoc.tdp.pac4.st.client.cx.*;
-import uoc.tdp.pac4.st.common.*;
+import uoc.tdp.pac4.st.common.STException;
+import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.Albara;
+import uoc.tdp.pac4.st.common.dto.Grup;
 import uoc.tdp.pac4.st.common.dto.Local;
+import uoc.tdp.pac4.st.common.dto.Producte;
+import uoc.tdp.pac4.st.common.dto.Proveidor;
+import uoc.tdp.pac4.st.common.dto.SubGrup;
 import uoc.tdp.pac4.st.common.dto.Usuari;
-import uoc.tdp.pac4.st.common.managers.*;
-import uoc.tdp.pac4.st.rmi.*;
-import uoc.tdp.pac4.st.server.*;
+import uoc.tdp.pac4.st.common.managers.AlbaraManager;
+import uoc.tdp.pac4.st.common.managers.DatabaseManager;
+import uoc.tdp.pac4.st.common.managers.GrupManager;
+import uoc.tdp.pac4.st.common.managers.ProducteManager;
+import uoc.tdp.pac4.st.common.managers.ProveidorManager;
+import uoc.tdp.pac4.st.common.managers.SubGrupManager;
+import uoc.tdp.pac4.st.common.managers.UserManager;
 
 /***
  * Classe que implementa la interface
@@ -87,6 +92,47 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 		return result;
 	}
 	
+	 /**
+	  * Retorna String amb l'idUsuari mï¿½s gran que de moment hi ha a la BD
+	  * si no hi ha usuaris retorna String a null
+	  * @return String id_usuari mï¿½s gran
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+
+	 public String lastIdUser() throws RemoteException, STException
+	 {
+		 String idUser=null;
+		 DatabaseManager databaseManager = new DatabaseManager();
+			long l = databaseManager.countTableRows("Usuari"); // prova perï¿½ no ï¿½s el definitiu , cal fer un mï¿½tode nou a DatabaseManager
+			idUser = Long.toString(l);
+			databaseManager = null;
+			return idUser;
+	 }
+	
+			
+	 public String getId_LocalwithName(String localName) throws RemoteException, STException
+	 {
+		 DatabaseManager db = new DatabaseManager();
+		 UserManager um = new UserManager(db);
+		 return um.getId_LocalwithName(localName);
+	 }
+	 
+	 /***
+	  * Afegeix un usuari
+	  * 
+	  * @return  id del nou usuariï¿½ create
+	  * @throws RemoteException
+	  * @throws STException
+	  */ 
+	 public int addUser(Usuari user) throws RemoteException, STException
+	 {
+		    DatabaseManager databaseManager = new DatabaseManager();
+			UserManager um = new UserManager(databaseManager); 
+			return um.Add(user);
+	 }	 
+	 
+	 /*** BEGIN: Subsistema ConnexiÃ³ ****/
 	 /***
 	  * Afegeix un albara i les seves linies a la base de dades
 	  * 
@@ -103,43 +149,62 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 		AlbaraManager albaraManager = new AlbaraManager(databaseManager); 
 		return albaraManager.Add(albara);
 	 }
-
-	 /**
-	  * Retorna String amb l'idUsuari més gran que de moment hi ha a la BD
-	  * si no hi ha usuaris retorna String a null
-	  * @return String id_usuari més gran
-	  * @throws RemoteException
-	  * @throws STException
-	  */
-
-	 public String lastIdUser() throws RemoteException, STException
-	 {
-		 String idUser=null;
-		 DatabaseManager databaseManager = new DatabaseManager();
-			long l = databaseManager.countTableRows("Usuari"); // prova però no és el definitiu , cal fer un mètode nou a DatabaseManager
-			idUser = Long.toString(l);
-			databaseManager = null;
-			return idUser;
-	 }
-	 /***
-	  * Afegeix un usuari
-	  * 
-	  * @return  id del nou usuari  create
-	  * @throws RemoteException
-	  * @throws STException
-	  */ 
-	 public int addUser(Usuari user) throws RemoteException, STException
-	 {
-		    DatabaseManager databaseManager = new DatabaseManager();
-			UserManager um = new UserManager(databaseManager); 
-			return um.Add(user);
-	 }
-
-	 public String getId_LocalwithName(String localName) throws RemoteException, STException
-	 {
-		 DatabaseManager db = new DatabaseManager();
-		 UserManager um = new UserManager(db);
-		 return um.getId_LocalwithName(localName);
-	 }
 	 
+	 /***
+	  * LLista tots els proveidors
+	  * 
+	  * @return  List<Proveidor>  Llistat de proveidors
+	  * @throws RemoteException
+	  * @throws STException
+	  */	 
+  	 public List<Proveidor> listProveidors() throws  RemoteException,STException {
+		DatabaseManager databaseManager = new DatabaseManager();
+		ProveidorManager manager = new ProveidorManager(databaseManager );
+		return manager.List();
+  	 }
+  	 
+  	 
+	 
+	 /***
+	  * LLista tots els grups
+	  * 
+	  * @return  List<Grup>  Llistat de grups
+	  * @throws RemoteException
+	  * @throws STException
+	  */	 
+  	 public List<Grup> listGrups() throws  RemoteException,STException {
+		DatabaseManager databaseManager = new DatabaseManager();
+		GrupManager manager= new GrupManager(databaseManager );
+		return manager.List();
+  	 }
+  	 
+	 /***
+	  * LLista els subgrups d'un grup
+	  * 
+	  * @return  List<Grup>  Llistat de grups
+	  * @throws RemoteException
+	  * @throws STException
+	  */	 
+  	 public List<SubGrup> getSubGrupsByGrup(Integer grupId) throws  RemoteException,STException {
+		DatabaseManager databaseManager = new DatabaseManager();
+		SubGrupManager manager= new SubGrupManager(databaseManager );
+		return manager.GetByGrupId(grupId);
+  	 }
+  	 
+  	 /***
+	  * 
+	  * Torna tots els productes per proveidor, grup i subgrup 
+	  * 
+	  * @return List<Producte> LLista de productes 
+	  * @throws STException 
+	  */	
+	public List<Producte> SearchProdutes(String proveidorId, Integer grupId, Integer subGrupId) throws RemoteException,STException
+	{
+		DatabaseManager databaseManager = new DatabaseManager();
+		ProducteManager manager= new ProducteManager(databaseManager );
+		return manager.Search(proveidorId, grupId, grupId);		
+	}
+	
+  	 
+	/*** END: Subsistema ConnexiÃ³ ****/		
 }
