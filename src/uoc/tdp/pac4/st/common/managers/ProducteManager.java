@@ -41,14 +41,14 @@ public class ProducteManager  {
 		StringBuilder sb= new StringBuilder();
 		sb.append("SELECT producte.* FROM producte ");
 		
-		if (proveidorId != null || grupId == null || subGrupId != null)
+		if (proveidorId != null || grupId != null || subGrupId != null)
 		{
 			if (proveidorId != null)
 			{
 				sb.append("INNER JOIN producteproveidor ON producte.id_producte = producteproveidor.producte_id");
 			}
 			
-			sb.append("WHERE ");
+			sb.append(" WHERE ");
 			
 			if (proveidorId != null)
 			{
@@ -57,12 +57,13 @@ public class ProducteManager  {
 			
 			if (grupId != null)
 				sb.append("productegrup_id = " + grupId + " AND ");
+			
 			if (subGrupId != null)
 				sb.append("productesubgrup_id = " + subGrupId + " AND ");
 			
-			sb.substring(0, sb.length() -4); //borra ultim AND
+			sb= new StringBuilder(sb.substring(0, sb.length() -4)); //borra ultim AND
 		}
-		sb.append("ORDER BY nomproducte");
+		sb.append(" ORDER BY nomproducte");
 		
 		ResultSet resultSet= db.selectData(sb.toString());
 

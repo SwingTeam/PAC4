@@ -202,7 +202,7 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 	{
 		DatabaseManager databaseManager = new DatabaseManager();
 		ProducteManager manager= new ProducteManager(databaseManager );
-		return manager.Search(proveidorId, grupId, grupId);		
+		return manager.Search(proveidorId, grupId, subGrupId);		
 	}
 	
   	 

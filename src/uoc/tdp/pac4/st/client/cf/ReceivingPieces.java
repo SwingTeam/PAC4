@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.Iterator;
@@ -12,12 +14,18 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import uoc.tdp.pac4.st.common.ComboBoxItem;
 import uoc.tdp.pac4.st.common.Constants;
 import uoc.tdp.pac4.st.common.Managers;
+import uoc.tdp.pac4.st.common.Methods;
 import uoc.tdp.pac4.st.common.STException;
 import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.Grup;
@@ -39,11 +47,15 @@ public class ReceivingPieces extends JFrame {
 	static final int xOffset = 30, yOffset = 30;		
 	static final int openFrameCount = 0;
 	
-	private JComboBox<ComboBoxItem>  cmbProveidor = null;
-	
+	private JComboBox<ComboBoxItem>  cmbProveidor = null;	
 	private JComboBox<ComboBoxItem>  cmbGrup = null;
 	private JComboBox<ComboBoxItem>  cmbSubGrup = null;
 	private JComboBox<ComboBoxItem>  cmbProducte = null;
+	private JTextField txtQuantitat = null;
+	
+	private JPanel pnlLinAlbara = null;
+	
+	private JTable tblLinAlbara= null;
 	
 	private JButton btnSave = new JButton("SAVE");
     private JButton btnCancel = new JButton("CANCEL");
@@ -96,7 +108,7 @@ public class ReceivingPieces extends JFrame {
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 800, 600);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -107,22 +119,105 @@ public class ReceivingPieces extends JFrame {
 	    setLocation(xOffset*openFrameCount, yOffset*openFrameCount);
 	    getContentPane().setLayout(null);
 			    
-	    cmbProveidor = getCmbProveidor();
-	    cmbProveidor.setBounds(75, 50, 70, 19);
+		JLabel lblProveidor = new JLabel("LABEL_PROVEIDOR");
+		lblProveidor.setBounds(75, 50, 100, 20);
+		getContentPane().add(lblProveidor);
+				
+	    cmbProveidor = new JComboBox<ComboBoxItem>();
+	    fillCmbProveidor(cmbProveidor);
+	    cmbProveidor.setBounds(175, 50, 150, 20);
+	    cmbProveidor.addItemListener(new ItemListener () {
+		    public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED)
+				{
+					String proveidorId= (String) ((ComboBoxItem) cmbProveidor.getSelectedItem()).getId();					
+					Integer grupId = (Integer) ((ComboBoxItem) cmbGrup.getSelectedItem()).getId();
+					Integer subGrupId = (Integer) ((ComboBoxItem) cmbSubGrup.getSelectedItem()).getId();
+					
+					fillCmbProducte(cmbProducte, proveidorId, grupId ,subGrupId);
+					
+				}
+		    }
+		});				
+	    
 	    getContentPane().add(cmbProveidor);
 	    
-	    cmbGrup = getCmbGrup();
-	    cmbGrup.setBounds(75, 100, 70, 19);
+
+		JLabel lblGrup = new JLabel("LABEL_GRUP");
+		lblGrup.setBounds(75, 100, 100, 20);
+		getContentPane().add(lblGrup);
+		
+	    cmbGrup = new JComboBox<ComboBoxItem>();
+	    fillCmbGrup(cmbGrup );
+	    cmbGrup.setBounds(175, 100, 150, 20);
+	    cmbGrup.addItemListener(new ItemListener () {
+		    public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED)
+				{
+					String proveidorId= (String) ((ComboBoxItem) cmbProveidor.getSelectedItem()).getId();					
+					Integer grupId = (Integer) ((ComboBoxItem) cmbGrup.getSelectedItem()).getId();
+					Integer subGrupId = (Integer) ((ComboBoxItem) cmbSubGrup.getSelectedItem()).getId();
+					
+					fillCmbSubGrup(cmbSubGrup, grupId);
+					fillCmbProducte(cmbProducte, proveidorId, grupId ,subGrupId);
+					
+				}
+		    }
+		});			    
 	    getContentPane().add(cmbGrup);
+
 	    
-		cmbSubGrup = getCmbSubGrup(null);
-		cmbSubGrup.setBounds(75, 150, 70, 19);
+		JLabel lblSubGrup = new JLabel("LABEL_SUBGRUP");
+		lblSubGrup.setBounds(75, 150, 100, 20);
+		getContentPane().add(lblSubGrup);
+	    
+		cmbSubGrup = new JComboBox<ComboBoxItem>();
+		fillCmbSubGrup(cmbSubGrup , null);
+		cmbSubGrup.setBounds(175, 150, 150, 20);
+		cmbSubGrup.addItemListener(new ItemListener () {
+		    public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED)
+				{
+					String proveidorId= (String) ((ComboBoxItem) cmbProveidor.getSelectedItem()).getId();					
+					Integer grupId = (Integer) ((ComboBoxItem) cmbGrup.getSelectedItem()).getId();
+					Integer subGrupId = (Integer) ((ComboBoxItem) cmbSubGrup.getSelectedItem()).getId();
+					
+					fillCmbProducte(cmbProducte, proveidorId, grupId ,subGrupId);
+					
+				}
+		    }
+		});			    
+		
 	    getContentPane().add(cmbSubGrup);
 		
+
+		JLabel lblProducte = new JLabel("LABEL_PRODUCTE");
+		lblProducte.setBounds(75, 200, 100, 20);
+		getContentPane().add(lblProducte);
 	    
-		cmbProducte = getCmbProducte(null,null,null);
-		cmbProducte.setBounds(75, 200, 70, 19);
+		cmbProducte = new JComboBox<ComboBoxItem>();
+		fillCmbProducte(cmbProducte, null,null,null);
+		cmbProducte.setBounds(175, 200, 350, 20);			    	
 	    getContentPane().add(cmbProducte);
+	    	    
+	    txtQuantitat= new JTextField();
+	    txtQuantitat.setBounds(175, 200, 350, 20);			    	
+	    getContentPane().add(txtQuantitat);
+	    
+	    
+	    
+	    JButton btnAdd = new JButton("LABEL_AFEGIR");
+	    btnAdd.setBounds(550, 200, 100, 25);
+		this.add(btnAdd);
+		
+		btnAdd.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent paramAnonymousActionEvent) {
+	        	if (IsValidLiniaAlbara())
+	        	{	        		
+	        		AddProducteToAlbara();		        	
+	        	}
+	        }
+	      });
 	    
 	    
 	    btnSave.addActionListener(new ActionListener() {
@@ -138,17 +233,35 @@ public class ReceivingPieces extends JFrame {
 	    });
 	    
 	    
+	    pnlLinAlbara= new JPanel();
+	    pnlLinAlbara.setLayout(null);
+	    pnlLinAlbara.setBounds(75, 250, 500, 200);
+		getContentPane().add(pnlLinAlbara);
+		
+		DrawTableAlbara(pnlLinAlbara);
+
 	    
+		//Traducció dels tokens de la pantalla
+		try {
+			Methods.setFrameLanguage(this);
+		} catch (Exception e) {
+			Managers.exception.showException(new STException(e, TokenKeys.ERROR_TRANSLATING_WINDOW));
+		}
+		
+		//Centrem la finestra
+		Methods.centerWindow(this);
 	}
 
 	/***
 	 * Omple un ComboBox amb la llista de proveidors.
 	 * 
 	 */
-	private JComboBox<ComboBoxItem>  getCmbProveidor() {
-		JComboBox<ComboBoxItem> cmbBoxItem = new JComboBox<ComboBoxItem>(); 
-		
+	private void fillCmbProveidor(JComboBox<ComboBoxItem> cmbBoxItem ) {
 		try {
+			cmbBoxItem.removeAllItems();
+			
+			cmbBoxItem.addItem(new ComboBoxItem(null, Managers.i18n.getTranslation("LABEL_ESCOLLIR")));
+			
 			List<Proveidor> list = this._clientManager.getRMIInterface().listProveidors();
 			
 			Iterator<Proveidor> iterator= list.iterator();
@@ -163,19 +276,19 @@ public class ReceivingPieces extends JFrame {
 			
 		} catch (RemoteException | NullPointerException e) {
 			Managers.exception.showException(new STException(e));
-		}
-		
-		return cmbBoxItem;
+		}		
 	}
 	
 	/***
 	 * Omple un ComboBox amb la llista de grups.
 	 * 
 	 */
-	private JComboBox<ComboBoxItem>  getCmbGrup() {
-		JComboBox<ComboBoxItem> cmbBoxItem = new JComboBox<ComboBoxItem>(); 
-		
+	private void fillCmbGrup(JComboBox<ComboBoxItem> cmbBoxItem) {
 		try {
+			cmbBoxItem.removeAllItems();
+			
+			cmbBoxItem.addItem(new ComboBoxItem(null, Managers.i18n.getTranslation("LABEL_ESCOLLIR")));
+			
 			List<Grup> list = this._clientManager.getRMIInterface().listGrups();
 			
 			Iterator<Grup> iterator= list.iterator();
@@ -190,19 +303,20 @@ public class ReceivingPieces extends JFrame {
 			
 		} catch (RemoteException | NullPointerException e) {
 			Managers.exception.showException(new STException(e));
-		}
-		
-		return cmbBoxItem;
+		}		
 	}
 	
 	/***
 	 * Omple un ComboBox amb la llista de subgrups.
 	 * 
 	 */
-	private JComboBox<ComboBoxItem>  getCmbSubGrup(Integer grupId) {
-		JComboBox<ComboBoxItem> cmbBoxItem = new JComboBox<ComboBoxItem>(); 
+	private void fillCmbSubGrup(JComboBox<ComboBoxItem> cmbBoxItem , Integer grupId) {
 		
 		try {
+			cmbBoxItem.removeAllItems();
+			
+			cmbBoxItem.addItem(new ComboBoxItem(null, Managers.i18n.getTranslation("LABEL_ESCOLLIR")));
+			
 			List<SubGrup> list = this._clientManager.getRMIInterface().getSubGrupsByGrup(grupId);
 			
 			Iterator<SubGrup> iterator= list.iterator();
@@ -218,18 +332,18 @@ public class ReceivingPieces extends JFrame {
 		} catch (RemoteException | NullPointerException e) {
 			Managers.exception.showException(new STException(e));
 		}
-		
-		return cmbBoxItem;
 	}
 	
 	/***
 	 * Omple un ComboBox amb la llista de productes
 	 * 
 	 */
-	private JComboBox<ComboBoxItem>  getCmbProducte(String proveidorId, Integer grupId, Integer subGrupId) {
-		JComboBox<ComboBoxItem> cmbBoxItem = new JComboBox<ComboBoxItem>(); 
-		
+	private void fillCmbProducte(JComboBox<ComboBoxItem> cmbBoxItem, String proveidorId, Integer grupId, Integer subGrupId) {
 		try {
+			cmbBoxItem.removeAllItems();
+			
+			cmbBoxItem.addItem(new ComboBoxItem(null, Managers.i18n.getTranslation("LABEL_ESCOLLIR")));
+			
 			List<Producte> list = this._clientManager.getRMIInterface().SearchProdutes(proveidorId, grupId, subGrupId);
 			
 			Iterator<Producte> iterator= list.iterator();
@@ -245,8 +359,6 @@ public class ReceivingPieces extends JFrame {
 		} catch (RemoteException | NullPointerException e) {
 			Managers.exception.showException(new STException(e));
 		}
-		
-		return cmbBoxItem;
 	}
 	/***
 	 * Métode que encarregat de fer la connexió
@@ -310,5 +422,35 @@ public class ReceivingPieces extends JFrame {
 		Managers.exception = new ExceptionManager();
 	}
 	
+
+	private void DrawTableAlbara(JPanel panel) 
+	{
+		DefaultTableModel model = new DefaultTableModel(); 		
+		tblLinAlbara= new JTable(model);
+		// Create a couple of columns 
+		model.addColumn(Managers.i18n.getTranslation("LABEL_PRODUCTE")); 
+		model.addColumn(Managers.i18n.getTranslation("LABEL_QUANTITAT")); 
+				
+		JScrollPane scrollPane = new JScrollPane(tblLinAlbara);
+  
+		tblLinAlbara.setFillsViewportHeight(true);
+		scrollPane.setBounds(0, 0, 500, 200);
+	  
+		panel.removeAll();
+		panel.add(scrollPane);
+	    	    
+	}
+
+	public boolean IsValidLiniaAlbara() {
+		return true;
+	}
 	
+	private void AddProducteToAlbara() 
+	{
+		String producte= ((ComboBoxItem) cmbProducte.getSelectedItem()).getDescription();
+			
+		DefaultTableModel model = (DefaultTableModel) tblLinAlbara.getModel();
+		
+		model.addRow(new Object[]{producte, 1});		
+	}
 }
