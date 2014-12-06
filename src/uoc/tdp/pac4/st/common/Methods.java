@@ -4,10 +4,9 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -19,13 +18,6 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import uoc.tdp.pac4.st.*;
-import uoc.tdp.pac4.st.client.cx.*;
-import uoc.tdp.pac4.st.common.*;
-import uoc.tdp.pac4.st.common.managers.*;
-import uoc.tdp.pac4.st.rmi.*;
-import uoc.tdp.pac4.st.server.*;
-
 /***
  * Classe que conté tots els mètodes d'ús comú
  * a l'aplicació i que no estan inclosos a
@@ -35,6 +27,8 @@ import uoc.tdp.pac4.st.server.*;
  */
 @SuppressWarnings("unused")
 public class Methods {
+	
+	private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DATE_FORMAT);
 	
 	/***
 	 * Mètode que posiciona una finestra en
@@ -264,5 +258,32 @@ public class Methods {
 			result = value.trim();
 		}
 		return result;
+	}
+	
+	public static java.util.Date getDate(String date) {
+		try 
+		{
+			return (java.util.Date) simpleDateFormat .parse(date);
+		}
+		catch (ParseException e) {
+			return null;
+		}
+	}	
+	
+	public static boolean isValidDate(String date) {
+		try 
+		{
+			simpleDateFormat.setLenient(false);			
+			simpleDateFormat.parse(date);
+			
+			return true;
+		}
+		catch (ParseException e) {
+			return false;
+		}
+	}
+	
+	public static String formatDate(java.util.Date date) {
+		return simpleDateFormat.format(date);			
 	}
 }

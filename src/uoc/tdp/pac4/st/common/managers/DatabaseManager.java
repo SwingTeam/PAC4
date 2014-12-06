@@ -167,22 +167,27 @@ public class DatabaseManager {
 	  * a postgreSQL.
 	  */
 	 private String convertToPostfgreSQLString(Object value){
-		 String result = null;
-		 if ((value instanceof String)
-				 || (value instanceof Character))
-			 result = "'" + value.toString() + "'";
+		 String result = "";
 		 
-		 else if (value instanceof java.util.Date)
-			 result = "'" + Methods.convertToPostgreSQLDateFormat((java.util.Date)value) + "'";
-
-		 else if (value instanceof java.sql.Date)
-			 result = "'" + Methods.convertToPostgreSQLDateFormat((java.sql.Date)value) + "'";
-		 
-		 else if (value instanceof Boolean)
-			 result = value.toString().toLowerCase();
-		 
-		 else 
-			 result = value.toString();
+		 if (value != null) 
+		 {
+			
+			 if ((value instanceof String)
+					 || (value instanceof Character))
+				 result = "'" + value.toString() + "'";
+			 
+			 else if (value instanceof java.util.Date)
+				 result = "'" + Methods.convertToPostgreSQLDateFormat((java.util.Date)value) + "'";
+	
+			 else if (value instanceof java.sql.Date)
+				 result = "'" + Methods.convertToPostgreSQLDateFormat((java.sql.Date)value) + "'";
+			 
+			 else if (value instanceof Boolean)
+				 result = value.toString().toLowerCase();
+			 
+			 else 
+				 result = value.toString();
+		 }
 		 
 		 return result;
 	 }

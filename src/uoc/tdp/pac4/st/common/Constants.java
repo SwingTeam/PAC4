@@ -199,5 +199,5 @@ public class Constants {
 	public final static String TABLE_VENDA = "venda";
 	//****************************************************************************
 	
-	
+	public final static String DATE_FORMAT= "dd/mm/yyyy"; 
 }

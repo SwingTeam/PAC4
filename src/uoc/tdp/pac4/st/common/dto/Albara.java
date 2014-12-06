@@ -15,7 +15,7 @@ public class Albara implements Serializable {
 
 	private static final long serialVersionUID = 6017623832256676834L;
 
-	/*
+	/* 
 	 * Propietats privades
 	 * 
 	 */

@@ -16,10 +16,16 @@ import uoc.tdp.pac4.st.common.dto.Moviment;
  *
  */
 public class MovimentManager  {
+	public static String TIPUS_MOVIMENT_TRANSFERENCIA= "T"; //Transferència: Moviment intern. D’un local a un altre.
+	public static String TIPUS_MOVIMENT_VENDA= "V"; // Venda: D’un local cap a un client
+	public static String TIPUS_MOVIMENT_COMPRA= "C"; //Compra: D’un proveïdor cal a un local. No s’imprimeix document.
+	public static String TIPUS_MOVIMENT_SORTIDA="S"; // Sortida Devolució: D’un taller al proveïdor.
+	public static String TIPUS_MOVIMENT_ENTRADA="E"; //Entrada Devolució: D’un client a un taller.
+	
 	private DatabaseManager	db;
 	
 	public MovimentManager(DatabaseManager _db) throws STException {
-		this.db= _db;
+		this.db = _db;
 	}
 	
 	 /***

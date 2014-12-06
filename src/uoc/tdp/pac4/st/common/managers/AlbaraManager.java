@@ -24,7 +24,7 @@ public class AlbaraManager  {
 	
 	public AlbaraManager(DatabaseManager _db) throws STException {
 		this.db= _db;
-	}
+	} 
 	
 	 /***
 	  * 
