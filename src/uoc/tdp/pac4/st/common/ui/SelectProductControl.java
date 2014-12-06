@@ -1,4 +1,4 @@
-package uoc.tdp.pac4.st.client.cf;
+package uoc.tdp.pac4.st.common.ui;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;

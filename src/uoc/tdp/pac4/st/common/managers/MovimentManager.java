@@ -52,7 +52,6 @@ public class MovimentManager  {
 		hashMap.put(Constants.FIELD_COMPLETATSN, moviment.getCompletatSn());
 		hashMap.put(Constants.FIELD_DATAORDRE, moviment.getDataOrdre());
 		hashMap.put(Constants.FIELD_DATAPREVLLIURAMENT, moviment.getDataPrevLliurament());
-		hashMap.put(Constants.FIELD_ID_MOVIMENT, moviment.getIdMoviment());
 		hashMap.put(Constants.FIELD_NUMUNITATSORDRE, moviment.getNumUnitatsOrdre());
 		hashMap.put(Constants.FIELD_NUMUNITSORTIDES, moviment.getNumUnitSortides());
 		hashMap.put(Constants.FIELD_PRODUCTE_ID, moviment.getProducteId());

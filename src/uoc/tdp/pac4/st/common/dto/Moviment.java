@@ -8,7 +8,7 @@ import java.util.Date;
  * 
  * 
  * @author Swing Team - 2014
- *
+ * 
  */
 public class Moviment implements Serializable {
 

@@ -10,6 +10,7 @@ import uoc.tdp.pac4.st.common.STException;
 import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.Albara;
 import uoc.tdp.pac4.st.common.dto.LinAlbara;
+import uoc.tdp.pac4.st.common.dto.Moviment;
 
 
 
@@ -45,7 +46,22 @@ public class AlbaraManager  {
 		//Afegeix linies de l'albarà
 		for (LinAlbara linAlbara: albara.getLiniesAlbara())
 		{
-		    linAlbara.setAlbaraId(albaraId);		    
+			//Crea liniea de moviment
+			Moviment moviment = new Moviment();
+			moviment.setCompletatSn(true);
+			moviment.setDataOrdre(albara.getDataAlbara());
+			moviment.setDataPrevLliurament(albara.getDataAlbara());
+			moviment.setNumUnitatsOrdre(linAlbara.getUnitats());
+			moviment.setNumUnitSortides(linAlbara.getUnitats());
+			moviment.setProducteId(linAlbara.getProducteId());
+			moviment.setTipusMovimentId(albara.getTipusMovimentId());
+					
+			MovimentManager movimentManager = new MovimentManager(db);
+			int movimentId= movimentManager.Add(moviment);
+			
+		    linAlbara.setAlbaraId(albaraId);
+		    linAlbara.setMovimentId(movimentId);
+		    
 		    linAlbaraManager.Add(linAlbara);
 		}
 							

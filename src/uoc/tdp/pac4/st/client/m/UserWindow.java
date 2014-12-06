@@ -90,7 +90,7 @@ public class UserWindow extends JFrame {
 	    private JButton btnAccio = new JButton();
 
 	/**
-	 * Launch the application.
+	 * Launch the application. 
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
