@@ -2,6 +2,8 @@ package uoc.tdp.pac4.st.common.dto;
 
 import java.io.Serializable;
 
+import uoc.tdp.pac4.st.common.Taller;
+
 
 /***
  * 
@@ -10,7 +12,7 @@ import java.io.Serializable;
  *
  */
 public class Producte implements Serializable {
-
+ 
 	private static final long serialVersionUID = 6017623832256676834L;
     
 	/*
@@ -21,6 +23,10 @@ public class Producte implements Serializable {
     private String nomProducte;
     private int producteGrupId;
     private int producteSubGrupId;
+        
+    private Taller taller;
+    private Existencies existencies;
+    
     
     /*
      * Constructor
@@ -59,6 +65,22 @@ public class Producte implements Serializable {
 	}
 	public void setProducteSubGrupId(int producteSubGrupId) {
 		this.producteSubGrupId = producteSubGrupId;
+	}
+
+	public Taller getTaller() {
+		return taller;
+	}
+
+	public void setTaller(Taller taller) {
+		this.taller = taller;
+	}
+
+	public Existencies getExistencies() {
+		return existencies;
+	}
+
+	public void setExistencies(Existencies existencies) {
+		this.existencies = existencies;
 	}
 
 }

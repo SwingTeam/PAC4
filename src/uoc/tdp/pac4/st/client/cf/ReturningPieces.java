@@ -31,6 +31,7 @@ import uoc.tdp.pac4.st.common.Methods;
 import uoc.tdp.pac4.st.common.STException;
 import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.Albara;
+import uoc.tdp.pac4.st.common.dto.Existencies;
 import uoc.tdp.pac4.st.common.dto.LinAlbara;
 import uoc.tdp.pac4.st.common.managers.AlbaraManager;
 import uoc.tdp.pac4.st.common.managers.ClientManager;
@@ -45,7 +46,7 @@ import uoc.tdp.pac4.st.common.ui.LabelTitle;
 import uoc.tdp.pac4.st.common.ui.SelectProductControl;
 import uoc.tdp.pac4.st.rmi.ETallerStocksInterface;
 
-public class ReceivingPieces extends JFrame {
+public class ReturningPieces extends JFrame {
 	//RN: Temp
 	private String codiLocal="L1"; 
 	
@@ -58,11 +59,14 @@ public class ReceivingPieces extends JFrame {
 	static final int openFrameCount = 0;
 
 	private JComboBox<ComboBoxItem>  cmbProveidor = null;
-	private JTextField txtAlbaraProveidor = null;
-	private JTextField txtDataAlbara = null;
-	
+	private JTextField txtDataAlbara = null;	
 	private SelectProductControl selectProductControl = null;
+	
+	private JLabel lblEstoc = null;
 	private JTextField txtQuantitat = null;
+	private JComboBox<ComboBoxItem>  cmbMotiuDevolucio= null;
+	
+	
 	private JButton btnAdd; 
 	private JButton btnSave;
 	private JButton btnCancel;
@@ -102,7 +106,7 @@ public class ReceivingPieces extends JFrame {
 					Managers.i18n.setLanguage(language);
 			
 				
-					ReceivingPieces frame = new ReceivingPieces();
+					ReturningPieces frame = new ReturningPieces();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -114,9 +118,8 @@ public class ReceivingPieces extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ReceivingPieces() {
+	public ReturningPieces() {
 		startConnection();
-		
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -131,7 +134,7 @@ public class ReceivingPieces extends JFrame {
 	    setLocation(xOffset*openFrameCount, yOffset*openFrameCount);
 	    getContentPane().setLayout(null);
 	    
-    	LabelTitle lblTitle = new LabelTitle("LABEL_RECEPCIO_PECES");
+    	LabelTitle lblTitle = new LabelTitle("LABEL_DEVOLUCIO_PECES");
     	lblTitle.setBounds(10, 10, 400, 20);
 		getContentPane().add(lblTitle);
 
@@ -154,49 +157,67 @@ public class ReceivingPieces extends JFrame {
 					{
 						lineInputSetEnabled(false);
 					}
-
 				}
 		    }
 		});			    
 	    cmbProveidor.setBounds(120, 50, 200, 20);
 	    getContentPane().add(cmbProveidor);
 
-		JLabel lblAlbaraProveidor = new JLabel("LABEL_ALBARA_PROVEIDOR");
-		lblAlbaraProveidor.setBounds(50, 80, 150, 20);
-		getContentPane().add(lblAlbaraProveidor);
-
-	    txtAlbaraProveidor = new JTextField();
-	    txtAlbaraProveidor.setBounds(200, 80, 150, 20);
-	    getContentPane().add(txtAlbaraProveidor);
-
 		JLabel lblDataAlbara= new JLabel("LABEL_DATA_ALBARA");
-		lblDataAlbara.setBounds(370, 80, 100, 20);
+		lblDataAlbara.setBounds(50, 80, 150, 20);
 		getContentPane().add(lblDataAlbara);
 
 	    this.txtDataAlbara = new JTextField();
-	    txtDataAlbara.setBounds(470, 80, 100, 20);
+	    txtDataAlbara.setBounds(200, 80, 100, 20);
 	    this.txtDataAlbara.setText(Methods.formatDate(new Date()));
 	    getContentPane().add(txtDataAlbara);
-	    
-	    
+	    	    
 	    //Select product control
 	    selectProductControl= new SelectProductControl(this._clientManager, (String) ((ComboBoxItem) this.cmbProveidor.getSelectedItem()).getId()); 
 	    selectProductControl.setBounds(50, 80, 500, 100);
-	    selectProductControl.setVisible(true);	       	   		   
+		Action _canviarProducteAction = new AbstractAction()
+		{
+		    public void actionPerformed(ActionEvent e)
+		    {
+		    	UpdateEstock();
+		    }
+		};
+	    selectProductControl.canviarProducteAction = _canviarProducteAction;		    
 	    getContentPane().add(selectProductControl);
-
-		JLabel lblQuantitat= new JLabel("LABEL_QUANTITAT");
-		lblQuantitat.setBounds(580, 135, 70, 20);
-		add(lblQuantitat);
-	    
-	    
-		txtQuantitat= new JTextField();
-		txtQuantitat.setBounds(580, 155, 50, 20);			    	
-		add(txtQuantitat);
-
+	    	
+	    			
+		JLabel lblStock= new JLabel("LABEL_ESTOC");
+		lblStock.setBounds(580, 130, 200, 20);
+		add(lblStock);
 		
+	    lblEstoc= new JLabel();
+	    lblEstoc.setBounds(580, 155, 50, 20);
+	    add(lblEstoc);		
+		
+	    JLabel lblGrup = new JLabel("LABEL_MOTIU_DEVOLUCIO");
+		lblGrup.setBounds(50, 190, 100, 20);
+		add(lblGrup);
+	    
+		JLabel lblQuantitat= new JLabel("LABEL_QUANTITAT");
+		lblQuantitat.setBounds(300, 190, 200, 20);
+		add(lblQuantitat);
+	    				
+
+	    
+	    		
+	    cmbMotiuDevolucio = new JComboBox<ComboBoxItem>();
+	    ComboBoxHelper.fillCmbMotiuDevolucio(this._clientManager, cmbMotiuDevolucio);
+	    cmbMotiuDevolucio.setBounds(150, 190, 125, 20);
+	    add(cmbMotiuDevolucio);
+	    
+	    	    
+		txtQuantitat= new JTextField();
+		txtQuantitat.setBounds(380, 190, 50, 20);			    	
+		add(txtQuantitat);
+					    
+	      	    
 	    btnAdd = new JButton("LABEL_AFEGIR");
-	    btnAdd.setBounds(660, 150, 120, 25);
+	    btnAdd.setBounds(510, 190, 120, 25);
 	    getContentPane().add(btnAdd);		
 		btnAdd.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent paramAnonymousActionEvent) {
@@ -209,7 +230,7 @@ public class ReceivingPieces extends JFrame {
 
 		
 	    btnCancel = new JButton("LABEL_CANCEL");
-	    btnCancel.setBounds(100, 420, 100, 40);
+	    btnCancel.setBounds(100, 460, 100, 40);
 
 	    getContentPane().add(btnCancel);	    
 	    btnCancel.addActionListener(new ActionListener() {
@@ -219,7 +240,7 @@ public class ReceivingPieces extends JFrame {
 	    });
 
 		btnSave = new JButton("LABEL_SAVE");
-		btnSave.setBounds(600, 420, 100, 40);	    	    
+		btnSave.setBounds(490, 460, 100, 40);	    	    
 	    getContentPane().add(btnSave);		    
 	    btnSave.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
@@ -232,7 +253,7 @@ public class ReceivingPieces extends JFrame {
 	    
 	    pnlLinAlbara= new JPanel();
 	    pnlLinAlbara.setLayout(null);
-	    pnlLinAlbara.setBounds(50, 200, 735, 200);
+	    pnlLinAlbara.setBounds(50, 250, 735, 200);
 		getContentPane().add(pnlLinAlbara);
 		
 		DrawTable(pnlLinAlbara);
@@ -248,10 +269,30 @@ public class ReceivingPieces extends JFrame {
 		Methods.centerWindow(this);
 		
 		//titol pantalla
-		setTitle(Managers.i18n.getTranslation("LABEL_RECEPCIO_PECES"));
-		
-		lineInputSetEnabled(false);
+		setTitle(Managers.i18n.getTranslation("LABEL_DEVOLUCIO_PECES"));
 
+		lineInputSetEnabled(false);
+	}
+	
+	private void UpdateEstock() 
+	{
+		try {
+			
+			String producteId= this.selectProductControl.producteId;
+			String localId= codiLocal;
+			
+			Existencies existencies = _clientManager.getRMIInterface().getExistenciesByProducteAndLocal(producteId, localId);
+			if (existencies != null)
+			{			
+				lblEstoc.setText(String.valueOf(existencies.getEstoc()));
+			}
+			else 
+			{
+				lblEstoc.setText("0");
+			}
+		} catch (Exception e) {
+			Managers.exception.showException(new STException(e, "ERROR_UNEXPECTED"));
+		}
 	}
 
 	private boolean isValidLine(){
@@ -266,19 +307,43 @@ public class ReceivingPieces extends JFrame {
 			   return false;
 			}
 			
+			if ((String) ((ComboBoxItem) cmbMotiuDevolucio.getSelectedItem()).getId() == null)
+			{
+			   try {
+					Methods.showMessage( Managers.i18n.getTranslation("VALIDATION_CHOOSE_RETURN_REASON"), Enums.MessageType.Warning);
+				   } catch (Exception e1) {
+			   }			  
+			   return false;
+			}
+
+			int quantitat= Integer.parseInt(this.txtQuantitat.getText()); 
+			int estoc =  Integer.parseInt(this.lblEstoc.getText());
+			
+			if (quantitat > estoc )
+			{
+			   try {
+					Methods.showMessage( Managers.i18n.getTranslation("VALIDATION_QUANTITY_GREATER_THAN_STOCK"), Enums.MessageType.Warning);
+				   } catch (Exception e1) {
+			   }			  
+			   return false;
+			}
+
+			
 			return true;			
 		}
 		return false;
 	}
-
+	
 	private void lineInputSetEnabled(boolean enabled) 
 	{
 		selectProductControl.setEnabled(enabled);
-		btnAdd.setEnabled(enabled);
+		cmbMotiuDevolucio.setEnabled(enabled);
 		txtQuantitat.setEnabled(enabled);
+		lblEstoc.setEnabled(enabled);
+		btnAdd.setEnabled(enabled); 
 	}
 
-
+	
 	private void DrawTable(JPanel panel) 
 	{
 		
@@ -286,7 +351,7 @@ public class ReceivingPieces extends JFrame {
 		DefaultTableModel model = new DefaultTableModel()  {
 			@Override
 		    public boolean isCellEditable(int row, int column) {
-				if(column != 3)
+				if(column != 4)
 					return false;
 				else 
 					return true;
@@ -298,7 +363,8 @@ public class ReceivingPieces extends JFrame {
 					
 		model.addColumn("productId"); //0
 		model.addColumn(Managers.i18n.getTranslation("LABEL_PRODUCTE")); //1 
-		model.addColumn(Managers.i18n.getTranslation("LABEL_QUANTITAT")); //2
+		model.addColumn(Managers.i18n.getTranslation("LABEL_MOTIU_DEVOLUCIO")); //2
+		model.addColumn(Managers.i18n.getTranslation("LABEL_QUANTITAT")); //3
 		model.addColumn("");
 		
 		JScrollPane scrollPane = new JScrollPane(tblLinAlbara);
@@ -325,12 +391,15 @@ public class ReceivingPieces extends JFrame {
 		    }
 		};
 		 
-		ButtonColumn buttonColumn = new ButtonColumn(tblLinAlbara, delete, 3);
+		ButtonColumn buttonColumn = new ButtonColumn(tblLinAlbara, delete, 4);
 		tblLinAlbara.getColumnModel().getColumn(0).setMinWidth(0);
-		tblLinAlbara.getColumnModel().getColumn(0).setMaxWidth(0);	
+		tblLinAlbara.getColumnModel().getColumn(0).setMaxWidth(0);
 		
-		tblLinAlbara.getColumnModel().getColumn(2).setMaxWidth(150);
-		tblLinAlbara.getColumnModel().getColumn(3).setMaxWidth(50);
+		tblLinAlbara.getColumnModel().getColumn(2).setMinWidth(200);
+		tblLinAlbara.getColumnModel().getColumn(2).setMaxWidth(200);
+		
+		tblLinAlbara.getColumnModel().getColumn(3).setMaxWidth(150);
+		tblLinAlbara.getColumnModel().getColumn(4).setMaxWidth(50);
 		    	    
 	}
 	
@@ -339,6 +408,7 @@ public class ReceivingPieces extends JFrame {
 	
 		String producteId= selectProductControl.producteId;
 		String nomProducte= selectProductControl.nomProducte;
+		String motiuDevolucio=  (String) ((ComboBoxItem) cmbMotiuDevolucio.getSelectedItem()).getDescription();
 		Integer quantitat= Integer.parseInt(this.txtQuantitat.getText());
 		
 		DefaultTableModel model= (DefaultTableModel) this.tblLinAlbara.getModel();
@@ -348,25 +418,26 @@ public class ReceivingPieces extends JFrame {
 	        String linProducteId= (String) tblLinAlbara.getValueAt(row, 0);
 	        if (linProducteId == producteId)
 	        {
-	        	int currentValue=  (int) tblLinAlbara.getValueAt(row, 2);
-	        	tblLinAlbara.setValueAt(quantitat + currentValue, row, 2);
+	        	int currentValue=  (int) tblLinAlbara.getValueAt(row, 3);
+	        	tblLinAlbara.setValueAt(quantitat + currentValue, row, 3);
 	        	return ;
 	        }
 	        
 		}
 		
-		model.addRow(new Object[] { producteId, nomProducte, quantitat, "X"});
+		model.addRow(new Object[] { producteId, nomProducte, motiuDevolucio, quantitat, "X"});
 		this.cmbProveidor.setEnabled(false);
 		this.btnSave.setEnabled(true);			
 	}
 	
 
 	private void resetForm() {
-		this.txtAlbaraProveidor.setText("");
 		this.txtDataAlbara.setText(Methods.formatDate(new Date()));
+		this.lblEstoc.setText("");
+		this.txtQuantitat.setText("");
+		
 		this.cmbProveidor.setEnabled(true);		
 		this.cmbProveidor.setSelectedIndex(0);
-		this.txtQuantitat.setText("");
 		selectProductControl.setEnabled(false);
 		btnAdd.setEnabled(false); 	
 		
@@ -384,13 +455,13 @@ public class ReceivingPieces extends JFrame {
 		if (isValidForm()) 
 		{
 			Albara albara= new Albara();
-			albara.setCodialbaraextern(this.txtAlbaraProveidor.getText());
+			albara.setCodialbaraextern("");
 			albara.setComAlbara("");
 			albara.setDataAlbara(Methods.getDate(this.txtDataAlbara.getText()));
-			albara.setOrigenId( (String) ((ComboBoxItem)  this.cmbProveidor.getSelectedItem()).getId());
-			albara.setDestiId(codiLocal);
+			albara.setOrigenId(codiLocal);
+			albara.setDestiId( (String) ((ComboBoxItem)  this.cmbProveidor.getSelectedItem()).getId());
 			albara.setLiniesAlbara(getLinAlbara());
-			albara.setTipusMovimentId(MovimentManager.TIPUS_MOVIMENT_ENTRADA);
+			albara.setTipusMovimentId(MovimentManager.TIPUS_MOVIMENT_SORTIDA);
 
 			try {
 				
@@ -418,7 +489,7 @@ public class ReceivingPieces extends JFrame {
 		for (int i = rowCount - 1; i >= 0; i--) {
 			LinAlbara linAlbara= new LinAlbara(); 
 			linAlbara.setProducteId((String) tblLinAlbara.getValueAt(i, 0));
-			linAlbara.setUnitats((Integer) tblLinAlbara.getValueAt(i, 2));
+			linAlbara.setUnitats((Integer) tblLinAlbara.getValueAt(i, 3));
 			
 			linees.add(linAlbara);
 		}
@@ -438,12 +509,7 @@ public class ReceivingPieces extends JFrame {
 				Methods.showMessage( Managers.i18n.getTranslation("VALIDATION_CHOOSE_PROVIDER"), Enums.MessageType.Warning);
 				return false;
 			}			
-			if (this.txtAlbaraProveidor.getText().trim().length() == 0 )
-			{
-				this.txtAlbaraProveidor.requestFocus();
-				Methods.showMessage( Managers.i18n.getTranslation("VALIDATION_INPUT_DELIVERY_NOTE_CODE"), Enums.MessageType.Warning);
-				return false;
-			}
+
 			if (! Methods.isValidDate(this.txtDataAlbara.getText()))
 			{
 				this.txtDataAlbara.requestFocus();
@@ -455,28 +521,9 @@ public class ReceivingPieces extends JFrame {
 		
 		return true;
 	}
-
-	
-	
 	
 	
 
-	/***
-	 * Inicialitza tots els gestors que utilitzarà
-	 * l'aplicació
-	 */
-	private static void initializeManagers(){
-		//Inicialitza una instància del gestor
-		//d'internacionalització que
-		//s'utilitzarà a tota l'aplicació
-		Managers.i18n = new I18nManager(Constants.LANGUAGE_CATALAN);
-		//Inicialitza una instància del gestor de
-		//configuració que s'utilitzarà a tota l'aplicació
-		Managers.settings = new SettingManager();
-		//Incialitza una instància del gestor d'excepcions
-		Managers.exception = new ExceptionManager();
-	}
-	
 	/***
 	 * Métode que encarregat de fer la connexió
 	 * RMI amb el servidor remot
@@ -522,4 +569,21 @@ public class ReceivingPieces extends JFrame {
 		}
 	}
 	
+
+	/***
+	 * Inicialitza tots els gestors que utilitzarà
+	 * l'aplicació
+	 */
+	private static void initializeManagers(){
+		//Inicialitza una instància del gestor
+		//d'internacionalització que
+		//s'utilitzarà a tota l'aplicació
+		Managers.i18n = new I18nManager(Constants.LANGUAGE_CATALAN);
+		//Inicialitza una instància del gestor de
+		//configuració que s'utilitzarà a tota l'aplicació
+		Managers.settings = new SettingManager();
+		//Incialitza una instància del gestor d'excepcions
+		Managers.exception = new ExceptionManager();
+	}
+
 }

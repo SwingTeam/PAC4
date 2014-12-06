@@ -6,8 +6,11 @@ import java.util.List;
 
 import uoc.tdp.pac4.st.common.STException;
 import uoc.tdp.pac4.st.common.dto.Albara;
+import uoc.tdp.pac4.st.common.dto.Existencies;
 import uoc.tdp.pac4.st.common.dto.Grup;
 import uoc.tdp.pac4.st.common.dto.Local;
+import uoc.tdp.pac4.st.common.dto.LocalST;
+import uoc.tdp.pac4.st.common.dto.MotiuDevolucio;
 import uoc.tdp.pac4.st.common.dto.Producte;
 import uoc.tdp.pac4.st.common.dto.Proveidor;
 import uoc.tdp.pac4.st.common.dto.SubGrup;
@@ -125,7 +128,36 @@ public interface ETallerStocksInterface extends Remote {
 	  * @throws STException 
 	  */	
 	public List<Producte> SearchProdutes(String proveidorId, Integer grupId, Integer subGrupId) throws RemoteException,STException; 
-	  	 
+
+	 /***
+	  * LLista tots els motius devolucions
+	  * 
+	  * @return  List<Proveidor>  Llistat de motius devolucions
+	  * @throws RemoteException
+	  * @throws STException
+	  */	 
+	 public List<MotiuDevolucio> listMotiuDevolucio() throws RemoteException, STException;
+	 
+
+	 /***
+	  * Torna existencies per local i producte
+	  * 
+	  * @return Existencies Existencia
+	  * @throws RemoteException
+	  * @throws STException
+	  */	  
+	 public Existencies getExistenciesByProducteAndLocal(String producteId, String localId)throws RemoteException, STException;
+	 
+	 
+	 /***
+	  * LLista tots els locals
+	  * 
+	  * @return  List<Local>  Llistat de locals
+	  * @throws RemoteException
+	  * @throws STException
+	  */	 
+	 public List<LocalST> listLocals() throws RemoteException, STException;		
+	 
 	/*** END: Subsistema Connexió ****/
 
 }

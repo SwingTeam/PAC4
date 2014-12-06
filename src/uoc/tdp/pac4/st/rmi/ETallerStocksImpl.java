@@ -8,15 +8,21 @@ import java.util.List;
 import uoc.tdp.pac4.st.common.STException;
 import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.Albara;
+import uoc.tdp.pac4.st.common.dto.Existencies;
 import uoc.tdp.pac4.st.common.dto.Grup;
 import uoc.tdp.pac4.st.common.dto.Local;
+import uoc.tdp.pac4.st.common.dto.LocalST;
+import uoc.tdp.pac4.st.common.dto.MotiuDevolucio;
 import uoc.tdp.pac4.st.common.dto.Producte;
 import uoc.tdp.pac4.st.common.dto.Proveidor;
 import uoc.tdp.pac4.st.common.dto.SubGrup;
 import uoc.tdp.pac4.st.common.dto.Usuari;
 import uoc.tdp.pac4.st.common.managers.AlbaraManager;
 import uoc.tdp.pac4.st.common.managers.DatabaseManager;
+import uoc.tdp.pac4.st.common.managers.ExistenciesManager;
 import uoc.tdp.pac4.st.common.managers.GrupManager;
+import uoc.tdp.pac4.st.common.managers.LocalManager;
+import uoc.tdp.pac4.st.common.managers.MotiuDevolucioManager;
 import uoc.tdp.pac4.st.common.managers.ProducteManager;
 import uoc.tdp.pac4.st.common.managers.ProveidorManager;
 import uoc.tdp.pac4.st.common.managers.SubGrupManager;
@@ -205,6 +211,47 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 		return manager.Search(proveidorId, grupId, subGrupId);		
 	}
 	
-  	 
+	 /***
+	  * LLista tots els motius devolucions
+	  * 
+	  * @return  List<Proveidor>  Llistat de motius devolucions
+	  * @throws RemoteException
+	  * @throws STException
+	  */	 
+	 public List<MotiuDevolucio> listMotiuDevolucio() throws RemoteException, STException	
+	 {
+		DatabaseManager databaseManager = new DatabaseManager();
+		MotiuDevolucioManager manager= new MotiuDevolucioManager(databaseManager );
+		return manager.List();	 	 
+	 }
+	 
+	 /***
+	  * Torna existencies per local i producte
+	  * 
+	  * @return Existencies Existencia
+	  * @throws RemoteException
+	  * @throws STException
+	  */	  
+	 public Existencies getExistenciesByProducteAndLocal(String producteId, String localId)throws RemoteException, STException
+	 {
+		DatabaseManager databaseManager = new DatabaseManager();
+		ExistenciesManager manager= new ExistenciesManager(databaseManager );
+		return manager.getByProducteAndLocal(producteId, localId);	 	 		 
+	 }	 
+	 
+	 /***
+	  * LLista tots els locals
+	  * 
+	  * @return  List<Local>  Llistat de locals
+	  * @throws RemoteException
+	  * @throws STException
+	  */	 
+	 public List<LocalST> listLocals() throws RemoteException, STException	
+	 {
+		DatabaseManager databaseManager = new DatabaseManager();
+		LocalManager manager= new LocalManager(databaseManager );
+		return manager.List();	 	 
+	 }
+	 
 	/*** END: Subsistema Connexió ****/		
 }

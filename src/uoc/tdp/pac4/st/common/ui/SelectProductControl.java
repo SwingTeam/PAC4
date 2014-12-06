@@ -1,11 +1,13 @@
 package uoc.tdp.pac4.st.common.ui;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.rmi.RemoteException;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.Action;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,15 +31,14 @@ public class SelectProductControl extends JPanel {
 	private JComboBox<ComboBoxItem>  cmbGrup = null;
 	private JComboBox<ComboBoxItem>  cmbSubGrup = null;
 	private JComboBox<ComboBoxItem>  cmbProducte = null;
-	private JTextField txtQuantitat = null;
 	
 	private String proveidorId;
 	
+	public Action canviarProducteAction;
 	public String producteId= null;	
 	public String nomProducte= null;
 	public Integer grupId= null;
 	public Integer subGrupId= null;
-	public Integer quantitat= null;
 	
 	/**
 	 * Create the frame.
@@ -60,21 +61,18 @@ public class SelectProductControl extends JPanel {
 		lblProducte.setBounds(300, 50, 400, 20);
 		add(lblProducte);
 		
-		JLabel lblQuantitat= new JLabel("LABEL_QUANTITAT");
-		lblQuantitat.setBounds(520, 50, 70, 20);
-		add(lblQuantitat);
-	    
+
 		
 	    cmbGrup = new JComboBox<ComboBoxItem>();
-	    fillCmbGrup(cmbGrup );
+	    ComboBoxHelper.fillCmbGrup(this.clientManager, cmbGrup );
 	    cmbGrup.setBounds(0, 75, 125, 20);
 	    cmbGrup.addItemListener(new ItemListener () {
 		    public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED)
 				{
 					UpdateSelected();										
-					fillCmbSubGrup(cmbSubGrup, grupId);
-					fillCmbProducte(cmbProducte, grupId ,subGrupId);
+					ComboBoxHelper.fillCmbSubGrup(clientManager, cmbSubGrup, grupId);
+					ComboBoxHelper.fillCmbProducte(clientManager, cmbProducte, proveidorId, grupId ,subGrupId);
 					
 				}
 		    }
@@ -83,7 +81,7 @@ public class SelectProductControl extends JPanel {
 
 	    
 		cmbSubGrup = new JComboBox<ComboBoxItem>();
-		fillCmbSubGrup(cmbSubGrup , null);
+		ComboBoxHelper.fillCmbSubGrup(this.clientManager, cmbSubGrup , null);
 		cmbSubGrup.setBounds(150, 75, 125, 20);
 		cmbSubGrup.addItemListener(new ItemListener () {
 		    public void itemStateChanged(ItemEvent e) {
@@ -91,7 +89,7 @@ public class SelectProductControl extends JPanel {
 				{
 					UpdateSelected();
 					
-					fillCmbProducte(cmbProducte, grupId ,subGrupId);
+					ComboBoxHelper.fillCmbProducte(clientManager, cmbProducte, proveidorId, grupId ,subGrupId);
 					
 				}
 		    }
@@ -101,22 +99,20 @@ public class SelectProductControl extends JPanel {
 		
 
 		cmbProducte = new JComboBox<ComboBoxItem>();
-		fillCmbProducte(cmbProducte, null,null);		
+		ComboBoxHelper.fillCmbProducte(this.clientManager, cmbProducte, null, null,null);		
 		cmbProducte.setBounds(300, 75, 200, 20);	
 		cmbProducte.addItemListener(new ItemListener () {
 		    public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED)
 				{
-					UpdateSelected();							
+					UpdateSelected();
+					if (canviarProducteAction != null)
+						canviarProducteAction.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, producteId));
 				}
 		    }
 		});					
 	    add(cmbProducte);
-	    	    
-	    txtQuantitat= new JTextField();
-	    txtQuantitat.setBounds(520, 75, 70, 20);			    	
-	    add(txtQuantitat);
-	    		
+
 	}
 	
 	private void UpdateSelected() 
@@ -132,7 +128,6 @@ public class SelectProductControl extends JPanel {
 		cmbGrup.setSelectedIndex(0);;
 		cmbSubGrup.setSelectedIndex(0);
 		cmbProducte.setSelectedIndex(0);
-		txtQuantitat.setText("");
 	}
 	
 
@@ -141,90 +136,8 @@ public class SelectProductControl extends JPanel {
 		cmbGrup.setEnabled(enabled);
 		cmbSubGrup.setEnabled(enabled);
 		cmbProducte.setEnabled(enabled);
-		txtQuantitat.setEnabled(enabled);	
-	}
-	/***
-	 * Omple un ComboBox amb la llista de grups.
-	 * 
-	 */
-	private void fillCmbGrup(JComboBox<ComboBoxItem> cmbBoxItem) {
-		try {
-			cmbBoxItem.removeAllItems();
-			
-			cmbBoxItem.addItem(new ComboBoxItem(null, Managers.i18n.getTranslation("LABEL_ESCOLLIR")));
-			
-			List<Grup> list = clientManager.getRMIInterface().listGrups();
-			
-			Iterator<Grup> iterator= list.iterator();
-			while (iterator.hasNext()) 
-			{
-				Grup grup= iterator.next();
-				cmbBoxItem.addItem(new ComboBoxItem(grup.getIdGrup(), grup.getNom()));
-			}			
-		}
-		catch (STException e) {
-			Managers.exception.showException(e);
-			
-		} catch (RemoteException | NullPointerException e) {
-			Managers.exception.showException(new STException(e));
-		}		
 	}
 	
-	/***
-	 * Omple un ComboBox amb la llista de subgrups.
-	 * 
-	 */
-	private void fillCmbSubGrup(JComboBox<ComboBoxItem> cmbBoxItem , Integer grupId) {
-		
-		try {
-			cmbBoxItem.removeAllItems();
-			
-			cmbBoxItem.addItem(new ComboBoxItem(null, Managers.i18n.getTranslation("LABEL_ESCOLLIR")));
-			
-			List<SubGrup> list = clientManager.getRMIInterface().getSubGrupsByGrup(grupId);
-			
-			Iterator<SubGrup> iterator= list.iterator();
-			while (iterator.hasNext()) 
-			{
-				SubGrup subGrup= iterator.next();
-				cmbBoxItem.addItem(new ComboBoxItem(subGrup.getIdSubGrup(), subGrup.getNom()));
-			}			
-		}
-		catch (STException e) {
-			Managers.exception.showException(e);
-			
-		} catch (RemoteException | NullPointerException e) {
-			Managers.exception.showException(new STException(e));
-		}
-	}
-	
-	/***
-	 * Omple un ComboBox amb la llista de productes
-	 * 
-	 */
-	private void fillCmbProducte(JComboBox<ComboBoxItem> cmbBoxItem, Integer grupId, Integer subGrupId) {
-		try {
-			cmbBoxItem.removeAllItems();
-			
-			cmbBoxItem.addItem(new ComboBoxItem(null, Managers.i18n.getTranslation("LABEL_ESCOLLIR")));
-			
-			List<Producte> list = clientManager.getRMIInterface().SearchProdutes(proveidorId, grupId, subGrupId);
-			
-			Iterator<Producte> iterator= list.iterator();
-			while (iterator.hasNext()) 
-			{
-				Producte producte= iterator.next();
-				cmbBoxItem.addItem(new ComboBoxItem(producte.getIdProducte(), producte.getNomProducte()));
-			}			
-		}
-		catch (STException e) {
-			Managers.exception.showException(e);
-			
-		} catch (RemoteException | NullPointerException e) {
-			Managers.exception.showException(new STException(e));
-		}
-	}
-
 
 	public boolean isValidLine() {		
 		
@@ -237,15 +150,6 @@ public class SelectProductControl extends JPanel {
 				return false;
 			}
 		
-			try 
-			{ 
-			  quantitat= Integer.parseInt(this.txtQuantitat.getText()); 
-			} 
-			catch(NumberFormatException e) {
-				Methods.showMessage( Managers.i18n.getTranslation("VALIDATION_INVALID_QUANTITY"), Enums.MessageType.Warning);
-			   this.txtQuantitat.requestFocus();
-			   return false;
-			}
 		}
 		catch (Exception e )
 		{

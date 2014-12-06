@@ -9,6 +9,7 @@ import uoc.tdp.pac4.st.common.Constants;
 import uoc.tdp.pac4.st.common.STException;
 import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.Albara;
+import uoc.tdp.pac4.st.common.dto.Existencies;
 import uoc.tdp.pac4.st.common.dto.LinAlbara;
 import uoc.tdp.pac4.st.common.dto.Moviment;
 
@@ -40,8 +41,10 @@ public class AlbaraManager  {
 	{						
 		//Afegeix capçalera de l'albarà 
 		int albaraId=  AddToDb(db, albara);
-		
-		LinAlbaraManager linAlbaraManager = new LinAlbaraManager(db);  
+
+		MovimentManager movimentManager = new MovimentManager(db);
+		LinAlbaraManager linAlbaraManager = new LinAlbaraManager(db);
+		ExistenciesManager existenciesManager = new ExistenciesManager(db);
 		
 		//Afegeix linies de l'albarà
 		for (LinAlbara linAlbara: albara.getLiniesAlbara())
@@ -56,14 +59,49 @@ public class AlbaraManager  {
 			moviment.setProducteId(linAlbara.getProducteId());
 			moviment.setTipusMovimentId(albara.getTipusMovimentId());
 					
-			MovimentManager movimentManager = new MovimentManager(db);
 			int movimentId= movimentManager.Add(moviment);
 			
 		    linAlbara.setAlbaraId(albaraId);
 		    linAlbara.setMovimentId(movimentId);
 		    
 		    linAlbaraManager.Add(linAlbara);
+		    
+  		    //Actualitzem existencies depenent de tipus moviment
+			Existencies existencies = new Existencies();
+			existencies.setEstoc(linAlbara.getUnitats());
+			existencies.setEstocMinim(0);
+			existencies.setProducteId(linAlbara.getProducteId());
+		    
+			
+			switch (albara.getTipusMovimentId()) 
+		    {
+		    	case MovimentManager.TIPUS_MOVIMENT_TRANSFERENCIA:
+					existencies.setLocalId(albara.getOrigenId());
+					existencies.setEstoc(-1 * linAlbara.getUnitats()); //Restem a l'origen 
+		    		break;
+		    	case MovimentManager.TIPUS_MOVIMENT_VENDA:
+					existencies.setLocalId(albara.getOrigenId());
+					existencies.setEstoc(linAlbara.getUnitats());  //Restem a l'origen 
+		    		break;
+		    	case MovimentManager.TIPUS_MOVIMENT_COMPRA:
+					existencies.setLocalId(albara.getDestiId()); //Afegim a desti
+					existencies.setEstoc(linAlbara.getUnitats());
+		    		break;
+		    	case MovimentManager.TIPUS_MOVIMENT_SORTIDA:
+					existencies.setLocalId(albara.getOrigenId());
+					existencies.setEstoc(-1 * linAlbara.getUnitats());  //Restem a l'origen
+		    		break;
+		    	case MovimentManager.TIPUS_MOVIMENT_ENTRADA:
+		    		existencies.setLocalId(albara.getDestiId()); 
+		    		existencies.setEstoc(linAlbara.getUnitats()); //Afegim a desti
+		    		break;		    		
+		    }
+			
+			existenciesManager.AddOrUpdate(existencies);
 		}
+		
+		
+		
 							
 		return albaraId;
 	}		

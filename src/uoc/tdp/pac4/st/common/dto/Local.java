@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Classe que representa a un local.
  * 
  * @author Swing Team - 2014
- *
+ * 
  */
 public class Local implements Serializable {
 
@@ -18,7 +18,7 @@ public class Local implements Serializable {
     private String _phone = null;
 	private String _taxId = null;
 
-	/***
+	/***  
 	 * Constructor
 	 */
     public Local() {}

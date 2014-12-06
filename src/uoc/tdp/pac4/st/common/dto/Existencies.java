@@ -16,7 +16,7 @@ public class Existencies implements Serializable {
     
 	/*
 	 * Propietats privades
-	 * 
+	 *  
 	 */	  	
 	private String producteId;
 	private String localId;

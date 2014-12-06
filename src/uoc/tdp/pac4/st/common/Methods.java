@@ -286,4 +286,18 @@ public class Methods {
 	public static String formatDate(java.util.Date date) {
 		return simpleDateFormat.format(date);			
 	}
+	
+	
+	public static boolean isPositiveInt(String integer) 
+	{
+		try 
+		{ 
+		  int theInt= Integer.parseInt(integer);
+		  
+		  return theInt > 0;
+		} 
+		catch(NumberFormatException e) {
+		   return false;
+		}		
+	}
 }
