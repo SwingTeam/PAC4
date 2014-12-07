@@ -32,10 +32,10 @@ public class SortidaDevolucioManager  {
 	  * @return Integer amb l'ID devolucio
 	  * @throws STException 
 	  */
-	public int Add(SortidaDevolucio sortidaDevolucio) throws STException 
+	public int add(SortidaDevolucio sortidaDevolucio) throws STException 
 	{						
 		//Afegeix capçalera de l'albarà 
-		int sortidaDevolucioId=  AddToDb(db, sortidaDevolucio);
+		int sortidaDevolucioId=  addToDb(db, sortidaDevolucio);
 		
 		LinSortidaDevolucioManager linSortidaDevolucioManager= new LinSortidaDevolucioManager(db);  
 		
@@ -50,7 +50,7 @@ public class SortidaDevolucioManager  {
 	}		
 	
 	
-	private int AddToDb(DatabaseManager db, SortidaDevolucio sortidaDevolucio) throws STException 
+	private int addToDb(DatabaseManager db, SortidaDevolucio sortidaDevolucio) throws STException 
 	{
 		Map<String, Object> hashMap = new HashMap<String, Object>();
 		hashMap.put(Constants.FIELD_DATASORTDEVOLUCIO, sortidaDevolucio.getDataSortDevolucio());

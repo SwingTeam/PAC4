@@ -23,7 +23,7 @@ public class GrupTest {
 			DatabaseManager db = new DatabaseManager();
 			GrupManager manager = new GrupManager(db);
 			
-			List<Grup> list = manager.List();
+			List<Grup> list = manager.list();
 
 		} catch (Exception e){
 			e.printStackTrace();

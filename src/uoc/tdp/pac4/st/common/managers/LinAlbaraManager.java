@@ -11,6 +11,8 @@ import uoc.tdp.pac4.st.common.Constants;
 import uoc.tdp.pac4.st.common.STException;
 import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.LinAlbara;
+import uoc.tdp.pac4.st.common.dto.Moviment;
+import uoc.tdp.pac4.st.common.dto.Producte;
 
 
 
@@ -27,7 +29,7 @@ public class LinAlbaraManager  {
 		this.db= _db;
 	}
 	
-	public int Add(LinAlbara linAlbara) throws STException 
+	public int add(LinAlbara linAlbara) throws STException 
 	{						
 				
 		Map<String, Object> hashMap = new HashMap<String, Object>();
@@ -38,6 +40,7 @@ public class LinAlbaraManager  {
 		return db.insertDataAndReturnId(Constants.TABLE_LINALBARA, hashMap); 						
 	}
 	
+
 	 /***
 	  * 
 	  * Torna una linia d'albarà pel seu ID
@@ -47,7 +50,7 @@ public class LinAlbaraManager  {
 	  * @return LinAlbara: Linia albarà si ha estat trovat, null en cas contrari 
 	  * @throws STException 
 	  */	
-	public LinAlbara GetById(int linAlbaraId) throws STException 
+	public LinAlbara getById(int linAlbaraId) throws STException 
 	{							
 		LinAlbara linAlbara = null;
 				
@@ -59,7 +62,7 @@ public class LinAlbaraManager  {
 			//Llegim resultat
 			if (resultSet.next()) 
 			{
-				linAlbara= GetFromResultSet(resultSet);		
+				linAlbara= getFromResultSet(resultSet);		
 			}			
 		}
 		catch(SQLException e)
@@ -83,19 +86,33 @@ public class LinAlbaraManager  {
 	  * @return LinAlbara: Linia albarà si ha estat trovat, null en cas contrari 
 	  * @throws STException 
 	  */	
-	public List<LinAlbara> GetByAlbaraId(int albaraId) throws STException 
+	public ArrayList<LinAlbara> getByAlbaraId(int albaraId) throws STException 
 	{							
-		List<LinAlbara> listLinAlbara = new ArrayList<LinAlbara>();
+		ArrayList<LinAlbara> listLinAlbara = new ArrayList<LinAlbara>();
 				
+		StringBuilder sql = new StringBuilder("SELECT * FROM linalbara ");
+		sql.append("INNER JOIN moviment ON linalbara.moviment_id = moviment.id_moviment ");
+		sql.append("INNER JOIN producte ON moviment.producte_id = producte.id_producte ");
+		sql.append("WHERE linalbara.albara_id="+ albaraId);
+		
 		//Obtenim albara de la BBDD
-		ResultSet resultSet= db.getByColumnValue(Constants.TABLE_LINALBARA, Constants.FIELD_ALBARA_ID, albaraId);
+		ResultSet resultSet= db.selectData(sql.toString());
 
 		try 
-		{		
+		{
+			MovimentManager movimentManager = new MovimentManager (db);
+			ProducteManager producteManager = new ProducteManager (db);
+			 
 			//Llegim resultat
 			while (resultSet.next()) 
 			{
-				LinAlbara linAlbara= GetFromResultSet(resultSet);
+				LinAlbara linAlbara= getFromResultSet(resultSet);
+				Moviment moviment = movimentManager.getFromResultSet(resultSet);
+				Producte producte = producteManager.getFromResultSet(resultSet);
+				
+				linAlbara.setMoviment(moviment);
+				linAlbara.setProducte(producte);
+				
 				listLinAlbara.add(linAlbara);
 			}			
 		}
@@ -111,9 +128,9 @@ public class LinAlbaraManager  {
 		return listLinAlbara;
 	}	
 	
-	private LinAlbara GetFromResultSet(ResultSet resultSet) throws SQLException 
+	public LinAlbara getFromResultSet(ResultSet resultSet) throws SQLException 
 	{
-		//Omplim albara 
+
 		LinAlbara linAlbara = new LinAlbara();
 		linAlbara.setAlbaraId(resultSet.getInt(Constants.FIELD_ALBARA_ID));
 		linAlbara.setIdLiniaAlbara(resultSet.getInt(Constants.FIELD_ID_LINIAALBARA));

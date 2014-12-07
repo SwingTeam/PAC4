@@ -34,7 +34,7 @@ public class SubGrupManager  {
 	  * @return LLista de subGrups 
 	  * @throws STException 
 	  */	
-	public List<SubGrup> GetByGrupId(Integer grupId) throws STException 
+	public List<SubGrup> getByGrupId(Integer grupId) throws STException 
 	{							
 		List<SubGrup> listSubGrup = new ArrayList<SubGrup>();
 				
@@ -52,7 +52,7 @@ public class SubGrupManager  {
 			//Llegim resultat
 			while (resultSet.next()) 
 			{
-				SubGrup subGrup= GetFromResultSet(resultSet);
+				SubGrup subGrup= getFromResultSet(resultSet);
 				listSubGrup.add(subGrup);
 			}			
 		}
@@ -68,7 +68,7 @@ public class SubGrupManager  {
 		return listSubGrup;
 	}
 	
-	private SubGrup GetFromResultSet(ResultSet resultSet) throws SQLException 
+	public SubGrup getFromResultSet(ResultSet resultSet) throws SQLException 
 	{
 		//Omplim subGrup
 		SubGrup subGrup = new SubGrup();

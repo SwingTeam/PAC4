@@ -20,6 +20,9 @@ public class LinAlbara implements Serializable {
 	private int movimentId;
 	private int unitats;
 	private String producteId;
+	
+	private Moviment moviment;
+	private Producte producte;
 
 	/*
 	 * Constructor
@@ -69,6 +72,22 @@ public class LinAlbara implements Serializable {
 
 	public void setProducteId(String producteId) {
 		this.producteId = producteId;
+	}
+
+	public Moviment getMoviment() {
+		return moviment;
+	}
+
+	public void setMoviment(Moviment moviment) {
+		this.moviment = moviment;
+	}
+
+	public Producte getProducte() {
+		return producte;
+	}
+
+	public void setProducte(Producte producte) {
+		this.producte = producte;
 	}
 
 }

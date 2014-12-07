@@ -31,7 +31,7 @@ public class ExistenciesManager  {
 		this.db= _db;
 	}
 	
-	public void AddOrUpdate(Existencies existencies) throws STException 
+	public void addOrUpdate(Existencies existencies) throws STException 
 	{	
 		//comprovem que no existeixin existencies per aquest producte i local
 		Existencies currentExistencies= getByProducteAndLocal(existencies.getProducteId(), existencies.getLocalId());
@@ -54,17 +54,19 @@ public class ExistenciesManager  {
 	  * @throws STException 
 	  */	
 	public Existencies getByProducteAndLocal(String producteId, String localId) throws STException
-	{							
+	{			
+		ResultSet resultSet= null;	
 		Existencies existencies= null ;
-		//Obtenim albara de la BBDD
-		ResultSet resultSet= db.selectData("SELECT * FROM existencies WHERE producte_id='" + producteId + "' AND local_id='" + localId + "'");
 
 		try 
-		{		
+		{
+			//Obtenim albara de la BBDD
+			resultSet= db.selectData("SELECT * FROM existencies WHERE producte_id='" + producteId + "' AND local_id='" + localId + "'");
+			
 			//Llegim resultat
 			if (resultSet.next()) 
 			{
-				existencies = GetFromResultSet(resultSet);
+				existencies = getFromResultSet(resultSet);
 			}			
 		}
 		catch(SQLException e)
@@ -74,12 +76,12 @@ public class ExistenciesManager  {
 		finally 
 		{
 			//Molt important: Tanquem connexió, statement i resulset.
-			db.closeResultSet(resultSet);
+			if (resultSet!= null) db.closeResultSet(resultSet);
 		}
 		return existencies;
 	}
 	
-	public Existencies GetFromResultSet(ResultSet resultSet) throws SQLException 
+	public Existencies getFromResultSet(ResultSet resultSet) throws SQLException 
 	{
 		//Omplim Existencies
 		Existencies existencies = new Existencies();

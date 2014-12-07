@@ -31,16 +31,16 @@ public class TransferenciaManager  {
 	  * @return Integer amb l'ID de l'albarà creat
 	  * @throws STException 
 	  */
-	public int Add(Transferencia transferencia) throws STException 
+	public int add(Transferencia transferencia) throws STException 
 	{						
 		//Afegeix capçalera de l'albarà 
-		int transferenciaId=  AddToDb(db, transferencia);
+		int transferenciaId=  addToDb(db, transferencia);
 				
 		return transferenciaId;
 	}		
 	
 
-	private int AddToDb(DatabaseManager db, Transferencia transferencia) throws STException 
+	private int addToDb(DatabaseManager db, Transferencia transferencia) throws STException 
 	{
 		Map<String, Object> hashMap = new HashMap<String, Object>();
 		hashMap.put(Constants.FIELD_DATATRANSFERENCIA, transferencia.getDataTransferencia());

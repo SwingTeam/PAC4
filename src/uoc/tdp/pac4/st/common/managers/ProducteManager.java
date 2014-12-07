@@ -35,7 +35,7 @@ public class ProducteManager  {
 	  * @return List<Producte> LLista de productes 
 	  * @throws STException 
 	  */	
-	public List<Producte> StockSearch(Integer grupId, Integer subGrupId, String producteId, String localId, Integer stockInicial, Integer stockFinal) throws STException 
+	public List<Producte> stockSearch(Integer grupId, Integer subGrupId, String producteId, String localId, Integer stockInicial, Integer stockFinal) throws STException 
 	{							
 		List<Producte> listProducte= new ArrayList<Producte>();
 				
@@ -83,9 +83,9 @@ public class ProducteManager  {
 			//Llegim resultat
 			while (resultSet.next()) 
 			{
-				Producte producte= GetFromResultSet(resultSet);
-				Existencies existencies = existenciesManager.GetFromResultSet(resultSet);
-				LocalST local  = localManager.GetFromResultSet(resultSet); 
+				Producte producte= getFromResultSet(resultSet);
+				Existencies existencies = existenciesManager.getFromResultSet(resultSet);
+				LocalST local  = localManager.getFromResultSet(resultSet); 
 
 				producte.setExistencies(existencies);
 				producte.setLocal(local);
@@ -111,7 +111,7 @@ public class ProducteManager  {
 	  * @return List<Producte> LLista de productes 
 	  * @throws STException 
 	  */	
-	public List<Producte> Search(String proveidorId, Integer grupId, Integer subGrupId) throws STException 
+	public List<Producte> search(String proveidorId, Integer grupId, Integer subGrupId) throws STException 
 	{							
 		List<Producte> listProducte= new ArrayList<Producte>();
 				
@@ -150,7 +150,7 @@ public class ProducteManager  {
 			//Llegim resultat
 			while (resultSet.next()) 
 			{
-				Producte producte= GetFromResultSet(resultSet);
+				Producte producte= getFromResultSet(resultSet);
 				listProducte.add(producte);
 			}			
 		}
@@ -166,7 +166,56 @@ public class ProducteManager  {
 		return listProducte;
 	}
 	
-	private Producte GetFromResultSet(ResultSet resultSet) throws SQLException 
+	
+	 /***
+	  * 
+	  * Torna tots els productes per proveidor, grup i subgrup 
+	  * 
+	  * @return List<Producte> LLista de productes 
+	  * @throws STException 
+	  */	
+	public List<Producte> getStockMinim(String localId) throws STException 
+	{							
+		List<Producte> listProducte= new ArrayList<Producte>();
+				
+		//Obtenim albara de la BBDD
+		StringBuilder sb= new StringBuilder();
+		
+		sb.append("SELECT producte.*, existencies.* FROM producte ");
+		sb.append("INNER JOIN existencies ON existencies.producte_id = producte.id_producte ");	
+		sb.append(" WHERE ");
+		sb.append("existencies.local_id= '" + localId + "' AND ");
+		sb.append(" estoc < estocminim ");
+		sb.append("ORDER BY producte.nomproducte");
+		
+		ResultSet resultSet= db.selectData(sb.toString());
+
+		try 
+		{		
+			ExistenciesManager existenciesManager = new ExistenciesManager (db); 
+			//Llegim resultat
+			while (resultSet.next()) 
+			{
+				Producte producte= getFromResultSet(resultSet);
+				Existencies existencies = existenciesManager.getFromResultSet(resultSet);
+
+				producte.setExistencies(existencies);
+				listProducte.add(producte);
+			}			
+		}
+		catch(SQLException e)
+		{
+			throw new STException(e, TokenKeys.ERROR_GETTING_DATA);
+		}
+		finally 
+		{
+			//Molt important: Tanquem connexió, statement i resulset.
+			db.closeResultSet(resultSet);
+		}
+		return listProducte;
+	}	
+	
+	public Producte getFromResultSet(ResultSet resultSet) throws SQLException 
 	{
 		//Omplim producte
 		Producte producte= new Producte();

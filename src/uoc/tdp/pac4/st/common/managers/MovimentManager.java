@@ -1,10 +1,15 @@
 package uoc.tdp.pac4.st.common.managers;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import uoc.tdp.pac4.st.common.Constants;
 import uoc.tdp.pac4.st.common.STException;
+import uoc.tdp.pac4.st.common.dto.Albara;
+import uoc.tdp.pac4.st.common.dto.LinAlbara;
 import uoc.tdp.pac4.st.common.dto.Moviment;
 
 
@@ -16,7 +21,7 @@ import uoc.tdp.pac4.st.common.dto.Moviment;
  *
  */
 public class MovimentManager  {
-	public static final String   TIPUS_MOVIMENT_TRANSFERENCIA= "T"; //Transferència: Moviment intern. D’un local a un altre.
+	public static final String TIPUS_MOVIMENT_TRANSFERENCIA= "T"; //Transferència: Moviment intern. D’un local a un altre.
 	public static final String TIPUS_MOVIMENT_VENDA= "V"; // Venda: D’un local cap a un client
 	public static final String TIPUS_MOVIMENT_COMPRA= "C"; //Compra: D’un proveïdor cal a un local. No s’imprimeix document.
 	public static final String TIPUS_MOVIMENT_SORTIDA="S"; // Sortida Devolució: D’un taller al proveïdor.
@@ -30,23 +35,49 @@ public class MovimentManager  {
 	
 	 /***
 	  * 
-	  * Afegeix un albara i les seves linies
+	  * Afegeix un moviment
 	  * 
-	  * @param albara L'albarà a afegir
+	  * @param moviment Moviment a afegir
 	  * 
-	  * @return Integer amb l'ID de l'albarà creat
+	  * @return Integer amb l'ID del moviment creat
 	  * @throws STException 
 	  */
-	public int Add(Moviment moviment) throws STException 
+	public int add(Moviment moviment) throws STException 
 	{						
-		//Afegeix capçalera de l'albarà 
-		int movimentId=  AddToDb(db, moviment);		
+		//Afegeix moviment 
+		int movimentId=  addToDb(moviment);		
 							
 		return movimentId;
 	}		
+
+	
+	 /***
+	  * 
+	  * Modifica moviment
+	  * 
+	  * @param list llista de moviments
+	  * 
+	  * @throws STException 
+	  */
+	public void update(Moviment moviment) throws STException 
+	{					
+		moviment.setCompletatSn(moviment.getNumUnitSortides()  >= moviment.getNumUnitatsOrdre() );
+		
+		updateToDb(moviment);
+	}		
 	
 	
-	private int AddToDb(DatabaseManager db, Moviment moviment) throws STException 
+	private void updateToDb(Moviment moviment) throws STException 
+	{
+		StringBuilder sql= new StringBuilder("UPDATE moviment ");
+		sql.append("SET numunitsortides=" + moviment.getNumUnitSortides() + ", ");
+		sql.append("completatsn=" + moviment.getCompletatSn() + " ");
+		sql.append("WHERE id_moviment=" + moviment.getIdMoviment());
+				
+		db.updateData(sql.toString()); 	
+	}
+	
+	private int addToDb(Moviment moviment) throws STException 
 	{
 		Map<String, Object> hashMap = new HashMap<String, Object>();
 		hashMap.put(Constants.FIELD_COMPLETATSN, moviment.getCompletatSn());
@@ -59,4 +90,19 @@ public class MovimentManager  {
 		
 		return db.insertDataAndReturnId(Constants.TABLE_MOVIMENT, hashMap); 						
 	}
+	
+	public Moviment getFromResultSet(ResultSet resultSet) throws SQLException 
+	{
+		Moviment moviment= new Moviment ();
+		moviment.setCompletatSn(resultSet.getBoolean(Constants.FIELD_COMPLETATSN));
+		moviment.setDataOrdre(resultSet.getDate(Constants.FIELD_DATAORDRE));
+		moviment.setDataPrevLliurament(resultSet.getDate(Constants.FIELD_DATAPREVLLIURAMENT));
+		moviment.setIdMoviment(resultSet.getInt(Constants.FIELD_ID_MOVIMENT));
+		moviment.setNumUnitatsOrdre(resultSet.getInt(Constants.FIELD_NUMUNITATSORDRE));
+		moviment.setNumUnitSortides(resultSet.getInt(Constants.FIELD_NUMUNITSORTIDES));
+		moviment.setProducteId(resultSet.getString(Constants.FIELD_PRODUCTE_ID));
+		moviment.setTipusMovimentId(resultSet.getString(Constants.FIELD_TIPUSMOVIMENT_ID));
+		return moviment;
+	}	
+
 }

@@ -35,7 +35,7 @@ public class LocalManager  {
 	  * @return LLista de motius de devolucio 
 	  * @throws STException 
 	  */	
-	public List<LocalST> List() throws STException 
+	public List<LocalST> list() throws STException 
 	{							
 		List<LocalST> list = new ArrayList<LocalST>();
 				
@@ -47,7 +47,7 @@ public class LocalManager  {
 			//Llegim resultat
 			while (resultSet.next()) 
 			{
-				LocalST local= GetFromResultSet(resultSet);
+				LocalST local= getFromResultSet(resultSet);
 				list.add(local);
 			}			
 		}
@@ -63,7 +63,7 @@ public class LocalManager  {
 		return list;
 	}
 	
-	public LocalST GetFromResultSet(ResultSet resultSet) throws SQLException 
+	public LocalST getFromResultSet(ResultSet resultSet) throws SQLException 
 	{
 		//Omplim local
 		LocalST local = new LocalST();

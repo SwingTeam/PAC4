@@ -10,13 +10,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -29,20 +27,23 @@ import uoc.tdp.pac4.st.common.STException;
 import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.Albara;
 import uoc.tdp.pac4.st.common.dto.LinAlbara;
+import uoc.tdp.pac4.st.common.managers.AlbaraManager;
 import uoc.tdp.pac4.st.common.managers.ClientManager;
+import uoc.tdp.pac4.st.common.managers.DatabaseManager;
 import uoc.tdp.pac4.st.common.managers.ExceptionManager;
 import uoc.tdp.pac4.st.common.managers.I18nManager;
 import uoc.tdp.pac4.st.common.managers.MovimentManager;
 import uoc.tdp.pac4.st.common.managers.SettingManager;
 import uoc.tdp.pac4.st.common.ui.ComboBoxHelper;
+import uoc.tdp.pac4.st.common.ui.LabelSubTitle;
 import uoc.tdp.pac4.st.common.ui.LabelTitle;
 import uoc.tdp.pac4.st.common.ui.STTable;
-import uoc.tdp.pac4.st.common.ui.SelectProductControl;
 import uoc.tdp.pac4.st.rmi.ETallerStocksInterface;
 
-public class ReceivingPieces extends JFrame {
+public class WokshopReceivingPieces extends JFrame {
 	//RN: Temp
-	private String codiLocal="L1"; 
+	private String codiLocal_central="L1"; 
+	private String codiLocal="L2";
 	
 	private static final long serialVersionUID = -3598083467773963566L;
 
@@ -52,17 +53,14 @@ public class ReceivingPieces extends JFrame {
 	static final int xOffset = 30, yOffset = 30;		
 	static final int openFrameCount = 0;
 
-	private JComboBox<ComboBoxItem>  cmbProveidor = null;
-	private JTextField txtAlbaraProveidor = null;
-	private JTextField txtDataAlbara = null;
+	private JComboBox<ComboBoxItem>  cmbAlbara = null;
 	
-	private SelectProductControl selectProductControl = null;
-	private JTextField txtQuantitat = null;
-	private JButton btnAdd; 
 	private JButton btnSave;
 	private JButton btnCancel;
 	
 	private STTable table= null;
+	
+	private Albara albara= null;
 
 
 	/**
@@ -95,7 +93,7 @@ public class ReceivingPieces extends JFrame {
 					Managers.i18n.setLanguage(language);
 			
 				
-					ReceivingPieces frame = new ReceivingPieces();
+					WokshopReceivingPieces frame = new WokshopReceivingPieces();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -107,13 +105,13 @@ public class ReceivingPieces extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ReceivingPieces() {
+	public WokshopReceivingPieces() {
 		startConnection();
 		
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 850, 550);
+		setBounds(100, 100, 850, 500);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -128,83 +126,41 @@ public class ReceivingPieces extends JFrame {
     	lblTitle.setBounds(10, 10, 400, 20);
 		getContentPane().add(lblTitle);
 
-
-		JLabel lblProveidor = new JLabel("LABEL_PROVEIDOR");
-		lblProveidor.setBounds(50, 50, 80, 20);
+		LabelSubTitle lblEscollirAlbara = new LabelSubTitle("LABEL_CHOOSE_ALBARA");  
+		lblEscollirAlbara.setBounds(50, 50, 400, 20);
+		getContentPane().add(lblEscollirAlbara);
+		
+		
+		JLabel lblProveidor = new JLabel("LABEL_ALBARA");
+		lblProveidor.setBounds(50, 80, 80, 20);
 		getContentPane().add(lblProveidor);
 
-	    cmbProveidor = new JComboBox<ComboBoxItem>();
-	    ComboBoxHelper.fillCmbProveidor(this._clientManager, cmbProveidor);
-	    cmbProveidor.addItemListener(new ItemListener () {
+	    cmbAlbara = new JComboBox<ComboBoxItem>();
+	    ComboBoxHelper.fillCmbAlbara(this._clientManager, cmbAlbara, codiLocal);
+	    cmbAlbara.addItemListener(new ItemListener () {
 		    public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED)
 				{
-					if (((ComboBoxItem)  cmbProveidor.getSelectedItem()).getId() != null) 
+					if (((ComboBoxItem) cmbAlbara.getSelectedItem()).getId() != null)
 					{
-						lineInputSetEnabled(true);
+						updateTable();
 					}
-					else 
-					{
-						lineInputSetEnabled(false);
-					}
-
 				}
 		    }
 		});			    
-	    cmbProveidor.setBounds(120, 50, 200, 20);
-	    getContentPane().add(cmbProveidor);
+	    cmbAlbara.setBounds(120, 80, 200, 20);
+	    getContentPane().add(cmbAlbara);
 
-		JLabel lblAlbaraProveidor = new JLabel("LABEL_ALBARA_PROVEIDOR");
-		lblAlbaraProveidor.setBounds(50, 80, 150, 20);
-		getContentPane().add(lblAlbaraProveidor);
-
-	    txtAlbaraProveidor = new JTextField();
-	    txtAlbaraProveidor.setBounds(200, 80, 150, 20);
-	    getContentPane().add(txtAlbaraProveidor);
-
-		JLabel lblDataAlbara= new JLabel("LABEL_DATA_ALBARA");
-		lblDataAlbara.setBounds(370, 80, 100, 20);
-		getContentPane().add(lblDataAlbara);
-
-	    this.txtDataAlbara = new JTextField();
-	    txtDataAlbara.setBounds(470, 80, 100, 20);
-	    this.txtDataAlbara.setText(Methods.formatDate(new Date()));
-	    getContentPane().add(txtDataAlbara);
-	    
-	    
-	    //Select product control
-	    selectProductControl= new SelectProductControl(this._clientManager, (String) ((ComboBoxItem) this.cmbProveidor.getSelectedItem()).getId()); 
-	    selectProductControl.setBounds(50, 80, 500, 100);
-	    selectProductControl.setVisible(true);	       	   		   
-	    getContentPane().add(selectProductControl);
-
-		JLabel lblQuantitat= new JLabel("LABEL_QUANTITAT");
-		lblQuantitat.setBounds(580, 135, 70, 20);
-		add(lblQuantitat);
-	    
-	    
-		txtQuantitat= new JTextField();
-		txtQuantitat.setBounds(580, 155, 50, 20);			    	
-		add(txtQuantitat);
-
-		
-	    btnAdd = new JButton("LABEL_AFEGIR");
-	    btnAdd.setBounds(660, 150, 120, 25);
-	    getContentPane().add(btnAdd);		
-		btnAdd.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent paramAnonymousActionEvent) {
-	        	if (isValidLine())
-	        	{	        		
-	        		addRowToTable();        	
-	        	}
-	        }
-	      });
-
+	    LabelSubTitle lblInstruccions= new LabelSubTitle("LABEL_UPDATE_ALBARA");  
+	    lblInstruccions.setBounds(50, 120, 400, 20);
+		getContentPane().add(lblInstruccions);
+			    
+    
 		drawTable();
 		
 		
 	    btnCancel = new JButton("LABEL_CANCEL");
-	    btnCancel.setBounds(100, 420, 100, 40);
+	    btnCancel.setBounds(100, 400, 100, 40);
 
 	    getContentPane().add(btnCancel);	    
 	    btnCancel.addActionListener(new ActionListener() {
@@ -214,7 +170,7 @@ public class ReceivingPieces extends JFrame {
 	    });
 
 		btnSave = new JButton("LABEL_SAVE");
-		btnSave.setBounds(600, 420, 100, 40);	    	    
+		btnSave.setBounds(600, 400, 100, 40);	    	    
 	    getContentPane().add(btnSave);		    
 	    btnSave.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
@@ -240,120 +196,78 @@ public class ReceivingPieces extends JFrame {
 		//titol pantalla
 		setTitle(Managers.i18n.getTranslation("LABEL_RECEPCIO_PECES"));
 		
-		lineInputSetEnabled(false);
 
 	}
 
-	private boolean isValidLine(){
-		if (selectProductControl.isValidLine()) 
-		{
-			if (! Methods.isPositiveInt(this.txtQuantitat.getText()))
+	private void updateTable() 
+	{
+
+		try {
+
+			table.removeRows();
+			
+			int albaraId= (int) ((ComboBoxItem) cmbAlbara.getSelectedItem()).getId();
+			 
+			albara= _clientManager.getRMIInterface().getAlbaraById(albaraId);
+			
+			for (LinAlbara linAlbara: albara.getLiniesAlbara())
 			{
-			   try {
-					Methods.showMessage( Managers.i18n.getTranslation("VALIDATION_INVALID_QUANTITY"), Enums.MessageType.Warning);
-				   } catch (Exception e1) {
-			   }			  
-			   return false;
+				addRowToTable(linAlbara);			
 			}
 			
-			return true;			
-		}
-		return false;
+		} catch (Exception e) {
+			Managers.exception.showException(new STException(e, "ERROR_GETTING_DATA"));
+		}		
 	}
-
-	private void lineInputSetEnabled(boolean enabled) 
-	{
-		selectProductControl.setEnabled(enabled);
-		btnAdd.setEnabled(enabled);
-		txtQuantitat.setEnabled(enabled);
-	}
-
 
 	private void drawTable() 
 	{		
 		table= new STTable();
-		table.showDeleteButton= true;
-		table.setBounds(25, 100, 780, 300);
+		table.showDeleteButton= false;
+		table.setBounds(25, 80, 780, 300);
 		table.setVisible(true);
 		
-		table.addColumn("productId", 0, false, false);
+		table.addColumn("producteId", 0, false, false);
 		table.addColumn(Managers.i18n.getTranslation("LABEL_PRODUCTE"), null, false, false);
-		table.addColumn(Managers.i18n.getTranslation("LABEL_QUANTITAT"), 100, true, true);
+		table.addColumn(Managers.i18n.getTranslation("LABEL_QUANTITAT_DEMANADA"), 100, false, false);
+		table.addColumn(Managers.i18n.getTranslation("LABEL_QUANTITAT_SERVIDA"), 100, true, true);
 		
-		table.deleteRow= new AbstractAction()
-		{
-		    public void actionPerformed(ActionEvent e)
-		    {
-		        if (table.getRowCount() == 0) 
-		        {
-		        	cmbProveidor.setEnabled(true);
-		        }
-		    }
-		};	
+		
 		table.drawTable();
 	    getContentPane().add(table);		
 	}
 	
-	private void addRowToTable() 
-	{
-	
-		String producteId= selectProductControl.producteId;
-		String nomProducte= selectProductControl.nomProducte;
-		Integer quantitat= Integer.parseInt(this.txtQuantitat.getText());
+	private void addRowToTable(LinAlbara linia) 
+	{		
+		DefaultTableModel model= (DefaultTableModel) this.table.getModel();	
+		table.addRow(new Object[] { linia.getProducte().getIdProducte(), linia.getProducte().getNomProducte(), linia.getMoviment().getNumUnitatsOrdre(), linia.getMoviment().getNumUnitSortides()});
 		
-		DefaultTableModel model= (DefaultTableModel) this.table.getModel();
-		
-		//comprovar producte no s'ha afegit abans
-		for(int row = 0;row < table.getRowCount();row++) {
-	        String linProducteId= (String) table.getValueAt(row, 0);
-	        if (linProducteId == producteId)
-	        {
-	        	int currentValue=  (int) table.getValueAt(row, 2);
-	        	table.setValueAt(quantitat + currentValue, row, 2);
-	        	return ;
-	        }
-	        
-		}
-		
-		table.addRow(new Object[] { producteId, nomProducte, quantitat, "X"});
-		this.cmbProveidor.setEnabled(false);
 		this.btnSave.setEnabled(true);			
 	}
 	
 
 	private void resetForm() {
-		this.txtAlbaraProveidor.setText("");
-		this.txtDataAlbara.setText(Methods.formatDate(new Date()));
-		this.cmbProveidor.setEnabled(true);		
-		this.cmbProveidor.setSelectedIndex(0);
-		this.txtQuantitat.setText("");
-		selectProductControl.setEnabled(false);
-		btnAdd.setEnabled(false); 	
+		this.cmbAlbara.setSelectedIndex(0);
 		
-		selectProductControl.resetFields();
-					
 		table.removeRows();
 	}
 	
 	private void save() {
 		if (isValidForm()) 
-		{
-			Albara albara= new Albara();
-			albara.setCodialbaraextern(this.txtAlbaraProveidor.getText());
-			albara.setComAlbara("");
-			albara.setDataAlbara(Methods.getDate(this.txtDataAlbara.getText()));
-			albara.setOrigenId( (String) ((ComboBoxItem)  this.cmbProveidor.getSelectedItem()).getId());
-			albara.setDestiId(codiLocal);
-			albara.setLiniesAlbara(getLinAlbara());
-			albara.setTipusMovimentId(MovimentManager.TIPUS_MOVIMENT_ENTRADA);
-
+		{			
 			try {
+								
+				Albara albara= new Albara();
+				albara.setCodialbaraextern("");
+				albara.setComAlbara("");
+				albara.setDataAlbara(new Date());
+				albara.setOrigenId(codiLocal_central);
+				albara.setDestiId(codiLocal);
+				albara.setLiniesAlbara(getLinAlbara());
+				albara.setTipusMovimentId(MovimentManager.TIPUS_MOVIMENT_ENTRADA);
 				
+					
 				_clientManager.getRMIInterface().addAlbara(albara);
-				/*
-				AlbaraManager m = new AlbaraManager(new DatabaseManager());
-				m.Add(albara);
-				*/
 				
 				resetForm();
 				
@@ -373,7 +287,7 @@ public class ReceivingPieces extends JFrame {
 		for (int i = rowCount - 1; i >= 0; i--) {
 			LinAlbara linAlbara= new LinAlbara(); 
 			linAlbara.setProducteId((String) table.getValueAt(i, 0));
-			linAlbara.setUnitats((Integer) table.getValueAt(i, 2));
+			linAlbara.setUnitats(Integer.parseInt(table.getValueAt(i, 3).toString()));
 			
 			linees.add(linAlbara);
 		}
@@ -387,24 +301,12 @@ public class ReceivingPieces extends JFrame {
 		try 
 		{
 			
-			if (((ComboBoxItem) cmbProveidor.getSelectedItem()).getId() == null)
+			if (((ComboBoxItem) cmbAlbara.getSelectedItem()).getId() == null)
 			{
-				this.cmbProveidor.requestFocus();
-				Methods.showMessage( Managers.i18n.getTranslation("VALIDATION_CHOOSE_PROVIDER"), Enums.MessageType.Warning);
+				this.cmbAlbara.requestFocus();
+				Methods.showMessage( Managers.i18n.getTranslation("VALIDATION_CHOOSE_ALBARA"), Enums.MessageType.Warning);
 				return false;
 			}			
-			if (this.txtAlbaraProveidor.getText().trim().length() == 0 )
-			{
-				this.txtAlbaraProveidor.requestFocus();
-				Methods.showMessage( Managers.i18n.getTranslation("VALIDATION_INPUT_DELIVERY_NOTE_CODE"), Enums.MessageType.Warning);
-				return false;
-			}
-			if (! Methods.isValidDate(this.txtDataAlbara.getText()))
-			{
-				this.txtDataAlbara.requestFocus();
-				Methods.showMessage( Managers.i18n.getTranslation("VALIDATION_INVALID_DELIVERY_NOTE_DATE"), Enums.MessageType.Warning);
-				return false;
-			}
 		}
 		catch(Exception e){};
 		

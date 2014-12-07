@@ -137,11 +137,11 @@ public class STTable extends  JPanel {
 		table= new JTable(model); 
 		
 		table.setBounds(this.getX(), this.getY(), this.getWidth(), this.getHeight());			
-		table.setFillsViewportHeight(true);
-		
+		table.setFillsViewportHeight(true);		
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(this.getX(), this.getY(), this.getWidth()- 50, this.getHeight() - 100 );
-	  
+		scrollPane.setBounds(this.getX(), this.getY(), this.getWidth()- 50, this.getHeight() - 125);
+
+		
 		removeAll();
 		add(scrollPane);	
 		
@@ -166,5 +166,21 @@ public class STTable extends  JPanel {
 		for (int i = rowCount - 1; i >= 0; i--) {
 			model.removeRow(i);
 		}		
-	}	
+	}
+
+	/***
+	 * Torna en quina fila es trova el valor passat per parametre a la columna 0 
+	 * 
+	 * @param value valor a buscar
+	 */  
+	public int getRowIndexByRowValue(Object value) 
+	{
+		for(int row = 0;row < table.getRowCount();row++) {
+	        if (value == table.getValueAt(row, 0))
+    		{
+	        	return row;
+    		}	        
+		}
+		return -1;
+	}
 }

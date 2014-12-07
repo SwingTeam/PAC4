@@ -24,10 +24,10 @@ public class ProducteTest {
 			ProducteManager manager = new ProducteManager(db);
 			
 			List<Producte> list;
-			list = manager.Search(null, null, null);
-			list = manager.Search("1", null, null);
-			list = manager.Search("1", 1, null);
-			list = manager.Search("1", 1, 1);
+			list = manager.search(null, null, null);
+			list = manager.search("1", null, null);
+			list = manager.search("1", 1, null);
+			list = manager.search("1", 1, 1);
 
 		} catch (Exception e){
 			e.printStackTrace();

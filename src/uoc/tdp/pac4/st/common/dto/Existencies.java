@@ -20,8 +20,8 @@ public class Existencies implements Serializable {
 	 */	  	
 	private String producteId;
 	private String localId;
-	private int estoc;
-	private int estocMinim;
+	private Integer estoc;
+	private Integer estocMinim;
 	
     
     /*
@@ -49,16 +49,16 @@ public class Existencies implements Serializable {
 	public void setLocalId(String localId) {
 		this.localId = localId;
 	}
-	public int getEstoc() {
+	public Integer getEstoc() {
 		return estoc;
 	}
-	public void setEstoc(int estoc) {
+	public void setEstoc(Integer estoc) {
 		this.estoc = estoc;
 	}
-	public int getEstocMinim() {
+	public Integer getEstocMinim() {
 		return estocMinim;
 	}
-	public void setEstocMinim(int estocMinim) {
+	public void setEstocMinim(Integer estocMinim) {
 		this.estocMinim = estocMinim;
 	}
     

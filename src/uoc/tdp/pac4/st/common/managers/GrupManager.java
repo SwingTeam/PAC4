@@ -34,7 +34,7 @@ public class GrupManager  {
 	  * @return LLista de grups 
 	  * @throws STException 
 	  */	
-	public List<Grup> List() throws STException 
+	public List<Grup> list() throws STException 
 	{							
 		List<Grup> listGrup = new ArrayList<Grup>();
 				
@@ -46,7 +46,7 @@ public class GrupManager  {
 			//Llegim resultat
 			while (resultSet.next()) 
 			{
-				Grup grup= GetFromResultSet(resultSet);
+				Grup grup= getFromResultSet(resultSet);
 				listGrup.add(grup);
 			}			
 		}
@@ -62,7 +62,7 @@ public class GrupManager  {
 		return listGrup;
 	}
 	
-	private Grup GetFromResultSet(ResultSet resultSet) throws SQLException 
+	public Grup getFromResultSet(ResultSet resultSet) throws SQLException 
 	{
 		//Omplim grup
 		Grup grup = new Grup();

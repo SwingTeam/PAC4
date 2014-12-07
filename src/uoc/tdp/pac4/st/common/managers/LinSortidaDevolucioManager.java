@@ -63,7 +63,7 @@ public class LinSortidaDevolucioManager  {
 			//Llegim resultat
 			if (resultSet.next()) 
 			{
-				linAlbara= GetFromResultSet(resultSet);		
+				linAlbara= getFromResultSet(resultSet);		
 			}			
 		}
 		catch(SQLException e)
@@ -99,7 +99,7 @@ public class LinSortidaDevolucioManager  {
 			//Llegim resultat
 			while (resultSet.next()) 
 			{
-				LinAlbara linAlbara= GetFromResultSet(resultSet);
+				LinAlbara linAlbara= getFromResultSet(resultSet);
 				listLinAlbara.add(linAlbara);
 			}			
 		}
@@ -115,7 +115,7 @@ public class LinSortidaDevolucioManager  {
 		return listLinAlbara;
 	}	
 	
-	private LinAlbara GetFromResultSet(ResultSet resultSet) throws SQLException 
+	public LinAlbara getFromResultSet(ResultSet resultSet) throws SQLException 
 	{
 		//Omplim albara 
 		LinAlbara linAlbara = new LinAlbara();

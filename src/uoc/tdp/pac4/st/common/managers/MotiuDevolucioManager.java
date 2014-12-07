@@ -39,7 +39,7 @@ public class MotiuDevolucioManager  {
 	  * @return LLista de motius de devolucio 
 	  * @throws STException 
 	  */	
-	public List<MotiuDevolucio> List() throws STException 
+	public List<MotiuDevolucio> list() throws STException 
 	{							
 		List<MotiuDevolucio> list = new ArrayList<MotiuDevolucio>();
 				
@@ -51,7 +51,7 @@ public class MotiuDevolucioManager  {
 			//Llegim resultat
 			while (resultSet.next()) 
 			{
-				MotiuDevolucio motiuDevolucio= GetFromResultSet(resultSet);
+				MotiuDevolucio motiuDevolucio= getFromResultSet(resultSet);
 				list.add(motiuDevolucio);
 			}			
 		}
@@ -67,7 +67,7 @@ public class MotiuDevolucioManager  {
 		return list;
 	}
 	
-	private MotiuDevolucio GetFromResultSet(ResultSet resultSet) throws SQLException 
+	public MotiuDevolucio getFromResultSet(ResultSet resultSet) throws SQLException 
 	{
 		//Omplim MotiuDevolucio
 		MotiuDevolucio motiuDevolucio = new MotiuDevolucio();

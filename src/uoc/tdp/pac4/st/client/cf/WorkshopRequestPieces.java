@@ -7,7 +7,10 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,7 +19,6 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import uoc.tdp.pac4.st.common.ComboBoxItem;
 import uoc.tdp.pac4.st.common.Constants;
 import uoc.tdp.pac4.st.common.Enums;
 import uoc.tdp.pac4.st.common.Managers;
@@ -24,20 +26,24 @@ import uoc.tdp.pac4.st.common.Methods;
 import uoc.tdp.pac4.st.common.STException;
 import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.Albara;
+import uoc.tdp.pac4.st.common.dto.Existencies;
 import uoc.tdp.pac4.st.common.dto.LinAlbara;
+import uoc.tdp.pac4.st.common.dto.Producte;
 import uoc.tdp.pac4.st.common.managers.AlbaraManager;
 import uoc.tdp.pac4.st.common.managers.ClientManager;
 import uoc.tdp.pac4.st.common.managers.DatabaseManager;
 import uoc.tdp.pac4.st.common.managers.ExceptionManager;
 import uoc.tdp.pac4.st.common.managers.I18nManager;
 import uoc.tdp.pac4.st.common.managers.MovimentManager;
+import uoc.tdp.pac4.st.common.managers.ProducteManager;
 import uoc.tdp.pac4.st.common.managers.SettingManager;
+import uoc.tdp.pac4.st.common.ui.LabelSubTitle;
 import uoc.tdp.pac4.st.common.ui.LabelTitle;
 import uoc.tdp.pac4.st.common.ui.STTable;
 import uoc.tdp.pac4.st.common.ui.SelectProductControl;
 import uoc.tdp.pac4.st.rmi.ETallerStocksInterface;
 
-public class RequestPieces extends JFrame {
+public class WorkshopRequestPieces extends JFrame {
 	//RN: Temp
 	private String codiLocal_desti="L1"; 
 	private String codiLocal_origen="L2";
@@ -52,6 +58,8 @@ public class RequestPieces extends JFrame {
 
 	private SelectProductControl selectProductControl = null;
 	private JTextField txtQuantitat = null;
+	private JButton btnAfegirAutomaticament;
+	private JLabel lblEstoc;
 	private JButton btnAdd; 
 	private JButton btnSave;
 	private JButton btnCancel;
@@ -89,7 +97,7 @@ public class RequestPieces extends JFrame {
 					Managers.i18n.setLanguage(language);
 			
 				
-					RequestPieces frame = new RequestPieces();
+					WorkshopRequestPieces frame = new WorkshopRequestPieces();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -101,7 +109,7 @@ public class RequestPieces extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public RequestPieces() {
+	public WorkshopRequestPieces() {
 		startConnection();
 		
 		
@@ -122,25 +130,62 @@ public class RequestPieces extends JFrame {
     	lblTitle.setBounds(10, 10, 400, 20);
 		getContentPane().add(lblTitle);
 
-    
+    	LabelSubTitle lbAfegirAutomaticament = new LabelSubTitle("LABEL_AGEGIR_PETICIONS_AUTOMATICAMENT");
+    	lbAfegirAutomaticament.setBounds(20, 50, 400, 20);
+		getContentPane().add(lbAfegirAutomaticament);
+
+		
+		btnAfegirAutomaticament=  new JButton("LABEL_CARREGAR_PRODUCTES_ESTOC");
+		btnAfegirAutomaticament.setBounds(20, 80, 350, 25);	
+	    btnAfegirAutomaticament.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent paramAnonymousActionEvent) {
+	        	loadProducts();
+	        }
+	      });
+	    getContentPane().add(btnAfegirAutomaticament);
+	    
+
+    	LabelSubTitle lbAfegirManualment = new LabelSubTitle("LABEL_AFEGIR_PETICIONS_MANUALMENT");
+    	lbAfegirManualment.setBounds(20, 130, 400, 20);
+		getContentPane().add(lbAfegirManualment);
+			
 	    
 	    //Select product control
 	    selectProductControl= new SelectProductControl(this._clientManager, null); 
-	    selectProductControl.setBounds(50, 80, 500, 100);
-	    selectProductControl.setVisible(true);	       	   		   
+	    selectProductControl.setBounds(20, 100, 500, 100);
+	    selectProductControl.setVisible(true);	       	  
+  		Action _canviarProducteAction = new AbstractAction()
+  		{
+  		    public void actionPerformed(ActionEvent e)
+  		    {
+  		    	UpdateEstock();
+  		    }
+  		};
+  		selectProductControl.canviarProducteAction = _canviarProducteAction;		 
+  		 
 	    getContentPane().add(selectProductControl);
+	    	    
+		//estoc
+		JLabel lblStock= new JLabel("LABEL_ESTOC");
+		lblStock.setBounds(535, 150, 50, 20);
+		add(lblStock);
 
+	    lblEstoc= new JLabel();
+	    lblEstoc.setBounds(535, 175, 50, 20);
+	    add(lblEstoc);			
+	    
+	    //quantitat
 		JLabel lblQuantitat= new JLabel("LABEL_QUANTITAT");
-		lblQuantitat.setBounds(580, 135, 70, 20);
+		lblQuantitat.setBounds(580, 150, 70, 20);
 		add(lblQuantitat);
 	    	    
 		txtQuantitat= new JTextField();
-		txtQuantitat.setBounds(580, 155, 50, 20);			    	
+		txtQuantitat.setBounds(580, 175, 50, 20);			    	
 		add(txtQuantitat);
 
 		
 	    btnAdd = new JButton("LABEL_AFEGIR");
-	    btnAdd.setBounds(660, 150, 120, 25);
+	    btnAdd.setBounds(660, 170, 120, 25);
 	    getContentPane().add(btnAdd);		
 		btnAdd.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent paramAnonymousActionEvent) {
@@ -151,11 +196,11 @@ public class RequestPieces extends JFrame {
 	        }
 	      });
 
-		drawTable();
+		
 		
 		
 	    btnCancel = new JButton("LABEL_CANCEL");
-	    btnCancel.setBounds(100, 420, 100, 40);
+	    btnCancel.setBounds(100, 460, 100, 40);
 
 	    getContentPane().add(btnCancel);	    
 	    btnCancel.addActionListener(new ActionListener() {
@@ -165,7 +210,7 @@ public class RequestPieces extends JFrame {
 	    });
 
 		btnSave = new JButton("LABEL_SAVE");
-		btnSave.setBounds(600, 420, 100, 40);	    	    
+		btnSave.setBounds(600, 460, 100, 40);	    	    
 	    getContentPane().add(btnSave);		    
 	    btnSave.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
@@ -177,7 +222,7 @@ public class RequestPieces extends JFrame {
 	    });	    
 
 		
-	    
+	    drawTable();
 		//Traducció dels tokens de la pantalla
 		try {
 			Methods.setFrameLanguage(this);
@@ -191,6 +236,63 @@ public class RequestPieces extends JFrame {
 		//titol pantalla
 		setTitle(Managers.i18n.getTranslation("LABEL_DEMANAR_PECES"));		
 
+	}
+	
+	private void UpdateEstock() 
+	{
+		try {
+			
+			String producteId= this.selectProductControl.producteId;
+			String localId= codiLocal_origen;
+			
+			Existencies existencies = _clientManager.getRMIInterface().getExistenciesByProducteAndLocal(producteId, localId);
+			if (existencies != null)
+			{			
+				lblEstoc.setText(String.valueOf(existencies.getEstoc()));
+			}
+			else 
+			{
+				lblEstoc.setText("0");
+			}
+		} catch (Exception e) {
+			Managers.exception.showException(new STException(e, "ERROR_UNEXPECTED"));
+		}
+	}
+	
+	
+	private void loadProducts()
+	{
+		this.table.removeRows();
+		
+		try {
+			
+			
+			List<Producte> list = _clientManager.getRMIInterface().getStockMinim(codiLocal_origen);
+			
+			if (list.size() > 0 )
+			{
+				AddRowsToTable(list);
+			}
+			else 
+			{
+				Methods.showMessage( Managers.i18n.getTranslation("LABEL_NO_PRODUCTES_ESTOC_MINIM"), Enums.MessageType.Info);
+				
+			}
+		} 
+		catch (Exception e) {
+			Managers.exception.showException(new STException(e, e.getMessage()));
+		}
+		
+	}
+	
+	private void AddRowsToTable(List<Producte> list) 
+	{
+		table.removeRows();
+		
+		for (Producte producte: list )
+		{
+			table.addRow(new Object[] { producte.getIdProducte(), producte.getNomProducte(), producte.getExistencies().getEstoc(), producte.getExistencies().getEstocMinim(), "X"});
+		}			
 	}
 
 	private boolean isValidLine(){
@@ -214,13 +316,14 @@ public class RequestPieces extends JFrame {
 	{		
 		table= new STTable();
 		table.showDeleteButton= true;
-		table.setBounds(25, 100, 780, 300);
-		table.setVisible(true);
-		
+	
 		table.addColumn("productId", 0, false, false);
 		table.addColumn(Managers.i18n.getTranslation("LABEL_PRODUCTE"), null, false, false);
 		table.addColumn(Managers.i18n.getTranslation("LABEL_ESTOC"), 100, false, false);
 		table.addColumn(Managers.i18n.getTranslation("LABEL_QUANTITAT"), 100, true, true);
+		
+		table.setBounds(10, 110, 810, 350);
+		
 		
 		table.drawTable();
 	    getContentPane().add(table);		
@@ -231,6 +334,7 @@ public class RequestPieces extends JFrame {
 	
 		String producteId= selectProductControl.producteId;
 		String nomProducte= selectProductControl.nomProducte;
+		String estoc= this.lblEstoc.getText();
 		Integer quantitat= Integer.parseInt(this.txtQuantitat.getText());
 		
 		DefaultTableModel model= (DefaultTableModel) this.table.getModel();
@@ -240,14 +344,14 @@ public class RequestPieces extends JFrame {
 	        String linProducteId= (String) table.getValueAt(row, 0);
 	        if (linProducteId == producteId)
 	        {
-	        	int currentValue=  (int) table.getValueAt(row, 2);
-	        	table.setValueAt(quantitat + currentValue, row, 2);
+	        	int currentValue=  (int) table.getValueAt(row, 3);
+	        	table.setValueAt(quantitat + currentValue, row, 3);
 	        	return ;
 	        }
 	        
 		}
 		
-		table.addRow(new Object[] { producteId, nomProducte, quantitat, "X"});
+		table.addRow(new Object[] { producteId, nomProducte, estoc, quantitat, "X"});
 		this.btnSave.setEnabled(true);			
 	}
 	
@@ -278,7 +382,7 @@ public class RequestPieces extends JFrame {
 				
 				//_clientManager.getRMIInterface().AddAlbara(albara);
 				AlbaraManager m = new AlbaraManager(new DatabaseManager());
-				m.Add(albara);
+				m.add(albara);
 				
 				resetForm();
 				
@@ -298,7 +402,7 @@ public class RequestPieces extends JFrame {
 		for (int i = rowCount - 1; i >= 0; i--) {
 			LinAlbara linAlbara= new LinAlbara(); 
 			linAlbara.setProducteId((String) table.getValueAt(i, 0));
-			linAlbara.setUnitats((Integer) table.getValueAt(i, 2));
+			linAlbara.setUnitats((Integer) table.getValueAt(i, 3));
 			
 			linees.add(linAlbara);
 		}

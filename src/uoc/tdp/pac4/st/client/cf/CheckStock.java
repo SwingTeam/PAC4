@@ -215,7 +215,7 @@ public class CheckStock extends JFrame {
 		
 		table= new STTable();
 		table.showDeleteButton= false;
-		table.setBounds(25, 100, 780, 300);
+		table.setBounds(25, 100, 780, 400);
 		table.setVisible(true);
 		
 		table.addColumn("productId", 0, false, false);
@@ -252,7 +252,7 @@ public class CheckStock extends JFrame {
 				
 				//_clientManager.getRMIInterface().AddAlbara(albara);
 				ProducteManager producteManager = new ProducteManager (new DatabaseManager());	
-				List<Producte> list= producteManager.StockSearch(grupId, subGrupId, producteId, localId, stockInicial, stockFinal);
+				List<Producte> list= producteManager.stockSearch(grupId, subGrupId, producteId, localId, stockInicial, stockFinal);
 				
 				AdRowsToTable(list);
 			} 

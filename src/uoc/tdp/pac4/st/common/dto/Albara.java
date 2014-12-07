@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
+import uoc.tdp.pac4.st.common.Methods;
+
 
 /***
  * 
@@ -94,6 +96,5 @@ public class Albara implements Serializable {
 		this.liniesAlbara = liniesAlbara;
 	}
 
-    
-    
+
 }

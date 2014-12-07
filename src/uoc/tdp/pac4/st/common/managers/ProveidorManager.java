@@ -33,7 +33,7 @@ public class ProveidorManager  {
 	  * @return LLista de proveidors 
 	  * @throws STException 
 	  */	
-	public List<Proveidor> List() throws STException 
+	public List<Proveidor> list() throws STException 
 	{							
 		List<Proveidor> listProveidor = new ArrayList<Proveidor>();
 				
@@ -45,7 +45,7 @@ public class ProveidorManager  {
 			//Llegim resultat
 			while (resultSet.next()) 
 			{
-				Proveidor proveidor= GetFromResultSet(resultSet);
+				Proveidor proveidor= getFromResultSet(resultSet);
 				listProveidor.add(proveidor);
 			}			
 		}
@@ -61,7 +61,7 @@ public class ProveidorManager  {
 		return listProveidor;
 	}
 	
-	private Proveidor GetFromResultSet(ResultSet resultSet) throws SQLException 
+	public Proveidor getFromResultSet(ResultSet resultSet) throws SQLException 
 	{
 		//Omplim proveidor
 		Proveidor proveidor = new Proveidor();

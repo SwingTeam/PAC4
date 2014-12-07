@@ -23,8 +23,8 @@ public class SubGrupTest {
 			DatabaseManager db = new DatabaseManager();
 			SubGrupManager manager = new SubGrupManager(db);
 			
-			List<SubGrup> list = manager.GetByGrupId(null);
-			list = manager.GetByGrupId(1);
+			List<SubGrup> list = manager.getByGrupId(null);
+			list = manager.getByGrupId(1);
 
 		} catch (Exception e){
 			e.printStackTrace();

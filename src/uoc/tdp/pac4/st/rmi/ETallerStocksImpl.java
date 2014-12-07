@@ -10,6 +10,7 @@ import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.Albara;
 import uoc.tdp.pac4.st.common.dto.Existencies;
 import uoc.tdp.pac4.st.common.dto.Grup;
+import uoc.tdp.pac4.st.common.dto.LinAlbara;
 import uoc.tdp.pac4.st.common.dto.Local;
 import uoc.tdp.pac4.st.common.dto.LocalST;
 import uoc.tdp.pac4.st.common.dto.MotiuDevolucio;
@@ -21,8 +22,10 @@ import uoc.tdp.pac4.st.common.managers.AlbaraManager;
 import uoc.tdp.pac4.st.common.managers.DatabaseManager;
 import uoc.tdp.pac4.st.common.managers.ExistenciesManager;
 import uoc.tdp.pac4.st.common.managers.GrupManager;
+import uoc.tdp.pac4.st.common.managers.LinAlbaraManager;
 import uoc.tdp.pac4.st.common.managers.LocalManager;
 import uoc.tdp.pac4.st.common.managers.MotiuDevolucioManager;
+import uoc.tdp.pac4.st.common.managers.MovimentManager;
 import uoc.tdp.pac4.st.common.managers.ProducteManager;
 import uoc.tdp.pac4.st.common.managers.ProveidorManager;
 import uoc.tdp.pac4.st.common.managers.SubGrupManager;
@@ -131,7 +134,7 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 	  * @throws RemoteException
 	  * @throws STException
 	  */ 
-	 public int addUser(Usuari user) throws RemoteException, STException
+	 public int addUser(Usuari user) throws STException
 	 {
 		    DatabaseManager databaseManager = new DatabaseManager();
 			UserManager um = new UserManager(databaseManager); 
@@ -146,14 +149,14 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 	  * @throws RemoteException
 	  * @throws STException
 	  */ 
-	 public int AddAlbara(Albara albara) throws STException
+	 public int addAlbara(Albara albara) throws STException
 	 {
 		 //Creem el database manager per conectar amb la BD 
 		DatabaseManager databaseManager = new DatabaseManager();
 		
 		//Creem AlbaraManager i li passem el databaseManager
 		AlbaraManager albaraManager = new AlbaraManager(databaseManager); 
-		return albaraManager.Add(albara);
+		return albaraManager.add(albara);
 	 }
 	 
 	 /***
@@ -163,10 +166,10 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 	  * @throws RemoteException
 	  * @throws STException
 	  */	 
-  	 public List<Proveidor> listProveidors() throws  RemoteException,STException {
+  	 public List<Proveidor> listProveidors() throws STException {
 		DatabaseManager databaseManager = new DatabaseManager();
 		ProveidorManager manager = new ProveidorManager(databaseManager );
-		return manager.List();
+		return manager.list();
   	 }
   	 
   	 
@@ -178,10 +181,10 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 	  * @throws RemoteException
 	  * @throws STException
 	  */	 
-  	 public List<Grup> listGrups() throws  RemoteException,STException {
+  	 public List<Grup> listGrups() throws STException {
 		DatabaseManager databaseManager = new DatabaseManager();
 		GrupManager manager= new GrupManager(databaseManager );
-		return manager.List();
+		return manager.list();
   	 }
   	 
 	 /***
@@ -191,10 +194,10 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 	  * @throws RemoteException
 	  * @throws STException
 	  */	 
-  	 public List<SubGrup> getSubGrupsByGrup(Integer grupId) throws  RemoteException,STException {
+  	 public List<SubGrup> getSubGrupsByGrup(Integer grupId) throws  STException {
 		DatabaseManager databaseManager = new DatabaseManager();
 		SubGrupManager manager= new SubGrupManager(databaseManager );
-		return manager.GetByGrupId(grupId);
+		return manager.getByGrupId(grupId);
   	 }
   	 
   	 /***
@@ -204,11 +207,11 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 	  * @return List<Producte> LLista de productes 
 	  * @throws STException 
 	  */	
-	public List<Producte> SearchProdutes(String proveidorId, Integer grupId, Integer subGrupId) throws RemoteException,STException
+	public List<Producte> searchProdutes(String proveidorId, Integer grupId, Integer subGrupId) throws STException
 	{
 		DatabaseManager databaseManager = new DatabaseManager();
 		ProducteManager manager= new ProducteManager(databaseManager );
-		return manager.Search(proveidorId, grupId, subGrupId);		
+		return manager.search(proveidorId, grupId, subGrupId);		
 	}
 	
 	 /***
@@ -218,11 +221,11 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 	  * @throws RemoteException
 	  * @throws STException
 	  */	 
-	 public List<MotiuDevolucio> listMotiuDevolucio() throws RemoteException, STException	
+	 public List<MotiuDevolucio> listMotiuDevolucio() throws STException	
 	 {
 		DatabaseManager databaseManager = new DatabaseManager();
 		MotiuDevolucioManager manager= new MotiuDevolucioManager(databaseManager );
-		return manager.List();	 	 
+		return manager.list();	 	 
 	 }
 	 
 	 /***
@@ -232,7 +235,7 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 	  * @throws RemoteException
 	  * @throws STException
 	  */	  
-	 public Existencies getExistenciesByProducteAndLocal(String producteId, String localId)throws RemoteException, STException
+	 public Existencies getExistenciesByProducteAndLocal(String producteId, String localId)throws STException
 	 {
 		DatabaseManager databaseManager = new DatabaseManager();
 		ExistenciesManager manager= new ExistenciesManager(databaseManager );
@@ -246,12 +249,69 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 	  * @throws RemoteException
 	  * @throws STException
 	  */	 
-	 public List<LocalST> listLocals() throws RemoteException, STException	
+	 public List<LocalST> listLocals() throws  STException	
 	 {
 		DatabaseManager databaseManager = new DatabaseManager();
 		LocalManager manager= new LocalManager(databaseManager );
-		return manager.List();	 	 
+		return manager.list();	 	 
 	 }
-	 
+	 	 
+
+	 /***
+	  * 
+	  * Torna tots els productes amb estoc minim per un local 
+	  * 
+	  * @return List<Producte> LLista de productes 
+	  * @throws STException 
+	  */	
+	public List<Producte>getStockMinim(String localId) throws  STException
+	{
+		DatabaseManager databaseManager = new DatabaseManager();
+		ProducteManager manager= new ProducteManager(databaseManager);
+		return manager.getStockMinim(localId);	
+	}
+	
+	 /***
+	  * 
+	  * Torna tots els albarans de tipus transferencia d'un local 
+	  * 
+	  * @return List<Albara> LLista d'albarans 
+	  * @throws STException 
+	  */	
+	public List<Albara> listAlbaransByLocal(String localId) throws  STException
+	{
+		DatabaseManager databaseManager = new DatabaseManager();
+		AlbaraManager manager= new AlbaraManager(databaseManager);
+		return manager.listByDestiAndTipusMoviment(localId, MovimentManager.TIPUS_MOVIMENT_TRANSFERENCIA);	
+	}
+	
+
+	 /***
+	  * 
+	  * Torna un albara pel seu id 
+	  * 
+	  * @return Albara albara 
+	  * @throws STException 
+	  */	
+	public Albara getAlbaraById(int albaraId) throws STException
+	{
+		DatabaseManager databaseManager = new DatabaseManager();
+		AlbaraManager manager= new AlbaraManager(databaseManager);
+		return manager.getById(albaraId);	
+	}
+		
+	 /***
+	  * 
+	  * Torna linies d'un albarà 
+	  * 
+	  * @return Linies albara 
+	  * @throws STException 
+	  */	
+	public List<LinAlbara> getLinAlbaraByAlbaraId(int albaraId) throws  STException
+	{
+		DatabaseManager databaseManager = new DatabaseManager();
+		LinAlbaraManager manager= new LinAlbaraManager(databaseManager);
+		return manager.getByAlbaraId(albaraId);	
+	}
 	/*** END: Subsistema Connexió ****/		
 }

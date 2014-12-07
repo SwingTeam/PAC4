@@ -425,7 +425,7 @@ public class ReturningPieces extends JFrame {
 
 			try {
 				
-				_clientManager.getRMIInterface().AddAlbara(albara);
+				_clientManager.getRMIInterface().addAlbara(albara);
 				/*
 				AlbaraManager m = new AlbaraManager(new DatabaseManager());
 				m.Add(albara);

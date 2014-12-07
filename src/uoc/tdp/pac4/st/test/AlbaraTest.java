@@ -46,7 +46,7 @@ public class AlbaraTest {
 						
 			try 
 			{				
-				albaraId= am.Add(albara);
+				albaraId= am.add(albara);
 				
 				db.finishTransaction(true);
 			}
@@ -57,14 +57,14 @@ public class AlbaraTest {
 			}		
 			
 			//Test get albara by Id
-			albara = am.GetById(albaraId);
+			albara = am.getById(albaraId);
 			
 			//Test get linAlbara by albaraId
 			LinAlbaraManager linAlbaraManager = new LinAlbaraManager(db); 				
-			List<LinAlbara> listLinAlbara = linAlbaraManager.GetByAlbaraId(albaraId);
+			List<LinAlbara> listLinAlbara = linAlbaraManager.getByAlbaraId(albaraId);
 			
 			//Test get linAlbara by ID
-			linAlbara = linAlbaraManager.GetById(listLinAlbara.get(0).getIdLiniaAlbara());
+			linAlbara = linAlbaraManager.getById(listLinAlbara.get(0).getIdLiniaAlbara());
 
 		} catch (Exception e){
 			e.printStackTrace();

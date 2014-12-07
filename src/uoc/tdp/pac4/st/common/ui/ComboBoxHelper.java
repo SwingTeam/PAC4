@@ -9,6 +9,7 @@ import javax.swing.JComboBox;
 import uoc.tdp.pac4.st.common.ComboBoxItem;
 import uoc.tdp.pac4.st.common.Managers;
 import uoc.tdp.pac4.st.common.STException;
+import uoc.tdp.pac4.st.common.dto.Albara;
 import uoc.tdp.pac4.st.common.dto.Grup;
 import uoc.tdp.pac4.st.common.dto.LocalST;
 import uoc.tdp.pac4.st.common.dto.MotiuDevolucio;
@@ -16,8 +17,6 @@ import uoc.tdp.pac4.st.common.dto.Producte;
 import uoc.tdp.pac4.st.common.dto.Proveidor;
 import uoc.tdp.pac4.st.common.dto.SubGrup;
 import uoc.tdp.pac4.st.common.managers.ClientManager;
-import uoc.tdp.pac4.st.common.managers.DatabaseManager;
-import uoc.tdp.pac4.st.common.managers.LocalManager;
 import uoc.tdp.pac4.st.rmi.ETallerStocksInterface;
 
 public class ComboBoxHelper  {
@@ -87,7 +86,7 @@ public class ComboBoxHelper  {
 			
 			cmbBoxItem.addItem(new ComboBoxItem(null, Managers.i18n.getTranslation("LABEL_ESCOLLIR")));
 			
-			List<Producte> list = clientManager.getRMIInterface().SearchProdutes(proveidorId, grupId, subGrupId);
+			List<Producte> list = clientManager.getRMIInterface().searchProdutes(proveidorId, grupId, subGrupId);
 			
 			Iterator<Producte> iterator= list.iterator();
 			while (iterator.hasNext()) 
@@ -187,5 +186,33 @@ public class ComboBoxHelper  {
 		} catch (RemoteException | NullPointerException e) {
 			Managers.exception.showException(new STException(e));
 		}		
+	}
+	
+	/***
+	 * Omple un ComboBox amb la llista d'albarans d'un local 
+	 * 
+	 */
+	public static void fillCmbAlbara(ClientManager<ETallerStocksInterface> clientManager, JComboBox<ComboBoxItem> cmbBoxItem, String localId) {
+		try {
+			cmbBoxItem.removeAllItems();
+			 
+			cmbBoxItem.addItem(new ComboBoxItem(null, Managers.i18n.getTranslation("LABEL_ESCOLLIR")));
+			
+			List<Albara> list = clientManager.getRMIInterface().listAlbaransByLocal(localId);  
+			
+			Iterator<Albara> iterator= list.iterator();
+			while (iterator.hasNext()) 
+			{
+				Albara albara= iterator.next();
+				cmbBoxItem.addItem(new ComboBoxItem(albara.getIdAlbara(), Integer.toString(albara.getIdAlbara())));
+			}			
+		}
+		catch (STException e) {
+			Managers.exception.showException(e);
+			
+		} catch (RemoteException | NullPointerException e) {
+			Managers.exception.showException(new STException(e));
+		}		
 	}	
+
 }

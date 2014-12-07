@@ -8,6 +8,7 @@ import uoc.tdp.pac4.st.common.STException;
 import uoc.tdp.pac4.st.common.dto.Albara;
 import uoc.tdp.pac4.st.common.dto.Existencies;
 import uoc.tdp.pac4.st.common.dto.Grup;
+import uoc.tdp.pac4.st.common.dto.LinAlbara;
 import uoc.tdp.pac4.st.common.dto.Local;
 import uoc.tdp.pac4.st.common.dto.LocalST;
 import uoc.tdp.pac4.st.common.dto.MotiuDevolucio;
@@ -90,7 +91,7 @@ public interface ETallerStocksInterface extends Remote {
 	  * @throws RemoteException
 	  * @throws STException
 	  */ 
-	 public int AddAlbara(Albara albara) throws RemoteException, STException;
+	 public int addAlbara(Albara albara) throws RemoteException, STException;
 	 
 	 /***
 	  * LLista tots els proveidors
@@ -127,7 +128,7 @@ public interface ETallerStocksInterface extends Remote {
 	  * @return List<Producte> LLista de productes 
 	  * @throws STException 
 	  */	
-	public List<Producte> SearchProdutes(String proveidorId, Integer grupId, Integer subGrupId) throws RemoteException,STException; 
+	public List<Producte> searchProdutes(String proveidorId, Integer grupId, Integer subGrupId) throws RemoteException,STException; 
 
 	 /***
 	  * LLista tots els motius devolucions
@@ -157,7 +158,44 @@ public interface ETallerStocksInterface extends Remote {
 	  * @throws STException
 	  */	 
 	 public List<LocalST> listLocals() throws RemoteException, STException;		
-	 
+
+	 /***
+	  * 
+	  * Torna tots els productes amb estoc minim per un local 
+	  * 
+	  * @return List<Producte> LLista de productes 
+	  * @throws STException 
+	  */	
+	public List<Producte>getStockMinim(String localId) throws RemoteException, STException;
+
+	 /***
+	  * 
+	  * Torna tots els albarans de tipus transferencia d'un local 
+	  * 
+	  * @return List<Albara> LLista d'albarans 
+	  * @throws STException 
+	  */	
+	public List<Albara> listAlbaransByLocal(String localId) throws RemoteException, STException;
+	
+	 /***
+	  * 
+	  * Torna un albara pel seu id 
+	  * 
+	  * @return Albara albara 
+	  * @throws STException 
+	  */	
+	public Albara getAlbaraById(int albaraId) throws RemoteException, STException;
+	
+	
+	 /***
+	  * 
+	  * Torna linies d'un albarà 
+	  * 
+	  * @return Linies albara 
+	  * @throws STException 
+	  */	
+	public List<LinAlbara> getLinAlbaraByAlbaraId(int albaraId) throws RemoteException, STException;
+		
 	/*** END: Subsistema Connexió ****/
 
 }
