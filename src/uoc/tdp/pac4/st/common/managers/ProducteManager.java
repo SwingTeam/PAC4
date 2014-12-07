@@ -8,6 +8,8 @@ import java.util.List;
 import uoc.tdp.pac4.st.common.Constants;
 import uoc.tdp.pac4.st.common.STException;
 import uoc.tdp.pac4.st.common.TokenKeys;
+import uoc.tdp.pac4.st.common.dto.Existencies;
+import uoc.tdp.pac4.st.common.dto.LocalST;
 import uoc.tdp.pac4.st.common.dto.Producte;
 
 
@@ -26,6 +28,82 @@ public class ProducteManager  {
 	}
 	
 	
+	 /***
+	  * 
+	  * Torna tots els productes per proveidor, grup i subgrup 
+	  * 
+	  * @return List<Producte> LLista de productes 
+	  * @throws STException 
+	  */	
+	public List<Producte> StockSearch(Integer grupId, Integer subGrupId, String producteId, String localId, Integer stockInicial, Integer stockFinal) throws STException 
+	{							
+		List<Producte> listProducte= new ArrayList<Producte>();
+				
+		//Obtenim albara de la BBDD
+		StringBuilder sb= new StringBuilder();
+		
+		sb.append("SELECT producte.*, existencies.*, local.* FROM producte ");
+		sb.append("INNER JOIN existencies ON existencies.producte_id = producte.id_producte ");
+		sb.append("INNER JOIN local ON existencies.local_id = local.id_local ");
+		
+		if (grupId != null || subGrupId != null || producteId != null || localId != null || stockInicial != null || stockFinal != null)
+		{		
+			sb.append(" WHERE ");
+			
+			if (grupId != null)
+				sb.append("producte.productegrup_id = " + grupId + " AND ");
+			
+			if (subGrupId != null)
+				sb.append("producte.productesubgrup_id = " + subGrupId + " AND ");
+
+			if (producteId != null)
+				sb.append("producte.id_producte= '" + producteId+ "' AND ");
+						
+			if (localId != null )
+				sb.append("local.id_local = '" + localId + "' AND ");
+			
+			if (stockInicial != null)
+				sb.append("existencies.estoc >= " + stockInicial + " AND ");
+			
+			if (stockFinal != null) 
+				sb.append("existencies.estoc <= " + stockFinal + " AND ");
+		
+			
+			
+			sb= new StringBuilder(sb.substring(0, sb.length() -4)); //borra ultim AND
+		}
+		sb.append(" ORDER BY local.nomlocal, producte.nomproducte");
+		
+		ResultSet resultSet= db.selectData(sb.toString());
+
+		try 
+		{		
+			ExistenciesManager existenciesManager = new ExistenciesManager (db); 
+			LocalManager localManager = new LocalManager (db);
+			//Llegim resultat
+			while (resultSet.next()) 
+			{
+				Producte producte= GetFromResultSet(resultSet);
+				Existencies existencies = existenciesManager.GetFromResultSet(resultSet);
+				LocalST local  = localManager.GetFromResultSet(resultSet); 
+
+				producte.setExistencies(existencies);
+				producte.setLocal(local);
+				listProducte.add(producte);
+			}			
+		}
+		catch(SQLException e)
+		{
+			throw new STException(e, TokenKeys.ERROR_GETTING_DATA);
+		}
+		finally 
+		{
+			//Molt important: Tanquem connexió, statement i resulset.
+			db.closeResultSet(resultSet);
+		}
+		return listProducte;
+	}	
+	 
 	 /***
 	  * 
 	  * Torna tots els productes per proveidor, grup i subgrup 

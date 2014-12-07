@@ -2,8 +2,6 @@ package uoc.tdp.pac4.st.common.dto;
 
 import java.io.Serializable;
 
-import uoc.tdp.pac4.st.common.Taller;
-
 
 /***
  * 
@@ -24,7 +22,7 @@ public class Producte implements Serializable {
     private int producteGrupId;
     private int producteSubGrupId;
         
-    private Taller taller;
+    private LocalST local;
     private Existencies existencies;
     
     
@@ -67,12 +65,12 @@ public class Producte implements Serializable {
 		this.producteSubGrupId = producteSubGrupId;
 	}
 
-	public Taller getTaller() {
-		return taller;
+	public LocalST getLocal() {
+		return local;
 	}
 
-	public void setTaller(Taller taller) {
-		this.taller = taller;
+	public void setLocal(LocalST local) {
+		this.local= local;
 	}
 
 	public Existencies getExistencies() {

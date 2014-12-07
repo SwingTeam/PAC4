@@ -79,7 +79,7 @@ public class ExistenciesManager  {
 		return existencies;
 	}
 	
-	private Existencies GetFromResultSet(ResultSet resultSet) throws SQLException 
+	public Existencies GetFromResultSet(ResultSet resultSet) throws SQLException 
 	{
 		//Omplim Existencies
 		Existencies existencies = new Existencies();

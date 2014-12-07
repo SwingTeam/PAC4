@@ -63,7 +63,7 @@ public class LocalManager  {
 		return list;
 	}
 	
-	private LocalST GetFromResultSet(ResultSet resultSet) throws SQLException 
+	public LocalST GetFromResultSet(ResultSet resultSet) throws SQLException 
 	{
 		//Omplim local
 		LocalST local = new LocalST();

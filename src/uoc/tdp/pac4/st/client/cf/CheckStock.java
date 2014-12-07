@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -28,8 +29,10 @@ import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.LinAlbara;
 import uoc.tdp.pac4.st.common.dto.Producte;
 import uoc.tdp.pac4.st.common.managers.ClientManager;
+import uoc.tdp.pac4.st.common.managers.DatabaseManager;
 import uoc.tdp.pac4.st.common.managers.ExceptionManager;
 import uoc.tdp.pac4.st.common.managers.I18nManager;
+import uoc.tdp.pac4.st.common.managers.ProducteManager;
 import uoc.tdp.pac4.st.common.managers.SettingManager;
 import uoc.tdp.pac4.st.common.ui.ComboBoxHelper;
 import uoc.tdp.pac4.st.common.ui.LabelSubTitle;
@@ -231,8 +234,12 @@ public class CheckStock extends JFrame {
 		model.addColumn("productId"); //0
 		model.addColumn(Managers.i18n.getTranslation("LABEL_TALLER")); //1 
 		model.addColumn(Managers.i18n.getTranslation("LABEL_PRODUCTE")); //2
-		model.addColumn(Managers.i18n.getTranslation("LABEL_QUANTITAT")); //3
-		model.addColumn("");
+		model.addColumn(Managers.i18n.getTranslation("LABEL_ESTOC")); //3
+		model.addColumn(Managers.i18n.getTranslation("LABEL_ESTOC_MINIM")); //4		
+		
+		this.tblStock.getColumnModel().getColumn(0).setMinWidth(0);
+		this.tblStock.getColumnModel().getColumn(0).setMaxWidth(0);	
+
 		
 		JScrollPane scrollPane = new JScrollPane(tblStock);
   
@@ -248,14 +255,31 @@ public class CheckStock extends JFrame {
 		
 		if (isValidSearch()) 
 		{
-			/*		
-			 * 	this.txtStockInicial.getText();	
-					AlbaraManager m = new AlbaraManager(new DatabaseManager());
-					m.Add(albara);
+			cleanTable();		
 			
-					Producte producte;
-					AdRowToTable(producte);
-					*/
+			Integer grupId= this.selectProductControl.grupId;
+			Integer subGrupId= this.selectProductControl.subGrupId;
+			String producteId= this.selectProductControl.producteId;			
+			String localId= (String) ((ComboBoxItem)  cmbLocal.getSelectedItem()).getId();
+			Integer stockInicial= null;
+			Integer stockFinal=null;
+				
+			if (this.txtStockInicial.getText().length() > 0 )
+				stockInicial= Integer.parseInt(this.txtStockInicial.getText());
+			if (this.txtStockFinal.getText().length() > 0 )
+				stockFinal= Integer.parseInt(this.txtStockFinal.getText());
+				
+			try {
+				
+				//_clientManager.getRMIInterface().AddAlbara(albara);
+				ProducteManager producteManager = new ProducteManager (new DatabaseManager());	
+				List<Producte> list= producteManager.StockSearch(grupId, subGrupId, producteId, localId, stockInicial, stockFinal);
+				
+				AdRowsToTable(list);
+			} 
+			catch (Exception e) {
+				Managers.exception.showException(new STException(e, e.getMessage()));
+			}
 		}
 	}	
 	
@@ -263,6 +287,7 @@ public class CheckStock extends JFrame {
 		if (this.txtStockInicial.getText().trim().length() > 0 && ! Methods.isPositiveInt(this.txtStockInicial.getText()))
 		{
 		   try {
+			    this.txtStockInicial.requestFocus();
 				Methods.showMessage( Managers.i18n.getTranslation("VALIDATION_INVALID_QUANTITY"), Enums.MessageType.Warning);
 			   } catch (Exception e1) {
 		   }			  
@@ -271,6 +296,7 @@ public class CheckStock extends JFrame {
 		if (this.txtStockFinal.getText().trim().length() > 0 && ! Methods.isPositiveInt(this.txtStockFinal.getText()))
 		{
 		   try {
+			   this.txtStockFinal.requestFocus();
 				Methods.showMessage( Managers.i18n.getTranslation("VALIDATION_INVALID_QUANTITY"), Enums.MessageType.Warning);
 			   } catch (Exception e1) {
 		   }			  
@@ -279,14 +305,31 @@ public class CheckStock extends JFrame {
 		return true;		
 	}
 	
-	private void AdRowToTable(Producte producte) 
+	private void AdRowsToTable(List<Producte> list) 
 	{			
 		DefaultTableModel model= (DefaultTableModel) this.tblStock.getModel();
 		
-		model.addRow(new Object[] { producte.getTaller().getnombre(), 
-								    producte.getNomProducte(), 
-								    producte.getExistencies().getEstoc(), 
-								    });
+		if (list.size() > 0)
+		{
+			//Afegeix procuctes a taula
+			for (Producte producte: list)
+			{		
+				model.addRow(new Object[] { producte.getIdProducte(),
+											producte.getLocal().getNomLocal(), 
+											producte.getNomProducte(), 
+											producte.getExistencies().getEstoc(), 
+											producte.getExistencies().getEstocMinim()
+									       });
+			}
+		}
+		else 
+		{
+			model.addRow(new Object[] { 0,
+					Managers.i18n.getTranslation("LABEL_NO_TROVAT"),
+					"", 
+					"", 
+			       });		
+		}
 				
 	}
 	
@@ -296,12 +339,16 @@ public class CheckStock extends JFrame {
 		cmbLocal.setSelectedIndex(0);
 		this.txtStockFinal.setText("");
 		this.txtStockInicial.setText("");
-							
+		cleanTable();					
+	}
+	
+	private void cleanTable() 
+	{
 		DefaultTableModel defaultTableModel = (DefaultTableModel) tblStock.getModel();
 		int rowCount = defaultTableModel .getRowCount();
 		for (int i = rowCount - 1; i >= 0; i--) {
 			defaultTableModel .removeRow(i);
-		}
+		}		
 	}
 	
 	private ArrayList<LinAlbara> getLinAlbara() 
