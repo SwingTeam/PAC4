@@ -11,14 +11,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -32,16 +29,14 @@ import uoc.tdp.pac4.st.common.STException;
 import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.Albara;
 import uoc.tdp.pac4.st.common.dto.LinAlbara;
-import uoc.tdp.pac4.st.common.managers.AlbaraManager;
 import uoc.tdp.pac4.st.common.managers.ClientManager;
-import uoc.tdp.pac4.st.common.managers.DatabaseManager;
 import uoc.tdp.pac4.st.common.managers.ExceptionManager;
 import uoc.tdp.pac4.st.common.managers.I18nManager;
 import uoc.tdp.pac4.st.common.managers.MovimentManager;
 import uoc.tdp.pac4.st.common.managers.SettingManager;
-import uoc.tdp.pac4.st.common.ui.ButtonColumn;
 import uoc.tdp.pac4.st.common.ui.ComboBoxHelper;
 import uoc.tdp.pac4.st.common.ui.LabelTitle;
+import uoc.tdp.pac4.st.common.ui.STTable;
 import uoc.tdp.pac4.st.common.ui.SelectProductControl;
 import uoc.tdp.pac4.st.rmi.ETallerStocksInterface;
 
@@ -67,9 +62,7 @@ public class ReceivingPieces extends JFrame {
 	private JButton btnSave;
 	private JButton btnCancel;
 	
-	private JPanel pnlLinAlbara = null;
-	
-	private JTable tblLinAlbara= null;
+	private STTable table= null;
 
 
 	/**
@@ -202,11 +195,13 @@ public class ReceivingPieces extends JFrame {
 	        public void actionPerformed(ActionEvent paramAnonymousActionEvent) {
 	        	if (isValidLine())
 	        	{	        		
-	        		AdRowToTable();        	
+	        		addRowToTable();        	
 	        	}
 	        }
 	      });
 
+		drawTable();
+		
 		
 	    btnCancel = new JButton("LABEL_CANCEL");
 	    btnCancel.setBounds(100, 420, 100, 40);
@@ -229,13 +224,8 @@ public class ReceivingPieces extends JFrame {
 	        	}
 	    	}
 	    });	    
-	    
-	    pnlLinAlbara= new JPanel();
-	    pnlLinAlbara.setLayout(null);
-	    pnlLinAlbara.setBounds(50, 200, 735, 200);
-		getContentPane().add(pnlLinAlbara);
+
 		
-		DrawTable(pnlLinAlbara);
 	    
 		//Traducció dels tokens de la pantalla
 		try {
@@ -279,83 +269,53 @@ public class ReceivingPieces extends JFrame {
 	}
 
 
-	private void DrawTable(JPanel panel) 
-	{
+	private void drawTable() 
+	{		
+		table= new STTable();
+		table.showDeleteButton= true;
+		table.setBounds(25, 100, 780, 300);
+		table.setVisible(true);
 		
-		//Crea un table model no editable 
-		DefaultTableModel model = new DefaultTableModel()  {
-			@Override
-		    public boolean isCellEditable(int row, int column) {
-				if(column != 3)
-					return false;
-				else 
-					return true;
-		    }
-		};
+		table.addColumn("productId", 0, false, false);
+		table.addColumn(Managers.i18n.getTranslation("LABEL_PRODUCTE"), null, false, false);
+		table.addColumn(Managers.i18n.getTranslation("LABEL_QUANTITAT"), 100, true, true);
 		
-		
-		tblLinAlbara= new JTable(model); 
-					
-		model.addColumn("productId"); //0
-		model.addColumn(Managers.i18n.getTranslation("LABEL_PRODUCTE")); //1 
-		model.addColumn(Managers.i18n.getTranslation("LABEL_QUANTITAT")); //2
-		model.addColumn("");
-		
-		JScrollPane scrollPane = new JScrollPane(tblLinAlbara);
-  
-		tblLinAlbara.setFillsViewportHeight(true);
-		scrollPane.setBounds(0, 0, 735, 200);
-	  
-		panel.removeAll();
-		panel.add(scrollPane);
-		
-		//delete button
-		Action delete = new AbstractAction()
+		table.deleteRow= new AbstractAction()
 		{
 		    public void actionPerformed(ActionEvent e)
 		    {
-		        JTable table = (JTable)e.getSource();
-		        int modelRow = Integer.valueOf( e.getActionCommand() );
-		        ((DefaultTableModel)table.getModel()).removeRow(modelRow);
-		        
 		        if (table.getRowCount() == 0) 
 		        {
 		        	cmbProveidor.setEnabled(true);
 		        }
 		    }
-		};
-		 
-		ButtonColumn buttonColumn = new ButtonColumn(tblLinAlbara, delete, 3);
-		tblLinAlbara.getColumnModel().getColumn(0).setMinWidth(0);
-		tblLinAlbara.getColumnModel().getColumn(0).setMaxWidth(0);	
-		
-		tblLinAlbara.getColumnModel().getColumn(2).setMaxWidth(150);
-		tblLinAlbara.getColumnModel().getColumn(3).setMaxWidth(50);
-		    	    
+		};	
+		table.drawTable();
+	    getContentPane().add(table);		
 	}
 	
-	private void AdRowToTable() 
+	private void addRowToTable() 
 	{
 	
 		String producteId= selectProductControl.producteId;
 		String nomProducte= selectProductControl.nomProducte;
 		Integer quantitat= Integer.parseInt(this.txtQuantitat.getText());
 		
-		DefaultTableModel model= (DefaultTableModel) this.tblLinAlbara.getModel();
+		DefaultTableModel model= (DefaultTableModel) this.table.getModel();
 		
 		//comprovar producte no s'ha afegit abans
-		for(int row = 0;row < tblLinAlbara.getRowCount();row++) {
-	        String linProducteId= (String) tblLinAlbara.getValueAt(row, 0);
+		for(int row = 0;row < table.getRowCount();row++) {
+	        String linProducteId= (String) table.getValueAt(row, 0);
 	        if (linProducteId == producteId)
 	        {
-	        	int currentValue=  (int) tblLinAlbara.getValueAt(row, 2);
-	        	tblLinAlbara.setValueAt(quantitat + currentValue, row, 2);
+	        	int currentValue=  (int) table.getValueAt(row, 2);
+	        	table.setValueAt(quantitat + currentValue, row, 2);
 	        	return ;
 	        }
 	        
 		}
 		
-		model.addRow(new Object[] { producteId, nomProducte, quantitat, "X"});
+		table.addRow(new Object[] { producteId, nomProducte, quantitat, "X"});
 		this.cmbProveidor.setEnabled(false);
 		this.btnSave.setEnabled(true);			
 	}
@@ -372,12 +332,7 @@ public class ReceivingPieces extends JFrame {
 		
 		selectProductControl.resetFields();
 					
-		
-		DefaultTableModel defaultTableModel = (DefaultTableModel) tblLinAlbara.getModel();
-		int rowCount = defaultTableModel .getRowCount();
-		for (int i = rowCount - 1; i >= 0; i--) {
-			defaultTableModel .removeRow(i);
-		}
+		table.removeRows();
 	}
 	
 	private void save() {
@@ -413,12 +368,12 @@ public class ReceivingPieces extends JFrame {
 	{
 		ArrayList<LinAlbara> linees= new ArrayList<LinAlbara>();
 		
-		DefaultTableModel defaultTableModel = (DefaultTableModel) tblLinAlbara.getModel();
+		DefaultTableModel defaultTableModel = (DefaultTableModel) table.getModel();
 		int rowCount = defaultTableModel.getRowCount();
 		for (int i = rowCount - 1; i >= 0; i--) {
 			LinAlbara linAlbara= new LinAlbara(); 
-			linAlbara.setProducteId((String) tblLinAlbara.getValueAt(i, 0));
-			linAlbara.setUnitats((Integer) tblLinAlbara.getValueAt(i, 2));
+			linAlbara.setProducteId((String) table.getValueAt(i, 0));
+			linAlbara.setUnitats((Integer) table.getValueAt(i, 2));
 			
 			linees.add(linAlbara);
 		}

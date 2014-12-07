@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -37,6 +38,7 @@ import uoc.tdp.pac4.st.common.managers.SettingManager;
 import uoc.tdp.pac4.st.common.ui.ComboBoxHelper;
 import uoc.tdp.pac4.st.common.ui.LabelSubTitle;
 import uoc.tdp.pac4.st.common.ui.LabelTitle;
+import uoc.tdp.pac4.st.common.ui.STTable;
 import uoc.tdp.pac4.st.common.ui.SelectProductControl;
 import uoc.tdp.pac4.st.rmi.ETallerStocksInterface;
 
@@ -61,8 +63,7 @@ public class CheckStock extends JFrame {
 	private JButton btnClean;
 	private JButton btnSearch;
 	
-	private JPanel pnlStock = null;
-	private JTable tblStock= null;
+	private STTable table = null;
 
 
 	/**
@@ -190,14 +191,9 @@ public class CheckStock extends JFrame {
     	}
 	    });
 	    
+	    drawTable();
 	    
-	    pnlStock= new JPanel();
-	    pnlStock.setLayout(null);
-	    pnlStock.setBounds(50, 250, 735, 200);
-		getContentPane().add(pnlStock);
-		
-		DrawTable(pnlStock);
-	    
+    
 		//Traducció dels tokens de la pantalla
 		try {
 			Methods.setFrameLanguage(this);
@@ -214,40 +210,23 @@ public class CheckStock extends JFrame {
 	
 	
 
-	private void DrawTable(JPanel panel) 
+	private void drawTable() 
 	{
 		
-		//Crea un table model no editable 
-		DefaultTableModel model = new DefaultTableModel()  {
-			@Override
-		    public boolean isCellEditable(int row, int column) {
-				if(column != 4)
-					return false;
-				else 
-					return true;
-		    }
-		};
+		table= new STTable();
+		table.showDeleteButton= false;
+		table.setBounds(25, 100, 780, 300);
+		table.setVisible(true);
 		
-		
-		tblStock= new JTable(model); 
-					
-		model.addColumn("productId"); //0
-		model.addColumn(Managers.i18n.getTranslation("LABEL_TALLER")); //1 
-		model.addColumn(Managers.i18n.getTranslation("LABEL_PRODUCTE")); //2
-		model.addColumn(Managers.i18n.getTranslation("LABEL_ESTOC")); //3
-		model.addColumn(Managers.i18n.getTranslation("LABEL_ESTOC_MINIM")); //4		
-		
-		this.tblStock.getColumnModel().getColumn(0).setMinWidth(0);
-		this.tblStock.getColumnModel().getColumn(0).setMaxWidth(0);	
+		table.addColumn("productId", 0, false, false);
+		table.addColumn(Managers.i18n.getTranslation("LABEL_TALLER"), null, false, false);
+		table.addColumn(Managers.i18n.getTranslation("LABEL_PRODUCTE"), null, false, false);
+		table.addColumn(Managers.i18n.getTranslation("LABEL_ESTOC"), null, false, false);
+		table.addColumn(Managers.i18n.getTranslation("LABEL_ESTOC_MINIM"), null, false, false);
 
-		
-		JScrollPane scrollPane = new JScrollPane(tblStock);
-  
-		tblStock.setFillsViewportHeight(true);
-		scrollPane.setBounds(0, 0, 735, 200);
-	  
-		panel.removeAll();
-		panel.add(scrollPane);
+		table.drawTable();
+	    getContentPane().add(table);	
+
 		    	    
 	}
 	
@@ -255,7 +234,7 @@ public class CheckStock extends JFrame {
 		
 		if (isValidSearch()) 
 		{
-			cleanTable();		
+			this.table.removeRows();		
 			
 			Integer grupId= this.selectProductControl.grupId;
 			Integer subGrupId= this.selectProductControl.subGrupId;
@@ -307,7 +286,7 @@ public class CheckStock extends JFrame {
 	
 	private void AdRowsToTable(List<Producte> list) 
 	{			
-		DefaultTableModel model= (DefaultTableModel) this.tblStock.getModel();
+		DefaultTableModel model= (DefaultTableModel) this.table.getModel();
 		
 		if (list.size() > 0)
 		{
@@ -339,37 +318,9 @@ public class CheckStock extends JFrame {
 		cmbLocal.setSelectedIndex(0);
 		this.txtStockFinal.setText("");
 		this.txtStockInicial.setText("");
-		cleanTable();					
+		this.table.removeRows();					
 	}
 	
-	private void cleanTable() 
-	{
-		DefaultTableModel defaultTableModel = (DefaultTableModel) tblStock.getModel();
-		int rowCount = defaultTableModel .getRowCount();
-		for (int i = rowCount - 1; i >= 0; i--) {
-			defaultTableModel .removeRow(i);
-		}		
-	}
-	
-	private ArrayList<LinAlbara> getLinAlbara() 
-	{
-		ArrayList<LinAlbara> linees= new ArrayList<LinAlbara>();
-		
-		DefaultTableModel defaultTableModel = (DefaultTableModel) tblStock.getModel();
-		int rowCount = defaultTableModel.getRowCount();
-		for (int i = rowCount - 1; i >= 0; i--) {
-			LinAlbara linAlbara= new LinAlbara(); 
-			linAlbara.setProducteId((String) tblStock.getValueAt(i, 0));
-			linAlbara.setUnitats((Integer) tblStock.getValueAt(i, 3));
-			
-			linees.add(linAlbara);
-		}
-		
-		
-		return linees;
-	}
-
-
 	/***
 	 * Métode que encarregat de fer la connexió
 	 * RMI amb el servidor remot
