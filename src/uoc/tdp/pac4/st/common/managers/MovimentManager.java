@@ -21,11 +21,11 @@ import uoc.tdp.pac4.st.common.dto.Moviment;
  *
  */
 public class MovimentManager  {
-	public static final String TIPUS_MOVIMENT_TRANSFERENCIA= "T"; //Transferència: Moviment intern. D’un local a un altre.
-	public static final String TIPUS_MOVIMENT_VENDA= "V"; // Venda: D’un local cap a un client
-	public static final String TIPUS_MOVIMENT_COMPRA= "C"; //Compra: D’un proveïdor cal a un local. No s’imprimeix document.
-	public static final String TIPUS_MOVIMENT_SORTIDA="S"; // Sortida Devolució: D’un taller al proveïdor.
-	public static final String TIPUS_MOVIMENT_ENTRADA="E"; //Entrada Devolució: D’un client a un taller.
+	public static final String TIPUS_MOVIMENT_TRANSFERENCIA= "Transferencia"; //Transferència: Moviment intern. D’un local a un altre.
+	public static final String TIPUS_MOVIMENT_VENDA= "Venda"; // Venda: D’un local cap a un client
+	public static final String TIPUS_MOVIMENT_COMPRA= "Compra"; //Compra: D’un proveïdor cal a un local. No s’imprimeix document.
+	public static final String TIPUS_MOVIMENT_SORTIDA="Sortida"; // Sortida Devolució: D’un taller al proveïdor.
+	public static final String TIPUS_MOVIMENT_ENTRADA="Entrada"; //Entrada Devolució: D’un client a un taller.
 	
 	private DatabaseManager	db;
 	

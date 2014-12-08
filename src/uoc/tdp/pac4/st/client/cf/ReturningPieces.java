@@ -449,7 +449,7 @@ public class ReturningPieces extends JFrame {
 		for (int i = rowCount - 1; i >= 0; i--) {
 			LinAlbara linAlbara= new LinAlbara(); 
 			linAlbara.setProducteId((String) table.getValueAt(i, 0));
-			linAlbara.setUnitats((Integer) table.getValueAt(i, 3));
+			linAlbara.setUnitats( Integer.parseInt(table.getValueAt(i, 3).toString()));
 			
 			linees.add(linAlbara);
 		}

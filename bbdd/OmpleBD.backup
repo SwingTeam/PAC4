@@ -1,0 +1,541 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.3.5
+-- Dumped by pg_dump version 9.3.5
+-- Started on 2014-12-08 18:56:13
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+SET search_path = public, pg_catalog;
+
+--
+-- TOC entry 2230 (class 0 OID 24577)
+-- Dependencies: 170
+-- Data for Name: albara; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO albara (id_albara, dataalbara, tipusmoviment_id, origen_id, desti_id, comalbara, codialbaraextern) VALUES (36, '2014-01-08', 'Entrada', 'P3', 'L1', '', 'CODI_PROVEIDOR');
+INSERT INTO albara (id_albara, dataalbara, tipusmoviment_id, origen_id, desti_id, comalbara, codialbaraextern) VALUES (37, '2014-01-08', 'Sortida', 'L1', 'P3', '', '');
+INSERT INTO albara (id_albara, dataalbara, tipusmoviment_id, origen_id, desti_id, comalbara, codialbaraextern) VALUES (38, '2014-12-08', 'Transferencia', 'L2', 'L1', 'APROVISIONA', '');
+INSERT INTO albara (id_albara, dataalbara, tipusmoviment_id, origen_id, desti_id, comalbara, codialbaraextern) VALUES (39, '2014-12-08', 'Transferencia', 'L1', 'L2', NULL, '');
+INSERT INTO albara (id_albara, dataalbara, tipusmoviment_id, origen_id, desti_id, comalbara, codialbaraextern) VALUES (40, '2014-12-08', 'Entrada', 'L1', 'L2', '', '');
+
+
+--
+-- TOC entry 2308 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: albara_id_albara_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('albara_id_albara_seq', 40, true);
+
+
+--
+-- TOC entry 2232 (class 0 OID 24585)
+-- Dependencies: 172
+-- Data for Name: alerta; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2309 (class 0 OID 0)
+-- Dependencies: 173
+-- Name: alerta_id_alerta_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('alerta_id_alerta_seq', 1, false);
+
+
+--
+-- TOC entry 2234 (class 0 OID 24590)
+-- Dependencies: 174
+-- Data for Name: client; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2310 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: client_ids_client_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('client_ids_client_seq', 1, false);
+
+
+--
+-- TOC entry 2236 (class 0 OID 24595)
+-- Dependencies: 176
+-- Data for Name: compra; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2311 (class 0 OID 0)
+-- Dependencies: 177
+-- Name: compra_id_compra_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('compra_id_compra_seq', 1, false);
+
+
+--
+-- TOC entry 2238 (class 0 OID 24600)
+-- Dependencies: 178
+-- Data for Name: entradadevolucio; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2312 (class 0 OID 0)
+-- Dependencies: 179
+-- Name: entradadevolucio_id_entradadevolucio_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('entradadevolucio_id_entradadevolucio_seq', 1, false);
+
+
+--
+-- TOC entry 2240 (class 0 OID 24605)
+-- Dependencies: 180
+-- Data for Name: existencies; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO existencies (producte_id, local_id, estoc, estocminim) VALUES ('1', 'L2', 2322, 10);
+INSERT INTO existencies (producte_id, local_id, estoc, estocminim) VALUES ('6', 'L2', 0, 5);
+INSERT INTO existencies (producte_id, local_id, estoc, estocminim) VALUES ('2', 'L2', 10, 10);
+INSERT INTO existencies (producte_id, local_id, estoc, estocminim) VALUES ('7', 'L1', 22, 5);
+INSERT INTO existencies (producte_id, local_id, estoc, estocminim) VALUES ('3', 'L2', 99, 10);
+INSERT INTO existencies (producte_id, local_id, estoc, estocminim) VALUES ('4', 'L2', 22, 10);
+INSERT INTO existencies (producte_id, local_id, estoc, estocminim) VALUES ('6', 'L1', 15, 5);
+
+
+--
+-- TOC entry 2241 (class 0 OID 24608)
+-- Dependencies: 181
+-- Data for Name: grup; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO grup (id_grup, nom) VALUES (1, 'Rodes');
+INSERT INTO grup (id_grup, nom) VALUES (2, 'Volants');
+INSERT INTO grup (id_grup, nom) VALUES (3, 'Alerons');
+INSERT INTO grup (id_grup, nom) VALUES (4, 'Tubs');
+
+
+--
+-- TOC entry 2313 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: grup_id_grup_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('grup_id_grup_seq', 4, true);
+
+
+--
+-- TOC entry 2243 (class 0 OID 24613)
+-- Dependencies: 183
+-- Data for Name: idioma; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2244 (class 0 OID 24616)
+-- Dependencies: 184
+-- Data for Name: linalbara; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO linalbara (id_liniaalbara, albara_id, moviment_id, unitats) VALUES (45, 36, 45, 1);
+INSERT INTO linalbara (id_liniaalbara, albara_id, moviment_id, unitats) VALUES (46, 37, 46, 10);
+INSERT INTO linalbara (id_liniaalbara, albara_id, moviment_id, unitats) VALUES (47, 38, 47, 1);
+INSERT INTO linalbara (id_liniaalbara, albara_id, moviment_id, unitats) VALUES (48, 39, 48, 1);
+INSERT INTO linalbara (id_liniaalbara, albara_id, moviment_id, unitats) VALUES (49, 40, 49, 1);
+
+
+--
+-- TOC entry 2245 (class 0 OID 24619)
+-- Dependencies: 185
+-- Data for Name: lincompra; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2314 (class 0 OID 0)
+-- Dependencies: 186
+-- Name: lincompra_id_lincompra_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('lincompra_id_lincompra_seq', 1, false);
+
+
+--
+-- TOC entry 2315 (class 0 OID 0)
+-- Dependencies: 187
+-- Name: lineaalbara_id_liniaalbara_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('lineaalbara_id_liniaalbara_seq', 49, true);
+
+
+--
+-- TOC entry 2248 (class 0 OID 24629)
+-- Dependencies: 188
+-- Data for Name: linentradadevolucio; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2316 (class 0 OID 0)
+-- Dependencies: 189
+-- Name: linentradadevolucio_id_linentradadevolucio_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('linentradadevolucio_id_linentradadevolucio_seq', 1, false);
+
+
+--
+-- TOC entry 2250 (class 0 OID 24637)
+-- Dependencies: 190
+-- Data for Name: linsortidadevolucio; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2317 (class 0 OID 0)
+-- Dependencies: 191
+-- Name: linsortidadevolucio_id_linsortdevolucio_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('linsortidadevolucio_id_linsortdevolucio_seq', 1, false);
+
+
+--
+-- TOC entry 2252 (class 0 OID 24645)
+-- Dependencies: 192
+-- Data for Name: lintransferencia; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2318 (class 0 OID 0)
+-- Dependencies: 193
+-- Name: lintransferencia_id_lintransferencia_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('lintransferencia_id_lintransferencia_seq', 1, false);
+
+
+--
+-- TOC entry 2319 (class 0 OID 0)
+-- Dependencies: 194
+-- Name: lintransferencia_transferencia_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('lintransferencia_transferencia_id_seq', 1, false);
+
+
+--
+-- TOC entry 2255 (class 0 OID 24652)
+-- Dependencies: 195
+-- Data for Name: linvenda; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2320 (class 0 OID 0)
+-- Dependencies: 196
+-- Name: linvenda_id_linvenda_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('linvenda_id_linvenda_seq', 1, false);
+
+
+--
+-- TOC entry 2257 (class 0 OID 24660)
+-- Dependencies: 197
+-- Data for Name: local; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO local (ids_local, id_local, nomlocal, cif, telefon, "adreça", codpost, provincia_id, pais, tipuslocal, dataalta, coordx, coordy) VALUES (1, 'L1', 'Magatzem central', NULL, NULL, 'C/ central', '08011', 'Barcelona', 'E', 'C', NULL, NULL, NULL);
+INSERT INTO local (ids_local, id_local, nomlocal, cif, telefon, "adreça", codpost, provincia_id, pais, tipuslocal, dataalta, coordx, coordy) VALUES (2, 'L2', 'Tarragona', NULL, NULL, 'C/ Rambla vella', '110011', 'Tarragona', 'E', 'L', NULL, NULL, NULL);
+
+
+--
+-- TOC entry 2321 (class 0 OID 0)
+-- Dependencies: 198
+-- Name: local_ids_local_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('local_ids_local_seq', 4, true);
+
+
+--
+-- TOC entry 2259 (class 0 OID 24665)
+-- Dependencies: 199
+-- Data for Name: motiudevolucio; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO motiudevolucio (id_motiudevolucio) VALUES ('D');
+INSERT INTO motiudevolucio (id_motiudevolucio) VALUES ('E');
+INSERT INTO motiudevolucio (id_motiudevolucio) VALUES ('N');
+
+
+--
+-- TOC entry 2260 (class 0 OID 24668)
+-- Dependencies: 200
+-- Data for Name: moviment; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (12, '2014-01-06', '6', 11, 11, true, 'Sortida', '2014-01-06');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (13, '2014-01-06', '6', 11, 11, true, 'Sortida', '2014-01-06');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (14, '2014-01-06', '6', 11, 11, true, 'Sortida', '2014-01-06');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (45, '2014-01-08', '6', 1, 1, true, 'Entrada', '2014-01-08');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (46, '2014-01-08', '6', 10, 10, true, 'Sortida', '2014-01-08');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (47, '2014-12-08', '6', 1, 1, true, 'Transferencia', '2014-12-08');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (48, '2014-12-08', '1', 1, 1, true, 'Transferencia', '2014-12-08');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (49, '2014-12-08', '1', 1, 1, true, 'Entrada', '2014-12-08');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (16, '2014-12-07', '1', 10, 10, true, 'Transferencia', '2014-12-07');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (15, '2014-12-07', '6', 21, 21, true, 'Transferencia', '2014-12-07');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (2, '2014-01-06', '6', 1, 1, true, 'Entrada', '2014-01-06');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (3, '2014-01-06', '1', 31, 31, true, 'Entrada', '2014-01-06');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (4, '2014-01-06', '6', 12, 12, true, 'Entrada', '2014-01-06');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (5, '2014-01-06', '1', 10, 10, true, 'Entrada', '2014-01-06');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (6, '2014-01-06', '6', 1, 1, true, 'Entrada', '2014-01-06');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (7, '2014-01-06', '7', 2, 2, true, 'Entrada', '2014-01-06');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (8, '2014-01-06', '7', 2, 2, true, 'Entrada', '2014-01-06');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (9, '2014-01-06', '7', 2, 2, true, 'Entrada', '2014-01-06');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (10, '2014-01-06', '7', 22, 22, true, 'Entrada', '2014-01-06');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (11, '2014-01-06', '6', 11, 11, true, 'Entrada', '2014-01-06');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (17, '2014-01-07', '6', 1, 1, true, 'Entrada', '2014-01-07');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (1, '2014-01-06', '6', 1, 1, true, 'Entrada', '2014-01-06');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (21, '2014-12-07', '1', 11, 11, true, 'Entrada', '2014-12-07');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (25, '2014-01-07', '6', 1, 1, true, 'Entrada', '2014-01-07');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (28, '2014-12-07', '1', 110, 110, true, 'Entrada', '2014-12-07');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (30, '2014-12-07', '1', 7710, 7710, true, 'Entrada', '2014-12-07');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (32, '2014-12-07', '1', 1110, 1110, true, 'Entrada', '2014-12-07');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (34, '2014-12-07', '1', 1110, 1110, true, 'Entrada', '2014-12-07');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (35, '2014-12-07', '6', 21, 21, true, 'Entrada', '2014-12-07');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (36, '2014-12-07', '1', 1110, 1110, true, 'Entrada', '2014-12-07');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (38, '2014-12-07', '1', 1110, 1110, true, 'Entrada', '2014-12-07');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (39, '2014-12-07', '6', 21, 21, true, 'Entrada', '2014-12-07');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (40, '2014-12-07', '1', 1110, 1110, true, 'Entrada', '2014-12-07');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (42, '2014-12-07', '1', 100, 100, true, 'Entrada', '2014-12-07');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (43, '2014-12-07', '6', 200, 200, true, 'Entrada', '2014-12-07');
+INSERT INTO moviment (id_moviment, dataordre, producte_id, numunitatsordre, numunitsortides, completatsn, tipusmoviment_id, dataprevlliurament) VALUES (44, '2014-12-07', '1', 100, 100, true, 'Entrada', '2014-12-07');
+
+
+--
+-- TOC entry 2322 (class 0 OID 0)
+-- Dependencies: 201
+-- Name: moviment_id_moviment_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('moviment_id_moviment_seq', 49, true);
+
+
+--
+-- TOC entry 2262 (class 0 OID 24673)
+-- Dependencies: 202
+-- Data for Name: producte; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO producte (id_producte, nomproducte, productegrup_id, productesubgrup_id) VALUES ('1', 'Rodes esportives', 1, 1);
+INSERT INTO producte (id_producte, nomproducte, productegrup_id, productesubgrup_id) VALUES ('2', 'Rodes esportives 2 ', 1, 1);
+INSERT INTO producte (id_producte, nomproducte, productegrup_id, productesubgrup_id) VALUES ('3', 'Rodes normals', 1, 2);
+INSERT INTO producte (id_producte, nomproducte, productegrup_id, productesubgrup_id) VALUES ('4', 'Volant gran verd', 2, 1);
+INSERT INTO producte (id_producte, nomproducte, productegrup_id, productesubgrup_id) VALUES ('5', 'Volant gran groc', 2, 1);
+INSERT INTO producte (id_producte, nomproducte, productegrup_id, productesubgrup_id) VALUES ('8', 'Tub contaminant', 4, NULL);
+INSERT INTO producte (id_producte, nomproducte, productegrup_id, productesubgrup_id) VALUES ('9', 'Tub ecologic', 4, 5);
+INSERT INTO producte (id_producte, nomproducte, productegrup_id, productesubgrup_id) VALUES ('6', 'Alero', 3, NULL);
+INSERT INTO producte (id_producte, nomproducte, productegrup_id, productesubgrup_id) VALUES ('7', 'Alero fibra', 3, NULL);
+
+
+--
+-- TOC entry 2263 (class 0 OID 24676)
+-- Dependencies: 203
+-- Data for Name: producteproveidor; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO producteproveidor (id_producteproveidor, producte_id, proveidor_id) VALUES (3, '1', 'P1');
+INSERT INTO producteproveidor (id_producteproveidor, producte_id, proveidor_id) VALUES (4, '2', 'P1');
+INSERT INTO producteproveidor (id_producteproveidor, producte_id, proveidor_id) VALUES (5, '3', 'P1');
+INSERT INTO producteproveidor (id_producteproveidor, producte_id, proveidor_id) VALUES (6, '4', 'P1');
+INSERT INTO producteproveidor (id_producteproveidor, producte_id, proveidor_id) VALUES (7, '5', 'P1');
+INSERT INTO producteproveidor (id_producteproveidor, producte_id, proveidor_id) VALUES (8, '6', 'P1');
+INSERT INTO producteproveidor (id_producteproveidor, producte_id, proveidor_id) VALUES (9, '7', 'P1');
+INSERT INTO producteproveidor (id_producteproveidor, producte_id, proveidor_id) VALUES (10, '8', 'P1');
+INSERT INTO producteproveidor (id_producteproveidor, producte_id, proveidor_id) VALUES (11, '9', 'P1');
+INSERT INTO producteproveidor (id_producteproveidor, producte_id, proveidor_id) VALUES (14, '1', 'P2');
+INSERT INTO producteproveidor (id_producteproveidor, producte_id, proveidor_id) VALUES (15, '2', 'P2');
+INSERT INTO producteproveidor (id_producteproveidor, producte_id, proveidor_id) VALUES (16, '3', 'P2');
+INSERT INTO producteproveidor (id_producteproveidor, producte_id, proveidor_id) VALUES (17, '4', 'P2');
+INSERT INTO producteproveidor (id_producteproveidor, producte_id, proveidor_id) VALUES (18, '5', 'P2');
+INSERT INTO producteproveidor (id_producteproveidor, producte_id, proveidor_id) VALUES (19, '6', 'P2');
+INSERT INTO producteproveidor (id_producteproveidor, producte_id, proveidor_id) VALUES (20, '1', 'P3');
+INSERT INTO producteproveidor (id_producteproveidor, producte_id, proveidor_id) VALUES (23, '2', 'P3');
+
+
+--
+-- TOC entry 2323 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: producteproveidor_id_producteproveidor_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('producteproveidor_id_producteproveidor_seq', 23, true);
+
+
+--
+-- TOC entry 2265 (class 0 OID 24681)
+-- Dependencies: 205
+-- Data for Name: proveidor; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO proveidor (ids_proveidor, id_proveidor, nomproveidor) VALUES (1, 'P1', 'Renault');
+INSERT INTO proveidor (ids_proveidor, id_proveidor, nomproveidor) VALUES (2, 'P2', 'Mercedes');
+INSERT INTO proveidor (ids_proveidor, id_proveidor, nomproveidor) VALUES (3, 'P3', 'BMW');
+
+
+--
+-- TOC entry 2324 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: proveidor_ids_proveidor_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('proveidor_ids_proveidor_seq', 3, true);
+
+
+--
+-- TOC entry 2267 (class 0 OID 24686)
+-- Dependencies: 207
+-- Data for Name: provincia; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO provincia (id_provincia) VALUES ('Barcelona');
+INSERT INTO provincia (id_provincia) VALUES ('Tarragona');
+INSERT INTO provincia (id_provincia) VALUES ('Lleida');
+INSERT INTO provincia (id_provincia) VALUES ('Girona');
+
+
+--
+-- TOC entry 2268 (class 0 OID 24689)
+-- Dependencies: 208
+-- Data for Name: sortidadevolucio; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2325 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: sortidadevolucio_id_sortidadevol_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('sortidadevolucio_id_sortidadevol_seq', 1, false);
+
+
+--
+-- TOC entry 2270 (class 0 OID 24694)
+-- Dependencies: 210
+-- Data for Name: subgrup; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO subgrup (id_subgrup, id_grup, nom) VALUES (1, 1, 'Esportives');
+INSERT INTO subgrup (id_subgrup, id_grup, nom) VALUES (2, 1, 'Normals');
+INSERT INTO subgrup (id_subgrup, id_grup, nom) VALUES (3, 2, 'Volant gran');
+INSERT INTO subgrup (id_subgrup, id_grup, nom) VALUES (4, 2, 'Volant petit');
+INSERT INTO subgrup (id_subgrup, id_grup, nom) VALUES (5, 4, 'Ecologics');
+
+
+--
+-- TOC entry 2326 (class 0 OID 0)
+-- Dependencies: 211
+-- Name: subgrup_id_subgrup_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('subgrup_id_subgrup_seq', 5, true);
+
+
+--
+-- TOC entry 2272 (class 0 OID 24699)
+-- Dependencies: 212
+-- Data for Name: tipusalerta; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2273 (class 0 OID 24702)
+-- Dependencies: 213
+-- Data for Name: tipusmoviment; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO tipusmoviment (id_tipusmoviment) VALUES ('Transferencia');
+INSERT INTO tipusmoviment (id_tipusmoviment) VALUES ('Venda');
+INSERT INTO tipusmoviment (id_tipusmoviment) VALUES ('Compra');
+INSERT INTO tipusmoviment (id_tipusmoviment) VALUES ('Entrada');
+INSERT INTO tipusmoviment (id_tipusmoviment) VALUES ('Sortida');
+
+
+--
+-- TOC entry 2274 (class 0 OID 24705)
+-- Dependencies: 214
+-- Data for Name: transferencia; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2327 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: transferencia_id_transferencia_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('transferencia_id_transferencia_seq', 1, false);
+
+
+--
+-- TOC entry 2276 (class 0 OID 24710)
+-- Dependencies: 216
+-- Data for Name: usuari; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2277 (class 0 OID 24714)
+-- Dependencies: 217
+-- Data for Name: venda; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2328 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: venda_id_venda_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('venda_id_venda_seq', 1, false);
+
+
+-- Completed on 2014-12-08 18:56:14
+
+--
+-- PostgreSQL database dump complete
+--
+
