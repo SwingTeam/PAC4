@@ -4,18 +4,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import uoc.tdp.pac4.st.common.STException;
-import uoc.tdp.pac4.st.common.dto.Albara;
-import uoc.tdp.pac4.st.common.dto.Existencies;
-import uoc.tdp.pac4.st.common.dto.Grup;
-import uoc.tdp.pac4.st.common.dto.LinAlbara;
-import uoc.tdp.pac4.st.common.dto.Local;
-import uoc.tdp.pac4.st.common.dto.LocalST;
-import uoc.tdp.pac4.st.common.dto.MotiuDevolucio;
-import uoc.tdp.pac4.st.common.dto.Producte;
-import uoc.tdp.pac4.st.common.dto.Proveidor;
-import uoc.tdp.pac4.st.common.dto.SubGrup;
-import uoc.tdp.pac4.st.common.dto.Usuari;
+import uoc.tdp.pac4.st.common.*;
+import uoc.tdp.pac4.st.common.dto.*;
 
 /***
  * Interface per a la connexió RMI
@@ -23,7 +13,6 @@ import uoc.tdp.pac4.st.common.dto.Usuari;
  * @author Swing Team - 2014
  *
  */
-@SuppressWarnings("unused")
 public interface ETallerStocksInterface extends Remote {
 
 	/***
@@ -198,4 +187,60 @@ public interface ETallerStocksInterface extends Remote {
 		
 	/*** END: Subsistema Connexió ****/
 
+	 /***
+	  * Retorna una llista d'un producte específic o de
+	  * tots els productes, si s'indica null al 
+	  * paràmetre productId.
+	  * 
+	  * @param productId Codi d'un producte o null si
+	  * es vol recuperar tots els productes.
+	  * @return List<ProducteReport> Una instància de 
+	  * List<ProducteReport> amb el resultat de la consulta.
+	  * @throws STException
+	  */
+	 public List<ProducteReport> getProductList(String productId) throws RemoteException, STException;
+	 
+	 /***
+	  * Retorna una llista de línies de l'informe
+	  * de ruptures d'estoc.
+	  * 
+	  * @param reportSelectorData Instància de ReportSelectorData
+	  * que conté la selecció del rang de resultats que ha
+	  * fet l'usuari.
+	  * @return List<StockOutReportLine> Retorna una llista d'objectes
+	  * StockOutReportLine, amb el resultat de l'informe demanat.
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public List<StockOutReportLine> getStockOutReport(ReportSelectorData reportSelectorData) throws RemoteException, STException;
+	 
+	 /***
+	  * Retorna una llista de línies de l'informe
+	  * de rotació d'estoc.
+	  * 
+	  * @param reportSelectorData Instància de ReportSelectorData
+	  * que conté la selecció del rang de resultats que ha
+	  * fet l'usuari.
+	  * @return List<RotationReportLine> Retorna una llista d'objectes
+	  * RotationReportLine, amb el resultat de l'informe demanat.
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public List<RotationReportLine> getRotationReport(ReportSelectorData reportSelectorData) throws RemoteException, STException;
+
+	 /***
+	  * Retorna una llista de línies de l'informe
+	  * de demanda de recanvis.
+	  * 
+	  * @param reportSelectorData Instància de ReportSelectorData
+	  * que conté la selecció del rang de resultats que ha
+	  * fet l'usuari.
+	  * @return List<SalesReportLine> Retorna una llista d'objectes
+	  * SalesReportLine, amb el resultat de l'informe demanat.
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public List<SalesReportLine> getSalesReport(ReportSelectorData reportSelectorData) throws RemoteException, STException;
+	 
+	 
 }

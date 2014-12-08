@@ -11,6 +11,7 @@ package uoc.tdp.pac4.st.common;
  */
 public class Constants {
 	
+	public final static String ALL = "all";
 	//Imatge de fons
 	public final static String BACKGROUND_PICTURE = "resources/background.png";
 
@@ -25,6 +26,9 @@ public class Constants {
 	//Clau de l'usuari de la base de dades
 	public final static String DB_USERNAME = "username";
 	
+	//Prefixe per a les claus de traducció d'enums
+	public final static String ENUM_PREFIX = "ENUM_";
+	
 	//Extensió dels fitxer d'excepcions
 	public final static String EXCEPTION_FILE_EXTENSION = ".log";
 	//Ruta del fitxers d'excepcions
@@ -33,7 +37,7 @@ public class Constants {
 	public final static String EXCEPTION_FILE_PREFIX = "Exceptions_";
 	
 	//*********************** Camps de la base de dades **************************
-	public final static String FIELD_ADRECA = "adreça";
+	public final static String FIELD_ADRECA = "\"adreça\"";
 	public final static String FIELD_ALBARA_ID = "albara_id";
 	public final static String FIELD_CIF = "cif";
 	public final static String FIELD_CLIENT_ID = "client_id";
@@ -123,6 +127,7 @@ public class Constants {
 	public final static String FIELD_PRODUCTE_ID = "producte_id";
 	public final static String FIELD_PRODUCTEGRUP_ID = "productegrup_id";
 	public final static String FIELD_PRODUCTESUBGRUP_ID = "productesubgrup_id";
+	public final static String FIELD_PROVEIDOR_ID = "proveidor_id";
 	public final static String FIELD_PROVINCIA_ID = "provincia_id";
 	public final static String FIELD_ROL = "rol";
 	public final static String FIELD_SORTIDADEVOLUCIO_ID = "sortidadevolucio_id";
@@ -149,11 +154,16 @@ public class Constants {
 	//Clau per a l'idioma castellà
 	public final static String LANGUAGE_SPANISH = "es-ES";
 
+	//format de dates per l'aplicació
+	public final static String LOCAL_DATE_FORMAT = "dd/MM/yyyy";
 	//Format de dates de postgreSQL
 	public static final String POSTGRESSQL_DATE_FORMAT = "yyyy-MM-dd";
 	
 	//Propietat que indica el directory de l'usuari
 	public final static String PROPERTY_USER_DIR = "user.dir";
+	
+	//Nombre d'anys de rang per els informes
+	public final static int REPORT_YEAR_PERIOD = 15;
 	
 	//Claus del fitxer de configuració
 	public final static String SETTING_LANGUAGE = "Language";
@@ -167,6 +177,28 @@ public class Constants {
 	public final static String SETTINGS_FILE_CLIENT = "clientSettings.properties";
 	//Fitxer de configuració pel servidor
 	public final static String SETTINGS_FILE_SERVER = "serverSettings.properties";
+	
+	//*********************** Camps dels informes *********************************
+	public static final String REPORT_COUNT = "REPORT_COUNT";
+	public static final String REPORT_DAYS = "REPORT_DAYS";
+	public static final String REPORT_GROUP_ID = "REPORT_GROUP_ID";
+	public static final String REPORT_GROUP_NAME = "REPORT_GROUP_NAME";
+	public static final String REPORT_ESTAB_LATITUDE = "REPORT_ESTAB_LATITUD";
+	public static final String REPORT_ESTAB_LONGITUDE = "REPORT_ESTAB_LONGITU";
+	public static final String REPORT_ESTAB_NAME = "REPORT_ESTAB_NAME";
+	public static final String REPORT_ESTAB_PHONE = "REPORT_ESTAB_PHONE";
+	public static final String REPORT_ESTAB_PROVINCE = "REPORT_ESTAB_PROVINC";
+	public static final String REPORT_ESTAB_TAX_ID = "REPORT_ESTAB_TAX_ID";
+	public static final String REPORT_PRODUCT_ID = "REPORT_PRODUCT_ID";
+	public static final String REPORT_PRODUCT_NAME = "REPORT_PRODUCT_NOM";
+	public static final String REPORT_PRODUCT_GROUP_ID = "REPORT_PRODUCT_GROUP";
+	public static final String REPORT_PRODUCT_SUBGROUP_ID = "REPORT_PRODUCT_SUBGR";
+	public static final String REPORT_PROVIDER_ID = "REPORT_PROVIDER_ID";
+	public static final String REPORT_PROVIDER_NAME = "REPORT_PROVIDER_NAME";
+	public static final String REPORT_SUBGROUP_ID = "REPORT_SUBGROUP_ID";
+	public static final String REPORT_SUBGROUP_NAME = "REPORT_SUBGROUP_NAME";
+	public static final String REPORT_UNIT_PRICE = "REPORT_UNIT_PRICE";
+	public static final String REPORT_TOTAL_AMOUNT = "REPORT_TOTAL_AMOUNT";
 	
 	//*********************** Taules de la base de dades **************************
 	public final static String TABLE_ALBARA = "albara";

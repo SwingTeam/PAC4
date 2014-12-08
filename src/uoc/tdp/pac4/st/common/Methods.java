@@ -5,7 +5,6 @@ import java.awt.Container;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,7 +24,6 @@ import javax.swing.JMenuItem;
  * 
  * @author Swing Team - 2014
  */
-@SuppressWarnings("unused")
 public class Methods {
 	
 	private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DATE_FORMAT);
@@ -103,6 +101,53 @@ public class Methods {
 		return result;
 	}
 
+	/***
+	 * Calcula els dies passats entre
+	 * dues dates.
+	 * 
+	 * @param dateEarly Data més antiga.
+	 * @param dateLater Data més moderna.
+	 * @return
+	 */
+	public static long calculateDays(java.util.Date dateEarly, java.util.Date dateLater) {  
+	   return (dateLater.getTime() - dateEarly.getTime()) / (24 * 60 * 60 * 1000);  
+	} 	
+
+	/***
+	 * Calcula els dies passats entre
+	 * dues dates. Els paràmetre són de tipus
+	 * Object per a admetre dates de
+	 * tipus java.util.Date i java.sql.Date.
+	 * 
+	 * @param dateEarly Data més antiga.
+	 * @param dateLater Data més moderna.
+	 * @return
+	 */
+	public static long calculateDays(Object dateEarly, Object dateLater) {
+		java.util.Date firstDate = null;
+		java.util.Date secondDate = null;
+		
+		Calendar calendar = Calendar.getInstance();
+		if (dateEarly instanceof java.util.Date)
+			calendar.setTime((java.util.Date) dateEarly);
+		
+		else if (dateEarly instanceof java.sql.Date){
+			calendar.setTime((java.sql.Date) dateEarly); 
+		}
+		firstDate = calendar.getTime();
+
+		calendar = Calendar.getInstance();
+		if (dateLater instanceof java.util.Date)
+			calendar.setTime((java.util.Date) dateLater);
+		
+		else if (dateLater instanceof java.sql.Date){
+			calendar.setTime((java.sql.Date) dateLater); 
+		}
+		secondDate = calendar.getTime();
+		
+	   return calculateDays(firstDate, secondDate);  
+	} 	
+	
 	/***
 	 * Retorna la ruta i nom d'un fitxer per
 	 * a guardar una excepció que s'hagi produit.

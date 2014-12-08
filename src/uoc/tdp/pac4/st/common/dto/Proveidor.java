@@ -2,8 +2,6 @@ package uoc.tdp.pac4.st.common.dto;
 
 import java.io.Serializable;
 
-
-
 /***
  * 
  * 

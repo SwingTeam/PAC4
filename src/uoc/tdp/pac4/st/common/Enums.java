@@ -28,4 +28,35 @@ public class Enums {
 		Open,
 		Closed,
 	}
+	
+	//Ordre dels informes
+	public enum ReportOrder{
+		Asc,
+		Desc,
+	}
+
+	/***
+	 * Tipus de node pels selectors
+	 * de range d'informes.
+	 */
+	public enum NodeType{
+		None,
+		Group,
+		Product,
+		Root,
+		Subgroup,
+	}
+	
+	/***
+	 * Tipus de moviment de material.
+	 * Aquesta enum reflecteix els
+	 * registres de la taula TipusMoviment.
+	 */
+	public enum MovementType{
+		Transferencia,
+		Venda,
+		Compra,
+		SortidaDevolucio,
+		EntradaDevolucio,
+	}
 }

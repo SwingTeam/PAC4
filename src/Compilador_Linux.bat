@@ -30,6 +30,12 @@ echo
 echo "Compilant les classes de la carpeta 'uoc/tdp/pac4/st/common'"
 javac -classpath . uoc/tdp/pac4/st/common/*.java
 
+echo "Compilant les classes de la carpeta 'uoc/tdp/pac4/st/common/dto'"
+javac -classpath . uoc/tdp/pac4/st/common/dto/*.java
+
+echo "Compilant les classes de la carpeta 'uoc/tdp/pac4/st/common/managers'"
+javac -classpath . uoc/tdp/pac4/st/common/managers/*.java
+
 echo "Compilant les classes de la carpeta 'uoc/tdp/pac4/st/client.cx'"
 javac -classpath . uoc/tdp/pac4/st/client/cx/*.java
 

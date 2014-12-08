@@ -1,35 +1,19 @@
 package uoc.tdp.pac4.st.rmi;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.SQLException;
 import java.util.List;
 
-import uoc.tdp.pac4.st.common.STException;
-import uoc.tdp.pac4.st.common.TokenKeys;
-import uoc.tdp.pac4.st.common.dto.Albara;
-import uoc.tdp.pac4.st.common.dto.Existencies;
-import uoc.tdp.pac4.st.common.dto.Grup;
-import uoc.tdp.pac4.st.common.dto.LinAlbara;
-import uoc.tdp.pac4.st.common.dto.Local;
-import uoc.tdp.pac4.st.common.dto.LocalST;
-import uoc.tdp.pac4.st.common.dto.MotiuDevolucio;
-import uoc.tdp.pac4.st.common.dto.Producte;
-import uoc.tdp.pac4.st.common.dto.Proveidor;
-import uoc.tdp.pac4.st.common.dto.SubGrup;
-import uoc.tdp.pac4.st.common.dto.Usuari;
-import uoc.tdp.pac4.st.common.managers.AlbaraManager;
-import uoc.tdp.pac4.st.common.managers.DatabaseManager;
-import uoc.tdp.pac4.st.common.managers.ExistenciesManager;
-import uoc.tdp.pac4.st.common.managers.GrupManager;
-import uoc.tdp.pac4.st.common.managers.LinAlbaraManager;
-import uoc.tdp.pac4.st.common.managers.LocalManager;
-import uoc.tdp.pac4.st.common.managers.MotiuDevolucioManager;
-import uoc.tdp.pac4.st.common.managers.MovimentManager;
-import uoc.tdp.pac4.st.common.managers.ProducteManager;
-import uoc.tdp.pac4.st.common.managers.ProveidorManager;
-import uoc.tdp.pac4.st.common.managers.SubGrupManager;
-import uoc.tdp.pac4.st.common.managers.UserManager;
+import uoc.tdp.pac4.st.*;
+import uoc.tdp.pac4.st.client.cx.*;
+import uoc.tdp.pac4.st.common.*;
+import uoc.tdp.pac4.st.common.dto.*;
+import uoc.tdp.pac4.st.common.managers.*;
+import uoc.tdp.pac4.st.rmi.*;
+import uoc.tdp.pac4.st.server.*;
 
 /***
  * Classe que implementa la interface
@@ -255,63 +239,150 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 		LocalManager manager= new LocalManager(databaseManager );
 		return manager.list();	 	 
 	 }
-	 	 
+ 	 
 
-	 /***
-	  * 
-	  * Torna tots els productes amb estoc minim per un local 
-	  * 
-	  * @return List<Producte> LLista de productes 
-	  * @throws STException 
-	  */	
-	public List<Producte>getStockMinim(String localId) throws  STException
-	{
-		DatabaseManager databaseManager = new DatabaseManager();
-		ProducteManager manager= new ProducteManager(databaseManager);
-		return manager.getStockMinim(localId);	
-	}
-	
-	 /***
-	  * 
-	  * Torna tots els albarans de tipus transferencia d'un local 
-	  * 
-	  * @return List<Albara> LLista d'albarans 
-	  * @throws STException 
-	  */	
-	public List<Albara> listAlbaransByLocal(String localId) throws  STException
-	{
-		DatabaseManager databaseManager = new DatabaseManager();
-		AlbaraManager manager= new AlbaraManager(databaseManager);
-		return manager.listByDestiAndTipusMoviment(localId, MovimentManager.TIPUS_MOVIMENT_TRANSFERENCIA);	
-	}
-	
+ /***
+  * 
+  * Torna tots els productes amb estoc minim per un local 
+  * 
+  * @return List<Producte> LLista de productes 
+  * @throws STException 
+  */	
+public List<Producte>getStockMinim(String localId) throws  STException
+{
+	DatabaseManager databaseManager = new DatabaseManager();
+	ProducteManager manager= new ProducteManager(databaseManager);
+	return manager.getStockMinim(localId);	
+}
 
+ /***
+  * 
+  * Torna tots els albarans de tipus transferencia d'un local 
+  * 
+  * @return List<Albara> LLista d'albarans 
+  * @throws STException 
+  */	
+public List<Albara> listAlbaransByLocal(String localId) throws  STException
+{
+	DatabaseManager databaseManager = new DatabaseManager();
+	AlbaraManager manager= new AlbaraManager(databaseManager);
+	return manager.listByDestiAndTipusMoviment(localId, MovimentManager.TIPUS_MOVIMENT_TRANSFERENCIA);	
+}
+
+
+ /***
+  * 
+  * Torna un albara pel seu id 
+  * 
+  * @return Albara albara 
+  * @throws STException 
+  */	
+public Albara getAlbaraById(int albaraId) throws STException
+{
+	DatabaseManager databaseManager = new DatabaseManager();
+	AlbaraManager manager= new AlbaraManager(databaseManager);
+	return manager.getById(albaraId);	
+}
+	
+ /***
+  * 
+  * Torna linies d'un albarà 
+  * 
+  * @return Linies albara 
+  * @throws STException 
+  */	
+public List<LinAlbara> getLinAlbaraByAlbaraId(int albaraId) throws  STException
+{
+	DatabaseManager databaseManager = new DatabaseManager();
+	LinAlbaraManager manager= new LinAlbaraManager(databaseManager);
+	return manager.getByAlbaraId(albaraId);	
+}
+/*** END: Subsistema Connexió ****/			 
+	 
 	 /***
+	  * Retorna una llista d'un producte específic o de
+	  * tots els productes, si s'indica null al 
+	  * paràmetre productId.
 	  * 
-	  * Torna un albara pel seu id 
-	  * 
-	  * @return Albara albara 
-	  * @throws STException 
-	  */	
-	public Albara getAlbaraById(int albaraId) throws STException
-	{
+	  * @param productId Codi d'un producte o null si
+	  * es vol recuperar tots els productes.
+	  * @return List<ProducteReport> Una instància de 
+	  * List<ProducteReport> amb el resultat de la consulta.
+	  * @throws STException
+	  */
+	 public List<ProducteReport> getProductList(String productId) throws STException{
+		 //Creem el database manager per a conectar amb la BD 
 		DatabaseManager databaseManager = new DatabaseManager();
-		AlbaraManager manager= new AlbaraManager(databaseManager);
-		return manager.getById(albaraId);	
-	}
 		
+		//Creem ReportManager i li passem el databaseManager
+		ReportManager reportManager = new ReportManager(databaseManager); 
+		return reportManager.getProductList(productId);
+	 }
+	 
 	 /***
+	  * Retorna una llista de línies de l'informe
+	  * de ruptures d'estoc.
 	  * 
-	  * Torna linies d'un albarà 
+	  * @param reportSelectorData Instància de ReportSelectorData
+	  * que conté la selecció del rang de resultats que ha
+	  * fet l'usuari.
+	  * @return List<StockOutReportLine> Retorna una llista d'objectes
+	  * StockOutReportLine, amb el resultat de l'informe demanat.
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public List<StockOutReportLine> getStockOutReport(ReportSelectorData reportSelectorData) throws STException{
+		 //Creem el database manager per a connectar amb la base de dades
+		 DatabaseManager databaseManager = new DatabaseManager();
+		 
+		 //Creem una instància de ReportManager i
+		 //li passem el databaseManager
+		 ReportManager reportManager = new ReportManager(databaseManager);
+		 return reportManager.getStockOutReport(reportSelectorData);
+	 }
+	 
+	 /***
+	  * Retorna una llista de línies de l'informe
+	  * de rotació d'estoc.
 	  * 
-	  * @return Linies albara 
-	  * @throws STException 
-	  */	
-	public List<LinAlbara> getLinAlbaraByAlbaraId(int albaraId) throws  STException
-	{
-		DatabaseManager databaseManager = new DatabaseManager();
-		LinAlbaraManager manager= new LinAlbaraManager(databaseManager);
-		return manager.getByAlbaraId(albaraId);	
-	}
-	/*** END: Subsistema Connexió ****/		
+	  * @param reportSelectorData Instància de ReportSelectorData
+	  * que conté la selecció del rang de resultats que ha
+	  * fet l'usuari.
+	  * @return List<RotationReportLine> Retorna una llista d'objectes
+	  * RotationReportLine, amb el resultat de l'informe demanat.
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public List<RotationReportLine> getRotationReport(ReportSelectorData reportSelectorData) throws STException{
+		 //Creem el database manager per a connectar amb la base de dades
+		 DatabaseManager databaseManager = new DatabaseManager();
+		 
+		 //Creem una instància de ReportManager i
+		 //li passem el databaseManager
+		 ReportManager reportManager = new ReportManager(databaseManager);
+		 return reportManager.getRotationReport(reportSelectorData);
+	 }
+	 
+	 /***
+	  * Retorna una llista de línies de l'informe
+	  * de demanda de recanvis.
+	  * 
+	  * @param reportSelectorData Instància de ReportSelectorData
+	  * que conté la selecció del rang de resultats que ha
+	  * fet l'usuari.
+	  * @return List<SalesReportLine> Retorna una llista d'objectes
+	  * SalesReportLine, amb el resultat de l'informe demanat.
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public List<SalesReportLine> getSalesReport(ReportSelectorData reportSelectorData) throws STException{
+		 //Creem el database manager per a connectar amb la base de dades
+		 DatabaseManager databaseManager = new DatabaseManager();
+		 
+		 //Creem una instància de ReportManager i
+		 //li passem el databaseManager
+		 ReportManager reportManager = new ReportManager(databaseManager);
+		 return reportManager.getSalesReport(reportSelectorData);
+	 }
+	 
 }
