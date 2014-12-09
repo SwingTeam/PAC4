@@ -17,6 +17,7 @@ import uoc.tdp.pac4.st.common.dto.Producte;
 import uoc.tdp.pac4.st.common.dto.Proveidor;
 import uoc.tdp.pac4.st.common.dto.SubGrup;
 import uoc.tdp.pac4.st.common.managers.ClientManager;
+import uoc.tdp.pac4.st.common.managers.DistribucioManager;
 import uoc.tdp.pac4.st.rmi.ETallerStocksInterface;
 
 public class ComboBoxHelper  {
@@ -170,7 +171,7 @@ public class ComboBoxHelper  {
 			cmbBoxItem.removeAllItems();
 			 
 			cmbBoxItem.addItem(new ComboBoxItem(null, Managers.i18n.getTranslation("LABEL_ESCOLLIR")));
-			
+				
 			List<LocalST> list = clientManager.getRMIInterface().listLocals();  
 			
 			Iterator<LocalST> iterator= list.iterator();
@@ -213,6 +214,20 @@ public class ComboBoxHelper  {
 		} catch (RemoteException | NullPointerException e) {
 			Managers.exception.showException(new STException(e));
 		}		
+	}	
+	
+	
+	/***
+	 * Omple un ComboBox amb  
+	 * 
+	 */
+	public static void fillCmbCriteriDistribucio(ClientManager<ETallerStocksInterface> clientManager, JComboBox<ComboBoxItem> cmbBoxItem) {
+		cmbBoxItem.removeAllItems();
+		 
+		cmbBoxItem.addItem(new ComboBoxItem(null, Managers.i18n.getTranslation("LABEL_ESCOLLIR")));
+		cmbBoxItem.addItem(new ComboBoxItem(DistribucioManager.DISTRIBUCIO_DEMANDA_ACTUAL, Managers.i18n.getTranslation("LABEL_DEMANDA_ACTUAL")));
+		cmbBoxItem.addItem(new ComboBoxItem(DistribucioManager.DISTRIBUCIO_RUPTURA_ESTOC, Managers.i18n.getTranslation("LABEL_RUPTURA_ESTOC")));
+		
 	}	
 
 }

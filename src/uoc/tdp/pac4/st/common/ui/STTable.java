@@ -20,7 +20,8 @@ public class STTable extends  JPanel {
 	
 	public Action deleteRow;
 	public boolean showDeleteButton= true;
-	
+	public Action validateCell;
+	 
 	public STTable() {
 		columns= new ArrayList<STColumn>();
 	}
@@ -112,7 +113,9 @@ public class STTable extends  JPanel {
 			if (column.isEditable() && column.isValidarEnterPositiu())
 			{				
 				JTextField textField = new JTextField(); 
-				table.getColumnModel().getColumn(columnIndex).setCellEditor(new STPositiveIntegerCellEditor(textField ));						
+				STPositiveIntegerCellEditor cellEditor= new STPositiveIntegerCellEditor(textField );
+				cellEditor.validateCell = this.validateCell;				
+				table.getColumnModel().getColumn(columnIndex).setCellEditor(cellEditor);
 			}
 			
 			columnIndex++;			
@@ -124,6 +127,16 @@ public class STTable extends  JPanel {
 			table.getColumnModel().getColumn(getDeleteButtonIndex()).setMaxWidth(50);
 		}
 
+	}
+	
+	public int getEditingColumn() 
+	{
+		return table.getEditingColumn();
+	}
+
+	public int getEditingRow() 
+	{
+		return table.getEditingRow();
 	}
 	
 	private int getDeleteButtonIndex() {

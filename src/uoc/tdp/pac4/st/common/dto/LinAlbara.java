@@ -23,7 +23,9 @@ public class LinAlbara implements Serializable {
 	
 	private Moviment moviment;
 	private Producte producte;
-
+	private Existencies existencies;
+	private LocalST local;
+	
 	/*
 	 * Constructor
 	 */
@@ -88,6 +90,22 @@ public class LinAlbara implements Serializable {
 
 	public void setProducte(Producte producte) {
 		this.producte = producte;
+	}
+
+	public Existencies getExistencies() {
+		return existencies;
+	}
+
+	public void setExistencies(Existencies existencies) {
+		this.existencies = existencies;
+	}
+
+	public LocalST getLocal() {
+		return local;
+	}
+
+	public void setLocal(LocalST local) {
+		this.local = local;
 	}
 
 }

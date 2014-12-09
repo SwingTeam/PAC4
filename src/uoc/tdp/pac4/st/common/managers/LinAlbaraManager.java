@@ -6,8 +6,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import uoc.tdp.pac4.st.common.*;
-import uoc.tdp.pac4.st.common.dto.*;
+import uoc.tdp.pac4.st.common.Constants;
+import uoc.tdp.pac4.st.common.STException;
+import uoc.tdp.pac4.st.common.TokenKeys;
+import uoc.tdp.pac4.st.common.dto.Existencies;
+import uoc.tdp.pac4.st.common.dto.LinAlbara;
+import uoc.tdp.pac4.st.common.dto.LocalST;
+import uoc.tdp.pac4.st.common.dto.Moviment;
+import uoc.tdp.pac4.st.common.dto.Producte;
 
 /***
  * 
@@ -105,6 +111,70 @@ public class LinAlbaraManager  {
 				
 				linAlbara.setMoviment(moviment);
 				linAlbara.setProducte(producte);
+				
+				listLinAlbara.add(linAlbara);
+			}			
+		}
+		catch(SQLException e)
+		{
+			throw new STException(e, TokenKeys.ERROR_GETTING_DATA);
+		}
+		finally 
+		{
+			//Molt important: Tanquem connexió, statement i resulset.
+			db.closeResultSet(resultSet);
+		}
+		return listLinAlbara;
+	}	
+	
+	 /***
+	  * 
+	  * Torna linies d'albara per demanda actual
+	  * 
+	  * @throws STException 
+	  */	
+	public ArrayList<LinAlbara> getByDemandaActual(String localDestiId, String localOrigenId) throws STException 
+	{							
+		ArrayList<LinAlbara> listLinAlbara = new ArrayList<LinAlbara>();
+				
+		StringBuilder sql = new StringBuilder("SELECT * FROM linalbara ");
+		sql.append("INNER JOIN albara ON albara.id_albara = linalbara.albara_id  ");
+		sql.append("INNER JOIN moviment ON linalbara.moviment_id = moviment.id_moviment ");
+		sql.append("INNER JOIN producte ON moviment.producte_id = producte.id_producte ");
+		sql.append("INNER JOIN local ON local.id_local = albara.origen_id ");		
+		sql.append("INNER JOIN existencies ON existencies.producte_id = producte.id_producte AND existencies.local_id= albara.desti_id  ");
+		sql.append("WHERE ");
+		sql.append(" moviment.completatsn = false AND  ");
+		sql.append(" moviment.tipusmoviment_id='" + MovimentManager.TIPUS_MOVIMENT_TRANSFERENCIA + "' AND");
+		sql.append(" albara.desti_id='" + localDestiId + "'"); 
+		
+		if (localOrigenId != null)
+		{
+			sql.append(" albara.origen_id='" + localOrigenId + "'");
+		}
+			
+		ResultSet resultSet= db.selectData(sql.toString());
+
+		try 
+		{
+			MovimentManager movimentManager = new MovimentManager (db);
+			ProducteManager producteManager = new ProducteManager (db);
+			ExistenciesManager existenciesManager = new ExistenciesManager (db);
+			LocalManager localManager = new LocalManager (db);
+			
+			//Llegim resultat
+			while (resultSet.next()) 
+			{
+				LinAlbara linAlbara= getFromResultSet(resultSet);
+				Moviment moviment = movimentManager.getFromResultSet(resultSet);
+				Producte producte = producteManager.getFromResultSet(resultSet);
+				Existencies existencies= existenciesManager.getFromResultSet(resultSet);
+				LocalST local= localManager.getFromResultSet(resultSet);
+				
+				linAlbara.setMoviment(moviment);
+				linAlbara.setProducte(producte);
+				linAlbara.setExistencies(existencies);
+				linAlbara.setLocal(local);
 				
 				listLinAlbara.add(linAlbara);
 			}			
