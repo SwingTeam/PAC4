@@ -10,8 +10,8 @@ import uoc.tdp.pac4.st.rmi.*;
 
 /***
  * Classe corresponent a la finestra de selecció
- * de l'informe de rotures d'estoc
- * 
+ * de l'informe de ruptures d'estoc
+ *  
  * @author Swing Team - 2014
  *
  */

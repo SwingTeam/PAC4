@@ -1,7 +1,7 @@
 package uoc.tdp.pac4.st.common;
 
 /***
- * Aquesta classe conté totes les constants
+ * Aquesta classe conté totes les constants 
  * d'ús comú a l'aplicació, a excepció de les
  * constants que fan referència a tokens, que
  * es troben a la classe Tokens.

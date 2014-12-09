@@ -25,7 +25,7 @@ import uoc.tdp.pac4.st.server.*;
  * Classe encarregada de gestionar
  * les comunicacions amb la base
  * de dades
- * 
+ *  
  * @author Swing Team - 2014
  *
  */

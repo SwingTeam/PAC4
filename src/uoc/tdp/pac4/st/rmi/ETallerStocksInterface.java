@@ -11,7 +11,7 @@ import uoc.tdp.pac4.st.common.dto.*;
  * Interface per a la connexió RMI
  * 
  * @author Swing Team - 2014
- *
+ * 
  */
 public interface ETallerStocksInterface extends Remote {
 

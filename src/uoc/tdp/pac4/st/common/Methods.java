@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-/***
+/*** 
  * Classe que conté tots els mètodes d'ús comú
  * a l'aplicació i que no estan inclosos a
  * altres classes especialitzades.

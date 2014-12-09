@@ -7,6 +7,14 @@ import javax.swing.SwingConstants;
 import uoc.tdp.pac4.st.common.*;
 import uoc.tdp.pac4.st.common.dto.*;
 
+/***
+ * Classe que mostra el resultat de l'informe
+ * de rotacions d'estoc.
+ * 
+ * @author Swing Team - 2014
+ *
+ * @param <T>
+ */
 public class RotationReportResult<T> extends ReportResult<RotationReportLine> {
 	
 	private static final long serialVersionUID = -8384621080755817338L;

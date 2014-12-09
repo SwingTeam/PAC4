@@ -3,7 +3,7 @@ package uoc.tdp.pac4.st.common;
 /***
  * Conté totes les constants que fan referència
  * a tokens i que són d'ús comú a l'aplicació
- * 
+ *  
  * @author Swing Team - 2014
  *
  */

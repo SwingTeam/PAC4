@@ -20,7 +20,7 @@ import uoc.tdp.pac4.st.server.*;
  * PeticionsImpl para la connexió RMI.
  * 
  * @author Swing Team - 2014
- *
+ * 
  */
 @SuppressWarnings("unused")
 public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerStocksInterface, Serializable {

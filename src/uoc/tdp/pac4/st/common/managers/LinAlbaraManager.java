@@ -4,17 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import uoc.tdp.pac4.st.common.Constants;
-import uoc.tdp.pac4.st.common.STException;
-import uoc.tdp.pac4.st.common.TokenKeys;
-import uoc.tdp.pac4.st.common.dto.LinAlbara;
-import uoc.tdp.pac4.st.common.dto.Moviment;
-import uoc.tdp.pac4.st.common.dto.Producte;
-
-
+import uoc.tdp.pac4.st.common.*;
+import uoc.tdp.pac4.st.common.dto.*;
 
 /***
  * 

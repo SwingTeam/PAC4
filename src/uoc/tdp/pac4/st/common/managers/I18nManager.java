@@ -19,7 +19,7 @@ import uoc.tdp.pac4.st.server.*;
  * de l'aplicació.
  * 
  * @author Swing Team - 2014
- *
+ * 
  */
 @SuppressWarnings("unused")
 public class I18nManager {
