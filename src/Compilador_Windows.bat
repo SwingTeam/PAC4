@@ -39,6 +39,18 @@ javac -classpath . uoc/tdp/pac4/st/common/dto/*.java
 @echo "Compilant les classes de la carpeta 'uoc/tdp/pac4/st/common/managers'"
 javac -classpath . uoc/tdp/pac4/st/common/managers/*.java
 
+@echo "Compilant les classes de la carpeta 'uoc/tdp/pac4/st/common/ui'"
+javac -classpath . uoc/tdp/pac4/st/common/ui/*.java
+
+@echo "Compilant les classes de la carpeta 'uoc/tdp/pac4/st/client.cf'"
+javac -classpath . uoc/tdp/pac4/st/client/cf/*.java
+
+@echo "Compilant les classes de la carpeta 'uoc/tdp/pac4/st/client.e'"
+javac -classpath . uoc/tdp/pac4/st/client/e/*.java
+
+@echo "Compilant les classes de la carpeta 'uoc/tdp/pac4/st/client.m'"
+javac -classpath . uoc/tdp/pac4/st/client/m/*.java
+
 @echo "Compilant les classes de la carpeta 'uoc/tdp/pac4/st/client.cx'"
 javac -classpath . uoc/tdp/pac4/st/client/cx/*.java
 
