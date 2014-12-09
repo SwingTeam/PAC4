@@ -1,3 +1,4 @@
+//adreâ”œÂºa
 package uoc.tdp.pac4.st.client.m;
 
 import java.awt.BorderLayout;
@@ -6,31 +7,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import uoc.tdp.pac4.st.common.ComboBoxItem;
 import uoc.tdp.pac4.st.common.Constants;
-import uoc.tdp.pac4.st.common.Enums;
 import uoc.tdp.pac4.st.common.Managers;
-import uoc.tdp.pac4.st.common.Methods;
 import uoc.tdp.pac4.st.common.STException;
 import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.Local;
+import uoc.tdp.pac4.st.common.dto.NIF;
 import uoc.tdp.pac4.st.common.dto.Usuari;
 import uoc.tdp.pac4.st.common.managers.ClientManager;
-import uoc.tdp.pac4.st.common.managers.DatabaseManager;
 import uoc.tdp.pac4.st.common.managers.ExceptionManager;
 import uoc.tdp.pac4.st.common.managers.I18nManager;
 import uoc.tdp.pac4.st.common.managers.SettingManager;
@@ -53,6 +50,7 @@ public class UserWindow extends JFrame {
      * D per esborrar un Usuari
 	*/
 		java.util.Date dataActual = new Date();
+		java.util.Date dataBaixa = null;
 		Usuari user = new Usuari();
 		//Fields
 		private JTextField txidUsuari;
@@ -74,7 +72,7 @@ public class UserWindow extends JFrame {
 		private JComboBox<String> cmbRol = null;
 		/**
 		 * Els dos botons per cercar segon IdUsuari o NIF
-		 * només s'afegeixen al formulari en cas que l'operació a realitzar
+		 * nomï¿½s s'afegeixen al formulari en cas que l'operaciï¿½ a realitzar
 		 * sigui qualsevol menys la de dona d'alta.
 		 */
 		private JButton btnXIdUsuari = new JButton("Buscar");
@@ -83,16 +81,16 @@ public class UserWindow extends JFrame {
 	    private JButton btnCleanFields = new JButton("Netejar");
 	    private JButton btnClose = new JButton("Tancar");
 	    /**
-	     * El botó btnAccio ha de canviar el seu nom depenen dels següents casos:
+	     * El botï¿½ btnAccio ha de canviar el seu nom depenen dels segï¿½ents casos:
 	     * Alta --> Crear
 	     * Baixa --> Esborrar
 	     * Update --> Modificar
-	     * Select --> Consultar --> no cal aquest botó, ja tenim el de buscar
+	     * Select --> Consultar --> no cal aquest botï¿½, ja tenim el de buscar
 	     */
 	    private JButton btnAccio = new JButton();
 
 	/**
-	 * Launch the application.
+	 * Launch the application. 
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -142,7 +140,7 @@ public class UserWindow extends JFrame {
 	    case "C": btnAccio.setText("Crear");
 	              setTitle("Gestio d'Usuaris - Alta");break;
 	    case "U": btnAccio.setText("Modificar");
-	    		  setTitle("Gestio d'Usuaris - Modificació");break;
+	    		  setTitle("Gestio d'Usuaris - Modificaciï¿½");break;
 	    case "R": setTitle("Gestio d'Usuaris - Consulta");break;
 	    case "D": btnAccio.setText("Esborrar");
                   setTitle("Gestio d'Usuaris - Baixa");break;
@@ -164,8 +162,8 @@ public class UserWindow extends JFrame {
 	    
 	    txidUsuari = new JTextField();
 	    txidUsuari.setEditable(false); 
-	    /* no es pot editar perquè és un valor que es genera automàticament
-	     * i no es pot deixar modificar per ningú
+	    /* no es pot editar perquï¿½ ï¿½s un valor que es genera automï¿½ticament
+	     * i no es pot deixar modificar per ningï¿½
 	     */
 	    
 	    txidUsuari.setColumns(10);
@@ -179,7 +177,7 @@ public class UserWindow extends JFrame {
 		    
 		    txDataAlta = new JTextField();
 		    txDataAlta.setColumns(10);
-		    txDataAlta.setEditable(false); // no es pot editar perquè és la DATA ACTUAL
+		    txDataAlta.setEditable(false); // no es pot editar perquï¿½ ï¿½s la DATA ACTUAL
 		    txDataAlta.setBounds(325, 15, 90, 19);
 		    
 	        SimpleDateFormat formatr = new SimpleDateFormat("dd/MM/yyyy");
@@ -208,7 +206,7 @@ public class UserWindow extends JFrame {
 	    
 	    txNIF = new JTextField();
 	    txNIF.setColumns(10);
-	    txNIF.setEditable(true); // el NIF es sempre un camp editable per cercar o bé per inserir o modificar
+	    txNIF.setEditable(true); // el NIF es sempre un camp editable per cercar o bï¿½ per inserir o modificar
 	    txNIF.setBounds(75, 42, 70, 19);
 	    getContentPane().add(txNIF);
 	    }
@@ -243,7 +241,7 @@ public class UserWindow extends JFrame {
 		    getContentPane().add(txe_mail);
 		}
 		{
-			JLabel lblTel = new JLabel("Telèfon: ");
+			JLabel lblTel = new JLabel("TelÃ¨fon: ");
 			lblTel.setBounds(10, 140, 50, 15);
 			getContentPane().add(lblTel);
 			
@@ -254,7 +252,7 @@ public class UserWindow extends JFrame {
 	    
 		}
 		{
-			JLabel lblMob = new JLabel("Mòbil: ");
+			JLabel lblMob = new JLabel("MÃ²bil: ");
 	    	lblMob.setBounds(10, 167, 50, 15);
 	    	getContentPane().add(lblMob);
 	    
@@ -301,7 +299,7 @@ public class UserWindow extends JFrame {
 		    }
 		}
 		{
-			JLabel lbladr = new JLabel("Adreca: ");
+			JLabel lbladr = new JLabel("AdreÃ§a: ");
 			lbladr.setBounds(180, 113, 60, 15);
 			getContentPane().add(lbladr);
 			//
@@ -312,7 +310,7 @@ public class UserWindow extends JFrame {
 		}
 		
 		{
-			JLabel lblCity = new JLabel("Població: ");
+			JLabel lblCity = new JLabel("PoblaciÃ³: ");
 			lblCity.setBounds(180, 140, 60, 15);
 			getContentPane().add(lblCity);
 			//
@@ -332,7 +330,7 @@ public class UserWindow extends JFrame {
 		}
 
 		{
-			JLabel lblProv = new JLabel("Província: ");
+			JLabel lblProv = new JLabel("ProvÃ­ncia: ");
 			lblProv.setBounds(180, 167, 60, 15);
 			getContentPane().add(lblProv);
 			//
@@ -343,7 +341,7 @@ public class UserWindow extends JFrame {
 		}
 
 		{
-			JLabel lblPais = new JLabel("País: ");
+			JLabel lblPais = new JLabel("PaÃ­s: ");
 			lblPais.setBounds(180, 194, 60, 15);
 			getContentPane().add(lblPais);
 			//
@@ -364,7 +362,7 @@ public class UserWindow extends JFrame {
 		    if (operation =="C" || operation == "U")
 		    {
 		    	/**
-		    	 * Si l'operació és per INSERT o UPDATE alguns camps han de ser editables
+		    	 * Si l'operaciï¿½ ï¿½s per INSERT o UPDATE alguns camps han de ser editables
 		    	 */
 		    txName.setEditable(true);
 		    txCognoms.setEditable(true);
@@ -403,20 +401,20 @@ public class UserWindow extends JFrame {
 	    if (operation == "C")
 	    {
 	    	/**
-	    	 * Si l'operació es per fer una alta d'usuari
-	    	 * el id, s'ha de generar automàticament, per això hi ha el mètode idUserNew
+	    	 * Si l'operaciï¿½ es per fer una alta d'usuari
+	    	 * el id, s'ha de generar automï¿½ticament, per aixï¿½ hi ha el mï¿½tode idUserNew
 	    	 */
 	        txidUsuari.setText(idUserNew());
 	    	/**
-	    	 * També cal deixar a l'usuari triar un taller entre els que hi ha a la BD
-	    	 * en altre cas, el combo s'omplirà amb el taller que correspongui segons la cerca
+	    	 * Tambï¿½ cal deixar a l'usuari triar un taller entre els que hi ha a la BD
+	    	 * en altre cas, el combo s'omplirï¿½ amb el taller que correspongui segons la cerca
 	    	 */
 	    	fillinComboBox(cmbTaller);
 		    getContentPane().add(this.cmbTaller);
 	    }else
 	    {
 	    	/**
-	    	 * Si l'operació és qualsevol (menys INSERT)
+	    	 * Si l'operaciï¿½ ï¿½s qualsevol (menys INSERT)
 	    	 * cal deixar cercar l'usuari per IdUsuari
 	    	 */
 	    btnXIdUsuari.setBounds(145, 15, 80,19);
@@ -432,8 +430,7 @@ public class UserWindow extends JFrame {
 			    {
 			    case "C": // abans cal validar totes les dades
 			    		  insertUser();
-			    		  cleanFields();
-			              break;
+			    		  break;
 			    case "U": // abans cal validar totes les dades
 			    	//    updateUser();
 			    		  break;
@@ -473,7 +470,7 @@ public class UserWindow extends JFrame {
 	}
 
 	   /**
-     * Mètode per deixar tots els camps en blanc
+     * Mï¿½tode per deixar tots els camps en blanc
      */
     /**
      * 
@@ -500,7 +497,35 @@ public class UserWindow extends JFrame {
  		}
  }
     /**
-     * Mètode que a partir del nom del local retorna el seu id
+     * MÃ¨tode per comprovar que les noves dades de l'usuari siguin vÃ lides, si Ã©s el cas retorna 0
+     * en cas que no siguin vÃ lides retorna un numero per indicar on s'ha detectat un possible error
+     * 
+     * @param user
+     * @return enter 0 si tot Ã©s correcta, altrament si hi ha alguna dada no vÃ lida
+     */
+    public int validateUser(Usuari user)
+    {
+    	int v=0;
+    	NIF nif = new NIF("");
+    	nif.setId(user.getNIF());
+    	
+    	if (user.getCp().isEmpty() || !user.checkCP(user.getCp()))
+    		return 1;
+    	if (user.getCorreue().isEmpty() || !user.checkCorreuE(user.getCorreue()))
+    		return 2;
+    	if (user.getMobil().isEmpty() || !user.checkMobil(user.getMobil()))
+    		return 3;
+    	if (user.getTelefon().isEmpty() || !user.checkTelefon(user.getTelefon()))
+    		return 4;
+    	if (nif.getId().isEmpty() || !nif.validar())
+    		return 5;
+    	if (nif.getId().isEmpty())
+    		return 6;
+    	return v;
+    }
+    
+    /**
+     * Mï¿½tode que a partir del nom del local retorna el seu id
      * @param localName
      * @return el id del local
      */
@@ -526,7 +551,7 @@ public class UserWindow extends JFrame {
     }
     
     /**
-     * Mètode per poder inserir un usuari una vegada les dades han estat validades
+     * Mï¿½tode per poder inserir un usuari una vegada les dades han estat validades
      * 
      */
     
@@ -540,7 +565,7 @@ public class UserWindow extends JFrame {
     	user.setCorreue(txe_mail.getText());
     	user.setCp(txCP.getText());
     	user.setData_alta(dataActual);
-    	user.setData_baixa(dataActual);
+    	user.setData_baixa(dataBaixa);
     	user.setIdIdioma("1");
     	user.setIdLocal(cmbTaller.getSelectedItem().toString());
     	user.setIdLocal(getId_LocalwithName(user.getIdLocal()));
@@ -556,7 +581,9 @@ public class UserWindow extends JFrame {
     	user.setRol(cmbRol.getSelectedItem().toString());
     	user.setTelefon(txTel.getText());
     	user.setVigentSN(true);
-    	
+    	idUser = validateUser(user);
+        if (idUser==0)
+    	{
     	try {
     		startConnection();
     		idUser = this._clientManager.getRMIInterface().addUser(user);
@@ -570,12 +597,34 @@ public class UserWindow extends JFrame {
 		}finally{
 			stopConnection();
 		}
-    	
+    	txidUsuari.setText(idUserNew());
+		cleanFields();
+        
+    	} else
+    	{
+    		switch (idUser)
+    		{
+    			case 1: value = "El Codi Postal indicat no Ã©s vÃ lid!!!!";
+    					break;
+    			case 2: value = "El e-mail indicat no Ã©s vÃ lid!!!!";
+    					break;
+    			case 3: value = "El telÃ¨fon mÃ²bil indicat no Ã©s vÃ lid!!!!";
+    					break;
+    			case 4: value = "El telÃ¨fon fix indicat no Ã©s vÃ lid!!!!";
+						break;
+    			case 5: value = "El NIF indicat no Ã©s vÃ lid, recorda que cal indicar la lletra!!!!";
+    					break;
+    			case 6: value = "Ã‰s obligatori indicar el NIF!!!!";
+    		}
+    		JOptionPane.showMessageDialog(null, "Hi ha alguna dada no valida!!!!!"+value);
+			
+    		// mostrar motiu pel que no es valid l'usuari
+    	}
     	return value;
     }
     
     /**
-     * Mètode per aconseguir el següent id per l'usuari que es vol crear
+     * Mï¿½tode per aconseguir el segï¿½ent id per l'usuari que es vol crear
      * 
      */
     public String idUserNew()
@@ -614,8 +663,10 @@ public class UserWindow extends JFrame {
 			if (locals != null){
 				for (Local item : locals){
 					cmbTaller.addItem(item.getName());
+				
+					cmbTaller.setSelectedIndex(cmbTaller.getItemCount()-1);
 			}
-			cmbTaller.setSelectedIndex(1);
+			
 				
 			}
 			
@@ -650,7 +701,7 @@ public class UserWindow extends JFrame {
 				}
 			}
 			if (this._clientManager != null)
-				//System.out.println("Intentem començar connexio");
+				//System.out.println("Intentem comenï¿½ar connexio");
 				this._clientManager.startConnection();
 		
 		} catch (Exception e){

@@ -4,18 +4,15 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import uoc.tdp.pac4.st.common.STException;
-import uoc.tdp.pac4.st.common.dto.Albara;
-import uoc.tdp.pac4.st.common.dto.Local;
-import uoc.tdp.pac4.st.common.dto.Usuari;
+import uoc.tdp.pac4.st.common.*;
+import uoc.tdp.pac4.st.common.dto.*;
 
 /***
  * Interface per a la connexió RMI
  * 
  * @author Swing Team - 2014
- *
+ * 
  */
-@SuppressWarnings("unused")
 public interface ETallerStocksInterface extends Remote {
 
 	/***
@@ -53,19 +50,11 @@ public interface ETallerStocksInterface extends Remote {
 	  */ 
 	 public String testRMIConnection() throws RemoteException, STException;
 
-	 /***
-	  * Afegeix un albara i les seves linies a la base de dades
-	  * 
-	  * @return int id del nou albarà create
-	  * @throws RemoteException
-	  * @throws STException
-	  */ 
-	 public int AddAlbara(Albara albara) throws RemoteException, STException;
 
 	 /**
-	  * Retorna String amb l'idUsuari m�s gran que de moment hi ha a la BD
+	  * Retorna String amb l'idUsuari m�s gran que de moment hi ha a la BD
 	  * si no hi ha usuaris retorna String a null
-	  * @return String id_usuari m�s gran
+	  * @return String id_usuari m�s gran
 	  * @throws RemoteException
 	  * @throws STException
 	  */
@@ -73,12 +62,185 @@ public interface ETallerStocksInterface extends Remote {
 	 /***
 	  * Afegeix un usuari
 	  * 
-	  * @return  id del nou usuari� create
+	  * @return  id del nou usuari� create
 	  * @throws RemoteException
 	  * @throws STException
 	  */ 
 	 public int addUser(Usuari user) throws RemoteException, STException;
-
 	 
 	 public String getId_LocalwithName(String localName) throws RemoteException, STException;
+	 
+	 
+	 /*** BEGIN: Subsistema Connexió ****/
+	 
+	 /***
+	  * Afegeix un albara i les seves linies a la base de dades
+	  * 
+	  * @return int id del nou albarà create
+	  * @throws RemoteException
+	  * @throws STException
+	  */ 
+	 public int addAlbara(Albara albara) throws RemoteException, STException;
+	 
+	 /***
+	  * LLista tots els proveidors
+	  * 
+	  * @return  List<Proveidor>  Llistat de proveidors
+	  * @throws RemoteException
+	  * @throws STException
+	  */	 
+	 public List<Proveidor> listProveidors() throws RemoteException, STException;
+	 
+	 /***
+	  * LLista tots els grups
+	  * 
+	  * @return  List<Grup>  Llistat de grups
+	  * @throws RemoteException
+	  * @throws STException
+	  */	 
+  	 public List<Grup> listGrups() throws  RemoteException,STException;
+  	 
+	 /***
+	  * LLista els subgrups d'un grup
+	  * 
+	  * @return  List<Grup>  Llistat de grups
+	  * @throws RemoteException
+	  * @throws STException
+	  */	 
+  	 public List<SubGrup> getSubGrupsByGrup(Integer grupId) throws  RemoteException,STException;
+	 
+  	 
+  	 /***
+	  * 
+	  * Torna tots els productes per proveidor, grup i subgrup 
+	  * 
+	  * @return List<Producte> LLista de productes 
+	  * @throws STException 
+	  */	
+	public List<Producte> searchProdutes(String proveidorId, Integer grupId, Integer subGrupId) throws RemoteException,STException; 
+
+	 /***
+	  * LLista tots els motius devolucions
+	  * 
+	  * @return  List<Proveidor>  Llistat de motius devolucions
+	  * @throws RemoteException
+	  * @throws STException
+	  */	 
+	 public List<MotiuDevolucio> listMotiuDevolucio() throws RemoteException, STException;
+	 
+
+	 /***
+	  * Torna existencies per local i producte
+	  * 
+	  * @return Existencies Existencia
+	  * @throws RemoteException
+	  * @throws STException
+	  */	  
+	 public Existencies getExistenciesByProducteAndLocal(String producteId, String localId)throws RemoteException, STException;
+	 
+	 
+	 /***
+	  * LLista tots els locals
+	  * 
+	  * @return  List<Local>  Llistat de locals
+	  * @throws RemoteException
+	  * @throws STException
+	  */	 
+	 public List<LocalST> listLocals() throws RemoteException, STException;		
+
+	 /***
+	  * 
+	  * Torna tots els productes amb estoc minim per un local 
+	  * 
+	  * @return List<Producte> LLista de productes 
+	  * @throws STException 
+	  */	
+	public List<Producte>getStockMinim(String localId) throws RemoteException, STException;
+
+	 /***
+	  * 
+	  * Torna tots els albarans de tipus transferencia d'un local 
+	  * 
+	  * @return List<Albara> LLista d'albarans 
+	  * @throws STException 
+	  */	
+	public List<Albara> listAlbaransByLocal(String localId) throws RemoteException, STException;
+	
+	 /***
+	  * 
+	  * Torna un albara pel seu id 
+	  * 
+	  * @return Albara albara 
+	  * @throws STException 
+	  */	
+	public Albara getAlbaraById(int albaraId) throws RemoteException, STException;
+	
+	
+	 /***
+	  * 
+	  * Torna linies d'un albarà 
+	  * 
+	  * @return Linies albara 
+	  * @throws STException 
+	  */	
+	public List<LinAlbara> getLinAlbaraByAlbaraId(int albaraId) throws RemoteException, STException;
+		
+	/*** END: Subsistema Connexió ****/
+
+	 /***
+	  * Retorna una llista d'un producte específic o de
+	  * tots els productes, si s'indica null al 
+	  * paràmetre productId.
+	  * 
+	  * @param productId Codi d'un producte o null si
+	  * es vol recuperar tots els productes.
+	  * @return List<ProducteReport> Una instància de 
+	  * List<ProducteReport> amb el resultat de la consulta.
+	  * @throws STException
+	  */
+	 public List<ProducteReport> getProductList(String productId) throws RemoteException, STException;
+	 
+	 /***
+	  * Retorna una llista de línies de l'informe
+	  * de ruptures d'estoc.
+	  * 
+	  * @param reportSelectorData Instància de ReportSelectorData
+	  * que conté la selecció del rang de resultats que ha
+	  * fet l'usuari.
+	  * @return List<StockOutReportLine> Retorna una llista d'objectes
+	  * StockOutReportLine, amb el resultat de l'informe demanat.
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public List<StockOutReportLine> getStockOutReport(ReportSelectorData reportSelectorData) throws RemoteException, STException;
+	 
+	 /***
+	  * Retorna una llista de línies de l'informe
+	  * de rotació d'estoc.
+	  * 
+	  * @param reportSelectorData Instància de ReportSelectorData
+	  * que conté la selecció del rang de resultats que ha
+	  * fet l'usuari.
+	  * @return List<RotationReportLine> Retorna una llista d'objectes
+	  * RotationReportLine, amb el resultat de l'informe demanat.
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public List<RotationReportLine> getRotationReport(ReportSelectorData reportSelectorData) throws RemoteException, STException;
+
+	 /***
+	  * Retorna una llista de línies de l'informe
+	  * de demanda de recanvis.
+	  * 
+	  * @param reportSelectorData Instància de ReportSelectorData
+	  * que conté la selecció del rang de resultats que ha
+	  * fet l'usuari.
+	  * @return List<SalesReportLine> Retorna una llista d'objectes
+	  * SalesReportLine, amb el resultat de l'informe demanat.
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public List<SalesReportLine> getSalesReport(ReportSelectorData reportSelectorData) throws RemoteException, STException;
+	 
+	 
 }

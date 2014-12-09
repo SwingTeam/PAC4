@@ -1,6 +1,7 @@
 package uoc.tdp.pac4.st.common.managers;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -18,7 +19,7 @@ import uoc.tdp.pac4.st.server.*;
  * de l'aplicació.
  * 
  * @author Swing Team - 2014
- *
+ * 
  */
 @SuppressWarnings("unused")
 public class I18nManager {
@@ -130,8 +131,14 @@ public class I18nManager {
 		if (token != null){
 			ResourceBundle resourceBundle = null;
 			resourceBundle = ResourceBundle.getBundle(this._baseName, this.getLocale());
-			if (resourceBundle.containsKey(token))
+			if (resourceBundle.containsKey(token)){
 				result = resourceBundle.getString(token.toUpperCase());
+				try {
+					//Canviem la codificació de ISO-8859-1 a UTF-8
+					String utf8 = new String(result.getBytes("ISO-8859-1"), "UTF-8");
+					result = utf8;
+				} catch (UnsupportedEncodingException e) {}
+			}
 		}
 		return result;
 	}

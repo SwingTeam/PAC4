@@ -17,12 +17,11 @@ public class ProducteProveidor implements Serializable {
 	/*
 	 * Propietats privades
 	 * 
-	 */			
-    private Integer idsProveidor;
-    private String idProveidor;
-    private String nomProveidor;
+	 */		
+	private Integer idProducteProveidor;    
+    private String producteId;    
+    private String proveidorId;
     
-
     /*
      * Constructor
      * 
@@ -35,24 +34,24 @@ public class ProducteProveidor implements Serializable {
     /*
      * Getters & setters
      * 
-     */        
-	public Integer getIdsProveidor() {
-		return idsProveidor;
+     */     
+	public Integer getIdProducteProveidor() {
+		return idProducteProveidor;
 	}
-	public void setIdsProveidor(Integer idsProveidor) {
-		this.idsProveidor = idsProveidor;
+	public void setIdProducteProveidor(Integer idProducteProveidor) {
+		this.idProducteProveidor = idProducteProveidor;
 	}
-	public String getIdProveidor() {
-		return idProveidor;
+	public String getProducteId() {
+		return producteId;
 	}
-	public void setIdProveidor(String idProveidor) {
-		this.idProveidor = idProveidor;
+	public void setProducteId(String producteId) {
+		this.producteId = producteId;
 	}
-	public String getNomProveidor() {
-		return nomProveidor;
+	public String getProveidorId() {
+		return proveidorId;
 	}
-	public void setNomProveidor(String nomProveidor) {
-		this.nomProveidor = nomProveidor;
+	public void setProveidorId(String proveidorId) {
+		this.proveidorId = proveidorId;
 	}
 
 }

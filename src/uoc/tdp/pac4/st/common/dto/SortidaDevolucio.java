@@ -1,6 +1,7 @@
 package uoc.tdp.pac4.st.common.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -20,6 +21,7 @@ public class SortidaDevolucio implements Serializable {
 	 */			
     private Integer idSortidaDevol;
     private Date dataSortDevolucio;
+    private ArrayList<LinSortidaDevolucio> LiniesSortidaDevolucio= new ArrayList<LinSortidaDevolucio>();
     
     /*
      * Constructor
@@ -45,5 +47,14 @@ public class SortidaDevolucio implements Serializable {
 	}
 	public void setDataSortDevolucio(Date dataSortDevolucio) {
 		this.dataSortDevolucio = dataSortDevolucio;
+	}
+
+	public ArrayList<LinSortidaDevolucio> getLiniesSortidaDevolucio() {
+		return LiniesSortidaDevolucio;
+	}
+
+	public void setLiniesSortidaDevolucio(
+			ArrayList<LinSortidaDevolucio> liniesSortidaDevolucio) {
+		LiniesSortidaDevolucio = liniesSortidaDevolucio;
 	}
 }

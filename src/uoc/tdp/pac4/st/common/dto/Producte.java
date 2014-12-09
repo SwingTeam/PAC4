@@ -10,7 +10,7 @@ import java.io.Serializable;
  *
  */
 public class Producte implements Serializable {
-
+ 
 	private static final long serialVersionUID = 6017623832256676834L;
     
 	/*
@@ -21,6 +21,10 @@ public class Producte implements Serializable {
     private String nomProducte;
     private int producteGrupId;
     private int producteSubGrupId;
+        
+    private LocalST local;
+    private Existencies existencies;
+    
     
     /*
      * Constructor
@@ -59,6 +63,22 @@ public class Producte implements Serializable {
 	}
 	public void setProducteSubGrupId(int producteSubGrupId) {
 		this.producteSubGrupId = producteSubGrupId;
+	}
+
+	public LocalST getLocal() {
+		return local;
+	}
+
+	public void setLocal(LocalST local) {
+		this.local= local;
+	}
+
+	public Existencies getExistencies() {
+		return existencies;
+	}
+
+	public void setExistencies(Existencies existencies) {
+		this.existencies = existencies;
 	}
 
 }

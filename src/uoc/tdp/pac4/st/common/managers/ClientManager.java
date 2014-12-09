@@ -92,13 +92,15 @@ public class ClientManager<T> {
 			if (this._connectionStatus == Enums.ConnectionStatus.Closed){
 				 this._registry = LocateRegistry.getRegistry(this._connectionUrl, this._connectionPort);
 				 this._rmiInterface =(T)this._registry.lookup(this._connectionName);
+				 this._connectionStatus = Enums.ConnectionStatus.Open;
 
-			} else {
-				Methods.showMessage(Managers.i18n.getTranslation(TokenKeys.ERROR_CLOSED_CONNECTION), Enums.MessageType.Error);
+			} else if (this._connectionStatus == Enums.ConnectionStatus.Open){
+				if (this._registry == null
+						|| this._rmiInterface == null){
+					this.stopConnection();
+					this.startConnection();
+				}
 			}
-			
-			 this._connectionStatus = Enums.ConnectionStatus.Open;
-			 
 		} catch (AccessException e) {
 			throw new STException(e, TokenKeys.ERROR_ACCESS_EXCEPTION);
 		

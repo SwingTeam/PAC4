@@ -46,8 +46,10 @@ public class InitializeClient {
 			Managers.i18n.setLanguage(language);
 			//Inicialitza el formulari principal de 
 			//la part client de l'aplicació
-			ExampleWindow clientFrame = new ExampleWindow();
-			//StockOutReport clientFrame = new StockOutReport(null);
+			//ExampleWindow clientFrame = new ExampleWindow();
+//			StockOutRangeSelector clientFrame = new StockOutRangeSelector();
+//			RotationRangeSelector clientFrame = new RotationRangeSelector(); 
+			SalesRangeSelector clientFrame = new SalesRangeSelector();
 			clientFrame.setVisible(true);
 
 		} catch (Exception e){

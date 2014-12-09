@@ -4,10 +4,8 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
-import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -19,22 +17,16 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import uoc.tdp.pac4.st.*;
-import uoc.tdp.pac4.st.client.cx.*;
-import uoc.tdp.pac4.st.common.*;
-import uoc.tdp.pac4.st.common.managers.*;
-import uoc.tdp.pac4.st.rmi.*;
-import uoc.tdp.pac4.st.server.*;
-
-/***
+/*** 
  * Classe que conté tots els mètodes d'ús comú
  * a l'aplicació i que no estan inclosos a
  * altres classes especialitzades.
  * 
  * @author Swing Team - 2014
  */
-@SuppressWarnings("unused")
 public class Methods {
+	
+	private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DATE_FORMAT);
 	
 	/***
 	 * Mètode que posiciona una finestra en
@@ -109,6 +101,53 @@ public class Methods {
 		return result;
 	}
 
+	/***
+	 * Calcula els dies passats entre
+	 * dues dates.
+	 * 
+	 * @param dateEarly Data més antiga.
+	 * @param dateLater Data més moderna.
+	 * @return
+	 */
+	public static long calculateDays(java.util.Date dateEarly, java.util.Date dateLater) {  
+	   return (dateLater.getTime() - dateEarly.getTime()) / (24 * 60 * 60 * 1000);  
+	} 	
+
+	/***
+	 * Calcula els dies passats entre
+	 * dues dates. Els paràmetre són de tipus
+	 * Object per a admetre dates de
+	 * tipus java.util.Date i java.sql.Date.
+	 * 
+	 * @param dateEarly Data més antiga.
+	 * @param dateLater Data més moderna.
+	 * @return
+	 */
+	public static long calculateDays(Object dateEarly, Object dateLater) {
+		java.util.Date firstDate = null;
+		java.util.Date secondDate = null;
+		
+		Calendar calendar = Calendar.getInstance();
+		if (dateEarly instanceof java.util.Date)
+			calendar.setTime((java.util.Date) dateEarly);
+		
+		else if (dateEarly instanceof java.sql.Date){
+			calendar.setTime((java.sql.Date) dateEarly); 
+		}
+		firstDate = calendar.getTime();
+
+		calendar = Calendar.getInstance();
+		if (dateLater instanceof java.util.Date)
+			calendar.setTime((java.util.Date) dateLater);
+		
+		else if (dateLater instanceof java.sql.Date){
+			calendar.setTime((java.sql.Date) dateLater); 
+		}
+		secondDate = calendar.getTime();
+		
+	   return calculateDays(firstDate, secondDate);  
+	} 	
+	
 	/***
 	 * Retorna la ruta i nom d'un fitxer per
 	 * a guardar una excepció que s'hagi produit.
@@ -264,5 +303,46 @@ public class Methods {
 			result = value.trim();
 		}
 		return result;
+	}
+	
+	public static java.util.Date getDate(String date) {
+		try 
+		{
+			return (java.util.Date) simpleDateFormat .parse(date);
+		}
+		catch (ParseException e) {
+			return null;
+		}
+	}	
+	
+	public static boolean isValidDate(String date) {
+		try 
+		{
+			simpleDateFormat.setLenient(false);			
+			simpleDateFormat.parse(date);
+			
+			return true;
+		}
+		catch (ParseException e) {
+			return false;
+		}
+	}
+	
+	public static String formatDate(java.util.Date date) {
+		return simpleDateFormat.format(date);			
+	}
+	
+	
+	public static boolean isPositiveInt(String integer) 
+	{
+		try 
+		{ 
+		  int theInt= Integer.parseInt(integer);
+		  
+		  return theInt > 0;
+		} 
+		catch(NumberFormatException e) {
+		   return false;
+		}		
 	}
 }

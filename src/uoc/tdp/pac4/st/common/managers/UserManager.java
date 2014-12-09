@@ -26,9 +26,9 @@ public class UserManager  {
 	 /***
 	  * 
 	  * Afegeix un User 
-	  * @param User L'usuari  a afegir
+	  * @param User L'usuariï¿½ a afegir
 	  * 
-	  * @return Integer amb l'ID de l'usuari  creat
+	  * @return Integer amb l'ID de l'usuariï¿½ creat
 	  * @throws STException 
 	  */
 	public int Add(Usuari User) throws STException 
@@ -89,22 +89,28 @@ public class UserManager  {
 	private int AddToDb(DatabaseManager db, Usuari User) throws STException 
 	{
 		Map<String, Object> hashMap = new HashMap<String, Object>();
-		hashMap.put(Constants.FIELD_COGNOMUSUARI, User.getcognoms());
-		hashMap.put(Constants.FIELD_LOGIN,User.getLogin());
-		hashMap.put(Constants.FIELD_ADRECA,User.getAdresa());
-		hashMap.put(Constants.FIELD_CODPOST,User.getCp());
-		hashMap.put(Constants.FIELD_CORREUEM,User.getCorreue());
-		hashMap.put(Constants.FIELD_DATAALTA,User.getData_alta());
-		hashMap.put(Constants.FIELD_DATABAIXA,User.getData_baixa());
+		if (!User.getcognoms().isEmpty() && User.getcognoms().compareTo("")!=0)
+		    hashMap.put(Constants.FIELD_COGNOMUSUARI, User.getcognoms());
+		if (!User.getLogin().isEmpty() && User.getLogin().compareTo("")!=0)
+			hashMap.put(Constants.FIELD_LOGIN,User.getLogin());
+		if (!User.getAdresa().isEmpty() && User.getAdresa().compareTo("")!=0)
+			hashMap.put(Constants.FIELD_ADRECA,User.getAdresa());
+		    hashMap.put(Constants.FIELD_CODPOST,User.getCp());
+			hashMap.put(Constants.FIELD_CORREUEM,User.getCorreue());
+			hashMap.put(Constants.FIELD_DATAALTA,User.getData_alta());
 		hashMap.put(Constants.FIELD_IDIOMA_ID,User.getIdIdioma());
 		hashMap.put(Constants.FIELD_LOCAL_ID,User.getIdLocal());
 		hashMap.put(Constants.FIELD_PROVINCIA_ID,User.getProvince());
 		hashMap.put(Constants.FIELD_ID_USUARI,User.getidUsuari());
 		hashMap.put(Constants.FIELD_NIF,User.getNIF());
-		hashMap.put(Constants.FIELD_NOMUSUARI,User.getnom());
-		hashMap.put(Constants.FIELD_PAIS,User.getPais());
-		hashMap.put(Constants.FIELD_PASSWORD,User.getPassword());
-		hashMap.put(Constants.FIELD_POBLACIO,User.getPoblacio());
+		if (!User.getnom().isEmpty() && User.getnom().compareTo("")!=0)
+			hashMap.put(Constants.FIELD_NOMUSUARI,User.getnom());
+		if (!User.getPais().isEmpty() && User.getPais().compareTo("")!=0)
+			hashMap.put(Constants.FIELD_PAIS,User.getPais());
+		if (!User.getPassword().isEmpty() && User.getPassword().compareTo("")!=0)
+			hashMap.put(Constants.FIELD_PASSWORD,User.getPassword());
+		if (!User.getPoblacio().isEmpty() && User.getPoblacio().compareTo("")!=0)
+			hashMap.put(Constants.FIELD_POBLACIO,User.getPoblacio());
 		hashMap.put(Constants.FIELD_ROL,User.getRol());
 		hashMap.put(Constants.FIELD_TELEFONFIX,User.getTelefon());
 		hashMap.put(Constants.FIELD_TELEFONMOBIL,User.getMobil());

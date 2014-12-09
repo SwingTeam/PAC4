@@ -19,7 +19,8 @@ import java.util.Date;
 	private String idUsuari = "";
 	private String password = "";
     private String login = "";
-    private String NIF = "";
+    //private String NIF = "";
+    private Identificador NIF = new NIF("");
     private String nom = "";
     private String cognoms ="";
     private String idIdioma = "";
@@ -211,42 +212,17 @@ import java.util.Date;
 	 * @return the nIF
 	 */
 	public String getNIF() {
-		return NIF;
+		return NIF.getId();
 	}
 
 	/**
 	 * @param nIF the nIF to set
 	 */
 	public void setNIF(String nIF) {
-		NIF = nIF;
+		NIF.setId(nIF);
 	}
 
-	/**
-	 * 
-	 */
-	public boolean checkNIF (String nif)
-	{
-		if (nif.length() != 8) 
-			return false;
-	    String letra = nif.substring(7,8);
-        char[] ca = letra.toCharArray();
-        for (int i = 0; i < letra.length(); i++) {
-        if (!Character.isLetter(ca[i])) {
-            return false;
-           }
-        }
-        
-        String stringInt = nif.substring(0,7);
-        int numero = Integer.valueOf(stringInt);
-        numero = numero % 23;
-        String letraCorrecta="TRWAGMYFPDXBNJZSQVHLCKET";
-        letraCorrecta=letraCorrecta.substring(numero,numero+1);
 
-        if (!letraCorrecta.equalsIgnoreCase(letra)) 
-            return false;
-            
-        return true;
-	}
 	/**
 	 * @return the login
 	 */
