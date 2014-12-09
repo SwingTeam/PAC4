@@ -1,19 +1,41 @@
 package uoc.tdp.pac4.st.rmi;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.SQLException;
 import java.util.List;
 
-import uoc.tdp.pac4.st.*;
-import uoc.tdp.pac4.st.client.cx.*;
-import uoc.tdp.pac4.st.common.*;
-import uoc.tdp.pac4.st.common.dto.*;
-import uoc.tdp.pac4.st.common.managers.*;
-import uoc.tdp.pac4.st.rmi.*;
-import uoc.tdp.pac4.st.server.*;
+import uoc.tdp.pac4.st.common.STException;
+import uoc.tdp.pac4.st.common.TokenKeys;
+import uoc.tdp.pac4.st.common.dto.Albara;
+import uoc.tdp.pac4.st.common.dto.Existencies;
+import uoc.tdp.pac4.st.common.dto.Grup;
+import uoc.tdp.pac4.st.common.dto.LinAlbara;
+import uoc.tdp.pac4.st.common.dto.Local;
+import uoc.tdp.pac4.st.common.dto.LocalST;
+import uoc.tdp.pac4.st.common.dto.MotiuDevolucio;
+import uoc.tdp.pac4.st.common.dto.Producte;
+import uoc.tdp.pac4.st.common.dto.ProducteReport;
+import uoc.tdp.pac4.st.common.dto.Proveidor;
+import uoc.tdp.pac4.st.common.dto.ReportSelectorData;
+import uoc.tdp.pac4.st.common.dto.RotationReportLine;
+import uoc.tdp.pac4.st.common.dto.SalesReportLine;
+import uoc.tdp.pac4.st.common.dto.StockOutReportLine;
+import uoc.tdp.pac4.st.common.dto.SubGrup;
+import uoc.tdp.pac4.st.common.dto.Usuari;
+import uoc.tdp.pac4.st.common.managers.AlbaraManager;
+import uoc.tdp.pac4.st.common.managers.DatabaseManager;
+import uoc.tdp.pac4.st.common.managers.ExistenciesManager;
+import uoc.tdp.pac4.st.common.managers.GrupManager;
+import uoc.tdp.pac4.st.common.managers.LinAlbaraManager;
+import uoc.tdp.pac4.st.common.managers.LocalManager;
+import uoc.tdp.pac4.st.common.managers.MotiuDevolucioManager;
+import uoc.tdp.pac4.st.common.managers.MovimentManager;
+import uoc.tdp.pac4.st.common.managers.ProducteManager;
+import uoc.tdp.pac4.st.common.managers.ProveidorManager;
+import uoc.tdp.pac4.st.common.managers.ReportManager;
+import uoc.tdp.pac4.st.common.managers.SubGrupManager;
+import uoc.tdp.pac4.st.common.managers.UserManager;
 
 /***
  * Classe que implementa la interface
