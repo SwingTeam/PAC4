@@ -258,13 +258,13 @@ public class ReportManager  {
 						subgroup.setNom(resultSet.getString(fSgName));
 						
 						//Establishment data
-						Local estab = new Local();
-						estab.setLatitude(resultSet.getFloat(Constants.FIELD_COORDX));
-						estab.setLongitude(resultSet.getFloat(Constants.FIELD_COORDY));
-						estab.setName(resultSet.getString(Constants.FIELD_NOMLOCAL));
-						estab.setPhone(resultSet.getString(Constants.FIELD_TELEFON));
-						estab.setProvince(resultSet.getString(Constants.FIELD_PROVINCIA_ID));
-						estab.setTaxId(resultSet.getString(Constants.FIELD_CIF));
+						LocalST estab = new LocalST();
+						estab.setCoordX(resultSet.getInt(Constants.FIELD_COORDX));
+						estab.setCoordY(resultSet.getInt(Constants.FIELD_COORDY));
+						estab.setNomLocal(resultSet.getString(Constants.FIELD_NOMLOCAL));
+						estab.setTelefon(resultSet.getString(Constants.FIELD_TELEFON));
+						estab.setProvincia_id(resultSet.getString(Constants.FIELD_PROVINCIA_ID));
+						estab.setCif(resultSet.getString(Constants.FIELD_CIF));
 						
 						//Product
 						Producte product = new Producte();
@@ -458,13 +458,13 @@ public class ReportManager  {
 						subgroup.setNom(resultSet.getString(fSgName));
 						
 						//Establishment data
-						Local estab = new Local();
-						estab.setLatitude(resultSet.getFloat(Constants.FIELD_COORDX));
-						estab.setLongitude(resultSet.getFloat(Constants.FIELD_COORDY));
-						estab.setName(resultSet.getString(Constants.FIELD_NOMLOCAL));
-						estab.setPhone(resultSet.getString(Constants.FIELD_TELEFON));
-						estab.setProvince(resultSet.getString(Constants.FIELD_PROVINCIA_ID));
-						estab.setTaxId(resultSet.getString(Constants.FIELD_CIF));
+						LocalST estab = new LocalST();
+						estab.setCoordX(resultSet.getInt(Constants.FIELD_COORDX));
+						estab.setCoordY(resultSet.getInt(Constants.FIELD_COORDY));
+						estab.setNomLocal(resultSet.getString(Constants.FIELD_NOMLOCAL));
+						estab.setTelefon(resultSet.getString(Constants.FIELD_TELEFON));
+						estab.setProvincia_id(resultSet.getString(Constants.FIELD_PROVINCIA_ID));
+						estab.setCif(resultSet.getString(Constants.FIELD_CIF));
 						
 						Producte product = new Producte();
 						product.setIdProducte(resultSet.getString(Constants.FIELD_PRODUCTE_ID));
@@ -665,13 +665,13 @@ public class ReportManager  {
 						subgroup.setNom(resultSet.getString(fSgName));
 						
 						//Establishment data
-						Local estab = new Local();
-						estab.setLatitude(resultSet.getFloat(Constants.FIELD_COORDX));
-						estab.setLongitude(resultSet.getFloat(Constants.FIELD_COORDY));
-						estab.setName(resultSet.getString(Constants.FIELD_NOMLOCAL));
-						estab.setPhone(resultSet.getString(Constants.FIELD_TELEFON));
-						estab.setProvince(resultSet.getString(Constants.FIELD_PROVINCIA_ID));
-						estab.setTaxId(resultSet.getString(Constants.FIELD_CIF));
+						LocalST estab = new LocalST();
+						estab.setCoordX(resultSet.getInt(Constants.FIELD_COORDX));
+						estab.setCoordY(resultSet.getInt(Constants.FIELD_COORDY));
+						estab.setNomLocal(resultSet.getString(Constants.FIELD_NOMLOCAL));
+						estab.setTelefon(resultSet.getString(Constants.FIELD_TELEFON));
+						estab.setProvincia_id(resultSet.getString(Constants.FIELD_PROVINCIA_ID));
+						estab.setCif(resultSet.getString(Constants.FIELD_CIF));
 						
 						//Product
 						Producte product = new Producte();

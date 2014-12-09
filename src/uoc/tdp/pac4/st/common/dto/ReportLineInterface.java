@@ -12,7 +12,7 @@ abstract interface ReportLineInterface {
  
 	//********************************* Getters ********************************************
 	abstract Grup getGroup();
-	abstract Local getEstablishment();
+	abstract LocalST getEstablishment();
 	abstract Producte getProduct();
 	abstract Proveidor getProvider();
 	abstract SubGrup getSubgroup();
@@ -20,7 +20,7 @@ abstract interface ReportLineInterface {
 
 	//********************************* Setters ********************************************
 	abstract void setGroup(Grup group);
-	abstract void setEstablishment(Local establishment);
+	abstract void setEstablishment(LocalST establishment);
 	abstract void setProduct(Producte product);
 	abstract void setProvider(Proveidor provider);
 	abstract void setSubgroup(SubGrup subgroup);

@@ -37,7 +37,7 @@ public class Constants {
 	public final static String EXCEPTION_FILE_PREFIX = "Exceptions_";
 	
 	//*********************** Camps de la base de dades **************************
-	public final static String FIELD_ADRECA = "\"adreça\"";
+	public final static String FIELD_ADRECA = "adreça";
 	public final static String FIELD_ALBARA_ID = "albara_id";
 	public final static String FIELD_CIF = "cif";
 	public final static String FIELD_CLIENT_ID = "client_id";

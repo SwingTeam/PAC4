@@ -16,7 +16,7 @@ public class ReportLine implements Serializable, ReportLineInterface {
 	private static final long serialVersionUID = 4672909624546043455L;
 
 	private Grup _group = null;
-	private Local _establishment = null;
+	private LocalST _establishment = null;
 	private Producte _product = null;
 	private Proveidor _provider = null;
 	private SubGrup _subgroup = null;
@@ -31,7 +31,7 @@ public class ReportLine implements Serializable, ReportLineInterface {
 	 * 
 	 * @param local
 	 */
-	public ReportLine(Local local){
+	public ReportLine(LocalST local){
 		this._establishment = local;
 	}
 	
@@ -48,7 +48,7 @@ public class ReportLine implements Serializable, ReportLineInterface {
 							SubGrup subgroup,
 							Producte product,
 							Proveidor provider,
-							Local establishment){
+							LocalST establishment){
 		this._group = group;
 		this._establishment = establishment;
 		this._product = product;
@@ -58,7 +58,7 @@ public class ReportLine implements Serializable, ReportLineInterface {
 	
 	//********************************* Getters ********************************************
 	public Grup getGroup(){return this._group;}
-	public Local getEstablishment(){return this._establishment;}
+	public LocalST getEstablishment(){return this._establishment;}
 	public Producte getProduct(){return this._product;}
 	public Proveidor getProvider(){return this._provider;}
 	public SubGrup getSubgroup(){return this._subgroup;}
@@ -66,7 +66,7 @@ public class ReportLine implements Serializable, ReportLineInterface {
 
 	//********************************* Setters ********************************************
 	public void setGroup(Grup group){this._group = group;}
-	public void setEstablishment(Local establishment){this._establishment = establishment;}
+	public void setEstablishment(LocalST establishment){this._establishment = establishment;}
 	public void setProduct(Producte product){this._product = product;}
 	public void setProvider(Proveidor provider){this._provider = provider;}
 	public void setSubgroup(SubGrup subgroup){this._subgroup = subgroup;}
@@ -86,22 +86,22 @@ public class ReportLine implements Serializable, ReportLineInterface {
 				result = this._group.getNom();
 				break;
 			case Constants.REPORT_ESTAB_LATITUDE:
-				result = this._establishment.getLatitude();
+				result = this._establishment.getCoordY();
 				break;
 			case Constants.REPORT_ESTAB_LONGITUDE:
-				result = this._establishment.getLongitude();
+				result = this._establishment.getCoordX();
 				break;
 			case  Constants.REPORT_ESTAB_NAME:
-				result = this._establishment.getName();
+				result = this._establishment.getNomLocal();
 				break;
 			case Constants.REPORT_ESTAB_PHONE:
-				result = this._establishment.getPhone();
+				result = this._establishment.getTelefon();
 				break;
 			case Constants.REPORT_ESTAB_PROVINCE:
-				result = this._establishment.getProvince();
+				result = this._establishment.getProvincia_id();
 				break;
 			case Constants.REPORT_ESTAB_TAX_ID:
-				result = this._establishment.getTaxId();
+				result = this._establishment.getCif();
 				break;
 			case Constants.REPORT_PRODUCT_ID:
 				result = this._product.getIdProducte();

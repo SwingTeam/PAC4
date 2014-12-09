@@ -261,11 +261,11 @@ public class ReportRangeSelector extends STFrame {
 
 	private void loadOffices(JComboBox<ComboBoxItem> comboBox){
 		try {
-			List<Local> locals = this._clientManager.getRMIInterface().getEstablishmentList(null);
+			List<LocalST> locals = this._clientManager.getRMIInterface().listLocals();
 			
 			if (locals != null){
-				for (Local item : locals){
-					comboBox.addItem(new ComboBoxItem(item.getTaxId(), item.getName()));
+				for (LocalST item : locals){
+					comboBox.addItem(new ComboBoxItem(item.getIdLocal(), item.getNomLocal()));
 				}
 			}
 		} catch (STException e) {
@@ -273,6 +273,9 @@ public class ReportRangeSelector extends STFrame {
 			
 		} catch (RemoteException | NullPointerException e) {
 			Managers.exception.showException(new STException(e, TokenKeys.ERROR_GETTING_DATA));
+		
+		} catch(Exception e){
+			Managers.exception.showException(new STException(e));
 		}
 	}
 	

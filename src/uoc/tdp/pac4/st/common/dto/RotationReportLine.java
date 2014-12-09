@@ -26,7 +26,7 @@ public class RotationReportLine extends StockOutReportLine {
 	 * 
 	 * @param local
 	 */
-	public RotationReportLine(Local local){
+	public RotationReportLine(LocalST local){
 		super(local);
 	}
 	
@@ -43,7 +43,7 @@ public class RotationReportLine extends StockOutReportLine {
 							SubGrup subgroup,
 							Producte product,
 							Proveidor provider,
-							Local establishment){
+							LocalST establishment){
 		this(0, group, subgroup, product, provider, establishment);
 	}
 
@@ -62,7 +62,7 @@ public class RotationReportLine extends StockOutReportLine {
 							SubGrup subgroup,
 							Producte product,
 							Proveidor provider,
-							Local establishment){
+							LocalST establishment){
 		super(count, group, subgroup, product, provider, establishment);
 	}
 
@@ -83,7 +83,7 @@ public class RotationReportLine extends StockOutReportLine {
 							SubGrup subgroup,
 							Producte product,
 							Proveidor provider,
-							Local establishment){
+							LocalST establishment){
 		super(count, group, subgroup, product, provider, establishment);
 		this._days = days;
 	}

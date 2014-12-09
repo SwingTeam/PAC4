@@ -48,8 +48,8 @@ public class InitializeClient {
 			//la part client de l'aplicació
 			//ExampleWindow clientFrame = new ExampleWindow();
 //			StockOutRangeSelector clientFrame = new StockOutRangeSelector();
-//			RotationRangeSelector clientFrame = new RotationRangeSelector(); 
-			SalesRangeSelector clientFrame = new SalesRangeSelector();
+			RotationRangeSelector clientFrame = new RotationRangeSelector(); 
+//			SalesRangeSelector clientFrame = new SalesRangeSelector();
 			clientFrame.setVisible(true);
 
 		} catch (Exception e){

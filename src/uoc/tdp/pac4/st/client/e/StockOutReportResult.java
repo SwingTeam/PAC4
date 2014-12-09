@@ -53,7 +53,7 @@ public class StockOutReportResult<T> extends ReportResult<StockOutReportLine> {
 	 */
 	public StockOutReportResult (List<StockOutReportLine> reportLines, ReportSelectorData reportSelectorData){
 		super(reportLines, reportSelectorData);
-		setTitle("TITLE_ROTATION_REPORT");
+		setTitle("TITLE_STOCK_OUT_REPORT");
 		
 		//Mostrem l'informe
 		this.showReport(columnName, columnField, columnWidth, columnAlign);

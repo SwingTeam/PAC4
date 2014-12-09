@@ -27,7 +27,7 @@ public class SalesReportLine extends StockOutReportLine {
 	 * 
 	 * @param local
 	 */
-	public SalesReportLine(Local local){
+	public SalesReportLine(LocalST local){
 		super(local);
 	}
 	
@@ -44,7 +44,7 @@ public class SalesReportLine extends StockOutReportLine {
 							SubGrup subgroup,
 							Producte product,
 							Proveidor provider,
-							Local establishment){
+							LocalST establishment){
 		this(0, group, subgroup, product, provider, establishment);
 	}
 
@@ -63,7 +63,7 @@ public class SalesReportLine extends StockOutReportLine {
 							SubGrup subgroup,
 							Producte product,
 							Proveidor provider,
-							Local establishment){
+							LocalST establishment){
 		super(count, group, subgroup, product, provider, establishment);
 	}
 
@@ -84,7 +84,7 @@ public class SalesReportLine extends StockOutReportLine {
 							SubGrup subgroup,
 							Producte product,
 							Proveidor provider,
-							Local establishment){
+							LocalST establishment){
 		super(count, group, subgroup, product, provider, establishment);
 		this._unitPrice = unitPrice;
 	}

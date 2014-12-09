@@ -26,7 +26,7 @@ public class StockOutReportLine extends ReportLine implements Serializable {
 	 * 
 	 * @param local
 	 */
-	public StockOutReportLine(Local local){
+	public StockOutReportLine(LocalST local){
 		super(local);
 	}
 	
@@ -43,7 +43,7 @@ public class StockOutReportLine extends ReportLine implements Serializable {
 							SubGrup subgroup,
 							Producte product,
 							Proveidor provider,
-							Local establishment){
+							LocalST establishment){
 		this(0, group, subgroup, product, provider, establishment);
 	}
 
@@ -62,7 +62,7 @@ public class StockOutReportLine extends ReportLine implements Serializable {
 							SubGrup subgroup,
 							Producte product,
 							Proveidor provider,
-							Local establishment){
+							LocalST establishment){
 		super(group, subgroup, product, provider, establishment);
 		this._count = count;
 	}
