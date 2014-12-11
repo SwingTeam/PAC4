@@ -200,6 +200,11 @@ public class Constants {
 	public static final String REPORT_UNIT_PRICE = "REPORT_UNIT_PRICE";
 	public static final String REPORT_TOTAL_AMOUNT = "REPORT_TOTAL_AMOUNT";
 	
+	//Role d'usuari
+	public static final String ROLE_ADMIN = "Administrador";
+	public static final String ROLE_CENTRAL_WAREHOUSE = "Operador Oficina";
+	public static final String ROLE_REPAIR_SHOP = "Operador Taller";
+	
 	//*********************** Taules de la base de dades **************************
 	public final static String TABLE_ALBARA = "albara";
 	public final static String TABLE_ALERTA = "alerta";
