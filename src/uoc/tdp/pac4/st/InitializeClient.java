@@ -43,7 +43,7 @@ public class InitializeClient {
 				Managers.exception.showException(new STException(e));
 			}
 			//Assigna l'idioma configurat
-			Managers.i18n.setLanguage(language);
+			Managers.i18n.setLanguage(language); 
 			//Inicialitza el formulari principal de 
 			//la part client de l'aplicació
 			//ExampleWindow clientFrame = new ExampleWindow();

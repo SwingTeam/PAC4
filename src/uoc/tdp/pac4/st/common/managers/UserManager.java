@@ -527,7 +527,7 @@ public class UserManager  {
 		try{
 			int result = db.updateData(sql);
 			//Llegim resultat
-			if (result!=0) 
+			if (result!=0)  
 			{
 				return result;
 			}else{

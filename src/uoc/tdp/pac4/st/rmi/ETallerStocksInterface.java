@@ -418,7 +418,7 @@ public interface ETallerStocksInterface extends Remote {
 	  * 
 	  * 
 	  * @param idusuari id de l'usuari
-	  * password password de lusuari
+	  * password password de lusuari 
 	  * 
 	  * @return Int 1-ok 0-ko
 	  * 

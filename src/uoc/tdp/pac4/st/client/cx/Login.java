@@ -220,7 +220,7 @@ public class Login extends JFrame {
 			//Usuari user = um.Login(this.TXT_USUARI.getText(), this.passwordField.getText());
 			Usuari user  = this._clientManager.getRMIInterface().Login(this.TXT_USUARI.getText(),this.passwordField.getText());
 			
-			if (user!=null){
+			if (user!=null){ 
 				
 				ClientWindow cw= new ClientWindow(user);
 				CanviPassword cp = new CanviPassword(user);

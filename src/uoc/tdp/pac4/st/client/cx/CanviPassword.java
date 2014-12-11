@@ -39,9 +39,9 @@ public class CanviPassword extends JFrame {
 	private static final long serialVersionUID = -4301396368624900151L;
 	private JPanel contentPane;
 	private ClientManager<ETallerStocksInterface> _clientManager = null;
-	private JTextField TXT_OLD_PASSWORD;
+	private JTextField TXT_OLD_PASSWORD; 
 
-	private JPasswordField TXT_NEW_PASSWORD;
+	private JPasswordField TXT_NEW_PASSWORD; 
 	private JPasswordField TXT_MEW_PASSWORD2;
 	private Usuari userPassword;
 	

@@ -43,7 +43,7 @@ public class ClientWindow extends JFrame {
 	private JPanel contentPane;
 	private ClientManager<ETallerStocksInterface> _clientManager = null;
 	private JTabbedPane tabbedPane;
-	private String rolUser;
+	private String rolUser; 
 	private String rolAdministrador = "Administrador";
 	private Usuari userClient;
 	

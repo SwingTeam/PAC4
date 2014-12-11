@@ -644,7 +644,7 @@ public ArrayList<LinAlbara> getByDemandaActual(String localDestiId, String local
 	  * @return Int 1-ok 0-ko
 	  * 
 	  * 
-	  * @throws STException
+	  * @throws STException 
 	  */
 	 
 	 public int canviPassword(String idusuari,String password) throws STException
