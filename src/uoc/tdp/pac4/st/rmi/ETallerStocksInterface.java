@@ -2,10 +2,27 @@ package uoc.tdp.pac4.st.rmi;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 
-import uoc.tdp.pac4.st.common.*;
-import uoc.tdp.pac4.st.common.dto.*;
+import uoc.tdp.pac4.st.common.STException;
+import uoc.tdp.pac4.st.common.dto.Albara;
+import uoc.tdp.pac4.st.common.dto.Existencies;
+import uoc.tdp.pac4.st.common.dto.Grup;
+import uoc.tdp.pac4.st.common.dto.LinAlbara;
+import uoc.tdp.pac4.st.common.dto.Local;
+import uoc.tdp.pac4.st.common.dto.LocalST;
+import uoc.tdp.pac4.st.common.dto.LocalSTer;
+import uoc.tdp.pac4.st.common.dto.MotiuDevolucio;
+import uoc.tdp.pac4.st.common.dto.Producte;
+import uoc.tdp.pac4.st.common.dto.ProducteReport;
+import uoc.tdp.pac4.st.common.dto.Proveidor;
+import uoc.tdp.pac4.st.common.dto.ReportSelectorData;
+import uoc.tdp.pac4.st.common.dto.RotationReportLine;
+import uoc.tdp.pac4.st.common.dto.SalesReportLine;
+import uoc.tdp.pac4.st.common.dto.StockOutReportLine;
+import uoc.tdp.pac4.st.common.dto.SubGrup;
+import uoc.tdp.pac4.st.common.dto.Usuari;
 
 /***
  * Interface per a la connexió RMI
@@ -51,25 +68,147 @@ public interface ETallerStocksInterface extends Remote {
 	 public String testRMIConnection() throws RemoteException, STException;
 
 
+
+	 /********** BEGIN: Subsistema de Manteniment ************/
 	 /**
-	  * Retorna String amb l'idUsuari m�s gran que de moment hi ha a la BD
-	  * si no hi ha usuaris retorna String a null
-	  * @return String id_usuari m�s gran
+	  * 
+	  * @author emarsal2
+	  * @since dilluns 8
+	  * Retorna un enter amb el possible id per un nou usuari
+	  * 
+	  * @return id pel nou usuari que es vol crear
 	  * @throws RemoteException
 	  * @throws STException
 	  */
-	 public String lastIdUser() throws RemoteException, STException;
+	 public String lastIdUser() throws RemoteException, STException;	 
+	 
 	 /***
 	  * Afegeix un usuari
 	  * 
-	  * @return  id del nou usuari� create
+	  * @return  id del nou usuari? create
 	  * @throws RemoteException
 	  * @throws STException
 	  */ 
 	 public int addUser(Usuari user) throws RemoteException, STException;
+
+	 /**
+	  * @author emarsal2
+	  * @since diumenge 7
+	  * Mètode que donat un id_usuari, dóna de baixa de la BBDD aquest usuari
+	  * @param userId
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public void deleteUser (String userId) throws RemoteException, STException;
+
+	 /**
+	  * @author emarsal2
+	  * @since diumenge 7
+	  * Mètode que donat un usuari, modifica les dades d'aquest usuari dins la BBDD
+	  * @param user un usuari amb els camps modificats 
+	  * @return String amb l'id de l'usuari que s'ha modificat
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public String updateUser (Usuari user) throws RemoteException, STException;
 	 
 	 public String getId_LocalwithName(String localName) throws RemoteException, STException;
 	 
+	 /***
+	  * @author emarsal2
+	  * @since divendres 5
+	  * Mètode que cerca les provincies de la BD i les posa en una llista.
+	  * 
+	  * @return List with province of DataBase 
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public List<String> getProvinceList() throws RemoteException, STException;
+
+	 /***
+	  * @author emarsal2
+	  * @since divendres 5
+	  * Mètode que comprova si ja existeix el NIF d'un Usuari dins la BD
+	  * @param nif String to look for inside BBDD
+	  * @return true si el NIF s'ha trobat, false en cas contrari
+	  * @throws RemoteException
+	  * @throws STException
+	  * 
+	  */
+	 public boolean findNIF(String nif) throws RemoteException, STException;
+	 /***
+	  * @author emarsal2
+	  * @since divendres 5
+	  * Mètode que comprova si ja existeix el CIF d'un Local dins la BD
+	  * @param cif String to look for inside BBDD
+	  * @return true si el CIF s'ha trobat, false en cas contrari
+	  * @throws RemoteException
+	  * @throws STException
+	  * 
+	  */
+	 public boolean findCIF(String cif) throws RemoteException, STException;
+
+	 /**
+	  * @author emarsal2
+	  * @since dissabte 6
+	  * Mètode que serveix per cercar un usuari per un camp dins la BD
+	  * @param id valor que cal cercar dins la BD
+	  * @param field camp pel qual s'ha de fer la cerca del valor id
+	  * @return Usuari que s'ha trobat
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public Usuari userQuery (String id,String field) throws RemoteException, STException;
+
+
+	 /**
+	  * @author emarsal2
+	  * @since dissabte 6
+	  * Mètode que serveix per cercar un Local per un camp dins la BD
+	  * @param id valor que cal cercar dins la BD
+	  * @param field camp pel qual s'ha de fer la cerca del valor id
+	  * @return Local que s'ha trobat
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public LocalSTer localQuery (String id,String field) throws RemoteException, STException;
+
+	 
+	 /***
+	  * @author emarsal2
+	  * @since dissabte 6
+	  * Afegeix un Local
+	  * 
+	  * @return  id del nou Local creat
+	  * @throws RemoteException
+	  * @throws STException
+	  */ 
+	 public int addLocal(LocalSTer taller) throws RemoteException, STException;
+
+	 /**
+	  * @author emarsal2
+	  * @since diumenge 7
+	  * Mètode que donat un id de Taller, dóna de baixa de la BBDD aquest Taller
+	  * @param id del taller
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public void deleteLocal (int idTaller) throws RemoteException, STException;
+
+	 /**
+	  * @author emarsal2
+	  * @since diumenge 7
+	  * Mètode que donat un Taller, modifica les dades d'aquest Taller dins la BBDD
+	  * @param taller un Local amb els camps modificats 
+	  * @return String amb el nom del Taller que s'ha modificat
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public String updateLocal (LocalSTer taller) throws RemoteException, STException;
+	 
+	 
+	 /***  END: Subsistema de Manteniment ****/	 
+
 	 
 	 /*** BEGIN: Subsistema Connexió ****/
 	 
@@ -185,6 +324,24 @@ public interface ETallerStocksInterface extends Remote {
 	  */	
 	public List<LinAlbara> getLinAlbaraByAlbaraId(int albaraId) throws RemoteException, STException;
 		
+	 /***
+	  * 
+	  * Torna tots els productes amb el seu estoc per proveidor, grup i subgrup 
+	  * 
+	  * @return List<Producte> LLista de productes 
+	  * @throws STException 
+	  */		
+	public List<Producte> stockSearch(Integer grupId, Integer subGrupId, String producteId, String localId, Integer stockInicial, Integer stockFinal) throws RemoteException, STException;
+	
+	
+	/***
+	 * 
+	 * Torna linies d'albara per demanda actual
+	 * 
+	 * @throws STException 
+	 */	
+	public ArrayList<LinAlbara> getByDemandaActual(String localDestiId, String localOrigenId) throws RemoteException, STException;
+	
 	/*** END: Subsistema Connexió ****/
 
 	 /***

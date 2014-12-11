@@ -30,7 +30,7 @@ public class ProducteManager  {
 	
 	 /***
 	  * 
-	  * Torna tots els productes per proveidor, grup i subgrup 
+	  * Torna tots els productes amb el seu estoc per proveidor, grup i subgrup 
 	  * 
 	  * @return List<Producte> LLista de productes 
 	  * @throws STException 

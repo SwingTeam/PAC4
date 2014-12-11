@@ -17,8 +17,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -33,14 +31,11 @@ import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.Albara;
 import uoc.tdp.pac4.st.common.dto.Existencies;
 import uoc.tdp.pac4.st.common.dto.LinAlbara;
-import uoc.tdp.pac4.st.common.managers.AlbaraManager;
 import uoc.tdp.pac4.st.common.managers.ClientManager;
-import uoc.tdp.pac4.st.common.managers.DatabaseManager;
 import uoc.tdp.pac4.st.common.managers.ExceptionManager;
 import uoc.tdp.pac4.st.common.managers.I18nManager;
 import uoc.tdp.pac4.st.common.managers.MovimentManager;
 import uoc.tdp.pac4.st.common.managers.SettingManager;
-import uoc.tdp.pac4.st.common.ui.ButtonColumn;
 import uoc.tdp.pac4.st.common.ui.ComboBoxHelper;
 import uoc.tdp.pac4.st.common.ui.LabelTitle;
 import uoc.tdp.pac4.st.common.ui.STTable;
@@ -426,11 +421,7 @@ public class ReturningPieces extends JFrame {
 			try {
 				
 				_clientManager.getRMIInterface().addAlbara(albara);
-				/*
-				AlbaraManager m = new AlbaraManager(new DatabaseManager());
-				m.Add(albara);
-				*/
-				
+	
 				resetForm();
 				
 				Methods.showMessage( Managers.i18n.getTranslation("INFO_ALBARA_SAVED"), Enums.MessageType.Info);

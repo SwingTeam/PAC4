@@ -27,10 +27,8 @@ import uoc.tdp.pac4.st.common.STException;
 import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.LinAlbara;
 import uoc.tdp.pac4.st.common.managers.ClientManager;
-import uoc.tdp.pac4.st.common.managers.DatabaseManager;
 import uoc.tdp.pac4.st.common.managers.ExceptionManager;
 import uoc.tdp.pac4.st.common.managers.I18nManager;
-import uoc.tdp.pac4.st.common.managers.LinAlbaraManager;
 import uoc.tdp.pac4.st.common.managers.SettingManager;
 import uoc.tdp.pac4.st.common.ui.ComboBoxHelper;
 import uoc.tdp.pac4.st.common.ui.LabelSubTitle;
@@ -258,9 +256,8 @@ public class PiecesDistribution extends JFrame {
 					
 			table.removeRows();
 			
-			LinAlbaraManager linAlbaraManager = new LinAlbaraManager(new DatabaseManager()); 
-			ArrayList<LinAlbara> list = linAlbaraManager.getByDemandaActual(codiLocal, localOrigenId);
-					
+			ArrayList<LinAlbara> list= _clientManager.getRMIInterface().getByDemandaActual(codiLocal, localOrigenId);
+							
 			for (LinAlbara linAlbara: list)
 			{
 				addRowToTable(linAlbara);
@@ -309,7 +306,8 @@ public class PiecesDistribution extends JFrame {
 	private void save() {
 		try {
 			
-		
+			ArrayList<LinAlbara> linees= getLinAlbara(); 
+					
 			resetForm();
 			
 			Methods.showMessage( Managers.i18n.getTranslation("INFO_ALBARA_SAVED"), Enums.MessageType.Info);

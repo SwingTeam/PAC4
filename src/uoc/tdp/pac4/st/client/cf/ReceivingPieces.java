@@ -345,15 +345,11 @@ public class ReceivingPieces extends JFrame {
 			albara.setOrigenId( (String) ((ComboBoxItem)  this.cmbProveidor.getSelectedItem()).getId());
 			albara.setDestiId(codiLocal);
 			albara.setLiniesAlbara(getLinAlbara());
-			albara.setTipusMovimentId(MovimentManager.TIPUS_MOVIMENT_ENTRADA);
+			albara.setTipusMovimentId(MovimentManager.TIPUS_MOVIMENT_COMPRA);
 
 			try {
 				
 				_clientManager.getRMIInterface().addAlbara(albara);
-				/*
-				AlbaraManager m = new AlbaraManager(new DatabaseManager());
-				m.Add(albara);
-				*/
 				
 				resetForm();
 				

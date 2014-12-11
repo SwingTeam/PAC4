@@ -5,17 +5,13 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -26,14 +22,12 @@ import uoc.tdp.pac4.st.common.Enums;
 import uoc.tdp.pac4.st.common.Managers;
 import uoc.tdp.pac4.st.common.Methods;
 import uoc.tdp.pac4.st.common.STException;
+import uoc.tdp.pac4.st.common.STFrame;
 import uoc.tdp.pac4.st.common.TokenKeys;
-import uoc.tdp.pac4.st.common.dto.LinAlbara;
 import uoc.tdp.pac4.st.common.dto.Producte;
 import uoc.tdp.pac4.st.common.managers.ClientManager;
-import uoc.tdp.pac4.st.common.managers.DatabaseManager;
 import uoc.tdp.pac4.st.common.managers.ExceptionManager;
 import uoc.tdp.pac4.st.common.managers.I18nManager;
-import uoc.tdp.pac4.st.common.managers.ProducteManager;
 import uoc.tdp.pac4.st.common.managers.SettingManager;
 import uoc.tdp.pac4.st.common.ui.ComboBoxHelper;
 import uoc.tdp.pac4.st.common.ui.LabelSubTitle;
@@ -42,13 +36,12 @@ import uoc.tdp.pac4.st.common.ui.STTable;
 import uoc.tdp.pac4.st.common.ui.SelectProductControl;
 import uoc.tdp.pac4.st.rmi.ETallerStocksInterface;
 
-public class CheckStock extends JFrame {
+public class CheckStock extends STFrame {
 	//RN: Temp
 	private String codiLocal="L1"; 
 	
 	private static final long serialVersionUID = -3598083467773963566L;
 
-	private ClientManager<ETallerStocksInterface> _clientManager = null;
 
 	private JPanel contentPane;
 	static final int xOffset = 30, yOffset = 30;		
@@ -108,9 +101,8 @@ public class CheckStock extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public CheckStock() {
-		startConnection();
-		
+    protected void initializeFrame()
+    {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 850, 550);
@@ -193,19 +185,21 @@ public class CheckStock extends JFrame {
 	    
 	    drawTable();
 	    
-    
+ 	
+		//Centrem la finestra
+		Methods.centerWindow(this);
+		
+		//titol pantalla
+		setTitle(Managers.i18n.getTranslation("LABEL_CHECK_STOCK"));
+		
+		
 		//Traducció dels tokens de la pantalla
 		try {
 			Methods.setFrameLanguage(this);
 		} catch (Exception e) {
 			Managers.exception.showException(new STException(e, TokenKeys.ERROR_TRANSLATING_WINDOW));
 		}
-		
-		//Centrem la finestra
-		Methods.centerWindow(this);
-		
-		//titol pantalla
-		setTitle(Managers.i18n.getTranslation("LABEL_CHECK_STOCK"));
+				
 	}
 	
 	
@@ -250,9 +244,7 @@ public class CheckStock extends JFrame {
 				
 			try {
 				
-				//_clientManager.getRMIInterface().AddAlbara(albara);
-				ProducteManager producteManager = new ProducteManager (new DatabaseManager());	
-				List<Producte> list= producteManager.stockSearch(grupId, subGrupId, producteId, localId, stockInicial, stockFinal);
+				List<Producte> list=  _clientManager.getRMIInterface().stockSearch(grupId, subGrupId, producteId, localId, stockInicial, stockFinal);
 				
 				AdRowsToTable(list);
 			} 
@@ -321,50 +313,7 @@ public class CheckStock extends JFrame {
 		this.table.removeRows();					
 	}
 	
-	/***
-	 * Métode que encarregat de fer la connexió
-	 * RMI amb el servidor remot
-	 */
-	private void startConnection(){
-		try{
-			//Només carregarem les dades configurades la
-			//primera vegada que es posi faci la connexió
-			if (this._clientManager == null){
-				try{
-					String rmiUrl = Managers.settings.getSetting(Constants.SETTING_RMI_URL);
-					int rmiPort = Integer.parseInt(Managers.settings.getSetting(Constants.SETTING_RMI_PORT));
-					String rmiName = Managers.settings.getSetting(Constants.SETTING_RMI_NAME);
-					this._clientManager = new ClientManager<ETallerStocksInterface>(rmiUrl, rmiPort, rmiName);
-				} catch (IOException | NullPointerException e){
-					Managers.exception.showException(new STException(e, TokenKeys.ERROR_CONFIGURATION_FILE));
-				}
-			}
-			if (this._clientManager != null)
-				//System.out.println("Intentem comen�ar connexio");
-				this._clientManager.startConnection();
-		
-		} catch (Exception e){
-			Managers.exception.showException(new STException(e, TokenKeys.ERROR_NOT_BOUND_EXCEPTION));
-			
-		}
-	}
-	
-	/***
-	 * Métode que encarregat de tancar la connexió
-	 * RMI amb el servidor remot
-	 */
-	private void stopConnection(){
-		try{
-			if (this._clientManager != null){
-				this._clientManager.stopConnection();
-				this._clientManager = null;
-			}
-		
-		} catch (Exception e){
-			Managers.exception.showException(new STException(e));
-		
-		}
-	}
+
 	
 
 	/***

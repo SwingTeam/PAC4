@@ -15,6 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -27,9 +28,7 @@ import uoc.tdp.pac4.st.common.STException;
 import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.Albara;
 import uoc.tdp.pac4.st.common.dto.LinAlbara;
-import uoc.tdp.pac4.st.common.managers.AlbaraManager;
 import uoc.tdp.pac4.st.common.managers.ClientManager;
-import uoc.tdp.pac4.st.common.managers.DatabaseManager;
 import uoc.tdp.pac4.st.common.managers.ExceptionManager;
 import uoc.tdp.pac4.st.common.managers.I18nManager;
 import uoc.tdp.pac4.st.common.managers.MovimentManager;
@@ -54,6 +53,7 @@ public class WokshopReceivingPieces extends JFrame {
 	static final int openFrameCount = 0;
 
 	private JComboBox<ComboBoxItem>  cmbAlbara = null;
+	private JTextField txtDataAlbara = null;
 	
 	private JButton btnSave;
 	private JButton btnCancel;
@@ -150,6 +150,17 @@ public class WokshopReceivingPieces extends JFrame {
 		});			    
 	    cmbAlbara.setBounds(120, 80, 200, 20);
 	    getContentPane().add(cmbAlbara);
+	    
+	    
+		JLabel lblDataAlbara= new JLabel("LABEL_DATA_ALBARA");
+		lblDataAlbara.setBounds(340, 80, 100, 20);
+		getContentPane().add(lblDataAlbara);
+
+	    this.txtDataAlbara = new JTextField();
+	    txtDataAlbara.setBounds(440, 80, 100, 20);
+	    this.txtDataAlbara.setText(Methods.formatDate(new Date()));
+	    getContentPane().add(txtDataAlbara);
+	    	    
 
 	    LabelSubTitle lblInstruccions= new LabelSubTitle("LABEL_UPDATE_ALBARA");  
 	    lblInstruccions.setBounds(50, 120, 400, 20);
@@ -305,6 +316,13 @@ public class WokshopReceivingPieces extends JFrame {
 			{
 				this.cmbAlbara.requestFocus();
 				Methods.showMessage( Managers.i18n.getTranslation("VALIDATION_CHOOSE_ALBARA"), Enums.MessageType.Warning);
+				return false;
+			}			
+
+			if (! Methods.isValidDate(this.txtDataAlbara.getText()))
+			{
+				this.txtDataAlbara.requestFocus();
+				Methods.showMessage( Managers.i18n.getTranslation("VALIDATION_INVALID_DELIVERY_NOTE_DATE"), Enums.MessageType.Warning);
 				return false;
 			}			
 		}

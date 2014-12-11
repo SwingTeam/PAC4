@@ -31,8 +31,11 @@ public class STPositiveIntegerCellEditor extends DefaultCellEditor {
             int v = Integer.valueOf(textField.getText());
             if (v < 0) {
                 throw new NumberFormatException();
-            }            
-            validateCell.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, textField.getText()));
+            }           
+            if (validateCell != null )
+            {
+            	validateCell.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, textField.getText()));
+            }
             
         } catch (NumberFormatException e) {
             textField.setBorder(red);

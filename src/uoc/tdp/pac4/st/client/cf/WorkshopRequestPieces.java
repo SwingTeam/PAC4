@@ -29,13 +29,10 @@ import uoc.tdp.pac4.st.common.dto.Albara;
 import uoc.tdp.pac4.st.common.dto.Existencies;
 import uoc.tdp.pac4.st.common.dto.LinAlbara;
 import uoc.tdp.pac4.st.common.dto.Producte;
-import uoc.tdp.pac4.st.common.managers.AlbaraManager;
 import uoc.tdp.pac4.st.common.managers.ClientManager;
-import uoc.tdp.pac4.st.common.managers.DatabaseManager;
 import uoc.tdp.pac4.st.common.managers.ExceptionManager;
 import uoc.tdp.pac4.st.common.managers.I18nManager;
 import uoc.tdp.pac4.st.common.managers.MovimentManager;
-import uoc.tdp.pac4.st.common.managers.ProducteManager;
 import uoc.tdp.pac4.st.common.managers.SettingManager;
 import uoc.tdp.pac4.st.common.ui.LabelSubTitle;
 import uoc.tdp.pac4.st.common.ui.LabelTitle;
@@ -380,10 +377,8 @@ public class WorkshopRequestPieces extends JFrame {
 
 			try {
 				
-				//_clientManager.getRMIInterface().AddAlbara(albara);
-				AlbaraManager m = new AlbaraManager(new DatabaseManager());
-				m.add(albara);
-				
+				_clientManager.getRMIInterface().addAlbara(albara);
+			
 				resetForm();
 				
 				Methods.showMessage( Managers.i18n.getTranslation("INFO_ALBARA_SAVED"), Enums.MessageType.Info);

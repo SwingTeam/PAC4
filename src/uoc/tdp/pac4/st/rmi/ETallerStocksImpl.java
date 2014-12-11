@@ -3,6 +3,7 @@ package uoc.tdp.pac4.st.rmi;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
 
 import uoc.tdp.pac4.st.common.STException;
@@ -13,6 +14,7 @@ import uoc.tdp.pac4.st.common.dto.Grup;
 import uoc.tdp.pac4.st.common.dto.LinAlbara;
 import uoc.tdp.pac4.st.common.dto.Local;
 import uoc.tdp.pac4.st.common.dto.LocalST;
+import uoc.tdp.pac4.st.common.dto.LocalSTer;
 import uoc.tdp.pac4.st.common.dto.MotiuDevolucio;
 import uoc.tdp.pac4.st.common.dto.Producte;
 import uoc.tdp.pac4.st.common.dto.ProducteReport;
@@ -107,25 +109,85 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 		return result;
 	}
 	
-	 /**
-	  * Retorna String amb l'idUsuari m�s gran que de moment hi ha a la BD
-	  * si no hi ha usuaris retorna String a null
-	  * @return String id_usuari m�s gran
+	
+	
+	
+	 /*** BEGIN: Subsistema Manteniment ****/
+	/***
+	  * @author emarsal2
+	  * @since divendres 5
+	  * Mètode que cerca les provincies de la BD i les posa en una llista.
+	  * 
+	  * @return List with province of DataBase 
 	  * @throws RemoteException
 	  * @throws STException
 	  */
+	 public List<String> getProvinceList() throws RemoteException, STException {
+	 	List<String> pr = null;
+	 	System.out.println("aki no arribaMètode getProvinceList a dins la classe EtallerStocksImpl");
+		DatabaseManager db = new DatabaseManager();
+		UserManager um = new UserManager (db);
+		pr= um.getProvinceList();
+		return pr;
+	}
+	 /**
+    * @author emarsal2
+	  * @since divendres 5
+	  * Mètode que comprova si ja existeix el NIF d'un Usuari dins la BD
+	  * @param nif String to look for inside BBDD
+	  * @return true si el NIF s'ha trobat, false en cas contrari
+	  * @throws RemoteException
+	  * @throws STException
 
-	 public String lastIdUser() throws RemoteException, STException
-	 {
-		 String idUser=null;
-		 DatabaseManager databaseManager = new DatabaseManager();
-			long l = databaseManager.countTableRows("Usuari"); // prova per� no �s el definitiu , cal fer un m�tode nou a DatabaseManager
-			idUser = Long.toString(l);
-			databaseManager = null;
-			return idUser;
+	  */
+	 public boolean findNIF(String nif) throws RemoteException, STException {
+		 DatabaseManager db = new DatabaseManager();
+		 UserManager um = new UserManager(db);
+		return um.findNIF(nif); 
 	 }
+	 
+	 /***
+	  * @author emarsal2
+	  * @since divendres 5
+	  * Mètode que comprova si ja existeix el CIF d'un Local dins la BD
+	  * @param cif String to look for inside BBDD
+	  * @return true si el CIF s'ha trobat, false en cas contrari
+	  * @throws RemoteException
+	  * @throws STException
+	  * 
+	  */
+	 public boolean findCIF(String cif) throws RemoteException, STException {
+		 DatabaseManager db = new DatabaseManager();
+		 LocalManager lm = new LocalManager(db);
+		return lm.findCIF(cif); 
+
+	 }
+
+
+	 
+	 /**
+	  * 
+	  * @author emarsal2
+	  * @since dilluns 8
+	  * Retorna un enter amb el possible id per un nou usuari
+	  * 
+	  * @return id pel nou usuari que es vol crear
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public String lastIdUser() throws RemoteException, STException {
+	 	DatabaseManager db = new DatabaseManager();
+		UserManager um = new UserManager (db);
+		return um.getNextId();
+	}
 	
-			
+/**
+	  * @author emarsal2
+	  * @since divendres 5
+	  * @param localName
+	  * @return String with id_local
+	  * 
+	  */
 	 public String getId_LocalwithName(String localName) throws RemoteException, STException
 	 {
 		 DatabaseManager db = new DatabaseManager();
@@ -135,18 +197,133 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 	 
 	 /***
 	  * Afegeix un usuari
+	  * @author emarsal2
+	  * @since divendres 5
+	  * @param user to add
 	  * 
-	  * @return  id del nou usuari� create
+	  * @return  id del nou usuari? create
 	  * @throws RemoteException
 	  * @throws STException
 	  */ 
-	 public int addUser(Usuari user) throws STException
+	 public int addUser(Usuari user) throws RemoteException, STException
 	 {
 		    DatabaseManager databaseManager = new DatabaseManager();
 			UserManager um = new UserManager(databaseManager); 
 			return um.Add(user);
 	 }	 
+
+	 /**
+	  * @author emarsal2
+	  * @since diumenge 7
+	  * Mètode que donat un id_usuari, dóna de baixa de la BBDD aquest usuari
+	  * @param userId
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public void deleteUser (String userId) throws RemoteException, STException
+	 {
+		 DatabaseManager db = new DatabaseManager();
+		 UserManager um = new UserManager(db);
+		 um.delete(userId);
+	 }
+	 /**
+	  * @author emarsal2
+	  * @since diumenge 7
+	  * Mètode que donat un usuari, modifica les dades d'aquest usuari dins la BBDD
+	  * @param user un usuari amb els camps modificats 
+	  * @return String amb l'id de l'usuari que s'ha modificat
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public String updateUser (Usuari user) throws RemoteException, STException
+	 {
+		 DatabaseManager db = new DatabaseManager();
+		 UserManager um = new UserManager(db);
+		 return um.update(user);
+	 }
 	 
+	 /**
+	  * @author emarsal2
+	  * @since dissabte 6
+	  * Mètode que serveix per cercar un usuari per un camp dins la BD
+	  * @param id valor que cal cercar dins la BD
+	  * @param field camp pel qual s'ha de fer la cerca del valor id
+	  * @return Usuari que s'ha trobat
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public Usuari userQuery (String id,String field) throws RemoteException, STException
+	 {
+		    DatabaseManager db = new DatabaseManager();
+			UserManager um = new UserManager(db); 
+			return um.searchUser(id,field);
+	 }
+	 /**
+	  * @author emarsal2
+	  * @since dissabte 6
+	  * Mètode que serveix per cercar un Local per un camp dins la BD
+	  * @param id valor que cal cercar dins la BD
+	  * @param field camp pel qual s'ha de fer la cerca del valor id
+	  * @return Local que s'ha trobat
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public LocalSTer localQuery (String id,String field) throws RemoteException, STException
+	 {
+		 DatabaseManager db = new DatabaseManager();
+		 LocalManager lm = new LocalManager(db);
+		 return lm.searchLocal(id,field);
+	 }
+	 /***
+	  * @author emarsal2
+	  * @since dissabte 6
+	  * Afegeix un Local
+	  * 
+	  * @return  id del nou Local creat
+	  * @throws RemoteException
+	  * @throws STException
+	  */ 
+	 public int addLocal(LocalSTer taller) throws RemoteException, STException
+	 {
+		    DatabaseManager databaseManager = new DatabaseManager();
+			LocalManager lm = new LocalManager(databaseManager); 
+			return lm.addLocal(taller);
+	 }
+
+	 /**
+	  * @author emarsal2
+	  * @since diumenge 7
+	  * Mètode que donat un Nom de Taller, dóna de baixa de la BBDD aquest Taller
+	  * @param Nom del taller
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public void deleteLocal (int idTaller) throws RemoteException, STException
+	 {
+		 DatabaseManager db = new DatabaseManager();
+		 LocalManager lm = new LocalManager(db);
+		 lm.deleteLocal(idTaller);
+	 }
+
+	 /**
+	  * @author emarsal2
+	  * @since diumenge 7
+	  * Mètode que donat un Taller, modifica les dades d'aquest Taller dins la BBDD
+	  * @param taller un Local amb els camps modificats 
+	  * @return String amb el nom del Taller que s'ha modificat
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public String updateLocal (LocalSTer taller) throws RemoteException, STException
+	 {
+		 DatabaseManager db = new DatabaseManager();
+		 LocalManager ul = new LocalManager(db);
+		 return ul.updateLocal(taller);
+	 }
+	 	 
+	/*** END: Subsistema Manteniment*******/
+	
+	
 	 /*** BEGIN: Subsistema Connexió ****/
 	 /***
 	  * Afegeix un albara i les seves linies a la base de dades
@@ -319,6 +496,36 @@ public List<LinAlbara> getLinAlbaraByAlbaraId(int albaraId) throws  STException
 	LinAlbaraManager manager= new LinAlbaraManager(databaseManager);
 	return manager.getByAlbaraId(albaraId);	
 }
+
+/***
+ * 
+ * Torna tots els productes amb el seu estoc per proveidor, grup i subgrup 
+ * 
+ * @return List<Producte> LLista de productes 
+ * @throws STException 
+ */	
+public List<Producte> stockSearch(Integer grupId, Integer subGrupId, String producteId, String localId, Integer stockInicial, Integer stockFinal) throws STException 
+{
+	DatabaseManager databaseManager = new DatabaseManager();
+	ProducteManager producteManager = new ProducteManager (new DatabaseManager());	
+	return producteManager.stockSearch(grupId, subGrupId, producteId, localId, stockInicial, stockFinal);
+	
+}
+
+/***
+ * 
+ * Torna linies d'albara per demanda actual
+ * 
+ * @throws STException 
+ */	
+public ArrayList<LinAlbara> getByDemandaActual(String localDestiId, String localOrigenId) throws STException
+{
+	DatabaseManager databaseManager = new DatabaseManager();
+	LinAlbaraManager linAlbaraManager = new LinAlbaraManager(databaseManager); 
+	return linAlbaraManager.getByDemandaActual(localDestiId, localOrigenId);
+}
+						
+
 /*** END: Subsistema Connexió ****/			 
 	 
 	 /***
