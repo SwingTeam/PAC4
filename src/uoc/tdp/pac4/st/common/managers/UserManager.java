@@ -456,4 +456,87 @@ public class UserManager  {
 		return user;
 	}
 	
+	 /***
+	  * 
+	  * Torna un Usuari pel nom i passowrd
+	  * 
+	  * @param nom nom de l'usuari
+	  * password password de l'usuari
+	  * 
+	  * @return User: L'albarà si ha estat trovat, null en cas contrari 
+	  * @throws STException 
+	  */	
+	public Usuari Login(String nom,String password) throws STException 
+	{							
+		
+				
+		//Obtenim User de la BBDD
+		String sql = ("SELECT * " + 
+				     " FROM " + Constants.TABLE_USUARI + 
+				     " WHERE " + Constants.FIELD_LOGIN  + " = '" + nom + 
+				     "' AND " + Constants.FIELD_PASSWORD   + " = '" + password + "'" ).toString(); 
+		ResultSet resultSet = db.selectData(sql);
+		Usuari user = new Usuari();
+		
+		try 
+		{		
+			//Llegim resultat
+			if (resultSet.next()) 
+			{
+				user.setnom(resultSet.getString(Constants.FIELD_NOMUSUARI));
+				user.setRol(resultSet.getString(Constants.FIELD_ROL));
+				user.setcognoms(resultSet.getString(Constants.FIELD_COGNOMUSUARI));
+				user.setidUsuari(resultSet.getString(Constants.FIELD_ID_USUARI));
+				user.setPassword(resultSet.getString(Constants.FIELD_PASSWORD));
+				user.setLogin(resultSet.getString(Constants.FIELD_LOGIN));
+				return user;
+			}else{
+				return null;
+			}			
+		}
+		catch(SQLException e)
+		{
+			throw new STException(e, TokenKeys.ERROR_GETTING_DATA);
+		}
+		finally 
+		{
+			//Molt important: Tanquem connexió, statement i resulset.
+			db.closeResultSet(resultSet);
+		}
+		
+	}
+	
+	/***
+	  * 
+	  * Torna un int pel idusuari i passowrd
+	  * 
+	  * @param idusuari id de l'usuari
+	  * password password de l'usuari
+	  * 
+	  * @return int: 1-ok i 0 -ko
+	  * @throws STException 
+	  */	
+	
+	public int canviPassword(String idusuari,String password) throws STException
+	{							
+		//Actualitzem password a la BBDD
+		String sql = ("UPDATE " + Constants.TABLE_USUARI + 
+				     " SET PASSWORD = '" + password + "'" + 
+				     " WHERE id_usuari = '" + idusuari + "'").toString(); 
+		
+		try{
+			int result = db.updateData(sql);
+			//Llegim resultat
+			if (result!=0) 
+			{
+				return result;
+			}else{
+				return result;
+			}
+		}
+		finally 
+		{
+			}
+	}
+	
 }

@@ -614,4 +614,47 @@ public ArrayList<LinAlbara> getByDemandaActual(String localDestiId, String local
 		 return reportManager.getSalesReport(reportSelectorData);
 	 }
 	 
+	 /***
+	  * Retorna un Usuari
+	  * 
+	  * 
+	  * @param nom nom de l'usuari
+	  * password password de lusuari
+	  * 
+	  * @return Usuari
+	  * 
+	  * @throws STException
+	  */
+	 
+	 public Usuari Login(String nom, String password) throws STException
+	 {
+		 //Creem el database manager per conectar amb la BD 
+			DatabaseManager databaseManager = new DatabaseManager();
+			UserManager usuarimanager = new UserManager(databaseManager);
+			return usuarimanager.Login(nom,password);
+	 }
+	 
+	 /***
+	  * Retorna un int
+	  * 
+	  * 
+	  * @param idusuari id de l'usuari
+	  * password password de lusuari
+	  * 
+	  * @return Int 1-ok 0-ko
+	  * 
+	  * 
+	  * @throws STException
+	  */
+	 
+	 public int canviPassword(String idusuari,String password) throws STException
+	 {
+		DatabaseManager db = new DatabaseManager();
+		UserManager usuarimanager = new UserManager(db);
+		
+			return usuarimanager.canviPassword(idusuari, password);
+		
+		 
+	 }
+	 
 }

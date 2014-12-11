@@ -399,5 +399,32 @@ public interface ETallerStocksInterface extends Remote {
 	  */
 	 public List<SalesReportLine> getSalesReport(ReportSelectorData reportSelectorData) throws RemoteException, STException;
 	 
+	 /***
+	  * Retorna un usuari
+	  * 
+	  * 
+	  * @param nom nom de l'usuari
+	  * password password de lusuari
+	  * 
+	  * @return Usuari
+	  * 
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public Usuari Login(String nom, String password) throws RemoteException, STException;
 	 
+	 /***
+	  * Retorna un int
+	  * 
+	  * 
+	  * @param idusuari id de l'usuari
+	  * password password de lusuari
+	  * 
+	  * @return Int 1-ok 0-ko
+	  * 
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public int canviPassword(String idusuari,String password) throws RemoteException, STException;
+
 }
