@@ -36,12 +36,48 @@ public class STFrame extends JFrame implements WindowListener {
 	private boolean _managerWasOpened = false; 
 	private boolean _managerWasCreated = false;
 	private boolean _useRMI = true;
+	protected Usuari user = null;
 
 	/***
 	 * Constructor
 	 */
 	public STFrame(){
-		this(null, true);
+		this(null, null, true);
+	}
+	
+	/***
+	 * Constructor
+	 * 
+	 * @param user Instància d'Usuari amb
+	 * les dades de l'usuari que està utilitzant l'aplicació.
+	 */
+	public STFrame(Usuari user){
+		this(user, null, true);
+	}
+
+	/***
+	 * Constructor
+	 * 
+	 * @param user Instància d'Usuari amb
+	 * les dades de l'usuari que està utilitzant l'aplicació.
+	 * @param useRMI Indica si la finestra utilitzarà
+	 * la connexió RMI. Si s'informa negativament, no
+	 * obrirà ni tancarà la connexió.
+	 */
+	public STFrame(Usuari user, boolean useRMI){
+		this(user, null, useRMI);
+	}
+	
+	/***
+	 * Constructor
+	 * 
+	 * @param user Instància d'Usuari amb
+	 * les dades de l'usuari que està utilitzant l'aplicació.
+	 * @param clientManager Instància de ClientManager
+	 * que utilitzarà per a fer les connexions RMI.
+	 */
+	public STFrame(Usuari user, ClientManager<ETallerStocksInterface> clientManager){
+		this(user, clientManager, true);
 	}
 	
 	/***
@@ -53,7 +89,7 @@ public class STFrame extends JFrame implements WindowListener {
 	public STFrame(ClientManager<ETallerStocksInterface> clientManager){
 		this(clientManager, true);
 	}
-	
+
 	/***
 	 * Constructor
 	 * 
@@ -64,8 +100,24 @@ public class STFrame extends JFrame implements WindowListener {
 	 * obrirà ni tancarà la connexió.
 	 */
 	public STFrame(ClientManager<ETallerStocksInterface> clientManager, boolean useRMI) {
+		this(null, clientManager, useRMI);
+	}
+	
+	/***
+	 * Constructor
+	 * 
+	 * @param clientManager Instància de ClientManager
+	 * que utilitzarà per a fer les connexions RMI.
+	 * @param user Instància d'Usuari amb les dades
+	 * de l'usuari que està utilitzant l'aplicació.
+	 * @param useRMI Indica si la finestra utilitzarà
+	 * la connexió RMI. Si s'informa negativament, no
+	 * obrirà ni tancarà la connexió.
+	 */
+	public STFrame(Usuari user, ClientManager<ETallerStocksInterface> clientManager, boolean useRMI) {
 		this.frame = this;
 		this._clientManager = clientManager;
+		this.user = user;
 		this.setName(null);
 		
 		//Inicialitzem el panell contenidor dels controls

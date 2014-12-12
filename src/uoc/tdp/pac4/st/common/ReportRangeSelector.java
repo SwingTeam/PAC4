@@ -173,10 +173,16 @@ public class ReportRangeSelector extends STFrame {
 				(int) ((ComboBoxItem) this.cmbEMonth.getSelectedItem()).getId(), 
 				(int) ((ComboBoxItem) this.cmbEYear.getSelectedItem()).getId());
 		//Local
-		String estabId = ((ComboBoxItem)this.cmbOffice.getSelectedItem()).getId().toString();
-		String estabName = ((ComboBoxItem)this.cmbOffice.getSelectedItem()).getDescription();
+		String estabId = this.cmbOffice.getSelectedItem() != null 
+							? ((ComboBoxItem)this.cmbOffice.getSelectedItem()).getId().toString() 
+							: null;
+		String estabName = this.cmbOffice.getSelectedItem() != null
+							? ((ComboBoxItem)this.cmbOffice.getSelectedItem()).getDescription()
+							: null;
 		//Ordre
-		String order = ((ComboBoxItem) this.cmbOrder.getSelectedItem()).getId().toString();
+		String order = this.cmbOrder.getSelectedItem() != null 
+						? ((ComboBoxItem) this.cmbOrder.getSelectedItem()).getId().toString()
+						: null;
 		//Grups, subgrups i productes seleccionats
 		List<STTreeNode> products = new ArrayList<STTreeNode>();
 	    TreePath[] treePaths = treeProduct.getSelectionPaths();
@@ -190,19 +196,19 @@ public class ReportRangeSelector extends STFrame {
 		    //Comprovem dades
 		    String errors = "";
 		    if (inici == null){
-		    	errors += Managers.i18n.getTranslation(TokenKeys.ERROR_START_DATE);
+		    	errors += "\n" + Managers.i18n.getTranslation(TokenKeys.ERROR_START_DATE);
 		    }
 		    if (fi == null){
-		    	errors += Managers.i18n.getTranslation(TokenKeys.ERROR_END_DATE);
+		    	errors += "\n" +Managers.i18n.getTranslation(TokenKeys.ERROR_END_DATE);
 		    }
 		    if (estabId == null || estabId.isEmpty()){
-		    	errors += Managers.i18n.getTranslation(TokenKeys.ERROR_NO_ESTABLISHMENT);
+		    	errors += "\n" +Managers.i18n.getTranslation(TokenKeys.ERROR_NO_ESTABLISHMENT);
 		    }
 		    if (order == null || order.isEmpty()){
-		    	errors += Managers.i18n.getTranslation(TokenKeys.ERROR_NO_ORDER);
+		    	errors += "\n" +Managers.i18n.getTranslation(TokenKeys.ERROR_NO_ORDER);
 		    }
 		    if (products.size() == 0){
-		    	errors += Managers.i18n.getTranslation(TokenKeys.ERROR_NO_PRODUCTS);
+		    	errors += "\n" +Managers.i18n.getTranslation(TokenKeys.ERROR_NO_PRODUCTS);
 		    }
 		    if (!errors.isEmpty()){
 		    	Methods.showMessage(errors, Enums.MessageType.Warning);
@@ -261,7 +267,15 @@ public class ReportRangeSelector extends STFrame {
 
 	private void loadOffices(JComboBox<ComboBoxItem> comboBox){
 		try {
-			List<LocalST> locals = this._clientManager.getRMIInterface().listLocals();
+			if (comboBox == null
+					|| this.user == null)
+				return;
+			
+			comboBox.removeAll();
+			List<LocalST> locals = this._clientManager.getRMIInterface().listLocals(this.user);
+			
+			if (this.user.getRol() == Constants.ROLE_ADMIN)
+				comboBox.addItem(new ComboBoxItem(Constants.ALL, Managers.i18n.getTranslation(TokenKeys.ALL_ESTABLISHMENTS)));
 			
 			if (locals != null){
 				for (LocalST item : locals){

@@ -427,4 +427,16 @@ public interface ETallerStocksInterface extends Remote {
 	  */
 	 public int canviPassword(String idusuari,String password) throws RemoteException, STException;
 
+	 /***
+	  * LLista tots els locals
+	  * 
+	  * @param usuari Instància d'Usuari amb les dades
+	  * de l'usuari que està fent la crida.
+	  * @return  List<Local>  Llistat de locals
+	  * @throws RemoteException
+	  * @throws STException
+	  */	 
+	 public List<LocalST> listLocals(Usuari usuari) throws RemoteException, STException;		
+
+	 
 }

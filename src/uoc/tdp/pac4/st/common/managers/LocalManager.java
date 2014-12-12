@@ -326,5 +326,50 @@ public class LocalManager  {
 	
 	
 	/***** END    MÈTODES PEL SUBSISTEMA DE MANTENIMENT ********/
+
+	/******************** Mètodes per a tots els subsistemes ************************/
+	 /***
+	  * 
+	  * Torna tots els motius de devolucio
+	  * 
+	  * @param usuari Instància d'Usuari amb
+	  * les dades de l'usuari que fa la crida.
+	  * @return LLista de motius de devolucio 
+	  * @throws STException 
+	  */	
+	public List<LocalST> list(Usuari usuari) throws STException 
+	{							
+		List<LocalST> list = new ArrayList<LocalST>();
+				
+		//Obtenim la llista de locals en funció
+		//del rol de l'usuari
+		String sql = "SELECT * FROM " + Constants.TABLE_LOCAL + " %s ORDER BY " + Constants.FIELD_NOMLOCAL;
+		if (usuari.getRol() != Constants.ROLE_ADMIN)
+			sql = String.format(sql, "WHERE " + Constants.FIELD_LOCAL_ID + " = " + usuari.getIdLocal());
+		
+		ResultSet resultSet= db.selectData(sql);
+		try 
+		{		
+			//Llegim resultat
+			while (resultSet.next()) 
+			{
+				LocalST local= getFromResultSet(resultSet);
+				list.add(local);
+			}			
+		}
+		catch(SQLException e)
+		{
+			throw new STException(e, TokenKeys.ERROR_GETTING_DATA);
+		}
+		finally 
+		{
+			//Molt important: Tanquem connexió, statement i resulset.
+			db.closeResultSet(resultSet);
+		}
+		return list;
+	}
+	/******************** End Mètodes per a tots els subsistemes ********************/
+	 
+	 
 	
 }

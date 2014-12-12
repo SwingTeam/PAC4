@@ -218,7 +218,7 @@ public class Login extends JFrame {
 			//DatabaseManager db = new DatabaseManager();
 			//UserManager um = new UserManager(db);
 			//Usuari user = um.Login(this.TXT_USUARI.getText(), this.passwordField.getText());
-			Usuari user  = this._clientManager.getRMIInterface().Login(this.TXT_USUARI.getText(),this.passwordField.getText());
+			Usuari user  = this._clientManager.getRMIInterface().Login(this.TXT_USUARI.getText(),new String(this.passwordField.getPassword()));
 			
 			if (user!=null){ 
 				

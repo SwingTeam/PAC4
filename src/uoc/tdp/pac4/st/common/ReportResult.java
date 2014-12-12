@@ -56,7 +56,7 @@ public class ReportResult <T> extends STFrame {
 	 * de l'usuari. 
 	 */
 	public ReportResult(List<T> reportLines, ReportSelectorData reportSelectorData) {
-		super(null, false);
+		super(null, null, false);
 		this._reportLines = reportLines;
 		this._reportSelectorData = reportSelectorData;
 		

@@ -128,8 +128,8 @@ public class ReportManager  {
 		sql.append("SELECT COUNT(*) AS " + fRowCount + ", " +
 					//Dins del període, comptarem els dies des de
 					//la data del primer moviment
-					"MIN(m." + Constants.FIELD_DATAORDRE + ") AS " + fFirstDate + ", "
-+					"m." + Constants.FIELD_PRODUCTE_ID + ", " +
+					"MIN(m." + Constants.FIELD_DATAORDRE + ") AS " + fFirstDate + ", " +
+					"m." + Constants.FIELD_PRODUCTE_ID + ", " +
 					"a." + Constants.FIELD_ORIGEN_ID + ", " +
 					"l." + Constants.FIELD_ID_LOCAL + ", " +
 					"l." + Constants.FIELD_NOMLOCAL + ", " +

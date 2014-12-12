@@ -10,6 +10,7 @@ package uoc.tdp.pac4.st.common;
 public class TokenKeys {
 
 	public final static String ABOUT_US= "ABOUT_US";
+	public final static String ALL_ESTABLISHMENTS = "ALL_ESTABLISHMENTS";
 	public final static String ALL_PRODUCTS = "ALL_PRODUCTS";
 	public final static String AVAILABLE_ESTABLIMENTS = "AVAILABLE_ESTABLIMENTS";
 	public final static String DATABASE_TEST_KO = "DATABASE_TEST_KO";

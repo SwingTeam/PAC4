@@ -657,4 +657,20 @@ public ArrayList<LinAlbara> getByDemandaActual(String localDestiId, String local
 		 
 	 }
 	 
+	 /***
+	  * LLista tots els locals
+	  * 
+	  * @param usuari Instància d'Usuari amb
+	  * les dades de l'usuari que fa la crida.
+	  * @return  List<Local>  Llistat de locals
+	  * @throws RemoteException
+	  * @throws STException
+	  */	 
+	 public List<LocalST> listLocals(Usuari usuari) throws  STException	
+	 {
+		DatabaseManager databaseManager = new DatabaseManager();
+		LocalManager manager= new LocalManager(databaseManager );
+		return manager.list(usuari);	 	 
+	 }
+	 
 }

@@ -489,7 +489,7 @@ public class UserManager  {
 				user.setidUsuari(resultSet.getString(Constants.FIELD_ID_USUARI));
 				user.setPassword(resultSet.getString(Constants.FIELD_PASSWORD));
 				user.setLogin(resultSet.getString(Constants.FIELD_LOGIN));
-				user.setLogin(resultSet.getString(Constants.FIELD_ID_LOCAL));
+				user.setIdLocal(resultSet.getString(Constants.FIELD_LOCAL_ID));
 				return user;
 			}else{
 				return null;
