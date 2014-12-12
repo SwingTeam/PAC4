@@ -16,6 +16,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JTabbedPane;
 
 /*** 
  * Classe que conté tots els mètodes d'ús comú
@@ -213,6 +214,13 @@ public class Methods {
 		    		((JLabel) c).setText(Managers.i18n.getTranslation(c.getName()));
 		    	}
 		    	
+		    	if (c instanceof JTabbedPane){
+		    		for(int i = 0; i < ((JTabbedPane)c).getTabCount(); i++){
+		    			((JTabbedPane)c).setTitleAt(i, Managers.i18n.getTranslation(((JTabbedPane)c).getTitleAt(i)));
+		    		}
+		    		setContainerLanguage((Container) c);
+		    	}
+		    		
 		    	if (c instanceof Container){
 		        	setContainerLanguage((Container) c);
 		        }

@@ -120,7 +120,8 @@ public class ClientWindow extends JFrame {
 			btnConsultaLocal.setBounds(new Rectangle(150,190,300,50));
 			panel2.add(btnConsultaLocal);
 			
-			tabbedPane.addTab("Locals", panel2);
+			//tabbedPane.addTab("Locals", panel2);
+			tabbedPane.addTab("TAB_ESTABLISHMENT", panel2);
 			tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 			
 			JPanel panel3=new JPanel();
