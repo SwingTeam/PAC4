@@ -24,7 +24,9 @@ import uoc.tdp.pac4.st.common.dto.Usuari;
  */
 public class LocalManager  {
 	
-	
+	public static final String TIPUS_MOVIMENT_MAGATZEM_CENTRAL= "C"; //magatzem central
+	public static final String TIPUS_MOVIMENT_TALLER= "L"; // taller.local
+
 	private DatabaseManager	db;
 	
 	public LocalManager(DatabaseManager _db) throws STException {

@@ -1,19 +1,16 @@
 package uoc.tdp.pac4.st.common.managers;
 
-import java.rmi.RemoteException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import uoc.tdp.pac4.st.common.Constants;
 import uoc.tdp.pac4.st.common.STException;
 import uoc.tdp.pac4.st.common.TokenKeys;
-import uoc.tdp.pac4.st.common.dto.Albara;
 import uoc.tdp.pac4.st.common.dto.Existencies;
-import uoc.tdp.pac4.st.common.dto.Grup;
+import uoc.tdp.pac4.st.common.dto.LinAlbara;
 
 
 
@@ -38,14 +35,14 @@ public class ExistenciesManager  {
 		
 		if (currentExistencies != null) 
 		{
-			UpdateStockToDb(existencies);
+			updateStockToDb(existencies);
 		}
 		else 
 		{
 			AddToDb(existencies);
 		}		
 	}
-	
+
 	 /***
 	  * 
 	  * Torna existencia per producte i local
@@ -105,7 +102,7 @@ public class ExistenciesManager  {
 		return db.insertDataAndReturnId(Constants.TABLE_EXISTENCIES, hashMap); 						
 	}
 	
-	private void UpdateStockToDb(Existencies existencies) throws STException 
+	private void updateStockToDb(Existencies existencies) throws STException 
 	{
 		StringBuilder sql = new StringBuilder("UPDATE existencies SET estoc=estoc");
 		if (existencies.getEstoc() >= 0) 
@@ -114,12 +111,34 @@ public class ExistenciesManager  {
 		}
 		else 
 		{
-			sql.append("-" + existencies.getEstoc());
+			sql.append("-" + (-1)* existencies.getEstoc());
 		}
 		
 		
 		sql.append(" WHERE producte_id='" +  existencies.getProducteId() + "' AND local_id='" + existencies.getLocalId() + "'");
 		
 		db.updateData(sql.toString()); 						
+	}
+	
+	
+	public void update(boolean add, String localId, ArrayList<LinAlbara> list) throws STException 
+	{
+		ExistenciesManager existenciesManager= new ExistenciesManager(db); 
+		for (LinAlbara linea: list)
+		{				
+			Existencies existencies = new Existencies();
+			if (add) 
+			{
+				existencies.setEstoc(linea.getUnitats());
+			}
+			else 
+			{
+				existencies.setEstoc(-1 * linea.getUnitats());
+			}
+			existencies.setEstocMinim(linea.getUnitats()); 
+			existencies.setLocalId(localId);
+			existencies.setProducteId(linea.getProducteId());
+			existenciesManager.addOrUpdate(existencies);
+		}
 	}
 }

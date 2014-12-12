@@ -97,6 +97,12 @@ public class CheckStock extends STFrame {
 			}
 		});
 	}
+    
+    
+    public CheckStock() 
+    {
+    	
+    }
 
 	/**
 	 * Create the frame.
@@ -136,7 +142,7 @@ public class CheckStock extends STFrame {
 		getContentPane().add(lblFiltreWorkshop);
 		
 		cmbLocal = new JComboBox<ComboBoxItem>();
-	    ComboBoxHelper.fillCmbLocal(this._clientManager, cmbLocal);	  
+	    ComboBoxHelper.fillCmbLocal(this._clientManager, cmbLocal, codiLocal);	  
 	    cmbLocal.setBounds(50, 150, 200, 20);
 	    getContentPane().add(cmbLocal);		
 		

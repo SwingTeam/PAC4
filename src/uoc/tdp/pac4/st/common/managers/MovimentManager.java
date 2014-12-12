@@ -2,13 +2,12 @@ package uoc.tdp.pac4.st.common.managers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import uoc.tdp.pac4.st.common.Constants;
 import uoc.tdp.pac4.st.common.STException;
-import uoc.tdp.pac4.st.common.dto.Albara;
 import uoc.tdp.pac4.st.common.dto.LinAlbara;
 import uoc.tdp.pac4.st.common.dto.Moviment;
 
@@ -104,5 +103,15 @@ public class MovimentManager  {
 		moviment.setTipusMovimentId(resultSet.getString(Constants.FIELD_TIPUSMOVIMENT_ID));
 		return moviment;
 	}	
+	
+	public void update(boolean completatSn, ArrayList<LinAlbara> listLinAlbara) throws STException 
+	{
+		LinAlbaraManager libAlbaraManager = new LinAlbaraManager(db); 
+		for (LinAlbara linea: listLinAlbara)
+		{	
+			libAlbaraManager.updateMoviment(completatSn	, linea);
+		}
+	}
+	
 
 }

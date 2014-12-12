@@ -30,6 +30,7 @@ public class AlbaraManager  {
 		this.db= _db;
 	} 
 	
+
 	 /***
 	  * 
 	  * Afegeix un albara i les seves linies
@@ -50,30 +51,28 @@ public class AlbaraManager  {
 			//Afegeix capçalera de l'albarà 
 			albaraId=  addToDb(db, albara);
 	
-			MovimentManager movimentManager = new MovimentManager(db);
+ 			MovimentManager movimentManager = new MovimentManager(db);
 			LinAlbaraManager linAlbaraManager = new LinAlbaraManager(db);
-			ExistenciesManager existenciesManager = new ExistenciesManager(db);
 			
 			//Afegeix linies de l'albarà
 			for (LinAlbara linAlbara: albara.getLiniesAlbara())
 			{
-				//Crea liniea de moviment
+				//Crea linia de moviment
 				Moviment moviment = new Moviment();
-				moviment.setCompletatSn(true);
+				moviment.setCompletatSn(false);
 				moviment.setDataOrdre(albara.getDataAlbara());
 				moviment.setDataPrevLliurament(albara.getDataAlbara());
 				moviment.setNumUnitatsOrdre(linAlbara.getUnitats());
-				moviment.setNumUnitSortides(linAlbara.getUnitats());
+				moviment.setNumUnitSortides(0);
 				moviment.setProducteId(linAlbara.getProducteId());
 				moviment.setTipusMovimentId(albara.getTipusMovimentId());
 						
 				int movimentId= movimentManager.add(moviment);
+			    linAlbara.setMovimentId(movimentId);
 				
-			    linAlbara.setAlbaraId(albaraId);
-			    linAlbara.setMovimentId(movimentId);		
+			    linAlbara.setAlbaraId(albaraId);	
 			    linAlbaraManager.add(linAlbara);
-			    
-			    addOrUpdateExistencies(existenciesManager, albara, linAlbara);
+			    		
 			}		
 			
 			
@@ -89,42 +88,7 @@ public class AlbaraManager  {
 		return albaraId;
 	}		
 
-	
-	private void addOrUpdateExistencies(ExistenciesManager existenciesManager, Albara albara, LinAlbara linAlbara) throws STException 
-	{		
-		  //Actualitzem existencies depenent de tipus moviment
-		Existencies existencies = new Existencies();
-		existencies.setEstoc(linAlbara.getUnitats());
-		existencies.setEstocMinim(linAlbara.getUnitats());
-		existencies.setProducteId(linAlbara.getProducteId());
-	    
-		
-		switch (albara.getTipusMovimentId()) 
-	    {
-	    	case MovimentManager.TIPUS_MOVIMENT_TRANSFERENCIA:
-				existencies.setLocalId(albara.getOrigenId());
-				existencies.setEstoc(-1 * linAlbara.getUnitats()); //Restem a l'origen 
-	    		break;
-	    	case MovimentManager.TIPUS_MOVIMENT_VENDA:
-				existencies.setLocalId(albara.getOrigenId());
-				existencies.setEstoc(linAlbara.getUnitats());  //Restem a l'origen 
-	    		break;
-	    	case MovimentManager.TIPUS_MOVIMENT_COMPRA:
-				existencies.setLocalId(albara.getDestiId()); //Afegim a desti
-				existencies.setEstoc(linAlbara.getUnitats());
-	    		break;
-	    	case MovimentManager.TIPUS_MOVIMENT_SORTIDA:
-				existencies.setLocalId(albara.getOrigenId());
-				existencies.setEstoc(-1 * linAlbara.getUnitats());  //Restem a l'origen
-	    		break;
-	    	case MovimentManager.TIPUS_MOVIMENT_ENTRADA:
-	    		existencies.setLocalId(albara.getDestiId()); 
-	    		existencies.setEstoc(linAlbara.getUnitats()); //Afegim a desti
-	    		break;		    		
-	    }
-		
-		existenciesManager.addOrUpdate(existencies);		
-	}
+
 	 /***
 	  * 
 	  * Torna un albarà pel seu ID
@@ -181,18 +145,20 @@ public class AlbaraManager  {
 	
 		List<Albara> list = new ArrayList<Albara>();
 		
-		StringBuilder sql = new StringBuilder("select * from albara inner join local on albara.desti_id = local.id_local ");					
-		if (destiId != null || tipusMoviment != null)
-		{
-			sql.append("where ");
-			
+		StringBuilder sql = new StringBuilder("select * from albara inner join local on albara.desti_id = local.id_local ");
+		sql.append("inner join linalbara on linalbara.albara_id = albara.id_albara ");
+		sql.append("inner join moviment on linalbara.moviment_id = moviment.id_moviment ");
+		sql.append("WHERE ");
+		sql.append("moviment.completatsn = false AND ");
+		
+		if (destiId != null || tipusMoviment != null )
+		{					
 			if (destiId != null) 
 				sql.append("albara.desti_Id='" + destiId + "' AND ");	
 			if (tipusMoviment != null) 
 				sql.append("albara.tipusmoviment_Id='" + tipusMoviment + "' AND ");	
-			
-			sql= new StringBuilder(sql.substring(0, sql.length() -4)); //borra ultim AND
 		}
+		sql= new StringBuilder(sql.substring(0, sql.length() -4)); //borra ultim AND		
 		
 		ResultSet resultSet= db.selectData(sql.toString());
 		

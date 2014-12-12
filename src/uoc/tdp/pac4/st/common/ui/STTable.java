@@ -41,19 +41,25 @@ public class STTable extends  JPanel {
 		configureColumns();
 	
 		//delete button
-		deleteRow= new AbstractAction()
+		Action deleteTableRow= new AbstractAction()
 		{
 		    public void actionPerformed(ActionEvent e)
 		    {
 		        JTable table = (JTable)e.getSource();
 		        int modelRow = Integer.valueOf( e.getActionCommand() );
 		        ((DefaultTableModel)table.getModel()).removeRow(modelRow);		     
+		        
+		        if (deleteRow != null) 		    	
+		        {
+		        	deleteRow.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
+		        }
+		    
 		    }
 		};
 		 
 		if (showDeleteButton) 
 		{
-			ButtonColumn buttonColumn = new ButtonColumn(table, deleteRow, getDeleteButtonIndex());
+			ButtonColumn buttonColumn = new ButtonColumn(table, deleteTableRow, getDeleteButtonIndex());
 		}
 		
 	}	

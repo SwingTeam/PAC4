@@ -26,7 +26,10 @@ import uoc.tdp.pac4.st.common.Methods;
 import uoc.tdp.pac4.st.common.STException;
 import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.LinAlbara;
+import uoc.tdp.pac4.st.common.dto.LocalST;
+import uoc.tdp.pac4.st.common.dto.Moviment;
 import uoc.tdp.pac4.st.common.managers.ClientManager;
+import uoc.tdp.pac4.st.common.managers.DistribucioManager;
 import uoc.tdp.pac4.st.common.managers.ExceptionManager;
 import uoc.tdp.pac4.st.common.managers.I18nManager;
 import uoc.tdp.pac4.st.common.managers.SettingManager;
@@ -56,7 +59,17 @@ public class PiecesDistribution extends JFrame {
 	private JButton btnCancel;
 	
 	private STTable table= null;
-
+	
+	private static final int COLUMN_LINALBARA_ID= 0;
+	private static final int COLUMN_PRODUCTE_ID= 1;
+	private static final int COLUMN_ALBARA_ID= 2;
+	private static final int COLUMN_ORIGEN_ID= 3;
+	private static final int COLUMN_TALLER= 4;
+	private static final int COLUMN_PRODUCTE= 5;
+	private static final int COLUMN_QUANTITAT= 6;
+	private static final int COLUMN_ESTOC= 7;
+	private static final int COLUMN_ENVIAR= 8;
+		
 
 	/**
 	 * Launch the application.
@@ -106,7 +119,7 @@ public class PiecesDistribution extends JFrame {
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 850, 550);
+		setBounds(100, 100, 850, 500);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -141,6 +154,10 @@ public class PiecesDistribution extends JFrame {
 					{
 						loadTable();
 					}
+					else 
+					{
+						resetForm();
+					}
 				}
 		    }
 		});			    
@@ -153,7 +170,7 @@ public class PiecesDistribution extends JFrame {
 
 
 		cmbLocal= new JComboBox<ComboBoxItem>();
-	    ComboBoxHelper.fillCmbLocal(this._clientManager, cmbLocal);
+	    ComboBoxHelper.fillCmbLocal(this._clientManager, cmbLocal, codiLocal);
 		cmbLocal.addItemListener(new ItemListener () {
 		    public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED)
@@ -162,6 +179,10 @@ public class PiecesDistribution extends JFrame {
 					{
 						loadTable();
 					}
+					else 
+					{
+						resetForm();
+					}					
 				}
 		    }
 		});			    
@@ -169,11 +190,17 @@ public class PiecesDistribution extends JFrame {
 		getContentPane().add(cmbLocal);
 		
 
+		LabelSubTitle lbLlista = new LabelSubTitle("LABEL_LLISTA_DISTRIBUCIO");
+		lbLlista.setBounds(50, 120, 400, 20);
+		getContentPane().add(lbLlista);
+
+		
+		
 		drawTable();
 		
 		
 	    btnCancel = new JButton("LABEL_CANCEL");
-	    btnCancel.setBounds(100, 420, 100, 40);
+	    btnCancel.setBounds(100, 380, 100, 40);
 
 	    getContentPane().add(btnCancel);	    
 	    btnCancel.addActionListener(new ActionListener() {
@@ -182,14 +209,16 @@ public class PiecesDistribution extends JFrame {
     	}
 	    });
 
-		btnSave = new JButton("LABEL_SAVE");
-		btnSave.setBounds(600, 420, 100, 40);	    	    
+		btnSave = new JButton("LABEL_DISTRIBUIR_PECES");
+		btnSave.setBounds(600, 380, 150, 40);	    	    
 	    getContentPane().add(btnSave);		    
 	    btnSave.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {	    		   	
         		save();        	
 	    	}
-	    });	    
+	    });	   
+	    
+	    btnSave.setEnabled(false);
 
 		
 	    
@@ -213,10 +242,13 @@ public class PiecesDistribution extends JFrame {
 	{		
 		table= new STTable();
 		table.showDeleteButton= true;
-		table.setBounds(25, 100, 780, 300);
+		table.setBounds(25, 80, 780, 300);
 		table.setVisible(true);
 		
 		table.addColumn("linAlbaraId", 0, false, false);
+		table.addColumn("producteId", 0, false, false);
+		table.addColumn("albaraId", 0, false, false);		
+		table.addColumn("origenId", 0, false, false);
 		table.addColumn(Managers.i18n.getTranslation("LABEL_TALLER"), null, false, false);
 		table.addColumn(Managers.i18n.getTranslation("LABEL_PRODUCTE"), null, false, false);
 		table.addColumn(Managers.i18n.getTranslation("LABEL_QUANTITAT"), 100, true, true);
@@ -256,7 +288,16 @@ public class PiecesDistribution extends JFrame {
 					
 			table.removeRows();
 			
-			ArrayList<LinAlbara> list= _clientManager.getRMIInterface().getByDemandaActual(codiLocal, localOrigenId);
+			ArrayList<LinAlbara> list=null;
+			if (((ComboBoxItem)  cmbCriteriBase.getSelectedItem()).getId() == DistribucioManager.DISTRIBUCIO_DEMANDA_ACTUAL) 
+			{
+				list= _clientManager.getRMIInterface().getByDemandaActual(codiLocal, localOrigenId);
+			}
+			else 
+			{
+				list= _clientManager.getRMIInterface().getByRupturaStock(codiLocal, localOrigenId);
+			}
+			
 							
 			for (LinAlbara linAlbara: list)
 			{
@@ -272,7 +313,7 @@ public class PiecesDistribution extends JFrame {
 	private void validateStock(String input_quantitat) 
 	{
 		int editingRow= table.getEditingRow();
-		Integer stock= Integer.parseInt(table.getValueAt(editingRow, 4).toString());
+		Integer stock= Integer.parseInt(table.getValueAt(editingRow, PiecesDistribution.COLUMN_ESTOC).toString());
 		Integer quantitat= Integer.parseInt(input_quantitat);
 		
 		if (quantitat > stock)
@@ -287,10 +328,15 @@ public class PiecesDistribution extends JFrame {
 	
 	private void addRowToTable(LinAlbara linAlbara) 
 	{
-		table.addRow(new Object[] { linAlbara.getIdLiniaAlbara(),
+		
+		table.addRow(new Object[] { 
+				linAlbara.getIdLiniaAlbara(),
+				linAlbara.getProducte().getIdProducte(),
+				linAlbara.getAlbaraId(),
+				linAlbara.getLocal().getIdLocal(),
 				linAlbara.getLocal().getNomLocal() ,				
 				linAlbara.getProducte().getNomProducte(),
-				linAlbara.getUnitats(), 
+				linAlbara.getMoviment().getNumUnitatsOrdre() - linAlbara.getMoviment().getNumUnitSortides() , 
 				linAlbara.getExistencies().getEstoc(),				
 				"",
 				"X"});	
@@ -300,6 +346,8 @@ public class PiecesDistribution extends JFrame {
 
 	private void resetForm() {
 					
+		this.cmbCriteriBase.setSelectedIndex(0);
+		this.cmbLocal.setSelectedIndex(0);
 		table.removeRows();
 	}
 	
@@ -307,10 +355,12 @@ public class PiecesDistribution extends JFrame {
 		try {
 			
 			ArrayList<LinAlbara> linees= getLinAlbara(); 
+			
+			_clientManager.getRMIInterface().Distribuir(codiLocal, linees);
 					
 			resetForm();
 			
-			Methods.showMessage( Managers.i18n.getTranslation("INFO_ALBARA_SAVED"), Enums.MessageType.Info);
+			Methods.showMessage( Managers.i18n.getTranslation("LABEL_PECES_DISTRIBUIDES"), Enums.MessageType.Info);
 		} catch (Exception e) {
 			Managers.exception.showException(new STException(e, "ERROR_SAVING_ALBARA"));
 		}
@@ -323,11 +373,26 @@ public class PiecesDistribution extends JFrame {
 		DefaultTableModel defaultTableModel = (DefaultTableModel) table.getModel();
 		int rowCount = defaultTableModel.getRowCount();
 		for (int i = rowCount - 1; i >= 0; i--) {
-			LinAlbara linAlbara= new LinAlbara(); 
-			linAlbara.setProducteId((String) table.getValueAt(i, 0));
-			linAlbara.setUnitats((Integer) table.getValueAt(i, 2));
-			
-			linees.add(linAlbara);
+			if (table.getValueAt(i, PiecesDistribution.COLUMN_ENVIAR).toString().trim().length() > 0)
+			{
+				LinAlbara linAlbara= new LinAlbara();
+				
+				linAlbara.setAlbaraId(Integer.parseInt(table.getValueAt(i, PiecesDistribution.COLUMN_ALBARA_ID).toString()));
+				linAlbara.setIdLiniaAlbara( Integer.parseInt(table.getValueAt(i, PiecesDistribution.COLUMN_LINALBARA_ID).toString()));
+				linAlbara.setProducteId(table.getValueAt(i, PiecesDistribution.COLUMN_PRODUCTE_ID).toString());
+				
+				Moviment moviment = new Moviment();
+				moviment.setNumUnitatsOrdre(Integer.parseInt(table.getValueAt(i, PiecesDistribution.COLUMN_QUANTITAT).toString()));
+				moviment.setNumUnitSortides(Integer.parseInt(table.getValueAt(i, PiecesDistribution.COLUMN_ENVIAR).toString()));
+				
+				LocalST local = new LocalST();
+				local.setIdLocal(table.getValueAt(i, PiecesDistribution.COLUMN_ORIGEN_ID).toString());
+							
+				linAlbara.setLocal(local);
+				linAlbara.setMoviment(moviment);
+				
+				linees.add(linAlbara);
+			}
 		}
 		
 		

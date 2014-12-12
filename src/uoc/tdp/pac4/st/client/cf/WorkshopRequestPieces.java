@@ -32,7 +32,6 @@ import uoc.tdp.pac4.st.common.dto.Producte;
 import uoc.tdp.pac4.st.common.managers.ClientManager;
 import uoc.tdp.pac4.st.common.managers.ExceptionManager;
 import uoc.tdp.pac4.st.common.managers.I18nManager;
-import uoc.tdp.pac4.st.common.managers.MovimentManager;
 import uoc.tdp.pac4.st.common.managers.SettingManager;
 import uoc.tdp.pac4.st.common.ui.LabelSubTitle;
 import uoc.tdp.pac4.st.common.ui.LabelTitle;
@@ -206,8 +205,8 @@ public class WorkshopRequestPieces extends JFrame {
     	}
 	    });
 
-		btnSave = new JButton("LABEL_SAVE");
-		btnSave.setBounds(600, 460, 100, 40);	    	    
+		btnSave = new JButton("LABEL_DEMANAR_PECES");
+		btnSave.setBounds(600, 460, 150, 40);	    	    
 	    getContentPane().add(btnSave);		    
 	    btnSave.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
@@ -217,7 +216,7 @@ public class WorkshopRequestPieces extends JFrame {
 	        	}
 	    	}
 	    });	    
-
+	    btnSave.setEnabled(false);
 		
 	    drawTable();
 		//Traducció dels tokens de la pantalla
@@ -354,13 +353,10 @@ public class WorkshopRequestPieces extends JFrame {
 	
 
 	private void resetForm() {
-		this.txtQuantitat.setText("");
-		selectProductControl.setEnabled(false);
-		btnAdd.setEnabled(false); 	
-		
-		selectProductControl.resetFields();
-					
+		this.txtQuantitat.setText("");		
+		selectProductControl.resetFields();					
 		table.removeRows();
+		this.btnSave.setEnabled(false);
 	}
 	
 	private void save() {
@@ -373,15 +369,15 @@ public class WorkshopRequestPieces extends JFrame {
 			albara.setOrigenId(codiLocal_origen);
 			albara.setDestiId(codiLocal_desti);
 			albara.setLiniesAlbara(getLinAlbara());
-			albara.setTipusMovimentId(MovimentManager.TIPUS_MOVIMENT_TRANSFERENCIA);
+		
 
 			try {
-				
-				_clientManager.getRMIInterface().addAlbara(albara);
+			
+				_clientManager.getRMIInterface().demanarPeces(albara);
 			
 				resetForm();
 				
-				Methods.showMessage( Managers.i18n.getTranslation("INFO_ALBARA_SAVED"), Enums.MessageType.Info);
+				Methods.showMessage( Managers.i18n.getTranslation("LABEL_PECES_DEMANADES"), Enums.MessageType.Info);
 			} catch (Exception e) {
 				Managers.exception.showException(new STException(e, "ERROR_SAVING_ALBARA"));
 			}

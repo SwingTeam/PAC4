@@ -166,7 +166,7 @@ public class ComboBoxHelper  {
 	 * Omple un ComboBox amb la llista de locals.
 	 * 
 	 */
-	public static void fillCmbLocal(ClientManager<ETallerStocksInterface> clientManager, JComboBox<ComboBoxItem> cmbBoxItem ) {
+	public static void fillCmbLocal(ClientManager<ETallerStocksInterface> clientManager, JComboBox<ComboBoxItem> cmbBoxItem, String localId ) {
 		try {
 			cmbBoxItem.removeAllItems();
 			 
@@ -178,7 +178,10 @@ public class ComboBoxHelper  {
 			while (iterator.hasNext()) 
 			{
 				LocalST local= iterator.next();
-				cmbBoxItem.addItem(new ComboBoxItem(local.getIdLocal(), local.getNomLocal()));
+				if (localId != local.getIdLocal())
+				{
+					cmbBoxItem.addItem(new ComboBoxItem(local.getIdLocal(), local.getNomLocal()));
+				}
 			}			
 		}
 		catch (STException e) {
@@ -193,13 +196,14 @@ public class ComboBoxHelper  {
 	 * Omple un ComboBox amb la llista d'albarans d'un local 
 	 * 
 	 */
-	public static void fillCmbAlbara(ClientManager<ETallerStocksInterface> clientManager, JComboBox<ComboBoxItem> cmbBoxItem, String localId) {
+	public static void fillCmbAlbaraPeticions(ClientManager<ETallerStocksInterface> clientManager, JComboBox<ComboBoxItem> cmbBoxItem, String localId) {
 		try {
 			cmbBoxItem.removeAllItems();
 			 
 			cmbBoxItem.addItem(new ComboBoxItem(null, Managers.i18n.getTranslation("LABEL_ESCOLLIR")));
 			
-			List<Albara> list = clientManager.getRMIInterface().listAlbaransByLocal(localId);  
+						
+			List<Albara> list = clientManager.getRMIInterface().listAlbaransRecepcioByLocal(localId);  
 			
 			Iterator<Albara> iterator= list.iterator();
 			while (iterator.hasNext()) 

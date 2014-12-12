@@ -27,6 +27,7 @@ import uoc.tdp.pac4.st.common.dto.SubGrup;
 import uoc.tdp.pac4.st.common.dto.Usuari;
 import uoc.tdp.pac4.st.common.managers.AlbaraManager;
 import uoc.tdp.pac4.st.common.managers.DatabaseManager;
+import uoc.tdp.pac4.st.common.managers.DistribucioManager;
 import uoc.tdp.pac4.st.common.managers.ExistenciesManager;
 import uoc.tdp.pac4.st.common.managers.GrupManager;
 import uoc.tdp.pac4.st.common.managers.LinAlbaraManager;
@@ -36,6 +37,7 @@ import uoc.tdp.pac4.st.common.managers.MovimentManager;
 import uoc.tdp.pac4.st.common.managers.ProducteManager;
 import uoc.tdp.pac4.st.common.managers.ProveidorManager;
 import uoc.tdp.pac4.st.common.managers.ReportManager;
+import uoc.tdp.pac4.st.common.managers.SolicitudManager;
 import uoc.tdp.pac4.st.common.managers.SubGrupManager;
 import uoc.tdp.pac4.st.common.managers.UserManager;
 
@@ -324,23 +326,8 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 	/*** END: Subsistema Manteniment*******/
 	
 	
-	 /*** BEGIN: Subsistema Connexió ****/
-	 /***
-	  * Afegeix un albara i les seves linies a la base de dades
-	  * 
-	  * @return int id del nou albarà create
-	  * @throws RemoteException
-	  * @throws STException
-	  */ 
-	 public int addAlbara(Albara albara) throws STException
-	 {
-		 //Creem el database manager per conectar amb la BD 
-		DatabaseManager databaseManager = new DatabaseManager();
-		
-		//Creem AlbaraManager i li passem el databaseManager
-		AlbaraManager albaraManager = new AlbaraManager(databaseManager); 
-		return albaraManager.add(albara);
-	 }
+	 /*** BEGIN: Subsistema control de fluxe ****/
+
 	 
 	 /***
 	  * LLista tots els proveidors
@@ -439,94 +426,192 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 		return manager.list();	 	 
 	 }
  	 
-
- /***
-  * 
-  * Torna tots els productes amb estoc minim per un local 
-  * 
-  * @return List<Producte> LLista de productes 
-  * @throws STException 
-  */	
-public List<Producte>getStockMinim(String localId) throws  STException
-{
-	DatabaseManager databaseManager = new DatabaseManager();
-	ProducteManager manager= new ProducteManager(databaseManager);
-	return manager.getStockMinim(localId);	
-}
-
- /***
-  * 
-  * Torna tots els albarans de tipus transferencia d'un local 
-  * 
-  * @return List<Albara> LLista d'albarans 
-  * @throws STException 
-  */	
-public List<Albara> listAlbaransByLocal(String localId) throws  STException
-{
-	DatabaseManager databaseManager = new DatabaseManager();
-	AlbaraManager manager= new AlbaraManager(databaseManager);
-	return manager.listByDestiAndTipusMoviment(localId, MovimentManager.TIPUS_MOVIMENT_TRANSFERENCIA);	
-}
-
-
- /***
-  * 
-  * Torna un albara pel seu id 
-  * 
-  * @return Albara albara 
-  * @throws STException 
-  */	
-public Albara getAlbaraById(int albaraId) throws STException
-{
-	DatabaseManager databaseManager = new DatabaseManager();
-	AlbaraManager manager= new AlbaraManager(databaseManager);
-	return manager.getById(albaraId);	
-}
+		
 	
- /***
-  * 
-  * Torna linies d'un albarà 
-  * 
-  * @return Linies albara 
-  * @throws STException 
-  */	
-public List<LinAlbara> getLinAlbaraByAlbaraId(int albaraId) throws  STException
-{
-	DatabaseManager databaseManager = new DatabaseManager();
-	LinAlbaraManager manager= new LinAlbaraManager(databaseManager);
-	return manager.getByAlbaraId(albaraId);	
-}
-
-/***
- * 
- * Torna tots els productes amb el seu estoc per proveidor, grup i subgrup 
- * 
- * @return List<Producte> LLista de productes 
- * @throws STException 
- */	
-public List<Producte> stockSearch(Integer grupId, Integer subGrupId, String producteId, String localId, Integer stockInicial, Integer stockFinal) throws STException 
-{
-	DatabaseManager databaseManager = new DatabaseManager();
-	ProducteManager producteManager = new ProducteManager (new DatabaseManager());	
-	return producteManager.stockSearch(grupId, subGrupId, producteId, localId, stockInicial, stockFinal);
+	 /***
+	  * 
+	  * Torna tots els productes amb estoc minim per un local 
+	  * 
+	  * @return List<Producte> LLista de productes 
+	  * @throws STException 
+	  */	
+	public List<Producte>getStockMinim(String localId) throws  STException
+	{
+		DatabaseManager databaseManager = new DatabaseManager();
+		ProducteManager manager= new ProducteManager(databaseManager);
+		return manager.getStockMinim(localId);	
+	}
 	
-}
+	 /***
+	  * 
+	  * Torna tots els albarans de tipus transferencia d'un local 
+	  * 
+	  * @return List<Albara> LLista d'albarans 
+	  * @throws STException 
+	  */	
+	public List<Albara> listAlbaransRecepcioByLocal(String localId) throws  STException
+	{
+		DatabaseManager databaseManager = new DatabaseManager();
+		AlbaraManager manager= new AlbaraManager(databaseManager);
+		return manager.listByDestiAndTipusMoviment(localId, MovimentManager.TIPUS_MOVIMENT_TRANSFERENCIA);	
+	}
+	
+	
+	 /***
+	  * 
+	  * Torna un albara pel seu id 
+	  * 
+	  * @return Albara albara 
+	  * @throws STException 
+	  */	
+	public Albara getAlbaraById(int albaraId) throws STException
+	{
+		DatabaseManager databaseManager = new DatabaseManager();
+		AlbaraManager manager= new AlbaraManager(databaseManager);
+		return manager.getById(albaraId);	
+	}
+		
+	 /***
+	  * 
+	  * Torna linies d'un albarà 
+	  * 
+	  * @return Linies albara 
+	  * @throws STException 
+	  */	
+	public List<LinAlbara> getLinAlbaraByAlbaraId(int albaraId) throws  STException
+	{
+		DatabaseManager databaseManager = new DatabaseManager();
+		LinAlbaraManager manager= new LinAlbaraManager(databaseManager);
+		return manager.getByAlbaraId(albaraId);	
+	}
+	
+	/***
+	 * 
+	 * Torna tots els productes amb el seu estoc per proveidor, grup i subgrup 
+	 * 
+	 * @return List<Producte> LLista de productes 
+	 * @throws STException 
+	 */	
+	public List<Producte> stockSearch(Integer grupId, Integer subGrupId, String producteId, String localId, Integer stockInicial, Integer stockFinal) throws STException 
+	{
+		DatabaseManager databaseManager = new DatabaseManager();
+		ProducteManager producteManager = new ProducteManager (new DatabaseManager());	
+		return producteManager.stockSearch(grupId, subGrupId, producteId, localId, stockInicial, stockFinal);
+		
+	}
+	
+	/***
+	 * 
+	 * Torna linies d'albara per demanda actual
+	 * 
+	 * @throws STException 
+	 */	
+	public ArrayList<LinAlbara> getByDemandaActual(String localDestiId, String localOrigenId) throws STException
+	{
+		DatabaseManager databaseManager = new DatabaseManager();
+		LinAlbaraManager linAlbaraManager = new LinAlbaraManager(databaseManager); 
+		return linAlbaraManager.getByDemandaActual(localDestiId, localOrigenId);
+	}
+							
+	/***
+	 * 
+	 * Torna linies d'albara per ruptura stock
+	 * 
+	 * @throws STException 
+	 */	
+	public ArrayList<LinAlbara> getByRupturaStock(String localDestiId, String localOrigenId) throws STException
+	{
+		DatabaseManager databaseManager = new DatabaseManager();
+		LinAlbaraManager linAlbaraManager = new LinAlbaraManager(databaseManager); 
+		return linAlbaraManager.getByRupturaStock(localDestiId, localOrigenId);
+	}
+	
+	/***
+	 * Demana les peces de l'albara
+	 * 
+	 * @return int id del nou albarà creat
+	 * @throws RemoteException
+	 * @throws STException
+	 */ 
+	public int demanarPeces(Albara albara) throws STException
+	{
+		 //Creem el database manager per conectar amb la BD 
+		DatabaseManager databaseManager = new DatabaseManager();
+		
+		//Creem AlbaraManager i li passem el databaseManager
+		SolicitudManager manager = new SolicitudManager(databaseManager); 
+		return manager.demanarPeces(albara);
+	}
+	
+	
+	/***
+	 * Distribueix peces als tallers
+	 * 
+	 * @throws RemoteException
+	 * @throws STException
+	 */ 
+	public void Distribuir(String localOrigenId, ArrayList<LinAlbara> listLinAlbara) throws STException
+	{
+		DistribucioManager distribucioManager = new DistribucioManager(new DatabaseManager());
+		distribucioManager.Distribuir(localOrigenId, listLinAlbara);
+	}
+	
+	/***
+	 * recepciona peces 
+	 * 
+	 * @return int id del nou albarà creat
+	 * @throws RemoteException
+	 * @throws STException
+	 */ 
+	public int recepcionarPeces(Albara albara) throws STException
+	{
+		 //Creem el database manager per conectar amb la BD 
+		DatabaseManager databaseManager = new DatabaseManager();
+		
+		//Creem AlbaraManager i li passem el databaseManager
+		SolicitudManager manager = new SolicitudManager(databaseManager); 
+		return manager.recepcionarPeces(albara);
+	}	
+	
+	
+	
+	/***
+	 * Recepciona peces taller
+	 * 
+	 * @return int id del nou albarà creat
+	 * @throws RemoteException
+	 * @throws STException 
+	 */ 
+	public void recepcionarPecesTaller(Albara albara) throws STException
+	{
+		 //Creem el database manager per conectar amb la BD 
+		DatabaseManager databaseManager = new DatabaseManager();
+		
+		//Creem AlbaraManager i li passem el databaseManager
+		SolicitudManager manager = new SolicitudManager(databaseManager); 
+		manager.recepcionarPecesTaller(albara);
+	}		
+	
+	/***
+	 * Retorna peces 
+	 * 
+	 * @return int id del nou albarà creat
+	 * @throws RemoteException
+	 * @throws STException
+	 */ 
+	public int retornarPeces(Albara albara) throws STException
+	{
+		 //Creem el database manager per conectar amb la BD 
+		DatabaseManager databaseManager = new DatabaseManager();
+		
+		//Creem AlbaraManager i li passem el databaseManager
+		SolicitudManager manager = new SolicitudManager(databaseManager); 
+		return manager.retornarPeces(albara);
+	}	
+	
 
-/***
- * 
- * Torna linies d'albara per demanda actual
- * 
- * @throws STException 
- */	
-public ArrayList<LinAlbara> getByDemandaActual(String localDestiId, String localOrigenId) throws STException
-{
-	DatabaseManager databaseManager = new DatabaseManager();
-	LinAlbaraManager linAlbaraManager = new LinAlbaraManager(databaseManager); 
-	return linAlbaraManager.getByDemandaActual(localDestiId, localOrigenId);
-}
-						
-
-/*** END: Subsistema Connexió ****/			 
+	
+	/*** END: Subsistema control de fluxe ****/			 
 	 
 	 /***
 	  * Retorna una llista d'un producte específic o de

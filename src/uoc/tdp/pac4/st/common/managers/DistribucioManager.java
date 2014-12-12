@@ -5,6 +5,7 @@ import java.util.Date;
 
 import uoc.tdp.pac4.st.common.STException;
 import uoc.tdp.pac4.st.common.dto.Albara;
+import uoc.tdp.pac4.st.common.dto.Existencies;
 import uoc.tdp.pac4.st.common.dto.LinAlbara;
 
 
@@ -35,18 +36,29 @@ public class DistribucioManager  {
 		{	
 			ArrayList<Albara> listDistribucio= getListAlbaransDistribucio(localOrigenId, listLinAlbara);
 			
-			db.startTransaction();	
-		
+			//db.startTransaction();
+			
+			//Actualitza moviments de les linies recepcionades
+			MovimentManager movimentManager= new MovimentManager(db);
+			movimentManager.update(false, listLinAlbara);
+					
+			//Rest existencies al local origen de les linies recepcionades
+			ExistenciesManager existenciesManager= new ExistenciesManager(db);
+			existenciesManager.update(false, localOrigenId,listLinAlbara);
+									
+			//Crea albarans de sortida (transferencia)
 			AlbaraManager albaraManager = new AlbaraManager(db);
 			for (Albara albara: listDistribucio)
 			{	
-				albaraManager.add(albara);
+				albaraManager.add(albara);				
 			}
-			db.finishTransaction(true);
+			
+			
+			//db.finishTransaction(true);
 		}
 		catch (STException st) 
 		{
-			db.finishTransaction(false);
+			//db.finishTransaction(false);
 			throw st;
 		}
 	}
@@ -70,8 +82,12 @@ public class DistribucioManager  {
 				albara.setDestiId(linea.getLocal().getIdLocal());
 				albara.setDataAlbara(new Date());
 				albara.setOrigenId(localOrigenId);
-				albara.setTipusMovimentId(MovimentManager.TIPUS_MOVIMENT_TRANSFERENCIA);						
+				albara.setTipusMovimentId(MovimentManager.TIPUS_MOVIMENT_TRANSFERENCIA);
+				
+				listDistribucio.add(albara);
 			}							
+			linea.setAlbaraId(albara.getIdAlbara());
+			linea.setUnitats(linea.getMoviment().getNumUnitSortides());					
 			
 			albara.getLiniesAlbara().add(linea);
 		}		
@@ -92,5 +108,7 @@ public class DistribucioManager  {
 		}
 		return null;
 	}
+
+	
 
 }

@@ -142,7 +142,7 @@ public class LinAlbaraManager  {
 		sql.append("INNER JOIN moviment ON linalbara.moviment_id = moviment.id_moviment ");
 		sql.append("INNER JOIN producte ON moviment.producte_id = producte.id_producte ");
 		sql.append("INNER JOIN local ON local.id_local = albara.origen_id ");		
-		sql.append("INNER JOIN existencies ON existencies.producte_id = producte.id_producte AND existencies.local_id= albara.desti_id  ");
+		sql.append("LEFT JOIN existencies ON existencies.producte_id = producte.id_producte AND existencies.local_id= albara.desti_id  ");
 		sql.append("WHERE ");
 		sql.append(" moviment.completatsn = false AND  ");
 		sql.append(" moviment.tipusmoviment_id='" + MovimentManager.TIPUS_MOVIMENT_TRANSFERENCIA + "' AND");
@@ -150,8 +150,77 @@ public class LinAlbaraManager  {
 		
 		if (localOrigenId != null)
 		{
-			sql.append(" albara.origen_id='" + localOrigenId + "'");
+			sql.append(" AND albara.origen_id='" + localOrigenId + "'");
 		}
+		
+		sql.append(" ORDER BY albara.dataalbara");
+			
+		ResultSet resultSet= db.selectData(sql.toString());
+
+		try 
+		{
+			MovimentManager movimentManager = new MovimentManager (db);
+			ProducteManager producteManager = new ProducteManager (db);
+			ExistenciesManager existenciesManager = new ExistenciesManager (db);
+			LocalManager localManager = new LocalManager (db);
+			
+			//Llegim resultat
+			while (resultSet.next()) 
+			{
+				LinAlbara linAlbara= getFromResultSet(resultSet);
+				Moviment moviment = movimentManager.getFromResultSet(resultSet);
+				Producte producte = producteManager.getFromResultSet(resultSet);
+				Existencies existencies= existenciesManager.getFromResultSet(resultSet);
+				LocalST local= localManager.getFromResultSet(resultSet);
+				
+				linAlbara.setMoviment(moviment);
+				linAlbara.setProducte(producte);
+				linAlbara.setExistencies(existencies);
+				linAlbara.setLocal(local);
+				
+				listLinAlbara.add(linAlbara);
+			}			
+		}
+		catch(SQLException e)
+		{
+			throw new STException(e, TokenKeys.ERROR_GETTING_DATA);
+		}
+		finally 
+		{
+			//Molt important: Tanquem connexió, statement i resulset.
+			db.closeResultSet(resultSet);
+		}
+		return listLinAlbara;
+	}	
+	
+	
+	 /***
+	  * 
+	  * Torna linies d'albara per ruptura d'estoc
+	  * 
+	  * @throws STException 
+	  */	
+	public ArrayList<LinAlbara> getByRupturaStock(String localDestiId, String localOrigenId) throws STException 
+	{							
+		ArrayList<LinAlbara> listLinAlbara = new ArrayList<LinAlbara>();
+				
+		StringBuilder sql = new StringBuilder("SELECT * FROM linalbara ");
+		sql.append("INNER JOIN albara ON albara.id_albara = linalbara.albara_id  ");
+		sql.append("INNER JOIN moviment ON linalbara.moviment_id = moviment.id_moviment ");
+		sql.append("INNER JOIN producte ON moviment.producte_id = producte.id_producte ");
+		sql.append("INNER JOIN local ON local.id_local = albara.origen_id ");		
+		sql.append("INNER JOIN existencies ON existencies.producte_id = producte.id_producte AND existencies.local_id= albara.desti_id  ");
+		sql.append("WHERE ");
+		sql.append(" existencies.estocminim >= existencies.estoc AND  ");
+		sql.append(" moviment.tipusmoviment_id='" + MovimentManager.TIPUS_MOVIMENT_TRANSFERENCIA + "' AND");
+		sql.append(" albara.desti_id='" + localDestiId + "'"); 
+		
+		if (localOrigenId != null)
+		{
+			sql.append(" AND albara.origen_id='" + localOrigenId + "'");
+		}
+		
+		sql.append(" ORDER BY albara.dataalbara");
 			
 		ResultSet resultSet= db.selectData(sql.toString());
 
@@ -201,4 +270,17 @@ public class LinAlbaraManager  {
 		linAlbara.setUnitats(resultSet.getInt(Constants.FIELD_UNITATS));
 		return linAlbara;
 	}	
+	
+		
+	public int updateMoviment(boolean completatSn, LinAlbara linAlbara) throws STException 
+	{						
+		StringBuilder sql = new StringBuilder("UPDATE moviment SET ");
+		sql.append("numunitsortides= numunitsortides + " + linAlbara.getUnitats() + ", ");
+		sql.append("completatsn= " + completatSn + " " );
+		sql.append("from linalbara ");
+		sql.append("where linalbara.moviment_id = moviment.id_moviment and ");
+		sql.append("linalbara.id_liniaalbara=" + linAlbara.getIdLiniaAlbara());
+		
+		return db.updateData(sql.toString()); 						
+	}
 }

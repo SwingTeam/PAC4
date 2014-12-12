@@ -29,10 +29,11 @@ import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.Albara;
 import uoc.tdp.pac4.st.common.dto.LinAlbara;
 import uoc.tdp.pac4.st.common.managers.ClientManager;
+import uoc.tdp.pac4.st.common.managers.DatabaseManager;
 import uoc.tdp.pac4.st.common.managers.ExceptionManager;
 import uoc.tdp.pac4.st.common.managers.I18nManager;
-import uoc.tdp.pac4.st.common.managers.MovimentManager;
 import uoc.tdp.pac4.st.common.managers.SettingManager;
+import uoc.tdp.pac4.st.common.managers.SolicitudManager;
 import uoc.tdp.pac4.st.common.ui.ComboBoxHelper;
 import uoc.tdp.pac4.st.common.ui.LabelSubTitle;
 import uoc.tdp.pac4.st.common.ui.LabelTitle;
@@ -60,8 +61,6 @@ public class WokshopReceivingPieces extends JFrame {
 	
 	private STTable table= null;
 	
-	private Albara albara= null;
-
 
 	/**
 	 * Launch the application.
@@ -136,7 +135,7 @@ public class WokshopReceivingPieces extends JFrame {
 		getContentPane().add(lblProveidor);
 
 	    cmbAlbara = new JComboBox<ComboBoxItem>();
-	    ComboBoxHelper.fillCmbAlbara(this._clientManager, cmbAlbara, codiLocal);
+	    ComboBoxHelper.fillCmbAlbaraPeticions(this._clientManager, cmbAlbara, codiLocal);
 	    cmbAlbara.addItemListener(new ItemListener () {
 		    public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED)
@@ -180,8 +179,8 @@ public class WokshopReceivingPieces extends JFrame {
     	}
 	    });
 
-		btnSave = new JButton("LABEL_SAVE");
-		btnSave.setBounds(600, 400, 100, 40);	    	    
+		btnSave = new JButton("LABEL_RECEPCIO_PECES");
+		btnSave.setBounds(600, 400, 150, 40);	    	    
 	    getContentPane().add(btnSave);		    
 	    btnSave.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
@@ -219,7 +218,7 @@ public class WokshopReceivingPieces extends JFrame {
 			
 			int albaraId= (int) ((ComboBoxItem) cmbAlbara.getSelectedItem()).getId();
 			 
-			albara= _clientManager.getRMIInterface().getAlbaraById(albaraId);
+			Albara albara= _clientManager.getRMIInterface().getAlbaraById(albaraId);
 			
 			for (LinAlbara linAlbara: albara.getLiniesAlbara())
 			{
@@ -239,6 +238,7 @@ public class WokshopReceivingPieces extends JFrame {
 		table.setVisible(true);
 		
 		table.addColumn("producteId", 0, false, false);
+		table.addColumn("linAlbaraId", 0, false, false);
 		table.addColumn(Managers.i18n.getTranslation("LABEL_PRODUCTE"), null, false, false);
 		table.addColumn(Managers.i18n.getTranslation("LABEL_QUANTITAT_DEMANADA"), 100, false, false);
 		table.addColumn(Managers.i18n.getTranslation("LABEL_QUANTITAT_SERVIDA"), 100, true, true);
@@ -251,7 +251,7 @@ public class WokshopReceivingPieces extends JFrame {
 	private void addRowToTable(LinAlbara linia) 
 	{		
 		DefaultTableModel model= (DefaultTableModel) this.table.getModel();	
-		table.addRow(new Object[] { linia.getProducte().getIdProducte(), linia.getProducte().getNomProducte(), linia.getMoviment().getNumUnitatsOrdre(), linia.getMoviment().getNumUnitSortides()});
+		table.addRow(new Object[] { linia.getProducte().getIdProducte(), linia.getIdLiniaAlbara(), linia.getProducte().getNomProducte(), linia.getMoviment().getNumUnitatsOrdre(), linia.getMoviment().getNumUnitSortides()});
 		
 		this.btnSave.setEnabled(true);			
 	}
@@ -267,7 +267,6 @@ public class WokshopReceivingPieces extends JFrame {
 		if (isValidForm()) 
 		{			
 			try {
-								
 				Albara albara= new Albara();
 				albara.setCodialbaraextern("");
 				albara.setComAlbara("");
@@ -275,14 +274,20 @@ public class WokshopReceivingPieces extends JFrame {
 				albara.setOrigenId(codiLocal_central);
 				albara.setDestiId(codiLocal);
 				albara.setLiniesAlbara(getLinAlbara());
-				albara.setTipusMovimentId(MovimentManager.TIPUS_MOVIMENT_ENTRADA);
+
 				
-					
-				_clientManager.getRMIInterface().addAlbara(albara);
+				SolicitudManager s = new SolicitudManager(new DatabaseManager()); 
+									
+				s.recepcionarPecesTaller(albara);
+				
+				
+				_clientManager.getRMIInterface().recepcionarPecesTaller(albara);
 				
 				resetForm();
 				
-				Methods.showMessage( Managers.i18n.getTranslation("INFO_ALBARA_SAVED"), Enums.MessageType.Info);
+				ComboBoxHelper.fillCmbAlbaraPeticions(this._clientManager, cmbAlbara, codiLocal);
+				
+				Methods.showMessage( Managers.i18n.getTranslation("LABEL_PECES_RECEPCIONADES"), Enums.MessageType.Info);
 			} catch (Exception e) {
 				Managers.exception.showException(new STException(e, "ERROR_SAVING_ALBARA"));
 			}
@@ -297,8 +302,9 @@ public class WokshopReceivingPieces extends JFrame {
 		int rowCount = defaultTableModel.getRowCount();
 		for (int i = rowCount - 1; i >= 0; i--) {
 			LinAlbara linAlbara= new LinAlbara(); 
+			linAlbara.setIdLiniaAlbara(Integer.parseInt(table.getValueAt(i, 1).toString()));
 			linAlbara.setProducteId((String) table.getValueAt(i, 0));
-			linAlbara.setUnitats(Integer.parseInt(table.getValueAt(i, 3).toString()));
+			linAlbara.setUnitats(Integer.parseInt(table.getValueAt(i, 4).toString()));
 			
 			linees.add(linAlbara);
 		}

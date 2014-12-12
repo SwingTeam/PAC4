@@ -210,17 +210,8 @@ public interface ETallerStocksInterface extends Remote {
 	 /***  END: Subsistema de Manteniment ****/	 
 
 	 
-	 /*** BEGIN: Subsistema Connexió ****/
-	 
-	 /***
-	  * Afegeix un albara i les seves linies a la base de dades
-	  * 
-	  * @return int id del nou albarà create
-	  * @throws RemoteException
-	  * @throws STException
-	  */ 
-	 public int addAlbara(Albara albara) throws RemoteException, STException;
-	 
+	 /*** BEGIN: Subsistema control de fluxe****/
+	 	 
 	 /***
 	  * LLista tots els proveidors
 	  * 
@@ -303,7 +294,7 @@ public interface ETallerStocksInterface extends Remote {
 	  * @return List<Albara> LLista d'albarans 
 	  * @throws STException 
 	  */	
-	public List<Albara> listAlbaransByLocal(String localId) throws RemoteException, STException;
+	public List<Albara> listAlbaransRecepcioByLocal(String localId) throws RemoteException, STException;
 	
 	 /***
 	  * 
@@ -342,8 +333,69 @@ public interface ETallerStocksInterface extends Remote {
 	 */	
 	public ArrayList<LinAlbara> getByDemandaActual(String localDestiId, String localOrigenId) throws RemoteException, STException;
 	
-	/*** END: Subsistema Connexió ****/
 
+	/***
+	 * 
+	 * Torna linies d'albara per ruptura estoc
+	 * 
+	 * @throws STException 
+	 */	
+	
+	public ArrayList<LinAlbara> getByRupturaStock(String localDestiId, String localOrigenId) throws RemoteException, STException;
+	
+	 /***
+	  * Afegeix un albara i les seves linies a la base de dades
+	  * 
+	  * @return int id del nou albarà create
+	  * @throws RemoteException
+	  * @throws STException
+	  */ 
+	public int demanarPeces(Albara albara) throws RemoteException, STException;
+	
+	
+	/***
+	 * recepciona peces 
+	 * 
+	 * @return int id del nou albarà creat
+	 * @throws RemoteException
+	 * @throws STException
+	 */ 
+	public int recepcionarPeces(Albara albara) throws RemoteException, STException;	
+
+	/***
+	 * recepciona peces 
+	 * 
+	 * @return int id del nou albarà creat
+	 * @throws RemoteException
+	 * @throws STException
+	 */ 
+	public void recepcionarPecesTaller(Albara albara) throws RemoteException, STException;
+	
+	/***
+	 * Retorna peces 
+	 * 
+	 * @return int id del nou albarà creat
+	 * @throws RemoteException
+	 * @throws STException
+	 */ 
+	public int retornarPeces(Albara albara) throws RemoteException, STException;	
+	
+	
+	/***
+	 * Distribueix peces als tallers
+	 * 
+	 * @throws RemoteException
+	 * @throws STException
+	 */ 
+	public void Distribuir(String localOrigenId, ArrayList<LinAlbara> listLinAlbara) throws RemoteException, STException;
+	
+	
+	/*** END: Subsistema control fluxe****/
+	
+	
+
+	
+	
 	 /***
 	  * Retorna una llista d'un producte específic o de
 	  * tots els productes, si s'indica null al 

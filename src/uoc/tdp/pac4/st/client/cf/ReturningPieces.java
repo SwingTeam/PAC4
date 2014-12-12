@@ -416,11 +416,10 @@ public class ReturningPieces extends JFrame {
 			albara.setOrigenId(codiLocal);
 			albara.setDestiId( (String) ((ComboBoxItem)  this.cmbProveidor.getSelectedItem()).getId());
 			albara.setLiniesAlbara(getLinAlbara());
-			albara.setTipusMovimentId(MovimentManager.TIPUS_MOVIMENT_SORTIDA);
-
+		
 			try {
 				
-				_clientManager.getRMIInterface().addAlbara(albara);
+				_clientManager.getRMIInterface().retornarPeces(albara);
 	
 				resetForm();
 				
