@@ -23,6 +23,7 @@ import uoc.tdp.pac4.st.common.dto.ReportSelectorData;
 import uoc.tdp.pac4.st.common.dto.ReturningReportLine;
 import uoc.tdp.pac4.st.common.dto.RotationReportLine;
 import uoc.tdp.pac4.st.common.dto.SalesReportLine;
+import uoc.tdp.pac4.st.common.dto.SalesSummaryReportLine;
 import uoc.tdp.pac4.st.common.dto.StockOutReportLine;
 import uoc.tdp.pac4.st.common.dto.SubGrup;
 import uoc.tdp.pac4.st.common.dto.Usuari;
@@ -780,6 +781,30 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 		 ReportManager reportManager = new ReportManager(databaseManager);
 		 return reportManager.getReturningReport(reportSelectorData);
 	 }
+
+	 /***
+	  * Retorna una llista de línies de l'informe
+	  * global de vendes de recanvis.
+	  * 
+	  * @param reportSelectorData Instància de ReportSelectorData
+	  * que conté la selecció del rang de resultats que ha
+	  * fet l'usuari.
+	  * @return List<SalesSummaryReportLine> Retorna una llista d'objectes
+	  * SalesSummaryReportLine, amb el resultat de l'informe demanat.
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public List<SalesSummaryReportLine> getSalesSummaryReport(ReportSelectorData reportSelectorData) throws RemoteException, STException{
+		 //Creem el database manager per a connectar amb la base de dades
+		 DatabaseManager databaseManager = new DatabaseManager();
+		 
+		 //Creem una instància de ReportManager i
+		 //li passem el databaseManager
+		 ReportManager reportManager = new ReportManager(databaseManager);
+		 return reportManager.getSalesSummaryReport(reportSelectorData);
+		 
+	 }
+
 
 	 
 }

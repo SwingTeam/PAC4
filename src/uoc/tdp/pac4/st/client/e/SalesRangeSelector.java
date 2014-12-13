@@ -23,9 +23,19 @@ public class SalesRangeSelector extends ReportRangeSelector {
 	 * Constructor
 	 */
 	public SalesRangeSelector(){
-		this(null);
+		this(null, null);
 	}
 
+	/***
+	 * Constructor
+	 * 
+	 * @param user Instància d'Usuari amb les dades
+	 * de l'usuari actiu.
+	 */
+	public SalesRangeSelector(Usuari user) {
+		this(user, null);
+	}
+	
 	/***
 	 * Constructor
 	 * 
@@ -33,7 +43,18 @@ public class SalesRangeSelector extends ReportRangeSelector {
 	 * que utilitzarà per a fer les connexions RMI.
 	 */
 	public SalesRangeSelector(ClientManager<ETallerStocksInterface> clientManager) {
-		super(clientManager);
+		this(null, clientManager);
+	}	
+	/***
+	 * Constructor
+	 * 
+	 * @param user Instància d'Usuari amb les dades
+	 * de l'usuari actiu.
+	 * @param clientManager Instància de ClientManager
+	 * que utilitzarà per a fer les connexions RMI.
+	 */
+	public SalesRangeSelector(Usuari user, ClientManager<ETallerStocksInterface> clientManager) {
+		super(user, clientManager);
 		setTitle("TITLE_SALES_REPORT");
 	}
 	

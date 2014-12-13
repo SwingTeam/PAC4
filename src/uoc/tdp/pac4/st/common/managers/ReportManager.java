@@ -22,6 +22,7 @@ public class ReportManager  {
 	private final String fQuantity = "fQuantity";
 	private final String fRowCount = "rowCount";
 	private final String fSgName = "sg_" + Constants.FIELD_NOM;
+	private final String fAmount = "fAmount";
 	private final String fTotalInput = "fInput";
 	private final String fTotalOutput = "fOutput";
 	private final String fUnitPrice = "unitPrice";
@@ -688,6 +689,140 @@ public class ReportManager  {
 						item.setUnitPrice(resultSet.getFloat(fUnitPrice));
 						
 						this.fillinCommonData(resultSet, item);
+						
+						result.add(item);
+					}
+			}
+			resultSet.close();
+
+		}catch (SQLException e){
+			throw new STException(e, TokenKeys.ERROR_GETTING_DATA);
+		}
+		return result;
+	}
+	
+	/***
+	 * Retorna una llista d'instàncies de
+	 * SalesSummaryReportLine, amb el resultat
+	 * de l'informe global de vendes de recanvis.
+	 * 
+	 * @param reportSelectorData Instància de ReportSelectorData
+	 * amb els valors seleccionats per l'usuari.
+	 * 
+	 * @return
+	 * @throws STException
+	 */
+	public List<SalesSummaryReportLine> getSalesSummaryReport(ReportSelectorData reportSelectorData) throws STException{
+		List<SalesSummaryReportLine> result = new ArrayList<SalesSummaryReportLine>();
+		StringBuilder sql = new StringBuilder();
+		
+//		//TODO -> remove before flying
+//		sql.append("SELECT COUNT(*) AS rowCount,"+ 
+//					"'PRODUCTID' AS producte_id, "+
+//					"13.13::float8 AS unitPrice, "+
+//					"'ORIGEN_ID' AS origen_id, "+
+//					"'ID_LOCAL' AS id_local, "+
+//					"'NOM LOCAL' AS nomlocal, "+
+//					"'CIF' AS cif, "+
+//					"'TELEFON' AS telefon,"+ 
+//					"'ADREÇA' AS \"adreça\", "+
+//					"'CODPOS' AS codpost, "+
+//					"'PROVINCIA' AS provincia_id,"+ 
+//					"'PAIS' AS pais,"+ 
+//					"'TIPUSLOCAL' AS tipuslocal,"+ 
+//					"TO_DATE('2014-03-29', 'yyyy-MM-dd') AS dataalta,"+ 
+//					"128 AS coordx,"+ 
+//					"43 AS coordy,"+ 
+//					"'PROVEIDOR_ID' AS proveidor_id,"+ 
+//					"'NOMPROVEIDOR' AS nomproveidor, "+
+//					"'NOMPRODUCTE' AS nomproducte, "+
+//					"1 AS productegrup_id, "+
+//					"2 AS productesubgrup_id,"+ 
+//					"'GRUP NOM' AS g_nom, "+
+//					"'SUBGRUP NOM' AS sg_nom UNION ALL ");
+//		sql.append(sql.toString());
+//		sql.append(sql.toString());
+//		sql.append(sql.toString());
+//		sql.append(sql.toString());
+//		sql.append(sql.toString());
+//		sql.append(sql.toString());
+//		sql.append(sql.toString());
+//		sql.append(sql.toString());
+		
+		//SELECT
+		sql.append("SELECT " +
+						"l." + Constants.FIELD_NOMLOCAL + ", " +
+						"SUM(m." + Constants.FIELD_NUMUNITSORTIDES + ") AS " + fTotalOutput + ", " +
+						"SUM(m." + Constants.FIELD_NUMUNITSORTIDES + " * lv." + Constants.FIELD_PREUVENDA  + ") AS " + fAmount + ", " +
+						"AVG(lv." + Constants.FIELD_PREUVENDA + "::numeric::float8) AS " + fUnitPrice + " ");
+		
+		//FROM
+		sql.append("FROM " +
+						Constants.TABLE_LINVENDA + " lv " +
+						"INNER JOIN " + Constants.TABLE_MOVIMENT + " m " +
+						"ON lv." + Constants.FIELD_MOVIMENT_ID + " = m." + Constants.FIELD_ID_MOVIMENT + " " +
+						"INNER JOIN " + Constants.TABLE_LOCAL + " l " +
+						"ON lv." + Constants.FIELD_ORIGLOCAL_ID + " = l." + Constants.FIELD_ID_LOCAL + " " +
+						"INNER JOIN " + Constants.TABLE_PRODUCTE + " p " +
+						"ON m." + Constants.FIELD_PRODUCTE_ID + " = p." + Constants.FIELD_ID_PRODUCTE + " ");
+		
+		//WHERE
+		sql.append("WHERE " +
+						"m." + Constants.FIELD_TIPUSMOVIMENT_ID + " = '" + Enums.MovementType.Venda + "' " +
+						"AND " +
+						"m." + Constants.FIELD_DATAORDRE + 
+								" >= '" + Methods.convertToPostgreSQLDateFormat(reportSelectorData.getStartDate()) + "' " +
+						"AND " +
+						"m." + Constants.FIELD_DATAORDRE + 
+								" <= '" + Methods.convertToPostgreSQLDateFormat(reportSelectorData.getEndDate()) + "' ");
+
+		if (reportSelectorData.getEstablishmentId() != Constants.ALL)
+			sql.append(" AND lv." + Constants.FIELD_ORIGLOCAL_ID + " = '" + reportSelectorData.getEstablishmentId() + "' ");
+	
+		sql.append("AND " +
+					"(");
+						boolean first = true;
+						for(STTreeNode treeNode : reportSelectorData.getProducts()){
+							if (!first)
+								sql.append(" OR ");
+							
+							if (treeNode.getNodeType() == Enums.NodeType.Root){
+								sql.append("NOT p." + Constants.FIELD_ID_PRODUCTE + " IS NULL ");
+							
+							} else if (treeNode.getNodeType() == Enums.NodeType.Group){
+								sql.append("p." + Constants.FIELD_PRODUCTEGRUP_ID + " = " + treeNode.getId().toString());
+							
+							} else if (treeNode.getNodeType() == Enums.NodeType.Subgroup)
+								sql.append("p." + Constants.FIELD_PRODUCTESUBGRUP_ID + " = " + treeNode.getId().toString());
+							
+							else
+								sql.append("p." + Constants.FIELD_ID_PRODUCTE + " = '" + treeNode.getId().toString() + "'");
+							
+							first = false;
+						}
+		sql.append(") ");
+
+		//GROUP BY
+		sql.append("GROUP BY " +
+				"l." + Constants.FIELD_NOMLOCAL + " ");
+
+		//ORDER BY
+		sql.append("ORDER BY " +
+				fTotalOutput + " " + reportSelectorData.getOrder());
+		
+		try{
+			ResultSet resultSet = this._databaseManager.selectData(sql.toString());
+			
+			if (resultSet != null){
+					while(resultSet.next()){
+						SalesSummaryReportLine item = new SalesSummaryReportLine();
+						item.setSalesAmount(resultSet.getFloat(fAmount));
+						item.setSalesQuantity(resultSet.getLong(fTotalOutput));
+						item.setUnitPrice(resultSet.getFloat(fUnitPrice));
+						
+						//Establishment data
+						LocalST estab = new LocalST();
+						estab.setNomLocal(resultSet.getString(Constants.FIELD_NOMLOCAL));
 						
 						result.add(item);
 					}

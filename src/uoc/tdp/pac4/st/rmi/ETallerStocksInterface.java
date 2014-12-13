@@ -488,5 +488,19 @@ public interface ETallerStocksInterface extends Remote {
 	  */
 	 public List<ReturningReportLine> getReturningReport(ReportSelectorData reportSelectorData) throws RemoteException, STException;
 
+	 /***
+	  * Retorna una llista de línies de l'informe
+	  * global de vendes de recanvis.
+	  * 
+	  * @param reportSelectorData Instància de ReportSelectorData
+	  * que conté la selecció del rang de resultats que ha
+	  * fet l'usuari.
+	  * @return List<SalesSummaryReportLine> Retorna una llista d'objectes
+	  * SalesSummaryReportLine, amb el resultat de l'informe demanat.
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public List<SalesSummaryReportLine> getSalesSummaryReport(ReportSelectorData reportSelectorData) throws RemoteException, STException;
+
 	 
 }

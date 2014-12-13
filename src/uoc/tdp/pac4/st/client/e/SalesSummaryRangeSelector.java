@@ -10,19 +10,19 @@ import uoc.tdp.pac4.st.rmi.*;
 
 /***
  * Classe corresponent a la finestra de selecció
- * de l'informe de rotació d'estoc
+ * de l'informe global de vendes de recanvis
  *  
  * @author Swing Team - 2014
  *
  */
-public class RotationRangeSelector extends ReportRangeSelector {
+public class SalesSummaryRangeSelector extends ReportRangeSelector {
 
 	private static final long serialVersionUID = 6223169968673953591L;
 
 	/***
 	 * Constructor
 	 */
-	public RotationRangeSelector(){
+	public SalesSummaryRangeSelector(){
 		this(null, null);
 	}
 
@@ -32,7 +32,7 @@ public class RotationRangeSelector extends ReportRangeSelector {
 	 * @param user Instància d'Usuari amb les dades
 	 * de l'usuari actiu.
 	 */
-	public RotationRangeSelector(Usuari user) {
+	public SalesSummaryRangeSelector(Usuari user) {
 		this(user, null);
 	}
 	
@@ -42,7 +42,7 @@ public class RotationRangeSelector extends ReportRangeSelector {
 	 * @param clientManager Instància de ClientManager
 	 * que utilitzarà per a fer les connexions RMI.
 	 */
-	public RotationRangeSelector(ClientManager<ETallerStocksInterface> clientManager) {
+	public SalesSummaryRangeSelector(ClientManager<ETallerStocksInterface> clientManager) {
 		this(null, clientManager);
 	}	
 	/***
@@ -53,19 +53,18 @@ public class RotationRangeSelector extends ReportRangeSelector {
 	 * @param clientManager Instància de ClientManager
 	 * que utilitzarà per a fer les connexions RMI.
 	 */
-	public RotationRangeSelector(Usuari user, ClientManager<ETallerStocksInterface> clientManager) {
+	public SalesSummaryRangeSelector(Usuari user, ClientManager<ETallerStocksInterface> clientManager) {
 		super(user, clientManager);
-		setTitle("TITLE_ROTATION_REPORT");
+		setTitle("TITLE_SALES_SUMMARY_REPORT");
 	}
 	
 	@Override
 	protected void launchReport(ReportSelectorData reportSelectorData){
 		try{
+			List<SalesSummaryReportLine> reportLines = this._clientManager.getRMIInterface().getSalesSummaryReport(reportSelectorData);
 			
-			List<RotationReportLine> reportLines = this._clientManager.getRMIInterface().getRotationReport(reportSelectorData);
-			
-			RotationReportResult<RotationReportLine> frame 
-				= new RotationReportResult<RotationReportLine>(reportLines, reportSelectorData);
+			SalesSummaryReportResult<SalesSummaryReportLine> frame 
+				= new SalesSummaryReportResult<SalesSummaryReportLine>(reportLines, reportSelectorData);
 			frame.setVisible(true);
 			
 		} catch (STException e){

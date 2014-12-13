@@ -5,6 +5,7 @@ import java.io.IOException;
 import uoc.tdp.pac4.st.*;
 import uoc.tdp.pac4.st.client.cx.*;
 import uoc.tdp.pac4.st.common.*;
+import uoc.tdp.pac4.st.common.dto.*;
 import uoc.tdp.pac4.st.common.managers.*;
 import uoc.tdp.pac4.st.rmi.*;
 import uoc.tdp.pac4.st.server.*;
@@ -50,6 +51,8 @@ public class InitializeClient {
 //			StockOutRangeSelector clientFrame = new StockOutRangeSelector();
 			Login clientFrame = new Login(); 
 //			SalesRangeSelector clientFrame = new SalesRangeSelector();
+//			ReturningRangeSelector clientFrame = new ReturningRangeSelector(user);
+//			SalesSummaryRangeSelector clientFrame = new SalesSummaryRangeSelector(user);
 			clientFrame.setVisible(true);
 
 		} catch (Exception e){
