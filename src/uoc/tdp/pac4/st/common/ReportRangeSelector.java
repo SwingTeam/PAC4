@@ -49,7 +49,17 @@ public class ReportRangeSelector extends STFrame {
 	 * Constructor
 	 */
 	public ReportRangeSelector(){
-		this(null);
+		this(null, null);
+	}
+
+	/***
+	 * Constructor
+	 * 
+	 * @param user Instància d'Usuari amb les dades
+	 * de l'usuari actiu.
+	 */
+	public ReportRangeSelector(Usuari user) {
+		this(user, null);
 	}
 	
 	/***
@@ -59,7 +69,18 @@ public class ReportRangeSelector extends STFrame {
 	 * que utilitzarà per a fer les connexions RMI.
 	 */
 	public ReportRangeSelector(ClientManager<ETallerStocksInterface> clientManager) {
-		super(clientManager);
+		this(null, clientManager);
+	}	
+	/***
+	 * Constructor
+	 * 
+	 * @param user Instància d'Usuari amb les dades
+	 * de l'usuari actiu.
+	 * @param clientManager Instància de ClientManager
+	 * que utilitzarà per a fer les connexions RMI.
+	 */
+	public ReportRangeSelector(Usuari user, ClientManager<ETallerStocksInterface> clientManager) {
+		super(user, clientManager);
 		setContentPane(contentPane);
 		setResizable(false);
 		setBounds(100, 100, 616, 624);

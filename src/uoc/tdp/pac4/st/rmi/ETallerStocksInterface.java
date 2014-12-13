@@ -6,23 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uoc.tdp.pac4.st.common.STException;
-import uoc.tdp.pac4.st.common.dto.Albara;
-import uoc.tdp.pac4.st.common.dto.Existencies;
-import uoc.tdp.pac4.st.common.dto.Grup;
-import uoc.tdp.pac4.st.common.dto.LinAlbara;
-import uoc.tdp.pac4.st.common.dto.Local;
-import uoc.tdp.pac4.st.common.dto.LocalST;
-import uoc.tdp.pac4.st.common.dto.LocalSTer;
-import uoc.tdp.pac4.st.common.dto.MotiuDevolucio;
-import uoc.tdp.pac4.st.common.dto.Producte;
-import uoc.tdp.pac4.st.common.dto.ProducteReport;
-import uoc.tdp.pac4.st.common.dto.Proveidor;
-import uoc.tdp.pac4.st.common.dto.ReportSelectorData;
-import uoc.tdp.pac4.st.common.dto.RotationReportLine;
-import uoc.tdp.pac4.st.common.dto.SalesReportLine;
-import uoc.tdp.pac4.st.common.dto.StockOutReportLine;
-import uoc.tdp.pac4.st.common.dto.SubGrup;
-import uoc.tdp.pac4.st.common.dto.Usuari;
+import uoc.tdp.pac4.st.common.dto.*;
 
 /***
  * Interface per a la connexió RMI
@@ -489,6 +473,20 @@ public interface ETallerStocksInterface extends Remote {
 	  * @throws STException
 	  */	 
 	 public List<LocalST> listLocals(Usuari usuari) throws RemoteException, STException;		
+
+	 /***
+	  * Retorna una llista de línies de l'informe
+	  * de devolució de recanvis.
+	  * 
+	  * @param reportSelectorData Instància de ReportSelectorData
+	  * que conté la selecció del rang de resultats que ha
+	  * fet l'usuari.
+	  * @return List<ReturningReportLine> Retorna una llista d'objectes
+	  * ReturningReportLine, amb el resultat de l'informe demanat.
+	  * @throws RemoteException
+	  * @throws STException
+	  */
+	 public List<ReturningReportLine> getReturningReport(ReportSelectorData reportSelectorData) throws RemoteException, STException;
 
 	 
 }

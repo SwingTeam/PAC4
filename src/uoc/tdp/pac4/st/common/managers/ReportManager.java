@@ -19,12 +19,51 @@ public class ReportManager  {
 	private DatabaseManager	_databaseManager = null;
 	private final String fFirstDate = "firstDate";
 	private final String fGName = "g_" + Constants.FIELD_NOM;
+	private final String fQuantity = "fQuantity";
 	private final String fRowCount = "rowCount";
 	private final String fSgName = "sg_" + Constants.FIELD_NOM;
+	private final String fTotalInput = "fInput";
+	private final String fTotalOutput = "fOutput";
 	private final String fUnitPrice = "unitPrice";
 	
 	public ReportManager(DatabaseManager databaseManager) throws STException {
 		this._databaseManager = databaseManager;
+	}
+	
+	private void fillinCommonData(ResultSet resultSet, ReportLine reportLine) throws SQLException{
+		//Group data
+		Grup group = new Grup();
+		group.setIdGrup(resultSet.getInt(Constants.FIELD_PRODUCTEGRUP_ID));
+		group.setNom(resultSet.getString(fGName));
+		
+		//Subgroup data
+		SubGrup subgroup = new SubGrup();
+		subgroup.setIdSubGrup(resultSet.getInt(Constants.FIELD_PRODUCTESUBGRUP_ID));
+		subgroup.setNom(resultSet.getString(fSgName));
+		
+		//Establishment data
+		LocalST estab = new LocalST();
+		estab.setCoordX(resultSet.getInt(Constants.FIELD_COORDX));
+		estab.setCoordY(resultSet.getInt(Constants.FIELD_COORDY));
+		estab.setNomLocal(resultSet.getString(Constants.FIELD_NOMLOCAL));
+		estab.setTelefon(resultSet.getString(Constants.FIELD_TELEFON));
+		estab.setProvincia_id(resultSet.getString(Constants.FIELD_PROVINCIA_ID));
+		estab.setCif(resultSet.getString(Constants.FIELD_CIF));
+		
+		Producte product = new Producte();
+		product.setIdProducte(resultSet.getString(Constants.FIELD_PRODUCTE_ID));
+		product.setNomProducte(resultSet.getString(Constants.FIELD_NOMPRODUCTE));
+		
+		//Provider data
+		Proveidor provider = new Proveidor();
+		provider.setIdProveidor(resultSet.getString(Constants.FIELD_PROVEIDOR_ID));
+		provider.setNomProveidor(resultSet.getString(Constants.FIELD_NOMPROVEIDOR));
+		
+		reportLine.setGroup(group);
+		reportLine.setEstablishment(estab);
+		reportLine.setProduct(product);
+		reportLine.setProvider(provider);
+		reportLine.setSubgroup(subgroup);
 	}
 	
 	/***
@@ -86,6 +125,229 @@ public class ReportManager  {
 		return result;
 	}
 	
+	/***
+	 * Retorna una llista d'instàncies de
+	 * ReturningReportLine, amb el resultat
+	 * de l'informe de devolucions de recanvis.
+	 * 
+	 * @param reportSelectorData Instància de ReportSelectorData
+	 * amb els valors seleccionats per l'usuari.
+	 * 
+	 * @return
+	 * @throws STException
+	 */
+	public List<ReturningReportLine> getReturningReport(ReportSelectorData reportSelectorData) throws STException{
+		List<ReturningReportLine> result = new ArrayList<ReturningReportLine>();
+		StringBuilder sql = new StringBuilder();
+		
+//		//TODO -> remove before flying
+//		sql.append("SELECT COUNT(*) AS rowCount,"+ 
+//					"'PRODUCTID' AS producte_id, "+
+//					"13.13::float8 AS unitPrice, "+
+//					"'ORIGEN_ID' AS origen_id, "+
+//					"'ID_LOCAL' AS id_local, "+
+//					"'NOM LOCAL' AS nomlocal, "+
+//					"'CIF' AS cif, "+
+//					"'TELEFON' AS telefon,"+ 
+//					"'ADREÇA' AS \"adreça\", "+
+//					"'CODPOS' AS codpost, "+
+//					"'PROVINCIA' AS provincia_id,"+ 
+//					"'PAIS' AS pais,"+ 
+//					"'TIPUSLOCAL' AS tipuslocal,"+ 
+//					"TO_DATE('2014-03-29', 'yyyy-MM-dd') AS dataalta,"+ 
+//					"128 AS coordx,"+ 
+//					"43 AS coordy,"+ 
+//					"'PROVEIDOR_ID' AS proveidor_id,"+ 
+//					"'NOMPROVEIDOR' AS nomproveidor, "+
+//					"'NOMPRODUCTE' AS nomproducte, "+
+//					"1 AS productegrup_id, "+
+//					"2 AS productesubgrup_id,"+ 
+//					"'GRUP NOM' AS g_nom, "+
+//					"'SUBGRUP NOM' AS sg_nom UNION ALL ");
+//		sql.append(sql.toString());
+//		sql.append(sql.toString());
+//		sql.append(sql.toString());
+//		sql.append(sql.toString());
+//		sql.append(sql.toString());
+//		sql.append(sql.toString());
+//		sql.append(sql.toString());
+//		sql.append(sql.toString());
+		
+		//SELECT
+		sql.append("SELECT " +
+					"SUM(" + Constants.FIELD_NUMUNITSORTIDES + ") AS " + fTotalOutput + ", " +
+					"m." + Constants.FIELD_PRODUCTE_ID + ", " +
+					"ld." + Constants.FIELD_ORIGLOCAL_ID + ", " +
+					"l." + Constants.FIELD_ID_LOCAL + ", " +
+					"l." + Constants.FIELD_NOMLOCAL + ", " +
+					"l." + Constants.FIELD_CIF + ", " +
+					"l." + Constants.FIELD_TELEFON + ", " +
+					"l." + Constants.FIELD_ADRECA + ", " +
+					"l." + Constants.FIELD_CODPOST + ", " +
+					"l." + Constants.FIELD_PROVINCIA_ID + ", " +
+					"l." + Constants.FIELD_PAIS + ", " +
+					"l." + Constants.FIELD_TIPUSLOCAL + ", " +
+					"l." + Constants.FIELD_DATAALTA + ", " +
+					"l." + Constants.FIELD_COORDX + ", " +
+					"l." + Constants.FIELD_COORDY + ", " +
+					"pp." + Constants.FIELD_PROVEIDOR_ID + ", " +
+					"pv." + Constants.FIELD_NOMPROVEIDOR + ", " +
+					"p." + Constants.FIELD_NOMPRODUCTE + ", " +
+					"p." + Constants.FIELD_PRODUCTEGRUP_ID + ", " +
+					"p." + Constants.FIELD_PRODUCTESUBGRUP_ID + ", " +
+					"g." + Constants.FIELD_NOM + " AS " + fGName + ", " +
+					"sg." + Constants.FIELD_NOM + " AS " + fSgName + " ");
+		
+		//Quantitat total venuda
+		sql.append(", (" +
+						"SELECT " +
+							"SUM(lc." + Constants.FIELD_NUMUNITREBUDES + ") " +
+						"FROM " +
+							Constants.TABLE_LINCOMPRA + " lc " +
+							"INNER JOIN " + Constants.TABLE_MOVIMENT + " m " +
+							"ON lc." + Constants.FIELD_MOVIMENT_ID + " = m." + Constants.FIELD_ID_MOVIMENT + " " +
+						"WHERE " +
+							"m." + Constants.FIELD_TIPUSMOVIMENT_ID + " = '" + Enums.MovementType.Compra + "' " +
+							"AND " +
+							"m." + Constants.FIELD_DATAORDRE + 
+									" >= '" + Methods.convertToPostgreSQLDateFormat(reportSelectorData.getStartDate()) + "' " +
+							"AND " +
+							"m." + Constants.FIELD_DATAORDRE + 
+									" <= '" + Methods.convertToPostgreSQLDateFormat(reportSelectorData.getEndDate()) + "' " +
+						") AS " + fQuantity);
+		//Preu mig
+		sql.append(", (" +
+				"SELECT " +
+					"AVG(lc." + Constants.FIELD_PREUCOMPRA + "::numeric::float8) " +
+				"FROM " +
+					Constants.TABLE_LINCOMPRA + " lc " +
+					"INNER JOIN " + Constants.TABLE_MOVIMENT + " m " +
+					"ON lc." + Constants.FIELD_MOVIMENT_ID + " = m." + Constants.FIELD_ID_MOVIMENT + " " +
+				"WHERE " +
+					"m." + Constants.FIELD_TIPUSMOVIMENT_ID + " = '" + Enums.MovementType.Compra + "' " +
+					"AND " +
+					"m." + Constants.FIELD_DATAORDRE + 
+							" >= '" + Methods.convertToPostgreSQLDateFormat(reportSelectorData.getStartDate()) + "' " +
+					"AND " +
+					"m." + Constants.FIELD_DATAORDRE + 
+							" <= '" + Methods.convertToPostgreSQLDateFormat(reportSelectorData.getEndDate()) + "' " +
+				") AS " + fUnitPrice + " ");
+		
+		//FROM
+		sql.append("FROM " +
+				Constants.TABLE_MOVIMENT + " m INNER JOIN " + Constants.TABLE_LINSORTIDADEVOLUCIO + " ld " +
+				"ON m." + Constants.FIELD_ID_MOVIMENT + " = ld." + Constants.FIELD_MOVIMENT_ID + " " +
+				"INNER JOIN " + Constants.TABLE_LOCAL + " l " +
+				"ON ld." + Constants.FIELD_ORIGLOCAL_ID + " = l." + Constants.FIELD_ID_LOCAL + " " +
+				"INNER JOIN " + Constants.TABLE_PRODUCTEPROVEIDOR + " pp " +
+				"ON m." + Constants.FIELD_PRODUCTE_ID + " = pp." + Constants.FIELD_PRODUCTE_ID + " " +
+				"INNER JOIN " + Constants.TABLE_PROVEIDOR + " pv " +
+				"ON pp." + Constants.FIELD_PROVEIDOR_ID + " = pv." + Constants.FIELD_ID_PROVEIDOR + " " +
+				"INNER JOIN " + Constants.TABLE_PRODUCTE + " p " +
+				"ON m." + Constants.FIELD_PRODUCTE_ID + " = p." + Constants.FIELD_ID_PRODUCTE + " " +
+				"INNER JOIN " + Constants.TABLE_GRUP + " g " +
+				"ON p." + Constants.FIELD_PRODUCTEGRUP_ID + " = g." + Constants.FIELD_ID_GRUP + " " +
+				"INNER JOIN " + Constants.TABLE_SUBGRUP + " sg " +
+				"ON p." + Constants.FIELD_PRODUCTESUBGRUP_ID + " = sg." + Constants.FIELD_ID_SUBGRUP + " ");
+		
+		//WHERE
+		sql.append("WHERE " +
+				"m." + Constants.FIELD_TIPUSMOVIMENT_ID + " = '" + Enums.MovementType.Compra + "' " +
+				"AND " +
+				"m." + Constants.FIELD_DATAORDRE + 
+						" >= '" + Methods.convertToPostgreSQLDateFormat(reportSelectorData.getStartDate()) + "' " +
+				"AND " +
+				"m." + Constants.FIELD_DATAORDRE + 
+						" <= '" + Methods.convertToPostgreSQLDateFormat(reportSelectorData.getEndDate()) + "' ");
+
+		if (reportSelectorData.getEstablishmentId() != Constants.ALL)
+			sql.append(" AND ld." + Constants.FIELD_ORIGLOCAL_ID + " = '" + reportSelectorData.getEstablishmentId() + "' ");
+	
+		sql.append("AND " +
+					"(");
+						boolean first = true;
+						for(STTreeNode treeNode : reportSelectorData.getProducts()){
+							if (!first)
+								sql.append(" OR ");
+							
+							if (treeNode.getNodeType() == Enums.NodeType.Root){
+								sql.append("NOT p." + Constants.FIELD_ID_PRODUCTE + " IS NULL ");
+							
+							} else if (treeNode.getNodeType() == Enums.NodeType.Group){
+								sql.append("p." + Constants.FIELD_PRODUCTEGRUP_ID + " = " + treeNode.getId().toString());
+							
+							} else if (treeNode.getNodeType() == Enums.NodeType.Subgroup)
+								sql.append("p." + Constants.FIELD_PRODUCTESUBGRUP_ID + " = " + treeNode.getId().toString());
+							
+							else
+								sql.append("p." + Constants.FIELD_ID_PRODUCTE + " = '" + treeNode.getId().toString() + "'");
+							
+							first = false;
+						}
+		sql.append(") ");
+
+		//GROUP BY
+		sql.append("GROUP BY " +
+				"m." + Constants.FIELD_PRODUCTE_ID + ", " +
+				"ld." + Constants.FIELD_ORIGLOCAL_ID + ", " +
+				"l." + Constants.FIELD_ID_LOCAL + ", " +
+				"l." + Constants.FIELD_NOMLOCAL + ", " +
+				"l." + Constants.FIELD_CIF + ", " +
+				"l." + Constants.FIELD_TELEFON + ", " +
+				"l." + Constants.FIELD_ADRECA + ", " +
+				"l." + Constants.FIELD_CODPOST + ", " +
+				"l." + Constants.FIELD_PROVINCIA_ID + ", " +
+				"l." + Constants.FIELD_PAIS + ", " +
+				"l." + Constants.FIELD_TIPUSLOCAL + ", " +
+				"l." + Constants.FIELD_DATAALTA + ", " +
+				"l." + Constants.FIELD_COORDX + ", " + 
+				"l." + Constants.FIELD_COORDY + ", " +
+				"pp." + Constants.FIELD_PROVEIDOR_ID + ", " +
+				"pv." + Constants.FIELD_NOMPROVEIDOR + ", " +
+				"p." + Constants.FIELD_NOMPRODUCTE + ", " +
+				"p." + Constants.FIELD_PRODUCTEGRUP_ID + ", " +
+				"p." + Constants.FIELD_PRODUCTESUBGRUP_ID + ", " +
+				"g." + Constants.FIELD_NOM + ", " +
+				"sg." + Constants.FIELD_NOM + " ");
+		
+		//ORDER BY
+		sql.append("ORDER BY " +
+				fTotalOutput + " " + reportSelectorData.getOrder());
+		
+		try{
+			ResultSet resultSet = this._databaseManager.selectData(sql.toString());
+			
+			if (resultSet != null){
+					while(resultSet.next()){
+						ReturningReportLine item = new ReturningReportLine();
+						item.setReturnedQuantity(resultSet.getLong(fTotalOutput));
+						item.setSalesQuantity(resultSet.getLong(fTotalInput));
+						item.setUnitPrice(resultSet.getFloat(fUnitPrice));
+						
+						this.fillinCommonData(resultSet, item);
+						
+						result.add(item);
+					}
+			}
+			resultSet.close();
+
+		}catch (SQLException e){
+			throw new STException(e, TokenKeys.ERROR_GETTING_DATA);
+		}
+		return result;
+	}
+	
+	/***
+	 * Retorna una llista d'instàncies de
+	 * RotationReportLine, amb el resultat
+	 * de l'informe de rotació demanat.
+	 * 
+	 * @param reportSelectorData Instància de ReportSelectorData
+	 * amb els valors seleccionats per l'usuari.
+	 * 
+	 * @return
+	 * @throws STException
+	 */
 	public List<RotationReportLine> getRotationReport (ReportSelectorData reportSelectorData) throws STException{
 		List<RotationReportLine> result = new ArrayList<RotationReportLine>();
 		
@@ -247,40 +509,7 @@ public class ReportManager  {
 						item.setCount(resultSet.getInt(fRowCount));
 						item.setDays(Methods.calculateDays(resultSet.getDate(fFirstDate), reportSelectorData.getEndDate()));
 						
-						//Group data
-						Grup group = new Grup();
-						group.setIdGrup(resultSet.getInt(Constants.FIELD_PRODUCTEGRUP_ID));
-						group.setNom(resultSet.getString(fGName));
-						
-						//Subgroup data
-						SubGrup subgroup = new SubGrup();
-						subgroup.setIdSubGrup(resultSet.getInt(Constants.FIELD_PRODUCTESUBGRUP_ID));
-						subgroup.setNom(resultSet.getString(fSgName));
-						
-						//Establishment data
-						LocalST estab = new LocalST();
-						estab.setCoordX(resultSet.getInt(Constants.FIELD_COORDX));
-						estab.setCoordY(resultSet.getInt(Constants.FIELD_COORDY));
-						estab.setNomLocal(resultSet.getString(Constants.FIELD_NOMLOCAL));
-						estab.setTelefon(resultSet.getString(Constants.FIELD_TELEFON));
-						estab.setProvincia_id(resultSet.getString(Constants.FIELD_PROVINCIA_ID));
-						estab.setCif(resultSet.getString(Constants.FIELD_CIF));
-						
-						//Product
-						Producte product = new Producte();
-						product.setIdProducte(resultSet.getString(Constants.FIELD_PRODUCTE_ID));
-						product.setNomProducte(resultSet.getString(Constants.FIELD_NOMPRODUCTE));
-						
-						//Provider data
-						Proveidor provider = new Proveidor();
-						provider.setIdProveidor(resultSet.getString(Constants.FIELD_PROVEIDOR_ID));
-						provider.setNomProveidor(resultSet.getString(Constants.FIELD_NOMPROVEIDOR));
-						
-						item.setGroup(group);
-						item.setEstablishment(estab);
-						item.setProduct(product);
-						item.setProvider(provider);
-						item.setSubgroup(subgroup);
+						this.fillinCommonData(resultSet, item);
 						
 						result.add(item);
 					}
@@ -294,6 +523,17 @@ public class ReportManager  {
 		
 	}
 
+	/***
+	 * Retorna una llista d'instàncies de
+	 * SalesReportLine, amb el resultat
+	 * de l'informe de demandes de recanvis.
+	 * 
+	 * @param reportSelectorData Instància de ReportSelectorData
+	 * amb els valors seleccionats per l'usuari.
+	 * 
+	 * @return
+	 * @throws STException
+	 */
 	public List<SalesReportLine> getSalesReport(ReportSelectorData reportSelectorData) throws STException{
 		List<SalesReportLine> result = new ArrayList<SalesReportLine>();
 		StringBuilder sql = new StringBuilder();
@@ -447,39 +687,7 @@ public class ReportManager  {
 						item.setCount(resultSet.getInt(fRowCount));
 						item.setUnitPrice(resultSet.getFloat(fUnitPrice));
 						
-						//Group data
-						Grup group = new Grup();
-						group.setIdGrup(resultSet.getInt(Constants.FIELD_PRODUCTEGRUP_ID));
-						group.setNom(resultSet.getString(fGName));
-						
-						//Subgroup data
-						SubGrup subgroup = new SubGrup();
-						subgroup.setIdSubGrup(resultSet.getInt(Constants.FIELD_PRODUCTESUBGRUP_ID));
-						subgroup.setNom(resultSet.getString(fSgName));
-						
-						//Establishment data
-						LocalST estab = new LocalST();
-						estab.setCoordX(resultSet.getInt(Constants.FIELD_COORDX));
-						estab.setCoordY(resultSet.getInt(Constants.FIELD_COORDY));
-						estab.setNomLocal(resultSet.getString(Constants.FIELD_NOMLOCAL));
-						estab.setTelefon(resultSet.getString(Constants.FIELD_TELEFON));
-						estab.setProvincia_id(resultSet.getString(Constants.FIELD_PROVINCIA_ID));
-						estab.setCif(resultSet.getString(Constants.FIELD_CIF));
-						
-						Producte product = new Producte();
-						product.setIdProducte(resultSet.getString(Constants.FIELD_PRODUCTE_ID));
-						product.setNomProducte(resultSet.getString(Constants.FIELD_NOMPRODUCTE));
-						
-						//Provider data
-						Proveidor provider = new Proveidor();
-						provider.setIdProveidor(resultSet.getString(Constants.FIELD_PROVEIDOR_ID));
-						provider.setNomProveidor(resultSet.getString(Constants.FIELD_NOMPROVEIDOR));
-						
-						item.setGroup(group);
-						item.setEstablishment(estab);
-						item.setProduct(product);
-						item.setProvider(provider);
-						item.setSubgroup(subgroup);
+						this.fillinCommonData(resultSet, item);
 						
 						result.add(item);
 					}
@@ -492,6 +700,17 @@ public class ReportManager  {
 		return result;
 	}
 	
+	/***
+	 * Retorna una llista d'instàncies de
+	 * StockOutReportLine, amb el resultat
+	 * de l'informe de ruptures d'estoc.
+	 * 
+	 * @param reportSelectorData Instància de ReportSelectorData
+	 * amb els valors seleccionats per l'usuari.
+	 * 
+	 * @return
+	 * @throws STException
+	 */
 	public List<StockOutReportLine> getStockOutReport(ReportSelectorData reportSelectorData) throws STException{
 		List<StockOutReportLine> result = new ArrayList<StockOutReportLine>();
 		StringBuilder sql = new StringBuilder();
@@ -654,40 +873,7 @@ public class ReportManager  {
 						StockOutReportLine item = new StockOutReportLine();
 						item.setCount(resultSet.getInt(fRowCount));
 						
-						//Group data
-						Grup group = new Grup();
-						group.setIdGrup(resultSet.getInt(Constants.FIELD_PRODUCTEGRUP_ID));
-						group.setNom(resultSet.getString(fGName));
-						
-						//Subgroup data
-						SubGrup subgroup = new SubGrup();
-						subgroup.setIdSubGrup(resultSet.getInt(Constants.FIELD_PRODUCTESUBGRUP_ID));
-						subgroup.setNom(resultSet.getString(fSgName));
-						
-						//Establishment data
-						LocalST estab = new LocalST();
-						estab.setCoordX(resultSet.getInt(Constants.FIELD_COORDX));
-						estab.setCoordY(resultSet.getInt(Constants.FIELD_COORDY));
-						estab.setNomLocal(resultSet.getString(Constants.FIELD_NOMLOCAL));
-						estab.setTelefon(resultSet.getString(Constants.FIELD_TELEFON));
-						estab.setProvincia_id(resultSet.getString(Constants.FIELD_PROVINCIA_ID));
-						estab.setCif(resultSet.getString(Constants.FIELD_CIF));
-						
-						//Product
-						Producte product = new Producte();
-						product.setIdProducte(resultSet.getString(Constants.FIELD_PRODUCTE_ID));
-						product.setNomProducte(resultSet.getString(Constants.FIELD_NOMPRODUCTE));
-						
-						//Provider data
-						Proveidor provider = new Proveidor();
-						provider.setIdProveidor(resultSet.getString(Constants.FIELD_PROVEIDOR_ID));
-						provider.setNomProveidor(resultSet.getString(Constants.FIELD_NOMPROVEIDOR));
-						
-						item.setGroup(group);
-						item.setEstablishment(estab);
-						item.setProduct(product);
-						item.setProvider(provider);
-						item.setSubgroup(subgroup);
+						this.fillinCommonData(resultSet, item);
 						
 						result.add(item);
 					}

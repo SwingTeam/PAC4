@@ -347,7 +347,7 @@ public class LocalManager  {
 		//del rol de l'usuari
 		String sql = "SELECT * FROM " + Constants.TABLE_LOCAL + " %s ORDER BY " + Constants.FIELD_NOMLOCAL;
 		if (usuari.getRol() != Constants.ROLE_ADMIN)
-			sql = String.format(sql, "WHERE " + Constants.FIELD_LOCAL_ID + " = " + usuari.getIdLocal());
+			sql = String.format(sql, "WHERE " + Constants.FIELD_ID_LOCAL + " = '" + usuari.getIdLocal() + "' ");
 		
 		ResultSet resultSet= db.selectData(sql);
 		try 

@@ -189,12 +189,16 @@ public class Constants {
 	public static final String REPORT_ESTAB_PHONE = "REPORT_ESTAB_PHONE";
 	public static final String REPORT_ESTAB_PROVINCE = "REPORT_ESTAB_PROVINC";
 	public static final String REPORT_ESTAB_TAX_ID = "REPORT_ESTAB_TAX_ID";
+	public static final String REPORT_PERCENTAGE = "REPORT_PERCENTAGE";
 	public static final String REPORT_PRODUCT_ID = "REPORT_PRODUCT_ID";
 	public static final String REPORT_PRODUCT_NAME = "REPORT_PRODUCT_NOM";
 	public static final String REPORT_PRODUCT_GROUP_ID = "REPORT_PRODUCT_GROUP";
 	public static final String REPORT_PRODUCT_SUBGROUP_ID = "REPORT_PRODUCT_SUBGR";
 	public static final String REPORT_PROVIDER_ID = "REPORT_PROVIDER_ID";
 	public static final String REPORT_PROVIDER_NAME = "REPORT_PROVIDER_NAME";
+	public static final String REPORT_RETURNED_AMOUNT = "REPORT_RETURNED_AMOUNT";
+	public static final String REPORT_RETURNED_QUANTITY = "REPORT_RETURNED_QUANTITY";
+	public static final String REPORT_SALES_QUANTITY = "SALES_QUANTITY";
 	public static final String REPORT_SUBGROUP_ID = "REPORT_SUBGROUP_ID";
 	public static final String REPORT_SUBGROUP_NAME = "REPORT_SUBGROUP_NAME";
 	public static final String REPORT_UNIT_PRICE = "REPORT_UNIT_PRICE";

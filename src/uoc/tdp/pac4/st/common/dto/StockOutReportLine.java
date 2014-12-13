@@ -14,7 +14,7 @@ import uoc.tdp.pac4.st.common.Constants;
 public class StockOutReportLine extends ReportLine implements Serializable {
 
 	private static final long serialVersionUID = -7267979145042182485L;
-	private int _count = 0;
+	private long _count = 0;
 
 	/***
 	 * Constructor
@@ -57,7 +57,7 @@ public class StockOutReportLine extends ReportLine implements Serializable {
 	 * @param provider
 	 * @param establishment
 	 */
-	public StockOutReportLine(int count,
+	public StockOutReportLine(long count,
 							Grup group,
 							SubGrup subgroup,
 							Producte product,
@@ -68,11 +68,11 @@ public class StockOutReportLine extends ReportLine implements Serializable {
 	}
 
 	//********************************* Getters ********************************************
-	public int getCount(){return this._count;}
+	public long getCount(){return this._count;}
 	//********************************* ******* ********************************************
 
 	//********************************* Setters ********************************************
-	public void setCount(int count){this._count = count;}
+	public void setCount(long count){this._count = count;}
 	//********************************* ******* ********************************************
 	
 	/***
