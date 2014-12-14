@@ -218,7 +218,7 @@ public class Login extends JFrame {
 			//DatabaseManager db = new DatabaseManager();
 			//UserManager um = new UserManager(db);
 			//Usuari user = um.Login(this.TXT_USUARI.getText(), this.passwordField.getText());
-			Usuari user  = this._clientManager.getRMIInterface().Login(this.TXT_USUARI.getText(),new String(this.passwordField.getPassword()));
+			Usuari user  = this._clientManager.getRMIInterface().Login(this.TXT_USUARI.getText(),this.passwordField.getText());
 			
 			if (user!=null){ 
 				
@@ -227,11 +227,12 @@ public class Login extends JFrame {
 				cw.setVisible(true);
 				this.dispose();
 			}else{
-				Methods.showMessage(TokenKeys.ERROR_ACCESS_EXCEPTION , Enums.MessageType.Warning);
+				Methods.showMessage("INCORRECT_USER", Enums.MessageType.Warning);
 				this.repaint();
+				return;
 			}
 		} catch (STException e) {
-			Managers.exception.showException(new STException(e, TokenKeys.ERROR_REMOTE_EXCEPTION));
+			Managers.exception.showException(new STException(e, TokenKeys.ERROR_RMI_STARTING));
 
 		} catch (Exception e){
 			Managers.exception.showException(new STException(e));

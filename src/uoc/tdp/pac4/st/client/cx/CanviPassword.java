@@ -39,7 +39,7 @@ public class CanviPassword extends JFrame {
 	private static final long serialVersionUID = -4301396368624900151L;
 	private JPanel contentPane;
 	private ClientManager<ETallerStocksInterface> _clientManager = null;
-	private JTextField TXT_OLD_PASSWORD; 
+	private JPasswordField TXT_OLD_PASSWORD; 
 
 	private JPasswordField TXT_NEW_PASSWORD; 
 	private JPasswordField TXT_MEW_PASSWORD2;
@@ -72,10 +72,10 @@ public class CanviPassword extends JFrame {
 		lblLabelexamplerecoverdata.setBounds(33, 62, 142, 15);
 		contentPane.add(lblLabelexamplerecoverdata);
 		
-		TXT_OLD_PASSWORD = new JTextField();
+		TXT_OLD_PASSWORD = new JPasswordField(10);
+		TXT_OLD_PASSWORD.setActionCommand("OK");
 		TXT_OLD_PASSWORD.setBounds(186, 24, 114, 19);
 		contentPane.add(TXT_OLD_PASSWORD);
-		TXT_OLD_PASSWORD.setColumns(10);
 		
 		TXT_NEW_PASSWORD = new JPasswordField(10);
 		TXT_NEW_PASSWORD.setActionCommand("OK");
@@ -233,7 +233,7 @@ public class CanviPassword extends JFrame {
 				Methods.showMessage("ERROR_NEW_PASSWORD" , Enums.MessageType.Warning);
 				return;
 			}
-			if (this.TXT_OLD_PASSWORD.getText().equals(userPassword.getPassword())==false){
+			if (Arrays.equals(this.TXT_OLD_PASSWORD.getPassword(), userPassword.getPassword().toCharArray())==false){
 				Methods.showMessage("ERROR_OLD_PASSWORD" , Enums.MessageType.Warning);
 				this.TXT_OLD_PASSWORD.setText("");
 				this.TXT_OLD_PASSWORD.setFocusable(true);
@@ -252,7 +252,7 @@ public class CanviPassword extends JFrame {
 					stopConnection();
 					startConnection();
 					//int result=um.canviPassword(userPassword.getidUsuari(), this.TXT_NEW_PASSWORD.getText());
-					int result = this._clientManager.getRMIInterface().canviPassword(userPassword.getidUsuari(), new String(this.TXT_NEW_PASSWORD.getPassword()));
+					int result = this._clientManager.getRMIInterface().canviPassword(userPassword.getidUsuari(), this.TXT_NEW_PASSWORD.getText());
 					if (result!=0){
 						Methods.showMessage("CHANGE_PASSWORD" , Enums.MessageType.Info);
 					}else{

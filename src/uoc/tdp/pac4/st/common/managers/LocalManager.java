@@ -3,18 +3,10 @@ package uoc.tdp.pac4.st.common.managers;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import uoc.tdp.pac4.st.common.Constants;
-import uoc.tdp.pac4.st.common.STException;
-import uoc.tdp.pac4.st.common.TokenKeys;
-import uoc.tdp.pac4.st.common.dto.LocalST;
-import uoc.tdp.pac4.st.common.dto.LocalSTer;
-import uoc.tdp.pac4.st.common.dto.Usuari;
-
-
+import uoc.tdp.pac4.st.common.*;
+import uoc.tdp.pac4.st.common.dto.*;
 
 /***
  * 
@@ -24,14 +16,151 @@ import uoc.tdp.pac4.st.common.dto.Usuari;
  */
 public class LocalManager  {
 	
-	public static final String TIPUS_MOVIMENT_MAGATZEM_CENTRAL= "C"; //magatzem central
-	public static final String TIPUS_MOVIMENT_TALLER= "L"; // taller.local
-
+	
 	private DatabaseManager	db;
 	
 	public LocalManager(DatabaseManager _db) throws STException {
 		this.db= _db;
 	}
+
+	 /***
+	  * 
+	  * Afegeix un Local
+	  * @param taller El local a afegir
+	  * 
+	  * @return Integer amb l'ID del  local creat
+	  * @throws STException 
+	  */
+	public int add(LocalSTer taller) throws STException 
+	{				
+		int UserId=  addLocal(db, taller);
+		return UserId;
+	}		
+
+	/**
+	 * @author emarsal2
+	 * @since dijous 10
+	 * Mètode per afegir un local
+	 * @param local
+	 * @return int amb el id del local que s'ha creat
+	 * @throws STException
+	 */
+	public int addLocal(DatabaseManager db, LocalSTer taller) throws STException 
+	{
+		int idnou = 0;
+		String sql = "INSERT INTO LOCAL (NOMLOCAL,CIF,TELEFON,CODPOST,PROVINCIA_ID,PAIS,TIPUSLOCAL,"
+				+ "DATAALTA,"
+				+ Constants.FIELD_ADRECA + ","
+				+ "COORDX,COORDY,\"Poblacio\") VALUES "
+				+ "('";
+		
+		sql += taller.getName();
+		sql += "','";
+		sql += taller.getCIF();
+		sql += "',";
+		if (taller.getTelephone() == null)
+		{
+			sql += "null,";
+		} else {
+		sql += "'";
+		sql += taller.getTelephone();
+		sql += "',";
+		}
+		if (taller.getCp() == null)
+		{
+			sql += "null,";
+		} else {
+			sql += "'";
+			sql += taller.getCp();
+		sql += "',";
+		}
+		if (taller.getProvince() == null)
+		{
+			sql += "null,";
+		} else {
+			sql += "'";
+		sql += taller.getProvince();
+		sql += "',";
+		}
+		if (taller.getCountry() == null)
+		{
+			sql += "null,";
+		} else {
+			sql += "'";
+		sql += taller.getCountry();
+		sql += "',";
+		}
+		if (taller.getLocalTipus() == null)
+		{
+			sql += "null,";
+		} else {
+			sql += "'";
+		sql += taller.getLocalTipus();
+		sql += "',";
+		}
+		
+		if (taller.getData_alta() == null)
+		{
+			sql += "null,";
+		} else {
+			sql += "'";
+			  sql += Methods.convertToPostgreSQLDateFormat(taller.getData_alta());
+		sql += "',";
+		}
+		if (taller.getAddress() == null)
+		{
+			sql += "null,";
+		} else {
+			sql += "'";
+			  sql += taller.getAddress();
+		sql += "',";
+		}	
+		if (taller.getCoordX() == 0)
+		{
+			sql += "null,";
+		} else {
+			sql += "'";
+		sql += taller.getCoordX();
+		sql += "',";
+		}
+		if (taller.getCoordY() == 0)
+		{
+			sql += "null,";
+		} else {
+			sql += "'";
+		sql += taller.getCoordY();
+		sql += "',";
+		}
+		if (taller.getCity() == null)
+		{
+			sql += "null";
+		} else {
+			sql += "'";
+		sql += taller.getCity();
+		sql += "'";
+		}
+		sql += ");";
+		db.insertData(sql);
+		ResultSet rs= db.selectData("SELECT max(ids_local) FROM local;");
+		try 
+		{	
+			if (rs.next())
+			{
+				idnou = rs.getInt(1);
+			}
+		}
+		catch(SQLException e)
+		{
+			throw new STException(e, TokenKeys.ERROR_GETTING_DATA);
+		}
+		finally 
+		{
+			db.closeResultSet(rs);
+		}
+		
+		return  idnou;						
+	}
+	
 	
 	
 	 /***
@@ -102,8 +231,9 @@ public class LocalManager  {
 	 */
 	public LocalSTer searchLocal(String id, String field)		throws STException
 	{
-		LocalSTer local = new LocalSTer(); 
-			String sql = "select ids_local,nomlocal,cif,telefon,"+Constants.FIELD_ADRECA+",codpost,provincia_id,pais,tipuslocal,dataalta,coordx,coordy from local where "+field+" like '"+id+"';";
+		LocalSTer local = new LocalSTer(); 					
+
+			String sql = "select "+Constants.FIELD_ADRECA+",ids_local,nomlocal,\"Poblacio\",cif,telefon,codpost,provincia_id,pais,tipuslocal,dataalta,coordx,coordy from local where upper("+field+") like upper('"+id+"');";
 			ResultSet rs= db.selectData(sql);
 			try 
 			{	
@@ -112,7 +242,7 @@ public class LocalManager  {
 					local = this.GetLocalFromResultSet(rs);
 				} else
 				{
-					local.setCIF("000000000");
+					local.setCIF("00000000");
 				}
 			}
 			catch(SQLException e)
@@ -139,26 +269,27 @@ public class LocalManager  {
 		LocalSTer local = new LocalSTer();
 		String tmpField;
 		local.setData_alta(resultSet.getDate(Constants.FIELD_DATAALTA));
-		local.setCp(resultSet.getString(Constants.FIELD_CODPOST));
 		local.setId(resultSet.getInt(Constants.FIELD_IDS_LOCAL));
 		tmpField = resultSet.getString(Constants.FIELD_NOMLOCAL);
 		if (!resultSet.wasNull())
 			local.setName(tmpField);
 		else		
 			local.setName(null);
+		local.setAddress(resultSet.getString(1)); // get Address
+		
 		tmpField = resultSet.getString(Constants.FIELD_POBLACIO);
 		if (!resultSet.wasNull())
 			local.setCity(tmpField);
 		else
 			local.setCity(null);
-		local.setAddress(resultSet.getString(5)); // get Address
+		local.setLocalTipus(resultSet.getString(Constants.FIELD_TIPUSLOCAL));
+		local.setCp(resultSet.getString(Constants.FIELD_CODPOST));
 		local.setCountry(resultSet.getString(Constants.FIELD_PAIS));
 		local.setProvince(resultSet.getString(Constants.FIELD_PROVINCIA_ID));
-		local.setCIF(resultSet.getString(Constants.FIELD_CIF));
 		local.setTelephone(resultSet.getString(Constants.FIELD_TELEFON));
-		local.setLocalTipus(resultSet.getString(Constants.FIELD_TIPUSLOCAL));
 		local.setCoordX(resultSet.getInt(Constants.FIELD_COORDX));
 		local.setCoordY(resultSet.getInt(Constants.FIELD_COORDY));
+		local.setCIF(resultSet.getString(Constants.FIELD_CIF));
 		return local;
 	}	
 
@@ -174,7 +305,7 @@ public class LocalManager  {
 	{
 		try 
 		{
-           db.deleteData("DELETE FROM local WHERE nomLocal="+idLocal+";");
+           db.deleteData("DELETE FROM local WHERE ids_local="+idLocal+";");
 		} catch (STException e) {
 			throw e;
 		}
@@ -188,10 +319,7 @@ public class LocalManager  {
 	{
 		String sql = prepareStringUpdate(local);
 		try {
-			System.out.println("Before do the update");
-			System.out.println(sql);
 			db.updateData(sql);
-			System.out.println(sql);
 		} catch (STException e) {
 			throw e;
 		}finally
@@ -213,18 +341,18 @@ public class LocalManager  {
 		 String sql = null;
 		 sql = "UPDATE "+Constants.TABLE_LOCAL+" SET ";
 		 sql += Constants.FIELD_CIF+"='"+local.getCIF()+"'";
-		 if (local.getName() != null)
+		 if (local.getName() != null && local.getName().compareTo("")!=0)
 		 	sql += ", "+Constants.FIELD_NOMLOCAL+"='"+local.getName()+"'";
 		 else
 			 sql += ", "+Constants.FIELD_NOMLOCAL+"=null";
 		 if (local.getAddress() != null)
-		 	sql += ", "+Constants.FIELD_ADRECA+"='"+local.getAddress()+"'";
+			 	sql += ", "+Constants.FIELD_ADRECA+"='"+local.getAddress()+"'";
+			 else
+				sql += ", "+Constants.FIELD_ADRECA+"=null";
+		if (local.getCity() != null)
+		 	sql += ", \"Poblacio\"='"+local.getCity()+"'";
 		 else
-			sql += ", "+Constants.FIELD_ADRECA+"=null";
-		 if (local.getCity() != null)
-		 	sql += ", "+Constants.FIELD_POBLACIO+"='"+local.getCity()+"'";
-		 else
-			 sql += ", "+Constants.FIELD_POBLACIO+"=null";
+			 sql += ", \"Poblacio\"=null";
 		 if (local.getCp() != null)
 		 	sql += ", "+Constants.FIELD_CODPOST+"='"+local.getCp()+"'";
 		 else
@@ -258,42 +386,8 @@ public class LocalManager  {
 		 return sql;
 	}
 	
-	
-	/**
-	 * @author emarsal2
-	 * @since dijous 10
-	 * Mètode per afegir un local
-	 * @param local
-	 * @return int amb el id del local que s'ha creat
-	 * @throws STException
-	 */
-	public int addLocal (LocalSTer local) throws STException
-	{
-		Map<String, Object> hashMap = new HashMap<String, Object>();
 
-		if (local.getAddress() != null)
-			hashMap.put(Constants.FIELD_ADRECA,local.getAddress());
-			hashMap.put(Constants.FIELD_CODPOST,local.getCp());
-			hashMap.put(Constants.FIELD_DATAALTA,local.getData_alta());
-		if (local.getProvince() != null)
-			hashMap.put(Constants.FIELD_PROVINCIA_ID,local.getProvince());
-		hashMap.put(Constants.FIELD_CIF,local.getCIF());
-		if (local.getName() != null)
-			hashMap.put(Constants.FIELD_NOMLOCAL,local.getName());
-		if (local.getCountry() != null)
-			hashMap.put(Constants.FIELD_PAIS,local.getCountry());
-		if (local.getCity()  != null)
-			hashMap.put(Constants.FIELD_POBLACIO,local.getCity());
-		hashMap.put(Constants.FIELD_TELEFON,local.getTelephone());
-		if (local.getCoordX() != 0)
-			hashMap.put(Constants.FIELD_COORDX,local.getCoordX());
-		if (local.getCoordY() != 0)
-			hashMap.put(Constants.FIELD_COORDY,local.getCoordY());
-		if (local.getLocalTipus() != null)
-			hashMap.put(Constants.FIELD_TIPUSLOCAL,local.getLocalTipus());
-		return db.insertDataAndReturnId(Constants.TABLE_LOCAL, hashMap);
-	}
-
+		
 	/**
 	 * @author emarsal2
 	 * @since dissabte 6
@@ -327,51 +421,83 @@ public class LocalManager  {
 	}
 	
 	
+/**
+ * @author emarsal2
+ * @since dissabte 6
+ * Mètode que donat un Nom de Local el cerca dins la BD si el troba retorna cert
+ * en cas contrari retorna fals
+ * @param Nom del Local que es vol cercar
+ * @return true if find the Name inside Database false otherwise
+ * @throws STException
+ */
+public boolean findName (String name) throws STException
+{
+	ResultSet rs= db.selectData("SELECT count(*) FROM local where nomlocal like '"+name+"'");
+	boolean trobat =false;
+	try 
+	{	
+		if (rs.next())
+		{
+			if (rs.getInt(1)>0)
+				trobat=true;
+		}
+	}
+	catch(SQLException e)
+	{
+		throw new STException(e, TokenKeys.ERROR_GETTING_DATA);
+	}
+	finally 
+	{
+		db.closeResultSet(rs);
+	}
+	return trobat;
+}
+
+	
 	/***** END    MÈTODES PEL SUBSISTEMA DE MANTENIMENT ********/
 
-	/******************** Mètodes per a tots els subsistemes ************************/
-	 /***
-	  * 
-	  * Torna tots els motius de devolucio
-	  * 
-	  * @param usuari Instància d'Usuari amb
-	  * les dades de l'usuari que fa la crida.
-	  * @return LLista de motius de devolucio 
-	  * @throws STException 
-	  */	
-	public List<LocalST> list(Usuari usuari) throws STException 
-	{							
-		List<LocalST> list = new ArrayList<LocalST>();
-				
-		//Obtenim la llista de locals en funció
-		//del rol de l'usuari
-		String sql = "SELECT * FROM " + Constants.TABLE_LOCAL + " %s ORDER BY " + Constants.FIELD_NOMLOCAL;
-		if (usuari.getRol() != Constants.ROLE_ADMIN)
-			sql = String.format(sql, "WHERE " + Constants.FIELD_ID_LOCAL + " = '" + usuari.getIdLocal() + "' ");
-		
-		ResultSet resultSet= db.selectData(sql);
-		try 
-		{		
-			//Llegim resultat
-			while (resultSet.next()) 
-			{
-				LocalST local= getFromResultSet(resultSet);
-				list.add(local);
-			}			
-		}
-		catch(SQLException e)
+/******************** Mètodes per a tots els subsistemes ************************/
+/***
+ * 
+ * Torna tots els motius de devolucio
+ * 
+ * @param user Instància d'Usuari amb
+ * les dades de l'usuari que fa la crida.
+ * @return LLista de motius de devolucio 
+ * @throws STException 
+ */	
+public List<LocalST> list(Usuari user) throws STException 
+{							
+	List<LocalST> list = new ArrayList<LocalST>();
+			
+	//Obtenim la llista de locals en funció
+	//del rol de l'usuari
+	String sql = "SELECT * FROM " + Constants.TABLE_LOCAL + " %s ORDER BY " + Constants.FIELD_NOMLOCAL;
+	if (user.getRol() != Constants.ROLE_ADMIN)
+		sql = String.format(sql, "WHERE " + Constants.FIELD_ID_LOCAL + " = '" + user.getIdLocal() + "' ");
+	
+	ResultSet resultSet= db.selectData(sql);
+	try 
+	{		
+		//Llegim resultat
+		while (resultSet.next()) 
 		{
-			throw new STException(e, TokenKeys.ERROR_GETTING_DATA);
-		}
-		finally 
-		{
-			//Molt important: Tanquem connexió, statement i resulset.
-			db.closeResultSet(resultSet);
-		}
-		return list;
+			LocalST local= getFromResultSet(resultSet);
+			list.add(local);
+		}			
 	}
-	/******************** End Mètodes per a tots els subsistemes ********************/
-	 
-	 
+	catch(SQLException e)
+	{
+		throw new STException(e, TokenKeys.ERROR_GETTING_DATA);
+	}
+	finally 
+	{
+		//Molt important: Tanquem connexió, statement i resulset.
+		db.closeResultSet(resultSet);
+	}
+	return list;
+}
+/******************** End Mètodes per a tots els subsistemes ********************/
+
 	
 }

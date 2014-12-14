@@ -116,7 +116,7 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 	
 	
 	
-	 /*** BEGIN: Subsistema Manteniment ****/
+/*** BEGIN: Subsistema Manteniment ****/
 	/***
 	  * @author emarsal2
 	  * @since divendres 5
@@ -128,7 +128,6 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 	  */
 	 public List<String> getProvinceList() throws RemoteException, STException {
 	 	List<String> pr = null;
-	 	System.out.println("aki no arribaMètode getProvinceList a dins la classe EtallerStocksImpl");
 		DatabaseManager db = new DatabaseManager();
 		UserManager um = new UserManager (db);
 		pr= um.getProvinceList();
@@ -167,6 +166,23 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 
 	 }
 
+
+	 /***
+	  * @author emarsal2
+	  * @since divendres 5
+	  * Mètode que comprova si ja existeix el NOM d'un Local dins la BD
+	  * @param name String to look for inside BBDD
+	  * @return true si el NAME s'ha trobat, false en cas contrari
+	  * @throws RemoteException
+	  * @throws STException
+	  * 
+	  */
+	 public boolean findName(String name) throws RemoteException, STException {
+		 DatabaseManager db = new DatabaseManager();
+		 LocalManager lm = new LocalManager(db);
+		return lm.findName(name); 
+
+	 }
 
 	 
 	 /**
@@ -291,7 +307,7 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 	 {
 		    DatabaseManager databaseManager = new DatabaseManager();
 			LocalManager lm = new LocalManager(databaseManager); 
-			return lm.addLocal(taller);
+			return lm.add(taller);
 	 }
 
 	 /**
@@ -325,8 +341,7 @@ public class ETallerStocksImpl extends UnicastRemoteObject implements ETallerSto
 		 return ul.updateLocal(taller);
 	 }
 	 	 
-	/*** END: Subsistema Manteniment*******/
-	
+	/*** END: Subsistema Manteniment*******/	
 	
 	 /*** BEGIN: Subsistema control de fluxe ****/
 

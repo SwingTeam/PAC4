@@ -1,9 +1,10 @@
 package uoc.tdp.pac4.st.common.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
-public abstract class Base10 extends Base2 {
+public abstract class Base10 extends Base2 implements Serializable {
 
 	 private String telephone;
 	 private String address;

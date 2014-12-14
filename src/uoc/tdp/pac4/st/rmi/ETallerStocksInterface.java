@@ -132,6 +132,17 @@ public interface ETallerStocksInterface extends Remote {
 	  */
 	 public boolean findCIF(String cif) throws RemoteException, STException;
 
+	 /***
+	  * @author emarsal2
+	  * @since divendres 5
+	  * Mètode que comprova si ja existeix el NOM d'un Local dins la BD
+	  * @param name String to look for inside BBDD
+	  * @return true si el NAME s'ha trobat, false en cas contrari
+	  * @throws RemoteException
+	  * @throws STException
+	  * 
+	  */
+	 public boolean findName(String name) throws RemoteException, STException;
 	 /**
 	  * @author emarsal2
 	  * @since dissabte 6
@@ -192,7 +203,6 @@ public interface ETallerStocksInterface extends Remote {
 	 
 	 
 	 /***  END: Subsistema de Manteniment ****/	 
-
 	 
 	 /*** BEGIN: Subsistema control de fluxe****/
 	 	 

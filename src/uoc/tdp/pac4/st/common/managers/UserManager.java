@@ -21,10 +21,8 @@ public class UserManager  {
 	private DatabaseManager	db;
 	
 	public UserManager(DatabaseManager _db) throws STException {
-		System.out.println("Buscant l'error");
 		this.db= _db;
 	}
-	
 	 /***
 	  * 
 	  * Afegeix un User 
@@ -236,10 +234,7 @@ public class UserManager  {
 	{
 		String sql = prepareStringUpdate(user);
 		try {
-			System.out.println("Before do the update");
-			System.out.println(sql);
 			db.updateData(sql);
-			System.out.println(sql);
 		} catch (STException e) {
 			throw e;
 		}finally
@@ -359,9 +354,7 @@ public class UserManager  {
 	public List<String> getProvinceList() throws STException 
 	{							
 		List<String> pr = new ArrayList<String>();
-		System.out.println("Estem connectats a on? class usermanager method getprovincelist intent selectDAta");
 		ResultSet rs= db.selectData("SELECT id_provincia FROM provincia");
-		System.out.println("Despres selectDAta");
 		try 
 		{	
 			while (rs.next())
@@ -489,7 +482,6 @@ public class UserManager  {
 				user.setidUsuari(resultSet.getString(Constants.FIELD_ID_USUARI));
 				user.setPassword(resultSet.getString(Constants.FIELD_PASSWORD));
 				user.setLogin(resultSet.getString(Constants.FIELD_LOGIN));
-				user.setIdLocal(resultSet.getString(Constants.FIELD_LOCAL_ID));
 				return user;
 			}else{
 				return null;

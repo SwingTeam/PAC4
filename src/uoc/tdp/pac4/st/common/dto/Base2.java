@@ -1,7 +1,9 @@
 package uoc.tdp.pac4.st.common.dto;
 
+import java.io.Serializable;
 
-public abstract class Base2 {
+
+public abstract class Base2 implements Serializable {
 		private String name;
 		private int id;
 		

@@ -79,4 +79,34 @@ public class TokenKeys {
 	public final static String TEST_CONNECTION="TEST_CONNECTION";
 	public final static String TITLE_WINDOW_MESSAGE = "TITLE_WINDOW_MESSAGE";
 
+	// -------------------- begin subsistema de manteniment -----------------------------------------------------
+	public static final String AD_CP = "AD_CP";
+	public static final String AD_LOCA_NAME = "AD_LOCA_NAME";
+	public static final String AD_LOCA_TYPE = "AD_LOCA_TYPE";
+	public static final String AD_FIX = "AD_FIX";
+	public static final String AD_CK_CIF = "AD_CK_CIF";
+	public static final String AD_CIF = "AD_CIF";
+	public static final String I_ALTA = "I_ALTA";
+	public static final String AD_INDICAR = "AD_INDICAR";
+	public static final String AD_CERCAR = "AD_CERCAR";
+	public static final String AD_TALLER = "AD_TALLER";
+	public static final String I_TALLER = "I_TALLER";
+	public static final String I_BAIXA = "I_BAIXA";
+	public static final String I_SELECT = "I_SELECT";
+	public static final String AD_MODI_LOCA = "AD_MODI_LOCA";
+	public static final String I_MODIFICAR = "I_MODIFICAR";
+	public static final String AD_TOO_LONG = "AD_TOO_LONG";
+	public static final String A_ROL = "A_ROL";
+	public static final String A_PERMIS = "A_PERMIS";
+	public static final String AD_MAIL = "AD_MAIL"; 
+	public static final String AD_MOBIL = "AD_MOBIL"; 
+	public static final String AD_CK_NIF = "AD_CK_NIF";
+	public static final String AD_NIF = "AD_NIF";
+	public static final String AD_RP_NIF = "AD_RP_NIF";
+	public static final String I_USER = "I_USER";
+	public static final String AD_MODIFICAR = "AD_MODIFICAR";
+	public static final String AD_USER = "AD_USER";
+	public static final String I_SEL_USER = "I_SEL_USER";
+	public static final String AD_SAME_LOCAL_NAME="AD_SAME_LOCAL_NAME";
+	public static final String AD_ROL = "AD_ROL";	
 }

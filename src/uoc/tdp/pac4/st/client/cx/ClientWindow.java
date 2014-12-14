@@ -1,6 +1,7 @@
 package uoc.tdp.pac4.st.client.cx;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,10 +22,10 @@ import javax.swing.JButton;
 
 import uoc.tdp.pac4.st.*;
 import uoc.tdp.pac4.st.client.cx.*;
+import uoc.tdp.pac4.st.client.e.*;
+import uoc.tdp.pac4.st.client.m.*;
 import uoc.tdp.pac4.st.common.*;
-import uoc.tdp.pac4.st.common.Enums.MessageType;
-import uoc.tdp.pac4.st.common.dto.Local;
-import uoc.tdp.pac4.st.common.dto.Usuari;
+import uoc.tdp.pac4.st.common.dto.*;
 import uoc.tdp.pac4.st.common.managers.*;
 import uoc.tdp.pac4.st.rmi.*;
 import uoc.tdp.pac4.st.server.*;
@@ -54,7 +55,7 @@ public class ClientWindow extends JFrame {
 		this.setName(null);
 		setTitle("TITLE_CLIENT_WINDOW");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 750, 448);
+		setBounds(100, 100, 916, 564);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -72,11 +73,13 @@ public class ClientWindow extends JFrame {
 		contentPane.add(lblLabelexamplerecoverresultset);
 		
 		JButton btnExample8 = new JButton("BUTTON_EXECUTE");
-		btnExample8.setBounds(604, 384, 142, 25);
+		btnExample8.setBounds(756, 500, 142, 25);
 		contentPane.add(btnExample8);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(33, 89, 696, 277);
+		tabbedPane.setBounds(33, 89, 865, 396);
+		int x = 250;
+		int y= 70;
 		/*Mètode de comprova el rol de l'usuari i crea el TabbedPane*/
 		if (user.getRol().equals(rolAdministrador)){
 			
@@ -84,19 +87,19 @@ public class ClientWindow extends JFrame {
 			panel1.setLayout(null);
 			
 			JButton btnAltaUsuari = new JButton("BUTTON_NEW_USER");
-			btnAltaUsuari.setBounds(new Rectangle(150,10,300,50));
+			btnAltaUsuari.setBounds(new Rectangle(x,10,300,50));
 			panel1.add(btnAltaUsuari);
 			
 			JButton btnModificarUsuari = new JButton("BUTTON_MODIFY_USER");
-			btnModificarUsuari.setBounds(new Rectangle(150,70,300,50));
+			btnModificarUsuari.setBounds(new Rectangle(x,70,300,50));
 			panel1.add(btnModificarUsuari);
 			
 			JButton btnBaixaUsuari = new JButton("BUTTON_DROP_USER");
-			btnBaixaUsuari.setBounds(new Rectangle(150,130,300,50));
+			btnBaixaUsuari.setBounds(new Rectangle(x,130,300,50));
 			panel1.add(btnBaixaUsuari);
 			
 			JButton btnConsultaUsuari = new JButton("BUTTON_SELECT_USER");
-			btnConsultaUsuari.setBounds(new Rectangle(150,190,300,50));
+			btnConsultaUsuari.setBounds(new Rectangle(x,190,300,50));
 			panel1.add(btnConsultaUsuari);
 			
 			tabbedPane.addTab("Usuaris", panel1);
@@ -105,41 +108,40 @@ public class ClientWindow extends JFrame {
 			JPanel panel2=new JPanel();
 			panel2.setLayout(null);
 			JButton btnAltaLocal = new JButton("BUTTON_NEW_ESTABLISHMENT");
-			btnAltaLocal.setBounds(new Rectangle(150,10,300,50));
+			btnAltaLocal.setBounds(new Rectangle(x,10,300,50));
 			panel2.add(btnAltaLocal);
 			
 			JButton btnModificarLocal = new JButton("BUTTON_MODIFY_ESTABLISHMENT");
-			btnModificarLocal.setBounds(new Rectangle(150,70,300,50));
+			btnModificarLocal.setBounds(new Rectangle(x,70,300,50));
 			panel2.add(btnModificarLocal);
 			
 			JButton btnBaixaLocal = new JButton("BUTTON_DROP_ESTABLISHMENT");
-			btnBaixaLocal.setBounds(new Rectangle(150,130,300,50));
+			btnBaixaLocal.setBounds(new Rectangle(x,130,300,50));
 			panel2.add(btnBaixaLocal);
 			
 			JButton btnConsultaLocal = new JButton("BUTTON_SELECT_ESTABLISHMENT");
-			btnConsultaLocal.setBounds(new Rectangle(150,190,300,50));
+			btnConsultaLocal.setBounds(new Rectangle(x,190,300,50));
 			panel2.add(btnConsultaLocal);
 			
-			//tabbedPane.addTab("Locals", panel2);
-			tabbedPane.addTab("TAB_ESTABLISHMENT", panel2);
+			tabbedPane.addTab("Locals", panel2);
 			tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 			
 			JPanel panel3=new JPanel();
 			panel3.setLayout(null);
 			JButton btnAltaProveidor = new JButton("BUTTON_NEW_PROVIDER");
-			btnAltaProveidor.setBounds(new Rectangle(150,10,300,50));
+			btnAltaProveidor.setBounds(new Rectangle(x,10,300,50));
 			panel3.add(btnAltaProveidor);
 			
 			JButton btnModificarProveidor = new JButton("BUTTON_MODIFY_PROVIDER");
-			btnModificarProveidor.setBounds(new Rectangle(150,70,300,50));
+			btnModificarProveidor.setBounds(new Rectangle(x,70,300,50));
 			panel3.add(btnModificarProveidor);
 			
 			JButton btnBaixaProveidor = new JButton("BUTTON_DROP_PROVIDER");
-			btnBaixaProveidor.setBounds(new Rectangle(150,130,300,50));
+			btnBaixaProveidor.setBounds(new Rectangle(x,130,300,50));
 			panel3.add(btnBaixaProveidor);
 			
 			JButton btnConsultaProveidor = new JButton("BUTTON_SELECT_PROVIDER");
-			btnConsultaProveidor.setBounds(new Rectangle(150,190,300,50));
+			btnConsultaProveidor.setBounds(new Rectangle(x,190,300,50));
 			panel3.add(btnConsultaProveidor);
 			
 			tabbedPane.addTab("Proveidors", panel3);
@@ -147,20 +149,20 @@ public class ClientWindow extends JFrame {
 			
 			JPanel panel4=new JPanel();
 			panel4.setLayout(null);
-			JButton btnAltaProduct = new JButton("BUTTON_NEW_PRODUCT");
-			btnAltaProduct.setBounds(new Rectangle(150,10,300,50));
-			panel4.add(btnAltaProduct);
+			JButton btnAltaProducte = new JButton("BUTTON_NEW_PRODUCT");
+			btnAltaProducte.setBounds(new Rectangle(x,10,300,50));
+			panel4.add(btnAltaProducte);
 			
 			JButton btnModificarProducte = new JButton("BUTTON_MODIFY_PRODUCT");
-			btnModificarProducte.setBounds(new Rectangle(150,70,300,50));
+			btnModificarProducte.setBounds(new Rectangle(x,70,300,50));
 			panel4.add(btnModificarProducte);
 			
 			JButton btnBaixaProducte = new JButton("BUTTON_DROP_PRODUCT");
-			btnBaixaProducte.setBounds(new Rectangle(150,130,300,50));
+			btnBaixaProducte.setBounds(new Rectangle(x,130,300,50));
 			panel4.add(btnBaixaProducte);
 			
 			JButton btnConsultaProducte = new JButton("BUTTON_SELECT_PRODUCT");
-			btnConsultaProducte.setBounds(new Rectangle(150,190,300,50));
+			btnConsultaProducte.setBounds(new Rectangle(x,190,300,50));
 			panel4.add(btnConsultaProducte);
 			
 			tabbedPane.addTab("Productes", panel4);
@@ -169,19 +171,19 @@ public class ClientWindow extends JFrame {
 			JPanel panel5=new JPanel();
 			panel5.setLayout(null);
 			JButton btnAltaAlbara = new JButton("BUTTON_NEW_DELIVERYNOTE");
-			btnAltaAlbara.setBounds(new Rectangle(150,10,300,50));
+			btnAltaAlbara.setBounds(new Rectangle(x,10,300,50));
 			panel5.add(btnAltaAlbara);
 			
 			JButton btnModificarAlbara = new JButton("BUTTON_MODIFY_DELIVERYNOTE");
-			btnModificarAlbara.setBounds(new Rectangle(150,70,300,50));
+			btnModificarAlbara.setBounds(new Rectangle(x,70,300,50));
 			panel5.add(btnModificarAlbara);
 			
 			JButton btnBaixaAlbara = new JButton("BUTTON_DROP_DELIVERYNOTE");
-			btnBaixaAlbara.setBounds(new Rectangle(150,130,300,50));
+			btnBaixaAlbara.setBounds(new Rectangle(x,130,300,50));
 			panel5.add(btnBaixaAlbara);
 			
 			JButton btnConsultaAlbara = new JButton("BUTTON_SELECT_DELIVERYNOTE");
-			btnConsultaAlbara.setBounds(new Rectangle(150,190,300,50));
+			btnConsultaAlbara.setBounds(new Rectangle(x,190,300,50));
 			panel5.add(btnConsultaAlbara);
 			
 			tabbedPane.addTab("Albarans", panel5);
@@ -190,22 +192,78 @@ public class ClientWindow extends JFrame {
 			JPanel panel6=new JPanel();
 			panel6.setLayout(null);
 			JButton btnCanviPassword = new JButton("BUTTON_CHANGE_PASSWORD");
-			btnCanviPassword.setBounds(new Rectangle(150,10,300,50));
+			btnCanviPassword.setBounds(new Rectangle(x,10,300,50));
 			panel6.add(btnCanviPassword);
 		
-			btnCanviPassword.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					CanviPassword cv = new CanviPassword(userClient);
-					cv.setVisible(true);
-				}
-			});
+			
 			
 			JButton btnCanviIdioma = new JButton("BUTTON_CHANGE_LANGUAGE");
-			btnCanviIdioma.setBounds(new Rectangle(150,70,300,50));
+			btnCanviIdioma.setBounds(new Rectangle(x,70,300,50));
 			panel6.add(btnCanviIdioma);
 			
 			tabbedPane.addTab("Contrassenya i Idioma", panel6);
 			tabbedPane.setMnemonicAt(5, KeyEvent.VK_5);
+			
+			/*Events*/
+			
+			/*Events usuari*/
+			btnAltaUsuari.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					UserManagementWindow umw = new UserManagementWindow(userClient,"C");
+					umw.setVisible(true);
+				}
+			});
+			
+			btnModificarUsuari.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					UserManagementWindow umw = new UserManagementWindow(userClient,"U");
+					umw.setVisible(true);
+				}
+			});
+			
+			btnBaixaUsuari.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					UserManagementWindow umw = new UserManagementWindow(userClient,"D");
+					umw.setVisible(true);
+				}
+			});
+			
+			btnConsultaUsuari.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					UserManagementWindow umw = new UserManagementWindow(userClient,"R");
+					umw.setVisible(true);
+				}
+			});
+			
+			/*Events de Local*/
+			
+			btnAltaLocal.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					LocalManagementWindow lmw = new LocalManagementWindow(userClient,"C");
+					lmw.setVisible(true);
+				}
+			});
+			
+			btnModificarLocal.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					LocalManagementWindow lmw = new LocalManagementWindow(userClient,"U");
+					lmw.setVisible(true);
+				}
+			});
+			
+			btnBaixaLocal.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					LocalManagementWindow lmw = new LocalManagementWindow(userClient,"D");
+					lmw.setVisible(true);
+				}
+			});
+			
+			btnConsultaLocal.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					LocalManagementWindow lmw = new LocalManagementWindow(userClient,"R");
+					lmw.setVisible(true);
+				}
+			});
 			
 			
 			
@@ -214,40 +272,44 @@ public class ClientWindow extends JFrame {
 			panel1.setLayout(null);
 			
 			JButton btnAltaUsuari = new JButton("Boto1");
-			btnAltaUsuari.setBounds(new Rectangle(150,10,300,50));
+			
+			btnAltaUsuari.setBounds(new Rectangle(x,10,300,50));
 			panel1.add(btnAltaUsuari);
 			
 			JButton btnModificarUsuari = new JButton("Boto2");
-			btnModificarUsuari.setBounds(new Rectangle(150,70,300,50));
+			btnModificarUsuari.setBounds(new Rectangle(x,70,300,50));
 			panel1.add(btnModificarUsuari);
 			
 			JButton btnBaixaUsuari = new JButton("Boto3");
-			btnBaixaUsuari.setBounds(new Rectangle(150,130,300,50));
+			btnBaixaUsuari.setBounds(new Rectangle(x,130,300,50));
 			panel1.add(btnBaixaUsuari);
 			
 			JButton btnConsultaUsuari = new JButton("Boto4");
-			btnConsultaUsuari.setBounds(new Rectangle(150,190,300,50));
+			btnConsultaUsuari.setBounds(new Rectangle(x,190,300,50));
 			panel1.add(btnConsultaUsuari);
 			
 			tabbedPane.addTab("Gestió Magatzem", panel1);
 			tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 			
+			Dimension i = panel1.getSize();
+			int heigth = (int) i.getHeight();
+			
 			JPanel panel2=new JPanel();
 			panel2.setLayout(null);
 			JButton btnAltaLocal = new JButton("Boto1");
-			btnAltaLocal.setBounds(new Rectangle(150,10,300,50));
+			btnAltaLocal.setBounds(new Rectangle(x,10,300,50));
 			panel2.add(btnAltaLocal);
 			
 			JButton btnModificarLocal = new JButton("Boto2");
-			btnModificarLocal.setBounds(new Rectangle(150,70,300,50));
+			btnModificarLocal.setBounds(new Rectangle(x,70,300,50));
 			panel2.add(btnModificarLocal);
 			
 			JButton btnBaixaLocal = new JButton("Boto3");
-			btnBaixaLocal.setBounds(new Rectangle(150,130,300,50));
+			btnBaixaLocal.setBounds(new Rectangle(x,130,300,50));
 			panel2.add(btnBaixaLocal);
 			
 			JButton btnConsultaLocal = new JButton("Boto4");
-			btnConsultaLocal.setBounds(new Rectangle(150,190,300,50));
+			btnConsultaLocal.setBounds(new Rectangle(x,190,300,50));
 			panel2.add(btnConsultaLocal);
 			
 			tabbedPane.addTab("Distribució material", panel2);
@@ -256,19 +318,19 @@ public class ClientWindow extends JFrame {
 			JPanel panel3=new JPanel();
 			panel3.setLayout(null);
 			JButton btnAltaProveidor = new JButton("Boto1");
-			btnAltaProveidor.setBounds(new Rectangle(150,10,300,50));
+			btnAltaProveidor.setBounds(new Rectangle(x,10,300,50));
 			panel3.add(btnAltaProveidor);
 			
 			JButton btnModificarProveidor = new JButton("Boto2");
-			btnModificarProveidor.setBounds(new Rectangle(150,70,300,50));
+			btnModificarProveidor.setBounds(new Rectangle(x,70,300,50));
 			panel3.add(btnModificarProveidor);
 			
 			JButton btnBaixaProveidor = new JButton("Boto3");
-			btnBaixaProveidor.setBounds(new Rectangle(150,130,300,50));
+			btnBaixaProveidor.setBounds(new Rectangle(x,130,300,50));
 			panel3.add(btnBaixaProveidor);
 			
 			JButton btnConsultaProveidor = new JButton("Boto4");
-			btnConsultaProveidor.setBounds(new Rectangle(150,190,300,50));
+			btnConsultaProveidor.setBounds(new Rectangle(x,190,300,50));
 			panel3.add(btnConsultaProveidor);
 			
 			tabbedPane.addTab("Avisos", panel3);
@@ -276,21 +338,25 @@ public class ClientWindow extends JFrame {
 			
 			JPanel panel4=new JPanel();
 			panel4.setLayout(null);
-			JButton btnAltaProduct = new JButton("Boto1");
-			btnAltaProduct.setBounds(new Rectangle(150,10,300,50));
-			panel4.add(btnAltaProduct);
+			JButton btnRotacioStocs = new JButton("Rotació d'estocs");
+			btnRotacioStocs.setBounds(new Rectangle(x,10,300,50));
+			panel4.add(btnRotacioStocs);
 			
-			JButton btnModificarProducte = new JButton("Boto2");
-			btnModificarProducte.setBounds(new Rectangle(150,70,300,50));
-			panel4.add(btnModificarProducte);
+			JButton btnDevolucioRecanvis = new JButton("Devolució de recanvis");
+			btnDevolucioRecanvis.setBounds(new Rectangle(x,70,300,50));
+			panel4.add(btnDevolucioRecanvis);
 			
-			JButton btnBaixaProducte = new JButton("Boto3");
-			btnBaixaProducte.setBounds(new Rectangle(150,130,300,50));
-			panel4.add(btnBaixaProducte);
+			JButton btnDemandaRecanvis = new JButton("Demanda de recanvis");
+			btnDemandaRecanvis.setBounds(new Rectangle(x,130,300,50));
+			panel4.add(btnDemandaRecanvis);
 			
-			JButton btnConsultaProducte = new JButton("Boto4");
-			btnConsultaProducte.setBounds(new Rectangle(150,190,300,50));
-			panel4.add(btnConsultaProducte);
+			JButton btnRupturesStoc = new JButton("Ruptures d'estoc");
+			btnRupturesStoc.setBounds(new Rectangle(x,190,300,50));
+			panel4.add(btnRupturesStoc);
+			
+			JButton btnVendesTaller = new JButton("Vendes per taller");
+			btnVendesTaller.setBounds(new Rectangle(x,250,300,50));
+			panel4.add(btnVendesTaller);
 			
 			tabbedPane.addTab("Estadístiques", panel4);
 			tabbedPane.setMnemonicAt(3, KeyEvent.VK_4);
@@ -299,9 +365,56 @@ public class ClientWindow extends JFrame {
 			panel5.setLayout(null);
 			
 			JButton btnCanviPassword = new JButton("BUTTON_CHANGE_PASSWORD");
-			btnCanviPassword.setBounds(new Rectangle(150,10,300,50));
+			btnCanviPassword.setBounds(new Rectangle(x,10,300,50));
 			panel5.add(btnCanviPassword);
 			
+			JButton btnCanviIdioma = new JButton("BUTTON_CHANGE_LANGUAGE");
+			btnCanviIdioma.setBounds(new Rectangle(x,70,300,50));
+			panel5.add(btnCanviIdioma);
+			
+			tabbedPane.addTab("Contrassenya i Idioma", panel5);
+			tabbedPane.setMnemonicAt(4, KeyEvent.VK_5);
+			
+			/*Events*/
+			/*Estadístiques*/
+			btnRotacioStocs.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					RotationRangeSelector clientFrame = new RotationRangeSelector(userClient);
+					clientFrame.setVisible(true);					
+				}
+			});
+			
+			btnDevolucioRecanvis.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					ReturningRangeSelector clientFrame = new ReturningRangeSelector(userClient);
+					clientFrame.setVisible(true);					
+				}
+			});
+			
+			btnDemandaRecanvis.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					SalesRangeSelector clientFrame = new SalesRangeSelector(userClient);
+					clientFrame.setVisible(true);					
+				}
+			});
+			
+			btnRupturesStoc.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					StockOutRangeSelector clientFrame = new StockOutRangeSelector(userClient);
+					clientFrame.setVisible(true);					
+				}
+			});
+			
+			btnVendesTaller.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					SalesSummaryRangeSelector clientFrame = new SalesSummaryRangeSelector(userClient);
+					clientFrame.setVisible(true);					
+				}
+			});
+			
+			
+			
+			/*Connexió*/
 			btnCanviPassword.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					CanviPassword cv = new CanviPassword(userClient);
@@ -309,12 +422,6 @@ public class ClientWindow extends JFrame {
 				}
 			});
 			
-			JButton btnCanviIdioma = new JButton("BUTTON_CHANGE_LANGUAGE");
-			btnCanviIdioma.setBounds(new Rectangle(150,70,300,50));
-			panel5.add(btnCanviIdioma);
-			
-			tabbedPane.addTab("Contrassenya i Idioma", panel5);
-			tabbedPane.setMnemonicAt(4, KeyEvent.VK_5);
 		}
 		contentPane.add(tabbedPane);
 		
