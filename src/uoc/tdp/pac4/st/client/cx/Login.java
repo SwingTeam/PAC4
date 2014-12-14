@@ -221,7 +221,8 @@ public class Login extends JFrame {
 			Usuari user  = this._clientManager.getRMIInterface().Login(this.TXT_USUARI.getText(),this.passwordField.getText());
 			
 			if (user!=null){ 
-				
+				I18nManager i18 = new I18nManager();
+				i18.setLanguage(user.getIdIdioma());
 				ClientWindow cw= new ClientWindow(user);
 				CanviPassword cp = new CanviPassword(user);
 				cw.setVisible(true);

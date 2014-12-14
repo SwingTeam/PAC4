@@ -52,43 +52,43 @@ public class CanviPassword extends JFrame {
 		this.setName(null);
 		setTitle("TITLE_CLIENT_WINDOW");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 350, 215);
+		setBounds(100, 100, 379, 215);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		userPassword = user;
 		JLabel lblNewLabel = new JLabel("LABEL_OLD_PASSWORD");
-		lblNewLabel.setBounds(33, 26, 142, 15);
+		lblNewLabel.setBounds(33, 26, 188, 15);
 		contentPane.add(lblNewLabel);
 		
 		JButton btnLogin = new JButton("BUTTON_EXECUTE");
-		btnLogin.setBounds(186, 124, 114, 25);
+		btnLogin.setBounds(231, 127, 114, 25);
 		btnLogin.setName("LOGIN");
 		contentPane.add(btnLogin);
 		
 		JLabel lblLabelexamplerecoverdata = new JLabel("LABEL_NEW_PASSWORD");
 		
-		lblLabelexamplerecoverdata.setBounds(33, 62, 142, 15);
+		lblLabelexamplerecoverdata.setBounds(33, 62, 188, 15);
 		contentPane.add(lblLabelexamplerecoverdata);
 		
 		TXT_OLD_PASSWORD = new JPasswordField(10);
 		TXT_OLD_PASSWORD.setActionCommand("OK");
-		TXT_OLD_PASSWORD.setBounds(186, 24, 114, 19);
+		TXT_OLD_PASSWORD.setBounds(231, 24, 114, 19);
 		contentPane.add(TXT_OLD_PASSWORD);
 		
 		TXT_NEW_PASSWORD = new JPasswordField(10);
 		TXT_NEW_PASSWORD.setActionCommand("OK");
-		TXT_NEW_PASSWORD.setBounds(186, 57, 114, 19);
+		TXT_NEW_PASSWORD.setBounds(231, 60, 114, 19);
 		contentPane.add(TXT_NEW_PASSWORD);
 		
 		TXT_MEW_PASSWORD2 = new JPasswordField(10);
 		TXT_MEW_PASSWORD2.setActionCommand("OK");
-		TXT_MEW_PASSWORD2.setBounds(186, 93, 114, 19);
+		TXT_MEW_PASSWORD2.setBounds(231, 93, 114, 19);
 		contentPane.add(TXT_MEW_PASSWORD2);
 		
 		JLabel label = new JLabel("LABEL_NEW_PASSWORD");
-		label.setBounds(33, 95, 142, 15);
+		label.setBounds(33, 95, 188, 15);
 		contentPane.add(label);
 		
 		//Centrem la finestra
