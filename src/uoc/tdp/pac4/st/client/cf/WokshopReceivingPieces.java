@@ -28,10 +28,12 @@ import uoc.tdp.pac4.st.common.STException;
 import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.Albara;
 import uoc.tdp.pac4.st.common.dto.LinAlbara;
+import uoc.tdp.pac4.st.common.dto.Usuari;
 import uoc.tdp.pac4.st.common.managers.ClientManager;
 import uoc.tdp.pac4.st.common.managers.DatabaseManager;
 import uoc.tdp.pac4.st.common.managers.ExceptionManager;
 import uoc.tdp.pac4.st.common.managers.I18nManager;
+import uoc.tdp.pac4.st.common.managers.LocalManager;
 import uoc.tdp.pac4.st.common.managers.SettingManager;
 import uoc.tdp.pac4.st.common.managers.SolicitudManager;
 import uoc.tdp.pac4.st.common.ui.ComboBoxHelper;
@@ -41,10 +43,7 @@ import uoc.tdp.pac4.st.common.ui.STTable;
 import uoc.tdp.pac4.st.rmi.ETallerStocksInterface;
 
 public class WokshopReceivingPieces extends JFrame {
-	//RN: Temp
-	private String codiLocal_central="L1"; 
-	private String codiLocal="L2";
-	
+
 	private static final long serialVersionUID = -3598083467773963566L;
 
 	private ClientManager<ETallerStocksInterface> _clientManager = null;
@@ -61,50 +60,14 @@ public class WokshopReceivingPieces extends JFrame {
 	
 	private STTable table= null;
 	
-
-	/**
-	 * Launch the application.
-	 */
-    public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				
-				try{
-
-					//Inicialitzem els gestors que s'utilitzaran
-					//a l'aplicació
-					initializeManagers();
-					//Llegeix la configuració d'idioma de l'aplicació,
-					//que, per defecte, serà català
-					String language = Constants.LANGUAGE_CATALAN;
-					try{
-						language = (String) Managers.settings.getSetting(Constants.SETTING_LANGUAGE);
-					
-					} catch (IOException | NullPointerException e) {
-						//Errors d'accés al fitxer de configuració
-						Managers.exception.showException(new STException(e, TokenKeys.ERROR_CONFIGURATION_FILE));
-					
-					} catch (Exception e){
-						//Altres tipus d'error
-						Managers.exception.showException(new STException(e));
-					}
-					//Assigna l'idioma configurat
-					Managers.i18n.setLanguage(language);
-			
-				
-					WokshopReceivingPieces frame = new WokshopReceivingPieces();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private Usuari usuari;
 
 	/**
 	 * Create the frame.
 	 */
-	public WokshopReceivingPieces() {
+	public WokshopReceivingPieces(Usuari _usuari) {
+		usuari= _usuari;
+		
 		startConnection();
 		
 		
@@ -135,7 +98,7 @@ public class WokshopReceivingPieces extends JFrame {
 		getContentPane().add(lblProveidor);
 
 	    cmbAlbara = new JComboBox<ComboBoxItem>();
-	    ComboBoxHelper.fillCmbAlbaraPeticions(this._clientManager, cmbAlbara, codiLocal);
+	    ComboBoxHelper.fillCmbAlbaraPeticions(this._clientManager, cmbAlbara, usuari.getIdLocal());
 	    cmbAlbara.addItemListener(new ItemListener () {
 		    public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED)
@@ -271,8 +234,8 @@ public class WokshopReceivingPieces extends JFrame {
 				albara.setCodialbaraextern("");
 				albara.setComAlbara("");
 				albara.setDataAlbara(new Date());
-				albara.setOrigenId(codiLocal_central);
-				albara.setDestiId(codiLocal);
+				albara.setOrigenId(LocalManager.LOCAL_MAGATZEM_CENTRAL);
+				albara.setDestiId(usuari.getIdLocal());
 				albara.setLiniesAlbara(getLinAlbara());
 
 				
@@ -285,7 +248,7 @@ public class WokshopReceivingPieces extends JFrame {
 				
 				resetForm();
 				
-				ComboBoxHelper.fillCmbAlbaraPeticions(this._clientManager, cmbAlbara, codiLocal);
+				ComboBoxHelper.fillCmbAlbaraPeticions(this._clientManager, cmbAlbara, usuari.getIdLocal());
 				
 				Methods.showMessage( Managers.i18n.getTranslation("LABEL_PECES_RECEPCIONADES"), Enums.MessageType.Info);
 			} catch (Exception e) {

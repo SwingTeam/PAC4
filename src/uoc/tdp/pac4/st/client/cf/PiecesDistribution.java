@@ -1,7 +1,6 @@
 package uoc.tdp.pac4.st.client.cf;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -28,6 +27,7 @@ import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.LinAlbara;
 import uoc.tdp.pac4.st.common.dto.LocalST;
 import uoc.tdp.pac4.st.common.dto.Moviment;
+import uoc.tdp.pac4.st.common.dto.Usuari;
 import uoc.tdp.pac4.st.common.managers.ClientManager;
 import uoc.tdp.pac4.st.common.managers.DistribucioManager;
 import uoc.tdp.pac4.st.common.managers.ExceptionManager;
@@ -40,12 +40,9 @@ import uoc.tdp.pac4.st.common.ui.STTable;
 import uoc.tdp.pac4.st.rmi.ETallerStocksInterface;
 
 public class PiecesDistribution extends JFrame {
-	//RN: Temp
-	private String codiLocal="L1"; 
-	
-	
-	private static final long serialVersionUID = -3598083467773963566L;
 
+	private static final long serialVersionUID = -3598083467773963566L;
+	
 	private ClientManager<ETallerStocksInterface> _clientManager = null;
 
 	private JPanel contentPane;
@@ -70,50 +67,13 @@ public class PiecesDistribution extends JFrame {
 	private static final int COLUMN_ESTOC= 7;
 	private static final int COLUMN_ENVIAR= 8;
 		
-
-	/**
-	 * Launch the application.
-	 */
-    public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				
-				try{
-
-					//Inicialitzem els gestors que s'utilitzaran
-					//a l'aplicació
-					initializeManagers();
-					//Llegeix la configuració d'idioma de l'aplicació,
-					//que, per defecte, serà català
-					String language = Constants.LANGUAGE_CATALAN;
-					try{
-						language = (String) Managers.settings.getSetting(Constants.SETTING_LANGUAGE);
-					
-					} catch (IOException | NullPointerException e) {
-						//Errors d'accés al fitxer de configuració
-						Managers.exception.showException(new STException(e, TokenKeys.ERROR_CONFIGURATION_FILE));
-					
-					} catch (Exception e){
-						//Altres tipus d'error
-						Managers.exception.showException(new STException(e));
-					}
-					//Assigna l'idioma configurat
-					Managers.i18n.setLanguage(language);
-			
-				
-					PiecesDistribution frame = new PiecesDistribution();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private Usuari usuari; 
 
 	/**
 	 * Create the frame.
 	 */
-	public PiecesDistribution() {
+	public PiecesDistribution(Usuari _usuari) {
+		usuari= _usuari;
 		startConnection();
 		
 		
@@ -170,7 +130,7 @@ public class PiecesDistribution extends JFrame {
 
 
 		cmbLocal= new JComboBox<ComboBoxItem>();
-	    ComboBoxHelper.fillCmbLocal(this._clientManager, cmbLocal, codiLocal);
+	    ComboBoxHelper.fillCmbLocal(this._clientManager, cmbLocal, usuari.getIdLocal());
 		cmbLocal.addItemListener(new ItemListener () {
 		    public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED)
@@ -291,11 +251,11 @@ public class PiecesDistribution extends JFrame {
 			ArrayList<LinAlbara> list=null;
 			if (((ComboBoxItem)  cmbCriteriBase.getSelectedItem()).getId() == DistribucioManager.DISTRIBUCIO_DEMANDA_ACTUAL) 
 			{
-				list= _clientManager.getRMIInterface().getByDemandaActual(codiLocal, localOrigenId);
+				list= _clientManager.getRMIInterface().getByDemandaActual(usuari.getIdLocal(), localOrigenId);
 			}
 			else 
 			{
-				list= _clientManager.getRMIInterface().getByRupturaStock(codiLocal, localOrigenId);
+				list= _clientManager.getRMIInterface().getByRupturaStock(usuari.getIdLocal(), localOrigenId);
 			}
 			
 							
@@ -356,7 +316,7 @@ public class PiecesDistribution extends JFrame {
 			
 			ArrayList<LinAlbara> linees= getLinAlbara(); 
 			
-			_clientManager.getRMIInterface().Distribuir(codiLocal, linees);
+			_clientManager.getRMIInterface().Distribuir(usuari.getIdLocal(), linees);
 					
 			resetForm();
 			

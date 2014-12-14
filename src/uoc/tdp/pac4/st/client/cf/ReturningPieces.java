@@ -1,7 +1,6 @@
 package uoc.tdp.pac4.st.client.cf;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -31,10 +30,10 @@ import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.Albara;
 import uoc.tdp.pac4.st.common.dto.Existencies;
 import uoc.tdp.pac4.st.common.dto.LinAlbara;
+import uoc.tdp.pac4.st.common.dto.Usuari;
 import uoc.tdp.pac4.st.common.managers.ClientManager;
 import uoc.tdp.pac4.st.common.managers.ExceptionManager;
 import uoc.tdp.pac4.st.common.managers.I18nManager;
-import uoc.tdp.pac4.st.common.managers.MovimentManager;
 import uoc.tdp.pac4.st.common.managers.SettingManager;
 import uoc.tdp.pac4.st.common.ui.ComboBoxHelper;
 import uoc.tdp.pac4.st.common.ui.LabelTitle;
@@ -43,9 +42,6 @@ import uoc.tdp.pac4.st.common.ui.SelectProductControl;
 import uoc.tdp.pac4.st.rmi.ETallerStocksInterface;
 
 public class ReturningPieces extends JFrame {
-	//RN: Temp
-	private String codiLocal="L1"; 
-	
 	private static final long serialVersionUID = -3598083467773963566L;
 
 	private ClientManager<ETallerStocksInterface> _clientManager = null;
@@ -69,50 +65,14 @@ public class ReturningPieces extends JFrame {
 	
 	private STTable table= null;
 
-
-	/**
-	 * Launch the application.
-	 */
-    public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				
-				try{
-
-					//Inicialitzem els gestors que s'utilitzaran
-					//a l'aplicació
-					initializeManagers();
-					//Llegeix la configuració d'idioma de l'aplicació,
-					//que, per defecte, serà català
-					String language = Constants.LANGUAGE_CATALAN;
-					try{
-						language = (String) Managers.settings.getSetting(Constants.SETTING_LANGUAGE);
-					
-					} catch (IOException | NullPointerException e) {
-						//Errors d'accés al fitxer de configuració
-						Managers.exception.showException(new STException(e, TokenKeys.ERROR_CONFIGURATION_FILE));
-					
-					} catch (Exception e){
-						//Altres tipus d'error
-						Managers.exception.showException(new STException(e));
-					}
-					//Assigna l'idioma configurat
-					Managers.i18n.setLanguage(language);
-			
-				
-					ReturningPieces frame = new ReturningPieces();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	private Usuari usuari;
+	
 	/**
 	 * Create the frame.
 	 */
-	public ReturningPieces() {
+	public ReturningPieces(Usuari _usuari) {
+		this.usuari = _usuari;
+		
 		startConnection();
 		
 		
@@ -269,7 +229,7 @@ public class ReturningPieces extends JFrame {
 		try {
 			
 			String producteId= this.selectProductControl.producteId;
-			String localId= codiLocal;
+			String localId= usuari.getIdLocal();
 			
 			Existencies existencies = _clientManager.getRMIInterface().getExistenciesByProducteAndLocal(producteId, localId);
 			if (existencies != null)
@@ -413,7 +373,7 @@ public class ReturningPieces extends JFrame {
 			albara.setCodialbaraextern("");
 			albara.setComAlbara("");
 			albara.setDataAlbara(Methods.getDate(this.txtDataAlbara.getText()));
-			albara.setOrigenId(codiLocal);
+			albara.setOrigenId(usuari.getIdLocal());
 			albara.setDestiId( (String) ((ComboBoxItem)  this.cmbProveidor.getSelectedItem()).getId());
 			albara.setLiniesAlbara(getLinAlbara());
 		

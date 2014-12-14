@@ -1,7 +1,6 @@
 package uoc.tdp.pac4.st.client.cf;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -22,9 +21,9 @@ import uoc.tdp.pac4.st.common.Enums;
 import uoc.tdp.pac4.st.common.Managers;
 import uoc.tdp.pac4.st.common.Methods;
 import uoc.tdp.pac4.st.common.STException;
-import uoc.tdp.pac4.st.common.STFrame;
 import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.Producte;
+import uoc.tdp.pac4.st.common.dto.Usuari;
 import uoc.tdp.pac4.st.common.managers.ClientManager;
 import uoc.tdp.pac4.st.common.managers.ExceptionManager;
 import uoc.tdp.pac4.st.common.managers.I18nManager;
@@ -36,12 +35,11 @@ import uoc.tdp.pac4.st.common.ui.STTable;
 import uoc.tdp.pac4.st.common.ui.SelectProductControl;
 import uoc.tdp.pac4.st.rmi.ETallerStocksInterface;
 
-public class CheckStock extends STFrame {
-	//RN: Temp
-	private String codiLocal="L1"; 
+public class CheckStock extends JFrame {
+
 	
 	private static final long serialVersionUID = -3598083467773963566L;
-
+	private ClientManager<ETallerStocksInterface> _clientManager = null;
 
 	private JPanel contentPane;
 	static final int xOffset = 30, yOffset = 30;		
@@ -58,57 +56,10 @@ public class CheckStock extends STFrame {
 	
 	private STTable table = null;
 
-
-	/**
-	 * Launch the application.
-	 */
-    public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				
-				try{
-
-					//Inicialitzem els gestors que s'utilitzaran
-					//a l'aplicació
-					initializeManagers();
-					//Llegeix la configuració d'idioma de l'aplicació,
-					//que, per defecte, serà català
-					String language = Constants.LANGUAGE_CATALAN;
-					try{
-						language = (String) Managers.settings.getSetting(Constants.SETTING_LANGUAGE);
-					
-					} catch (IOException | NullPointerException e) {
-						//Errors d'accés al fitxer de configuració
-						Managers.exception.showException(new STException(e, TokenKeys.ERROR_CONFIGURATION_FILE));
-					
-					} catch (Exception e){
-						//Altres tipus d'error
-						Managers.exception.showException(new STException(e));
-					}
-					//Assigna l'idioma configurat
-					Managers.i18n.setLanguage(language);
-			
-				
-					CheckStock frame = new CheckStock();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
     
+    public CheckStock(Usuari usuari, boolean filtreTaller) 
+    {
     
-    public CheckStock() 
-    {
-    	
-    }
-
-	/**
-	 * Create the frame.
-	 */
-    protected void initializeFrame()
-    {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 850, 550);
@@ -137,14 +88,18 @@ public class CheckStock extends STFrame {
 	    getContentPane().add(selectProductControl);
 	    	
 
-    	LabelSubTitle lblFiltreWorkshop = new LabelSubTitle("LABEL_FILTRE_TALLER");
-    	lblFiltreWorkshop.setBounds(40, 130, 200, 20);
-		getContentPane().add(lblFiltreWorkshop);
-		
-		cmbLocal = new JComboBox<ComboBoxItem>();
-	    ComboBoxHelper.fillCmbLocal(this._clientManager, cmbLocal, codiLocal);	  
-	    cmbLocal.setBounds(50, 150, 200, 20);
-	    getContentPane().add(cmbLocal);		
+	    if (filtreTaller) 
+	    {
+	    	LabelSubTitle lblFiltreWorkshop = new LabelSubTitle("LABEL_FILTRE_TALLER");
+	    	lblFiltreWorkshop.setBounds(40, 130, 200, 20);
+			getContentPane().add(lblFiltreWorkshop);
+			
+			
+			cmbLocal = new JComboBox<ComboBoxItem>();
+		    ComboBoxHelper.fillCmbLocal(this._clientManager, cmbLocal, usuari.getIdLocal());	  
+		    cmbLocal.setBounds(50, 150, 200, 20);
+		    getContentPane().add(cmbLocal);
+	    }
 		
 		
     	LabelSubTitle lblFiltreStock = new LabelSubTitle("LABEL_FILTRE_ESTOC");
@@ -321,6 +276,7 @@ public class CheckStock extends STFrame {
 	
 
 	
+	
 
 	/***
 	 * Inicialitza tots els gestors que utilitzarà
@@ -337,5 +293,49 @@ public class CheckStock extends STFrame {
 		//Incialitza una instància del gestor d'excepcions
 		Managers.exception = new ExceptionManager();
 	}
-
+	
+	/***
+	 * Métode que encarregat de fer la connexió
+	 * RMI amb el servidor remot
+	 */
+	private void startConnection(){
+		try{
+			//Només carregarem les dades configurades la
+			//primera vegada que es posi faci la connexió
+			if (this._clientManager == null){
+				try{
+					String rmiUrl = Managers.settings.getSetting(Constants.SETTING_RMI_URL);
+					int rmiPort = Integer.parseInt(Managers.settings.getSetting(Constants.SETTING_RMI_PORT));
+					String rmiName = Managers.settings.getSetting(Constants.SETTING_RMI_NAME);
+					this._clientManager = new ClientManager<ETallerStocksInterface>(rmiUrl, rmiPort, rmiName);
+				} catch (IOException | NullPointerException e){
+					Managers.exception.showException(new STException(e, TokenKeys.ERROR_CONFIGURATION_FILE));
+				}
+			}
+			if (this._clientManager != null)
+				//System.out.println("Intentem comen�ar connexio");
+				this._clientManager.startConnection();
+		
+		} catch (Exception e){
+			Managers.exception.showException(new STException(e, TokenKeys.ERROR_NOT_BOUND_EXCEPTION));
+			
+		}
+	}
+	
+	/***
+	 * Métode que encarregat de tancar la connexió
+	 * RMI amb el servidor remot
+	 */
+	private void stopConnection(){
+		try{
+			if (this._clientManager != null){
+				this._clientManager.stopConnection();
+				this._clientManager = null;
+			}
+		
+		} catch (Exception e){
+			Managers.exception.showException(new STException(e));
+		
+		}
+	}
 }

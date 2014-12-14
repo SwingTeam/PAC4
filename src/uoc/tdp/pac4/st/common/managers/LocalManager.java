@@ -15,7 +15,8 @@ import uoc.tdp.pac4.st.common.dto.*;
  *
  */
 public class LocalManager  {
-	
+		
+	public static final String LOCAL_MAGATZEM_CENTRAL= "L1"; //Codi del magatzem centrla
 	
 	private DatabaseManager	db;
 	

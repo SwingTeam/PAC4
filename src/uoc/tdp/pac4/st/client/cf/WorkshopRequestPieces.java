@@ -1,7 +1,6 @@
 package uoc.tdp.pac4.st.client.cf;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -28,10 +27,14 @@ import uoc.tdp.pac4.st.common.TokenKeys;
 import uoc.tdp.pac4.st.common.dto.Albara;
 import uoc.tdp.pac4.st.common.dto.Existencies;
 import uoc.tdp.pac4.st.common.dto.LinAlbara;
+import uoc.tdp.pac4.st.common.dto.Moviment;
 import uoc.tdp.pac4.st.common.dto.Producte;
+import uoc.tdp.pac4.st.common.dto.Usuari;
 import uoc.tdp.pac4.st.common.managers.ClientManager;
 import uoc.tdp.pac4.st.common.managers.ExceptionManager;
 import uoc.tdp.pac4.st.common.managers.I18nManager;
+import uoc.tdp.pac4.st.common.managers.LocalManager;
+import uoc.tdp.pac4.st.common.managers.MovimentManager;
 import uoc.tdp.pac4.st.common.managers.SettingManager;
 import uoc.tdp.pac4.st.common.ui.LabelSubTitle;
 import uoc.tdp.pac4.st.common.ui.LabelTitle;
@@ -40,9 +43,7 @@ import uoc.tdp.pac4.st.common.ui.SelectProductControl;
 import uoc.tdp.pac4.st.rmi.ETallerStocksInterface;
 
 public class WorkshopRequestPieces extends JFrame {
-	//RN: Temp
-	private String codiLocal_desti="L1"; 
-	private String codiLocal_origen="L2";
+
 	
 	private static final long serialVersionUID = -3598083467773963566L;
 
@@ -61,51 +62,15 @@ public class WorkshopRequestPieces extends JFrame {
 	private JButton btnCancel;
 	
 	private STTable table= null;
-
-
-	/**
-	 * Launch the application.
-	 */
-    public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				
-				try{
-
-					//Inicialitzem els gestors que s'utilitzaran
-					//a l'aplicació
-					initializeManagers();
-					//Llegeix la configuració d'idioma de l'aplicació,
-					//que, per defecte, serà català
-					String language = Constants.LANGUAGE_CATALAN;
-					try{
-						language = (String) Managers.settings.getSetting(Constants.SETTING_LANGUAGE);
-					
-					} catch (IOException | NullPointerException e) {
-						//Errors d'accés al fitxer de configuració
-						Managers.exception.showException(new STException(e, TokenKeys.ERROR_CONFIGURATION_FILE));
-					
-					} catch (Exception e){
-						//Altres tipus d'error
-						Managers.exception.showException(new STException(e));
-					}
-					//Assigna l'idioma configurat
-					Managers.i18n.setLanguage(language);
-			
-				
-					WorkshopRequestPieces frame = new WorkshopRequestPieces();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private Usuari usuari;
 
 	/**
 	 * Create the frame.
 	 */
-	public WorkshopRequestPieces() {
+	public WorkshopRequestPieces(Usuari _usuari) {
+		
+		usuari= _usuari;
+		
 		startConnection();
 		
 		
@@ -239,7 +204,7 @@ public class WorkshopRequestPieces extends JFrame {
 		try {
 			
 			String producteId= this.selectProductControl.producteId;
-			String localId= codiLocal_origen;
+			String localId= usuari.getIdLocal();
 			
 			Existencies existencies = _clientManager.getRMIInterface().getExistenciesByProducteAndLocal(producteId, localId);
 			if (existencies != null)
@@ -263,7 +228,7 @@ public class WorkshopRequestPieces extends JFrame {
 		try {
 			
 			
-			List<Producte> list = _clientManager.getRMIInterface().getStockMinim(codiLocal_origen);
+			List<Producte> list = _clientManager.getRMIInterface().getStockMinim(usuari.getIdLocal());
 			
 			if (list.size() > 0 )
 			{
@@ -366,8 +331,8 @@ public class WorkshopRequestPieces extends JFrame {
 			albara.setCodialbaraextern("");
 			albara.setComAlbara("APROVISIONA");
 			albara.setDataAlbara(new Date());
-			albara.setOrigenId(codiLocal_origen);
-			albara.setDestiId(codiLocal_desti);
+			albara.setOrigenId(usuari.getIdLocal());
+			albara.setDestiId(LocalManager.LOCAL_MAGATZEM_CENTRAL);
 			albara.setLiniesAlbara(getLinAlbara());
 		
 
