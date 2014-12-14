@@ -23,9 +23,19 @@ public class StockOutRangeSelector extends ReportRangeSelector {
 	 * Constructor
 	 */
 	public StockOutRangeSelector(){
-		this(null);
+		this(null, null);
 	}
 
+	/***
+	 * Constructor
+	 * 
+	 * @param user Instància d'Usuari amb les dades
+	 * de l'usuari actiu.
+	 */
+	public StockOutRangeSelector(Usuari user) {
+		this(user, null);
+	}
+	
 	/***
 	 * Constructor
 	 * 
@@ -33,7 +43,19 @@ public class StockOutRangeSelector extends ReportRangeSelector {
 	 * que utilitzarà per a fer les connexions RMI.
 	 */
 	public StockOutRangeSelector(ClientManager<ETallerStocksInterface> clientManager) {
-		super(clientManager);
+		this(null, clientManager);
+	}
+	
+	/***
+	 * Constructor
+	 * 
+	 * @param user Instància d'Usuari amb les dades
+	 * de l'usuari actiu.
+	 * @param clientManager Instància de ClientManager
+	 * que utilitzarà per a fer les connexions RMI.
+	 */
+	public StockOutRangeSelector(Usuari user, ClientManager<ETallerStocksInterface> clientManager) {
+		super(user, clientManager);
 		setTitle("TITLE_STOCK_OUT_REPORT");
 	}
 	
