@@ -225,7 +225,7 @@ public class Login extends JFrame {
 				i18.setLanguage(user.getIdIdioma());
 				ClientWindow cw= new ClientWindow(user);
 				CanviPassword cp = new CanviPassword(user);
-				cw.setVisible(true);
+				cw.setVisible(true); 
 				this.dispose();
 			}else{
 				Methods.showMessage("INCORRECT_USER", Enums.MessageType.Warning);
