@@ -141,39 +141,6 @@ public class ReportManager  {
 		List<ReturningReportLine> result = new ArrayList<ReturningReportLine>();
 		StringBuilder sql = new StringBuilder();
 		
-//		//TODO -> remove before flying
-//		sql.append("SELECT COUNT(*) AS rowCount,"+ 
-//					"'PRODUCTID' AS producte_id, "+
-//					"13.13::float8 AS unitPrice, "+
-//					"'ORIGEN_ID' AS origen_id, "+
-//					"'ID_LOCAL' AS id_local, "+
-//					"'NOM LOCAL' AS nomlocal, "+
-//					"'CIF' AS cif, "+
-//					"'TELEFON' AS telefon,"+ 
-//					"'ADREÇA' AS \"adreça\", "+
-//					"'CODPOS' AS codpost, "+
-//					"'PROVINCIA' AS provincia_id,"+ 
-//					"'PAIS' AS pais,"+ 
-//					"'TIPUSLOCAL' AS tipuslocal,"+ 
-//					"TO_DATE('2014-03-29', 'yyyy-MM-dd') AS dataalta,"+ 
-//					"128 AS coordx,"+ 
-//					"43 AS coordy,"+ 
-//					"'PROVEIDOR_ID' AS proveidor_id,"+ 
-//					"'NOMPROVEIDOR' AS nomproveidor, "+
-//					"'NOMPRODUCTE' AS nomproducte, "+
-//					"1 AS productegrup_id, "+
-//					"2 AS productesubgrup_id,"+ 
-//					"'GRUP NOM' AS g_nom, "+
-//					"'SUBGRUP NOM' AS sg_nom UNION ALL ");
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-		
 		//SELECT
 		sql.append("SELECT " +
 					"SUM(" + Constants.FIELD_NUMUNITSORTIDES + ") AS " + fTotalOutput + ", " +
@@ -354,39 +321,6 @@ public class ReportManager  {
 		
 		StringBuilder sql = new StringBuilder();
 		
-//		//TODO -> remove before flying
-//		sql.append("SELECT COUNT(*) AS rowCount," + 
-//					"TO_DATE('2014-03-29', 'yyyy-MM-dd') AS firstDate,"+ 
-//					"'PRODUCTID' AS producte_id, "+
-//					"'ORIGEN_ID' AS origen_id, "+
-//					"'ID_LOCAL' AS id_local, "+
-//					"'NOM LOCAL' AS nomlocal, "+
-//					"'CIF' AS cif, "+
-//					"'TELEFON' AS telefon,"+ 
-//					"'ADREÇA' AS \"adreça\", "+
-//					"'CODPOS' AS codpost, "+
-//					"'PROVINCIA' AS provincia_id,"+ 
-//					"'PAIS' AS pais,"+ 
-//					"'TIPUSLOCAL' AS tipuslocal,"+ 
-//					"TO_DATE('2014-03-29', 'yyyy-MM-dd') AS dataalta,"+ 
-//					"128 AS coordx,"+ 
-//					"43 AS coordy,"+ 
-//					"'PROVEIDOR_ID' AS proveidor_id,"+ 
-//					"'NOMPROVEIDOR' AS nomproveidor, "+
-//					"'NOMPRODUCTE' AS nomproducte, "+
-//					"1 AS productegrup_id, "+
-//					"2 AS productesubgrup_id,"+ 
-//					"'GRUP NOM' AS g_nom, "+
-//					"'SUBGRUP NOM' AS sg_nom UNION ALL ");
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-		
 		//SELECT
 		sql.append("SELECT COUNT(*) AS " + fRowCount + ", " +
 					//Dins del període, comptarem els dies des de
@@ -539,39 +473,6 @@ public class ReportManager  {
 		List<SalesReportLine> result = new ArrayList<SalesReportLine>();
 		StringBuilder sql = new StringBuilder();
 		
-//		//TODO -> remove before flying
-//		sql.append("SELECT COUNT(*) AS rowCount,"+ 
-//					"'PRODUCTID' AS producte_id, "+
-//					"13.13::float8 AS unitPrice, "+
-//					"'ORIGEN_ID' AS origen_id, "+
-//					"'ID_LOCAL' AS id_local, "+
-//					"'NOM LOCAL' AS nomlocal, "+
-//					"'CIF' AS cif, "+
-//					"'TELEFON' AS telefon,"+ 
-//					"'ADREÇA' AS \"adreça\", "+
-//					"'CODPOS' AS codpost, "+
-//					"'PROVINCIA' AS provincia_id,"+ 
-//					"'PAIS' AS pais,"+ 
-//					"'TIPUSLOCAL' AS tipuslocal,"+ 
-//					"TO_DATE('2014-03-29', 'yyyy-MM-dd') AS dataalta,"+ 
-//					"128 AS coordx,"+ 
-//					"43 AS coordy,"+ 
-//					"'PROVEIDOR_ID' AS proveidor_id,"+ 
-//					"'NOMPROVEIDOR' AS nomproveidor, "+
-//					"'NOMPRODUCTE' AS nomproducte, "+
-//					"1 AS productegrup_id, "+
-//					"2 AS productesubgrup_id,"+ 
-//					"'GRUP NOM' AS g_nom, "+
-//					"'SUBGRUP NOM' AS sg_nom UNION ALL ");
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-		
 		//SELECT
 		sql.append("SELECT COUNT(*) AS " + fRowCount + ", " +
 					"m." + Constants.FIELD_PRODUCTE_ID + ", " +
@@ -716,39 +617,6 @@ public class ReportManager  {
 		List<SalesSummaryReportLine> result = new ArrayList<SalesSummaryReportLine>();
 		StringBuilder sql = new StringBuilder();
 		
-//		//TODO -> remove before flying
-//		sql.append("SELECT COUNT(*) AS rowCount,"+ 
-//					"'PRODUCTID' AS producte_id, "+
-//					"13.13::float8 AS unitPrice, "+
-//					"'ORIGEN_ID' AS origen_id, "+
-//					"'ID_LOCAL' AS id_local, "+
-//					"'NOM LOCAL' AS nomlocal, "+
-//					"'CIF' AS cif, "+
-//					"'TELEFON' AS telefon,"+ 
-//					"'ADREÇA' AS \"adreça\", "+
-//					"'CODPOS' AS codpost, "+
-//					"'PROVINCIA' AS provincia_id,"+ 
-//					"'PAIS' AS pais,"+ 
-//					"'TIPUSLOCAL' AS tipuslocal,"+ 
-//					"TO_DATE('2014-03-29', 'yyyy-MM-dd') AS dataalta,"+ 
-//					"128 AS coordx,"+ 
-//					"43 AS coordy,"+ 
-//					"'PROVEIDOR_ID' AS proveidor_id,"+ 
-//					"'NOMPROVEIDOR' AS nomproveidor, "+
-//					"'NOMPRODUCTE' AS nomproducte, "+
-//					"1 AS productegrup_id, "+
-//					"2 AS productesubgrup_id,"+ 
-//					"'GRUP NOM' AS g_nom, "+
-//					"'SUBGRUP NOM' AS sg_nom UNION ALL ");
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-		
 		//SELECT
 		sql.append("SELECT " +
 						"l." + Constants.FIELD_NOMLOCAL + ", " +
@@ -849,38 +717,6 @@ public class ReportManager  {
 	public List<StockOutReportLine> getStockOutReport(ReportSelectorData reportSelectorData) throws STException{
 		List<StockOutReportLine> result = new ArrayList<StockOutReportLine>();
 		StringBuilder sql = new StringBuilder();
-		
-//		//TODO -> remove before flying
-//		sql.append("SELECT COUNT(*) AS rowCount,"+ 
-//					"'PRODUCTID' AS producte_id, "+
-//					"'ORIGEN_ID' AS origen_id, "+
-//					"'ID_LOCAL' AS id_local, "+
-//					"'NOM LOCAL' AS nomlocal, "+
-//					"'CIF' AS cif, "+
-//					"'TELEFON' AS telefon,"+ 
-//					"'ADREÇA' AS \"adreça\", "+
-//					"'CODPOS' AS codpost, "+
-//					"'PROVINCIA' AS provincia_id,"+ 
-//					"'PAIS' AS pais,"+ 
-//					"'TIPUSLOCAL' AS tipuslocal,"+ 
-//					"TO_DATE('2014-03-29', 'yyyy-MM-dd') AS dataalta,"+ 
-//					"128 AS coordx,"+ 
-//					"43 AS coordy,"+ 
-//					"'PROVEIDOR_ID' AS proveidor_id,"+ 
-//					"'NOMPROVEIDOR' AS nomproveidor, "+
-//					"'NOMPRODUCTE' AS nomproducte, "+
-//					"1 AS productegrup_id, "+
-//					"2 AS productesubgrup_id,"+ 
-//					"'GRUP NOM' AS g_nom, "+
-//					"'SUBGRUP NOM' AS sg_nom UNION ALL ");
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
-//		sql.append(sql.toString());
 		
 		//SELECT
 		sql.append("SELECT COUNT(*) AS " + fRowCount + ", " +

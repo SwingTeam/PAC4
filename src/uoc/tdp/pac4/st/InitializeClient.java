@@ -43,16 +43,13 @@ public class InitializeClient {
 				//Altres tipus d'error
 				Managers.exception.showException(new STException(e));
 			}
+			Usuari user = new Usuari("1", "password", "pnom", "pcognoms", "es-ES", "padresa", "ppoblacio", "L2", "ppais");
+			user.setRol(Constants.ROLE_ADMIN);
 			//Assigna l'idioma configurat
 			Managers.i18n.setLanguage(language); 
 			//Inicialitza el formulari principal de 
 			//la part client de l'aplicació
-			//ExampleWindow clientFrame = new ExampleWindow();
-//			StockOutRangeSelector clientFrame = new StockOutRangeSelector();
 			Login clientFrame = new Login(); 
-//			SalesRangeSelector clientFrame = new SalesRangeSelector();
-//			ReturningRangeSelector clientFrame = new ReturningRangeSelector(user);
-//			SalesSummaryRangeSelector clientFrame = new SalesSummaryRangeSelector(user);
 			clientFrame.setVisible(true);
 
 		} catch (Exception e){
