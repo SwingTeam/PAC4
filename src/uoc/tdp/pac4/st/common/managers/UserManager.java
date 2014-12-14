@@ -482,7 +482,8 @@ public class UserManager  {
 				user.setidUsuari(resultSet.getString(Constants.FIELD_ID_USUARI));
 				user.setPassword(resultSet.getString(Constants.FIELD_PASSWORD));
 				user.setLogin(resultSet.getString(Constants.FIELD_LOGIN));
-				user.setIdIdioma(resultSet.getString(Constants.FIELD_ID_IDIOMA));
+				user.setIdIdioma(resultSet.getString(Constants.FIELD_IDIOMA_ID));
+				user.setIdLocal(resultSet.getString(Constants.FIELD_LOCAL_ID));
 				return user;
 			}else{
 				return null;

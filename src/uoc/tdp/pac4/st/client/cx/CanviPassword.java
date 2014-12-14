@@ -252,7 +252,7 @@ public class CanviPassword extends JFrame {
 					stopConnection();
 					startConnection();
 					//int result=um.canviPassword(userPassword.getidUsuari(), this.TXT_NEW_PASSWORD.getText());
-					int result = this._clientManager.getRMIInterface().canviPassword(userPassword.getidUsuari(), this.TXT_NEW_PASSWORD.getText());
+					int result = this._clientManager.getRMIInterface().canviPassword(userPassword.getidUsuari(), new String(this.TXT_NEW_PASSWORD.getPassword())); // this.TXT_NEW_PASSWORD.getText());
 					if (result!=0){
 						Methods.showMessage("CHANGE_PASSWORD" , Enums.MessageType.Info);
 					}else{
