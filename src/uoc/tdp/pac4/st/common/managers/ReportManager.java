@@ -228,7 +228,7 @@ public class ReportManager  {
 				"m." + Constants.FIELD_DATAORDRE + 
 						" <= '" + Methods.convertToPostgreSQLDateFormat(reportSelectorData.getEndDate()) + "' ");
 
-		if (reportSelectorData.getEstablishmentId() != Constants.ALL)
+		if (!reportSelectorData.getEstablishmentId().equalsIgnoreCase(Constants.ALL))
 			sql.append(" AND ld." + Constants.FIELD_ORIGLOCAL_ID + " = '" + reportSelectorData.getEstablishmentId() + "' ");
 	
 		sql.append("AND " +
@@ -381,7 +381,7 @@ public class ReportManager  {
 				"m." + Constants.FIELD_DATAORDRE + 
 						" <= '" + Methods.convertToPostgreSQLDateFormat(reportSelectorData.getEndDate()) + "' ");
 				
-		if (reportSelectorData.getEstablishmentId() != Constants.ALL)
+		if (!reportSelectorData.getEstablishmentId().equalsIgnoreCase(Constants.ALL))
 				sql.append(" AND a." + Constants.FIELD_ORIGEN_ID + " = '" + reportSelectorData.getEstablishmentId() + "' ");
 		
 		sql.append("AND " +
@@ -525,7 +525,7 @@ public class ReportManager  {
 				"m." + Constants.FIELD_DATAORDRE + 
 						" <= '" + Methods.convertToPostgreSQLDateFormat(reportSelectorData.getEndDate()) + "' ");
 
-		if (reportSelectorData.getEstablishmentId() != Constants.ALL)
+		if (!reportSelectorData.getEstablishmentId().equalsIgnoreCase(Constants.ALL))
 			sql.append(" AND lv." + Constants.FIELD_ORIGLOCAL_ID + " = '" + reportSelectorData.getEstablishmentId() + "' ");
 	
 		sql.append("AND " +
@@ -644,7 +644,7 @@ public class ReportManager  {
 						"m." + Constants.FIELD_DATAORDRE + 
 								" <= '" + Methods.convertToPostgreSQLDateFormat(reportSelectorData.getEndDate()) + "' ");
 
-		if (reportSelectorData.getEstablishmentId() != Constants.ALL)
+		if (!reportSelectorData.getEstablishmentId().equalsIgnoreCase(Constants.ALL))
 			sql.append(" AND lv." + Constants.FIELD_ORIGLOCAL_ID + " = '" + reportSelectorData.getEstablishmentId() + "' ");
 	
 		sql.append("AND " +
@@ -782,7 +782,7 @@ public class ReportManager  {
 				"m." + Constants.FIELD_DATAORDRE + 
 						" <= '" + Methods.convertToPostgreSQLDateFormat(reportSelectorData.getEndDate()) + "' ");
 
-		if (reportSelectorData.getEstablishmentId() != Constants.ALL)
+		if (!reportSelectorData.getEstablishmentId().equalsIgnoreCase(Constants.ALL))
 			sql.append(" AND a." + Constants.FIELD_ORIGEN_ID + " = '" + reportSelectorData.getEstablishmentId() + "' ");
 	
 		sql.append("AND " +
