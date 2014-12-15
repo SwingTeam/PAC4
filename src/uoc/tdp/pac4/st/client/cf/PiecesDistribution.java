@@ -77,8 +77,8 @@ public class PiecesDistribution extends JFrame {
 		startConnection();
 		
 		
-		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 850, 500);
 		
 		contentPane = new JPanel();

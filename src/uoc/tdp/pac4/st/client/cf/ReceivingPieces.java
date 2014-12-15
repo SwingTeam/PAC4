@@ -65,12 +65,13 @@ public class ReceivingPieces extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ReceivingPieces(Usuari usuari) {
+	public ReceivingPieces(Usuari _usuari) {
+		usuari = _usuari;
+		
 		startConnection();
-		
-		
-		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 850, 550);
 		
 		contentPane = new JPanel();

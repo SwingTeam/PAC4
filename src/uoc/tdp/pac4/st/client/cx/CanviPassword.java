@@ -51,7 +51,7 @@ public class CanviPassword extends JFrame {
 	public CanviPassword(Usuari user) {
 		this.setName(null);
 		setTitle("TITLE_CLIENT_WINDOW");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 379, 215);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

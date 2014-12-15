@@ -25,6 +25,8 @@ import uoc.tdp.pac4.st.client.cf.CheckStock;
 import uoc.tdp.pac4.st.client.cf.PiecesDistribution;
 import uoc.tdp.pac4.st.client.cf.ReceivingPieces;
 import uoc.tdp.pac4.st.client.cf.ReturningPieces;
+import uoc.tdp.pac4.st.client.cf.WokshopReceivingPieces;
+import uoc.tdp.pac4.st.client.cf.WorkshopRequestPieces;
 import uoc.tdp.pac4.st.client.cx.*;
 import uoc.tdp.pac4.st.client.e.ReturningRangeSelector;
 import uoc.tdp.pac4.st.client.e.RotationRangeSelector;
@@ -57,6 +59,7 @@ public class ClientWindow extends JFrame {
 	private JTabbedPane tabbedPane;
 	private String rolUser; 
 	private String rolAdministrador = "Administrador";
+	private String rolOperadorTaller = "Operador Taller";
 	private Usuari userClient;
 	
 	/**
@@ -65,7 +68,7 @@ public class ClientWindow extends JFrame {
 	public ClientWindow(Usuari user) {
 		this.setName(null);
 		setTitle("TITLE_CLIENT_WINDOW");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 916, 564);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -84,7 +87,7 @@ public class ClientWindow extends JFrame {
 		lblLabelexamplerecoverresultset.setBounds(33, 19, 614, 15);
 		contentPane.add(lblLabelexamplerecoverresultset);
 		
-		JButton btnExample8 = new JButton("BUTTON_EXECUTE");
+		JButton btnExample8 = new JButton("LOGOUT");
 		btnExample8.setBounds(756, 500, 142, 25);
 		contentPane.add(btnExample8);
 		
@@ -146,25 +149,25 @@ public class ClientWindow extends JFrame {
 			
 			JPanel panel3=new JPanel();
 			panel3.setLayout(null);
-			JButton btnAltaProveidor = new JButton("BUTTON_NEW_PROVIDER");
+			JButton btnAltaProveidor = new JButton("BUTTON_NEW_PRODUCT");
 			btnAltaProveidor.setBounds(new Rectangle(x,10,300,50));
 			panel3.add(btnAltaProveidor);
 			
-			JButton btnModificarProveidor = new JButton("BUTTON_MODIFY_PROVIDER");
+			JButton btnModificarProveidor = new JButton("BUTTON_MODIFY_PRODUCT");
 			btnModificarProveidor.setBounds(new Rectangle(x,70,300,50));
 			panel3.add(btnModificarProveidor);
 			
-			JButton btnBaixaProveidor = new JButton("BUTTON_DROP_PROVIDER");
+			JButton btnBaixaProveidor = new JButton("BUTTON_DROP_PRODUCT");
 			btnBaixaProveidor.setBounds(new Rectangle(x,130,300,50));
-			panel3.add(btnBaixaProveidor);
+			panel3.add(btnBaixaProveidor); 
 			
-			JButton btnConsultaProveidor = new JButton("BUTTON_SELECT_PROVIDER");
+			JButton btnConsultaProveidor = new JButton("BUTTON_SELECT_PRODUCT");
 			btnConsultaProveidor.setBounds(new Rectangle(x,190,300,50));
 			panel3.add(btnConsultaProveidor);
 			
 			
 			
-			tabbedPane.addTab("TAB_PROVIDERS", panel3);
+			tabbedPane.addTab("TAB_PRODUCTS", panel3);
 			tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
 			
 			JPanel panel4=new JPanel();
@@ -192,22 +195,9 @@ public class ClientWindow extends JFrame {
 			tabbedPane.addTab("TAB_STATICS", panel4);
 			tabbedPane.setMnemonicAt(3, KeyEvent.VK_4);
 			
-			JPanel panel5=new JPanel();
-			panel5.setLayout(null);
-			JButton btnRebreMaterial = new JButton("BUTTON_NEW_DELIVERYNOTE");
-			btnRebreMaterial.setBounds(new Rectangle(x,10,300,50));
-			panel5.add(btnRebreMaterial);
-			
-			JButton btnRebutjarMaterial = new JButton("BUTTON_MODIFY_DELIVERYNOTE");
-			btnRebutjarMaterial.setBounds(new Rectangle(x,70,300,50));
-			panel5.add(btnRebutjarMaterial);
-			
-			JButton btnDistribuirMaterial = new JButton("BUTTON_DROP_DELIVERYNOTE");
-			btnDistribuirMaterial.setBounds(new Rectangle(x,130,300,50));
-			panel5.add(btnDistribuirMaterial);
-			
-			tabbedPane.addTab("TAB_PIECES", panel5);
-			tabbedPane.setMnemonicAt(4, KeyEvent.VK_4);
+			/*
+
+			*/
 			
 			JPanel panel6=new JPanel();
 			panel6.setLayout(null);
@@ -222,7 +212,7 @@ public class ClientWindow extends JFrame {
 			panel6.add(btnCanviIdioma);
 			
 			tabbedPane.addTab("TAB_PASSWORD", panel6);
-			tabbedPane.setMnemonicAt(5, KeyEvent.VK_5);
+			tabbedPane.setMnemonicAt(4, KeyEvent.VK_5);
 			
 			/*Events*/
 			
@@ -294,26 +284,7 @@ public class ClientWindow extends JFrame {
 				}
 			});
 			
-			btnRebutjarMaterial.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					ReceivingPieces lmw = new ReceivingPieces(userClient);
-					lmw.setVisible(true);
-				}
-			});
-			
-			btnDistribuirMaterial.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					ReturningPieces lmw = new ReturningPieces(userClient);
-					lmw.setVisible(true);
-				}
-			});
-			
-			btnDistribuirMaterial.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					PiecesDistribution lmw = new PiecesDistribution(userClient);
-					lmw.setVisible(true);
-				}
-			});
+		
 			
 			/*Events Estadístiques*/
 			btnRotacioStocs.addActionListener(new ActionListener() {
@@ -378,13 +349,40 @@ public class ClientWindow extends JFrame {
 			
 			JPanel panel2=new JPanel();
 			panel2.setLayout(null);
-			JButton btnRecepcioMaterial = new JButton("BUTTON_NEW_DELIVERYNOTE");
-			btnRecepcioMaterial.setBounds(new Rectangle(x,10,300,50));
-			panel2.add(btnRecepcioMaterial);
+
+			JButton btnRecepcioMaterial = null;
+			JButton btnDemanarPeces = null;
+			JButton btnRebreMaterial =null;
+			JButton btnRebutjarMaterial= null;
+			JButton btnDistribuirMaterial = null;
 			
-			JButton btnDemanarPeces = new JButton("BUTTON_WORKSHOP");
-			btnDemanarPeces.setBounds(new Rectangle(x,70,300,50));
-			panel2.add(btnDemanarPeces);
+			if (userClient.getRol().equals(rolOperadorTaller)) 
+			{				
+				btnRecepcioMaterial = new JButton("BUTTON_NEW_DELIVERYNOTE");
+				btnRecepcioMaterial.setBounds(new Rectangle(x,10,300,50));
+				panel2.add(btnRecepcioMaterial);
+				
+				btnDemanarPeces = new JButton("BUTTON_WORKSHOP");
+				btnDemanarPeces.setBounds(new Rectangle(x,70,300,50));
+				panel2.add(btnDemanarPeces);
+			
+			}
+			else 
+			{
+
+				btnRebreMaterial = new JButton("BUTTON_NEW_DELIVERYNOTE");
+				btnRebreMaterial.setBounds(new Rectangle(x,10,300,50));
+				panel2.add(btnRebreMaterial);
+				
+				btnRebutjarMaterial = new JButton("BUTTON_DROP_DELIVERYNOTE");
+				btnRebutjarMaterial.setBounds(new Rectangle(x,70,300,50));
+				panel2.add(btnRebutjarMaterial);
+				
+				btnDistribuirMaterial = new JButton("BUTTON_MODIFY_DELIVERYNOTE");
+				btnDistribuirMaterial.setBounds(new Rectangle(x,130,300,50));
+				panel2.add(btnDistribuirMaterial);								
+			}
+		
 			
 			tabbedPane.addTab("TAB_PIECES", panel2);
 			tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
@@ -411,7 +409,7 @@ public class ClientWindow extends JFrame {
 			btnVendesTaller.setBounds(new Rectangle(x,250,300,50));
 			panel4.add(btnVendesTaller);
 			
-			tabbedPane.addTab("Estadístiques", panel4);
+			tabbedPane.addTab("TAB_STATICS", panel4);
 			tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
 			
 			JPanel panel5=new JPanel();
@@ -475,6 +473,60 @@ public class ClientWindow extends JFrame {
 				}
 			});
 			
+			/*Control Flux*/
+			if (userClient.getRol().equals(rolOperadorTaller)) 
+			{				
+				btnRecepcioMaterial.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						WokshopReceivingPieces cv = new WokshopReceivingPieces(userClient);
+						cv.setVisible(true);
+					}
+				});
+				btnDemanarPeces.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						WorkshopRequestPieces cv = new WorkshopRequestPieces(userClient);
+						cv.setVisible(true);
+					}
+				});
+			}
+			else 
+			{
+				btnRebreMaterial.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						ReceivingPieces lmw = new ReceivingPieces(userClient);
+						lmw.setVisible(true);
+					}
+				});
+				
+				btnRebutjarMaterial.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						ReturningPieces lmw = new ReturningPieces(userClient);
+						lmw.setVisible(true);
+					}
+				});
+				
+				btnDistribuirMaterial.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						PiecesDistribution lmw = new PiecesDistribution(userClient);
+						lmw.setVisible(true);
+					}
+				});			
+			}
+			ConsultaStock.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					CheckStock cv;
+					if (userClient.getRol().equals(rolOperadorTaller)) 
+					{
+						cv = new CheckStock(userClient,false);	
+					}
+					else 
+					{
+						cv = new CheckStock(userClient,true);
+					}
+					cv.setVisible(true);
+				}
+			});
+			
 		}
 		contentPane.add(tabbedPane);
 		
@@ -505,13 +557,15 @@ public class ClientWindow extends JFrame {
 		//Omplim el label
 		
 
-		//BOTÓ D'ELIMINACIÓ DE DADES
+	
+		//Botó de Logout
 		btnExample8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				testDeleteData();
+				Login ln= new Login();
+				ln.setVisible(true);
+				dispose();
 			}
 		});
-		
 
 		
 		

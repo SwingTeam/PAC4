@@ -3,6 +3,7 @@ package uoc.tdp.pac4.st.client.cf;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.List;
 
@@ -55,13 +56,14 @@ public class CheckStock extends JFrame {
 	private JButton btnSearch;
 	
 	private STTable table = null;
-
+	
     
     public CheckStock(Usuari usuari, boolean filtreTaller) 
-    {
-    
-		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    {    	
+    	startConnection();
+    	
+    	setResizable(false);
+    	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 850, 550);
 		
 		contentPane = new JPanel();
@@ -88,18 +90,16 @@ public class CheckStock extends JFrame {
 	    getContentPane().add(selectProductControl);
 	    	
 
-	    if (filtreTaller) 
-	    {
-	    	LabelSubTitle lblFiltreWorkshop = new LabelSubTitle("LABEL_FILTRE_TALLER");
-	    	lblFiltreWorkshop.setBounds(40, 130, 200, 20);
-			getContentPane().add(lblFiltreWorkshop);
-			
-			
-			cmbLocal = new JComboBox<ComboBoxItem>();
-		    ComboBoxHelper.fillCmbLocal(this._clientManager, cmbLocal, usuari.getIdLocal());	  
-		    cmbLocal.setBounds(50, 150, 200, 20);
-		    getContentPane().add(cmbLocal);
-	    }
+    	LabelSubTitle lblFiltreWorkshop = new LabelSubTitle("LABEL_FILTRE_TALLER");
+    	lblFiltreWorkshop.setBounds(40, 130, 200, 20);
+		lblFiltreWorkshop.setVisible(filtreTaller);	    	
+		getContentPane().add(lblFiltreWorkshop);
+		
+		cmbLocal = new JComboBox<ComboBoxItem>();
+	    ComboBoxHelper.fillCmbLocal(this._clientManager, cmbLocal, usuari.getIdLocal());	  
+	    cmbLocal.setBounds(50, 150, 200, 20);
+	    cmbLocal.setVisible(filtreTaller);
+	    getContentPane().add(cmbLocal);
 		
 		
     	LabelSubTitle lblFiltreStock = new LabelSubTitle("LABEL_FILTRE_ESTOC");
@@ -338,4 +338,5 @@ public class CheckStock extends JFrame {
 		
 		}
 	}
+
 }
