@@ -56,7 +56,7 @@ public class Enums {
 		Transferencia,
 		Venda,
 		Compra,
-		SortidaDevolucio,
-		EntradaDevolucio,
+		Sortida,
+		Entrada,
 	}
 }

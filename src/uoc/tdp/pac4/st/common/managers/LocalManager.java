@@ -474,8 +474,10 @@ public List<LocalST> list(Usuari user) throws STException
 	//Obtenim la llista de locals en funció
 	//del rol de l'usuari
 	String sql = "SELECT * FROM " + Constants.TABLE_LOCAL + " %s ORDER BY " + Constants.FIELD_NOMLOCAL;
-	if (user.getRol() != Constants.ROLE_ADMIN)
+	if (!user.getRol().equalsIgnoreCase(Constants.ROLE_ADMIN))
 		sql = String.format(sql, "WHERE " + Constants.FIELD_ID_LOCAL + " = '" + user.getIdLocal() + "' ");
+	else
+		sql = String.format(sql, "");
 	
 	ResultSet resultSet= db.selectData(sql);
 	try 

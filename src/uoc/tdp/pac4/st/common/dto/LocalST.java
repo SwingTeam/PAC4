@@ -11,9 +11,9 @@ import java.util.Date;
  */
 public class LocalST implements Serializable {
 
-	private static final long serialVersionUID = 6017623832256676834L;
-	
     
+	private static final long serialVersionUID = -1397426255187481240L;
+
 	/*
 	 * Propietats privades
 	 * 

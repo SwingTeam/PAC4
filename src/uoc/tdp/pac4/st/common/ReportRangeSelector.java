@@ -295,7 +295,7 @@ public class ReportRangeSelector extends STFrame {
 			comboBox.removeAll();
 			List<LocalST> locals = this._clientManager.getRMIInterface().listLocals(this.user);
 			
-			if (this.user.getRol() == Constants.ROLE_ADMIN)
+			if (this.user.getRol().equalsIgnoreCase(Constants.ROLE_ADMIN));
 				comboBox.addItem(new ComboBoxItem(Constants.ALL, Managers.i18n.getTranslation(TokenKeys.ALL_ESTABLISHMENTS)));
 			
 			if (locals != null){

@@ -11,8 +11,8 @@ import java.io.Serializable;
  */
 public class Producte implements Serializable {
  
-	private static final long serialVersionUID = 6017623832256676834L;
-    
+	private static final long serialVersionUID = 6390771549199822474L;
+
 	/*
 	 * Propietats privades
 	 * 

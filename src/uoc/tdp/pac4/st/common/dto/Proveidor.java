@@ -9,9 +9,9 @@ import java.io.Serializable;
  *
  */
 public class Proveidor implements Serializable {
+	
+	private static final long serialVersionUID = -9105147634565946892L;
 
-	private static final long serialVersionUID = 6017623832256676834L;
-    
 	/*
 	 * Propietats privades
 	 * 

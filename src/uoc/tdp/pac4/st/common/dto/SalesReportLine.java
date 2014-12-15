@@ -1,5 +1,7 @@
 package uoc.tdp.pac4.st.common.dto;
 
+import java.io.Serializable;
+
 import uoc.tdp.pac4.st.common.*;
 
 /***
@@ -11,7 +13,7 @@ import uoc.tdp.pac4.st.common.*;
  *
  */
 
-public class SalesReportLine extends StockOutReportLine {
+public class SalesReportLine extends StockOutReportLine implements Serializable{
 
 	private static final long serialVersionUID = 4919226500743810551L;
 

@@ -1,5 +1,7 @@
 package uoc.tdp.pac4.st.common.dto;
 
+import java.io.Serializable;
+
 import uoc.tdp.pac4.st.common.*;
 
 /***
@@ -10,7 +12,7 @@ import uoc.tdp.pac4.st.common.*;
  * @author Swing Team - 2014
  *
  */
-public class RotationReportLine extends StockOutReportLine {
+public class RotationReportLine extends StockOutReportLine implements Serializable{
 
 	private static final long serialVersionUID = 4919226500743810551L;
 

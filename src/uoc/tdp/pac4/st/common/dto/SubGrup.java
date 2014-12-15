@@ -12,8 +12,10 @@ import java.io.Serializable;
  */
 public class SubGrup implements Serializable {
 
-	private static final long serialVersionUID = 6017623832256676834L;
-    
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4877451016373590500L;
 	/*
 	 * Propietats privades
 	 * 
